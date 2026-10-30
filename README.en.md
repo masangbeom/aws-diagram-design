@@ -4,6 +4,12 @@
 
 **Describe it in words, get an AWS diagram.**
 
+> [!TIP]
+> **👉 See the results first in the [online gallery](https://masangbeom.github.io/aws-diagram-design/).**
+> 201 AWS examples across 45 types, in light, dark, and full-page variants. Nothing to install; it opens in your browser.
+
+[![AWS Diagram Design gallery preview: an architecture before/after example](docs/gallery-preview.png)](https://masangbeom.github.io/aws-diagram-design/)
+
 Instead of hand-drawing architectures in draw.io, just tell Claude Code or Kiro:
 
 > "Draw a three-tier VPC diagram — Fargate service behind an ALB, with RDS Multi-AZ and ElastiCache"
