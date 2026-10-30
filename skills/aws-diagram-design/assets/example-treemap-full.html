@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Annual AWS spend by service · Treemap</title>
+  <style>
+  @font-face { font-family: 'Amazon Ember'; font-weight: 400; font-style: normal; src: local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_Rg.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 400; font-style: italic; src: local('Amazon Ember Italic'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_RgIt.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 600; font-style: normal; src: local('Amazon Ember Medium'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_SBd.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 700; font-style: normal; src: local('Amazon Ember Bold'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_Bd.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember Mono'; font-weight: 400; font-style: normal; src: local('Amazon Ember Mono'), url('fonts/woff2/AmazonEmberMono_W_Rg.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember Mono'; font-weight: 700; font-style: normal; src: local('Amazon Ember Mono Bold'), local('Amazon Ember Mono'), url('fonts/woff2/AmazonEmberMono_W_Bd.woff2') format('woff2'); }
+</style>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --color-paper:#ffffff; --color-paper-2:#f2f3f3; --color-ink:#232f3e; --color-muted:#545b64; --color-soft:#687078; --color-rule:rgba(35,47,62,0.12); --color-accent:#ec7211; --font-sans:'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif; --font-serif:'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif; --font-mono:'Amazon Ember Mono', ui-monospace, monospace; }
+    body { font-family: var(--font-sans); background: var(--color-paper); min-height: 100vh; padding: 3rem 2rem; color: var(--color-ink); }
+    .container { max-width: 1200px; margin: 0 auto; }
+    .header { margin-bottom: 2.5rem; }
+    .header-eyebrow { font-family: var(--font-mono); font-size: 0.66rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--color-muted); margin-bottom: 0.75rem; }
+    h1 { font-family: var(--font-serif); font-size: clamp(1.75rem, 3vw + 1rem, 2.5rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 0.5rem; }
+    .subtitle { font-size: 1rem; line-height: 1.55; color: var(--color-muted); max-width: 58ch; }
+    .diagram-container { background: var(--color-paper-2); border-radius: 8px; border: 1px solid var(--color-rule); padding: 1.5rem; overflow-x: auto; }
+    svg { width: 100%; min-width: 760px; display: block; }
+    .cards { display: grid; grid-template-columns: 1.1fr 1fr 0.9fr; gap: 1rem; margin-top: 1.5rem; }
+    @media (max-width: 720px) { .cards { grid-template-columns: 1fr; } }
+    .card { background: #fff; border-radius: 6px; border: 1px solid var(--color-rule); padding: 1.25rem; }
+    .card .eyebrow { font-family: var(--font-mono); font-size: 0.5rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--color-muted); margin-bottom: 0.5rem; }
+    .card-header { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.875rem; padding-bottom: 0.875rem; border-bottom: 1px solid rgba(35,47,62,0.08); }
+    .card-dot { width: 7px; height: 7px; border-radius: 50%; }
+    .card-dot.coral { background: var(--color-accent); } .card-dot.ink { background: var(--color-ink); } .card-dot.muted { background: var(--color-muted); }
+    .card h3 { font-size: 0.875rem; font-weight: 600; }
+    .card p { color: var(--color-muted); font-size: 0.8125rem; line-height: 1.55; }
+    .footer { margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid rgba(35,47,62,0.10); font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.06em; color: var(--color-soft); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <p class="header-eyebrow">Treemap · AWS Diagram Design</p>
+      <h1>Annual AWS spend · six services</h1>
+      <p class="subtitle">Unblended AWS spend by service for fiscal 2026. Amazon EC2 takes $4.78 million — 59% of the bill, and more than the other five services put together.</p>
+    </div>
+    <div class="diagram-container">
+        <svg viewBox="0 0 1000 500" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="treemap-full-title treemap-full-desc">
+          <title id="treemap-full-title">Annual AWS spend · six services</title>
+          <desc id="treemap-full-desc">Treemap of annual AWS spend by service for fiscal 2026, where cell area is spend; Amazon EC2 takes about 59 percent of the bill and Route 53, at under one percent, is too small to label.</desc>
+          <defs>
+            <pattern id="dots" width="22" height="22" patternUnits="userSpaceOnUse">
+              <circle cx="1" cy="1" r="0.9" fill="rgba(35,47,62,0.10)"/>
+            </pattern>
+          </defs>
+
+          <rect width="100%" height="100%" fill="#ffffff"/>
+          <rect width="100%" height="100%" fill="url(#dots)" opacity="0.55"/>
+
+          <!-- ─── CELLS ─── Squarified layout on a 4px grid. Area is the only
+               encoding: every cell is within 2.7% of its true share, measured as
+               RELATIVE error, because a 0.1pp slip is nothing on Asia and a third
+               of Oceania. Verified by scripts/verify-treemap.py. The non-focal
+               cells run a rank-ordered ink ramp, so their order survives greyscale;
+               the focal cell is marked by its accent stroke, not by tone. ─── -->
+
+          <!-- Asia FOCAL: 532×380 -->
+          <rect x="40" y="40" width="532" height="380" rx="2" fill="#ffffff"/>
+          <rect x="40" y="40" width="532" height="380" rx="2" data-share="59.04" fill="rgba(236,114,17,0.16)" stroke="#ec7211" stroke-width="1.5"/>
+          <text x="56" y="68" fill="#232f3e" font-size="14" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Amazon EC2</text>
+          <text x="56" y="88" fill="#545b64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace">$4.78M · 59% of bill</text>
+
+          <!-- Africa: 252×252 -->
+          <rect x="576" y="40" width="252" height="252" rx="2" fill="#ffffff"/>
+          <rect x="576" y="40" width="252" height="252" rx="2" data-share="18.29" fill="rgba(35,47,62,0.16)" stroke="rgba(35,47,62,0.30)" stroke-width="1"/>
+          <text x="592" y="68" fill="#232f3e" font-size="13" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Amazon RDS</text>
+          <text x="592" y="88" fill="#545b64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace">$1.48M · 18%</text>
+
+          <!-- Europe: 124×252 -->
+          <rect x="832" y="40" width="124" height="252" rx="2" fill="#ffffff"/>
+          <rect x="832" y="40" width="124" height="252" rx="2" data-share="9.23" fill="rgba(35,47,62,0.13)" stroke="rgba(35,47,62,0.30)" stroke-width="1"/>
+          <text x="848" y="68" fill="#232f3e" font-size="13" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Amazon S3</text>
+          <text x="848" y="88" fill="#545b64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace">$0.75M · 9%</text>
+
+          <!-- North America: 208×124 -->
+          <rect x="576" y="296" width="208" height="124" rx="2" fill="#ffffff"/>
+          <rect x="576" y="296" width="208" height="124" rx="2" data-share="7.52" fill="rgba(35,47,62,0.10)" stroke="rgba(35,47,62,0.30)" stroke-width="1"/>
+          <text x="592" y="324" fill="#232f3e" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Data transfer</text>
+          <text x="592" y="344" fill="#545b64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace">$0.61M · 8%</text>
+
+          <!-- South America: 148×124 -->
+          <rect x="788" y="296" width="148" height="124" rx="2" fill="#ffffff"/>
+          <rect x="788" y="296" width="148" height="124" rx="2" data-share="5.35" fill="rgba(35,47,62,0.07)" stroke="rgba(35,47,62,0.30)" stroke-width="1"/>
+          <text x="804" y="324" fill="#232f3e" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Amazon Bedrock</text>
+          <text x="804" y="344" fill="#545b64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace">$0.43M · 5%</text>
+
+          <!-- Oceania: 16×124. Too narrow for a label, so it carries the info mark
+               rather than sideways text — the only rotated glyph in the figure would
+               read as a mistake. The cell keeps its honest area and is named in the
+               legend: a treemap must not silently omit a part of the whole it claims
+               to show, but it need not label what it cannot label well. -->
+          <rect x="940" y="296" width="16" height="124" rx="2" fill="#ffffff"/>
+          <rect x="940" y="296" width="16" height="124" rx="2" data-share="0.56" fill="rgba(35,47,62,0.04)" stroke="rgba(35,47,62,0.30)" stroke-width="1"/>
+          <circle cx="948" cy="320" r="5" fill="#232f3e"/>
+          <text x="948" y="323" fill="#ffffff" font-size="7" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">i</text>
+
+          <!-- Legend -->
+          <line x1="40" y1="462" x2="960" y2="462" stroke="rgba(35,47,62,0.10)" stroke-width="0.8"/>
+          <text x="40" y="478" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.18em">LEGEND</text>
+          <text x="960" y="478" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.06em" text-anchor="end">AREA = ANNUAL SPEND · AWS COST EXPLORER, UNBLENDED · FY2026 · $8.09M TOTAL · PARTS ROUNDED, MAY NOT SUM</text>
+
+          <rect x="40" y="488" width="16" height="10" rx="2" fill="rgba(236,114,17,0.16)" stroke="#ec7211" stroke-width="1"/>
+          <text x="64" y="497" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Amazon EC2 · the focal share</text>
+
+          <rect x="240" y="488" width="16" height="10" rx="2" fill="rgba(35,47,62,0.16)" stroke="rgba(35,47,62,0.30)" stroke-width="1"/>
+          <text x="264" y="497" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Other services · stronger contrast is larger</text>
+
+          <circle cx="516" cy="493" r="5" fill="#232f3e"/>
+          <text x="516" y="496" fill="#ffffff" font-size="7" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">i</text>
+          <text x="532" y="497" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Route 53 · $0.05M, 0.6% — too small to label</text>
+        </svg>
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-header"><span class="card-dot coral"></span><h3>One cell carries the story</h3></div>
+        <p>EC2 is the focal cell because it is the finding, not because it sorts first. Nearly six of every ten dollars on the bill are inside that rectangle, so rightsizing and Graviton start here.</p>
+      </div>
+      <div class="card">
+        <div class="card-header"><span class="card-dot ink"></span><h3>How to read it</h3></div>
+        <p>Cells are laid out squarified, largest first, so aspect ratios stay near 1 and areas stay comparable by eye. Among the other five, stronger contrast means larger.</p>
+      </div>
+      <div class="card">
+        <div class="card-header"><span class="card-dot muted"></span><h3>What the chart doesn't show</h3></div>
+        <p>Spend, not growth. Bedrock's cell is under a tenth of EC2's today, and it is the one growing fastest — this is one year, not a direction.</p>
+      </div>
+    </div>
+    <div class="footer">
+      <span>annual aws spend · six services</span>
+      <span>example · aws diagram design</span>
+    </div>
+  </div>
+</body>
+</html>

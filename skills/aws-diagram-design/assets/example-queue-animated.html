@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SQS Fan-in &amp; Lambda Bottleneck</title>
+  <style>
+  @font-face { font-family: 'Amazon Ember'; font-weight: 400; font-style: normal; src: local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_Rg.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 400; font-style: italic; src: local('Amazon Ember Italic'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_RgIt.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 600; font-style: normal; src: local('Amazon Ember Medium'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_SBd.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 700; font-style: normal; src: local('Amazon Ember Bold'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_Bd.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember Mono'; font-weight: 400; font-style: normal; src: local('Amazon Ember Mono'), url('fonts/woff2/AmazonEmberMono_W_Rg.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember Mono'; font-weight: 700; font-style: normal; src: local('Amazon Ember Mono Bold'), local('Amazon Ember Mono'), url('fonts/woff2/AmazonEmberMono_W_Bd.woff2') format('woff2'); }
+</style>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    :root {
+      --paper: #ffffff;
+      --paper-2: #f2f3f3;
+      --ink: #232f3e;
+      --muted: #545b64;
+      --soft: #687078;
+      --rule: rgba(35,47,62,0.12);
+      --rule-strong: rgba(35,47,62,0.30);
+      --accent: #ec7211;
+      --accent-tint: rgba(236,114,17,0.08);
+      --sans: 'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --serif: 'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --mono: 'Amazon Ember Mono', ui-monospace, monospace;
+      --motion-fast: 160ms;
+      --motion-step: 480ms;
+      --motion-hold: 720ms;
+      --motion-total: 3600ms;
+      --motion-ease: cubic-bezier(.2,.8,.2,1);
+    }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding: 32px;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: var(--sans);
+    }
+    [data-motion-root] {
+      width: min(100%, 1280px);
+      margin: 0 auto;
+    }
+    .page-header {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 32px;
+      margin-bottom: 16px;
+    }
+    .eyebrow {
+      margin: 0 0 8px;
+      color: var(--muted);
+      font: 500 10px/1.4 var(--mono);
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+    h1 {
+      margin: 0;
+      font: 700 clamp(28px, 3vw, 40px)/1.08 var(--serif);
+      letter-spacing: -.02em;
+    }
+    .lede {
+      max-width: 540px;
+      margin: 0 0 4px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+    .diagram-wrap {
+      overflow-x: auto;
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+    }
+    svg { display: block; width: 100%; min-width: 920px; }
+
+    /* Motion item states */
+    .motion-ready [data-motion-item] {
+      opacity: .12;
+      transform: translateY(8px);
+      transform-box: fill-box;
+      transform-origin: center;
+      transition: opacity var(--motion-step) var(--motion-ease),
+                  transform var(--motion-step) var(--motion-ease);
+    }
+    .motion-ready [data-motion-item].is-visible,
+    .motion-ready[data-frame="end"] [data-motion-item],
+    .motion-ready[data-frame="static"] [data-motion-item] {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* Queue depth badge transition rule: Step 1 badge hides when Step 2+ is reached */
+    [data-step-current="2"] .queue-depth-step1,
+    [data-step-current="3"] .queue-depth-step1,
+    [data-step-current="4"] .queue-depth-step1,
+    [data-step-current="5"] .queue-depth-step1,
+    [data-frame="end"] .queue-depth-step1,
+    [data-frame="static"] .queue-depth-step1 {
+      display: none !important;
+    }
+
+    html[data-motion="static"] [data-motion-controls] { display: none !important; }
+    html[data-motion="static"] [data-motion-item] {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+    }
+    html[data-motion="step"] [data-motion-controls],
+    html[data-motion="step"] [data-motion-decorative] { display: none !important; }
+    html[data-motion="step"] [data-motion-item] {
+      animation: none !important;
+      transition: none !important;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .001ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: .001ms !important;
+      }
+      [data-motion-item] { opacity: 1 !important; transform: none !important; }
+      [data-motion-decorative] { display: none !important; }
+      [data-motion-controls] { display: none !important; }
+    }
+    @media print {
+      body { padding: 0; }
+      [data-motion-controls], [data-motion-decorative] { display: none !important; }
+      [data-motion-item] { opacity: 1 !important; transform: none !important; }
+    }
+
+    [data-motion-controls] {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      min-height: 60px;
+      padding: 8px 0;
+    }
+    .motion-ready [data-motion-controls] { display: flex; }
+    [data-motion-controls][hidden] { display: none !important; }
+    [data-motion-controls] button {
+      min-width: 44px;
+      min-height: 44px;
+      padding: 8px 12px;
+      border: 1px solid var(--muted);
+      border-radius: 4px;
+      color: var(--ink);
+      background: var(--paper);
+      font: 600 12px/1 var(--sans);
+      cursor: pointer;
+    }
+    [data-motion-controls] button:hover { border-color: var(--accent); }
+    [data-motion-controls] button:focus-visible,
+    [data-motion-root]:focus-visible {
+      outline: 3px solid var(--accent);
+      outline-offset: 2px;
+    }
+    [data-motion-controls] button:disabled { cursor: not-allowed; opacity: .45; }
+    .keyboard-help {
+      margin-left: 8px;
+      color: var(--soft);
+      font: 500 9px/1.4 var(--mono);
+    }
+    [data-motion-status] {
+      display: block;
+      min-width: 272px;
+      min-height: 16px;
+      margin: 8px 0 0;
+      color: var(--muted);
+      font: 500 10px/1.4 var(--mono);
+      text-align: right;
+    }
+    noscript p {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font: 500 10px/1.4 var(--mono);
+    }
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+  </style>
+</head>
+<body>
+  <main data-motion-root data-motion-mode="step" data-step-count="5" data-step-current="5" data-frame="static" data-static-frame="complete" tabindex="-1">
+    <header class="page-header">
+      <div>
+        <p class="eyebrow">Semantic pattern · Fan-in queue / Amazon SQS</p>
+        <h1>SQS Fan-in &amp; Lambda Bottleneck</h1>
+      </div>
+      <p class="lede">
+        Four producers converge on an Amazon SQS queue with a 5-message backlog budget before a concurrency-capped AWS Lambda worker pool drains it.
+      </p>
+    </header>
+
+    <div class="diagram-wrap">
+      <svg role="img" aria-labelledby="queue-animated-title queue-animated-desc" viewBox="0 0 1160 620" xmlns="http://www.w3.org/2000/svg" data-motion-primitive="fan-in-queue">
+        <title id="queue-animated-title">SQS fan-in queue and Lambda worker bottleneck</title>
+        <desc id="queue-animated-desc">Interactive step-by-step demonstration of four producers fanning in to an Amazon SQS queue, overflow shed to a dead-letter queue, and an AWS Lambda worker pool with reserved concurrency writing to Amazon DynamoDB.</desc>
+        <rect width="1160" height="620" fill="#ffffff"/>
+        <defs>
+          <marker id="arrow-ink" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 1 L 10 5 L 0 9 z" fill="#232f3e" />
+          </marker>
+          <marker id="arrow-accent" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 1 L 10 5 L 0 9 z" fill="#ec7211" />
+          </marker>
+          <marker id="arrow-muted" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 1 L 10 5 L 0 9 z" fill="#545b64" />
+          </marker>
+        </defs>
+
+        <!-- Base Layout: Ingress Sources Region (Static) -->
+        <rect x="40" y="40" width="240" height="510" rx="8" fill="#f2f3f3" stroke="rgba(35,47,62,0.12)" stroke-width="1" />
+        <text x="60" y="72" fill="#545b64" font-family="'Amazon Ember Mono', ui-monospace, monospace" font-size="11" letter-spacing="1.6">INGRESS SOURCES</text>
+
+        <!-- Producer 1: Web App (Steady Flow: 4 req/sec) -->
+        <rect x="60" y="96" width="200" height="72" rx="6" fill="#ffffff" stroke="#232f3e" stroke-width="1.5" />
+        <g transform="translate(236,100) scale(0.25)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g fill="#ED7100"> <rect x="0" y="0" width="64" height="64"></rect> </g> <path d="M50,36.3822466 L44,33.3822885 L44,25.0004058 C44,24.6374109 43.803,24.3024156 43.485,24.1264181 L35,19.412484 L35,12.7495773 L50,21.5724538 L50,36.3822466 Z M51.507,20.1384739 L34.507,10.1386138 C34.199,9.95761637 33.815,9.95461641 33.504,10.1326139 C33.192,10.3106114 33,10.6416068 33,11.0006018 L33,20.0004758 C33,20.3634707 33.197,20.6984661 33.515,20.8744636 L42,25.5883976 L42,34.0002799 C42,34.3792746 42.214,34.7252697 42.553,34.8952674 L50.553,38.8952114 C50.694,38.9652104 50.847,39.0002099 51,39.0002099 C51.183,39.0002099 51.365,38.9502106 51.525,38.851212 C51.82,38.6682146 52,38.3472191 52,38.0002239 L52,21.0004618 C52,20.6464668 51.812,20.3184714 51.507,20.1384739 L51.507,20.1384739 Z M32,51.8280304 L15,41.4391758 L15,21.5544541 L29,12.8045765 L29,19.4464836 L21.47,24.1524177 C21.178,24.3354152 21,24.6554107 21,25.0004058 L21,38.0002239 C21,38.351219 21.185,38.6772144 21.485,38.8572119 L31.485,44.857128 C31.789,45.0401254 32.167,45.0481253 32.479,44.8781277 L42.988,39.1462079 L48.035,42.0291675 L32,51.8280304 Z M50.496,41.1321801 L43.496,37.1322361 C43.194,36.9592385 42.825,36.9562385 42.521,37.1222362 L32.023,42.8481561 L23,37.4342318 L23,25.5543981 L30.53,20.848464 C30.822,20.6654665 31,20.345471 31,20.0004758 L31,11.0006018 C31,10.6366069 30.803,10.3026115 30.484,10.125614 C30.168,9.9486165 29.778,9.95961634 29.47,10.1526136 L13.47,20.1524737 C13.178,20.3354711 13,20.6554667 13,21.0004618 L13,42.0001679 C13,42.3481631 13.182,42.6711585 13.479,42.854156 L31.479,53.854002 C31.639,53.9510007 31.819,54 32,54 C32.181,54 32.361,53.9510007 32.521,53.854002 L50.521,42.854156 C50.823,42.6691586 51.005,42.3391632 51.0001004,41.9851681 C50.995,41.6321731 50.803,41.3071776 50.496,41.1321801 L50.496,41.1321801 Z" fill="#FFFFFF"></path> </g></g>
+        <text x="76" y="128" fill="#232f3e" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="14" font-weight="600">ECS Checkout</text>
+        <text x="76" y="148" fill="#545b64" font-family="'Amazon Ember Mono', ui-monospace, monospace" font-size="11">Rate: 4 msg/sec (Steady)</text>
+
+        <!-- Producer 2: Mobile API (Steady Flow: 3 req/sec) -->
+        <rect x="60" y="196" width="200" height="72" rx="6" fill="#ffffff" stroke="#232f3e" stroke-width="1.5" />
+        <g transform="translate(236,200) scale(0.25)" aria-hidden="true"><g> <g> <rect width="64" height="64" fill="#8C4FFF"/> </g> <g> <path fill-rule="evenodd" clip-rule="evenodd" d="M28 43.9999H31V41.9999H28V43.9999ZM33 43.9999H36V41.9999H33V43.9999ZM28 21.9998H31V19.9998H28V21.9998ZM33 21.9998H36V19.9998H33V21.9998ZM22 12.7408L12 18.5738V46.382L22 51.382V12.7408ZM24 19.9998H26V21.9998H24V41.9999H26V43.9999H24V53C24 53.347 23.82 53.668 23.525 53.851C23.365 53.95 23.183 54 23 54C22.847 54 22.694 53.965 22.553 53.895L10.553 47.895C10.214 47.725 10 47.379 10 47V17.9998C10 17.6448 10.188 17.3148 10.496 17.1358L22.496 10.1358C22.805 9.95575 23.188 9.95475 23.498 10.1328C23.809 10.3108 24 10.6418 24 10.9998V19.9998ZM52 18.5738L42 12.7408V51.382L52 46.382V18.5738ZM54 17.9998V47C54 47.379 53.786 47.725 53.447 47.895L41.447 53.895C41.306 53.965 41.153 54 41 54C40.817 54 40.635 53.95 40.475 53.851C40.18 53.668 40 53.347 40 53V43.9999H38V41.9999H40V21.9998H38V19.9998H40V10.9998C40 10.6418 40.191 10.3108 40.502 10.1328C40.812 9.95575 41.195 9.95575 41.504 10.1358L53.504 17.1358C53.812 17.3148 54 17.6448 54 17.9998ZM34.939 27.3419L33.061 26.6578L29.061 37.6579L30.939 38.3419L34.939 27.3419ZM39.707 32.7069C40.098 32.3159 40.098 31.6839 39.707 31.2929L36.707 28.2929L35.293 29.7069L37.586 31.9999L35.293 34.2929L36.707 35.7069L39.707 32.7069ZM27.293 35.7069L24.293 32.7069C23.902 32.3159 23.902 31.6839 24.293 31.2929L27.293 28.2929L28.707 29.7069L26.414 31.9999L28.707 34.2929L27.293 35.7069Z" fill="white"/> </g> </g></g>
+        <text x="76" y="228" fill="#232f3e" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="14" font-weight="600">API Gateway</text>
+        <text x="76" y="248" fill="#545b64" font-family="'Amazon Ember Mono', ui-monospace, monospace" font-size="11">Rate: 3 msg/sec (Steady)</text>
+
+        <!-- Producer 3: Payment Webhook (Spike Flow: 8 req/sec) -->
+        <rect x="60" y="296" width="200" height="72" rx="6" fill="#ffffff" stroke="#232f3e" stroke-width="1.5" />
+        <g transform="translate(236,300) scale(0.25)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g fill="#E7157B"> <rect x="0" y="0" width="64" height="64"></rect> </g> <path d="M43.2617752,52 C41.6961147,52 40.4226302,50.736 40.4226302,49.182 C40.4226302,47.628 41.6961147,46.364 43.2617752,46.364 C44.8274357,46.364 46.1009202,47.628 46.1009202,49.182 C46.1009202,50.736 44.8274357,52 43.2617752,52 L43.2617752,52 Z M36.5437415,39 L28.4000902,39 L24.3277608,32 L28.4000902,25 L36.5437415,25 L40.6160709,32 L36.5437415,39 Z M22.7459802,17.636 C21.1803197,17.636 19.9058277,16.372 19.9058277,14.818 C19.9058277,13.264 21.1803197,12 22.7459802,12 C24.3106333,12 25.5851253,13.264 25.5851253,14.818 C25.5851253,16.372 24.3106333,17.636 22.7459802,17.636 L22.7459802,17.636 Z M43.2617752,44.364 C42.7197383,44.364 42.206919,44.473 41.7192872,44.636 L38.6161763,39.438 L42.6522355,32.5 C42.8315712,32.19 42.8315712,31.81 42.6522355,31.5 L37.9975691,23.5 C37.8182335,23.19 37.4857573,23 37.125071,23 L28.8010766,23 L26.0243968,18.349 C26.9865627,17.468 27.6001324,16.217 27.6001324,14.818 C27.6001324,12.162 25.4229172,10 22.7459802,10 C20.0680358,10 17.8908206,12.162 17.8908206,14.818 C17.8908206,17.475 20.0680358,19.636 22.7459802,19.636 C23.2880172,19.636 23.8008365,19.527 24.2884682,19.364 L26.8535722,23.659 L22.2926036,31.5 C22.1122605,31.81 22.1122605,32.19 22.2926036,32.5 L26.9462626,40.5 C27.1255982,40.81 27.4580744,41 27.8187607,41 L37.125071,41 C37.1512661,41 37.1754462,40.992 37.1996263,40.99 L39.9833586,45.651 C39.0211927,46.532 38.4076231,47.783 38.4076231,49.182 C38.4076231,51.838 40.5848382,54 43.2617752,54 C45.9387122,54 48.1159273,51.838 48.1159273,49.182 C48.1159273,46.525 45.9387122,44.364 43.2617752,44.364 L43.2617752,44.364 Z M47.9335692,25.636 C46.3679087,25.636 45.0934167,24.372 45.0934167,22.818 C45.0934167,21.264 46.3679087,20 47.9335692,20 C49.4982222,20 50.7727142,21.264 50.7727142,22.818 C50.7727142,24.372 49.4982222,25.636 47.9335692,25.636 L47.9335692,25.636 Z M50.9792525,26.539 C52.0734013,25.655 52.7877213,24.325 52.7877213,22.818 C52.7877213,20.162 50.6105062,18 47.9335692,18 C47.2958194,18 46.6903098,18.13 46.1331603,18.353 L43.4048407,14.432 C43.21543,14.162 42.9051189,14 42.5746578,14 L33.5071257,14 L33.5071257,16 L42.0467259,16 L44.4576819,19.466 C43.6083564,20.334 43.0784096,21.515 43.0784096,22.818 C43.0784096,25.475 45.2556247,27.636 47.9335692,27.636 C48.3678032,27.636 48.7818872,27.561 49.1838811,27.454 L51.8295855,32 L47.9809219,38.616 L49.725918,39.616 L53.8647426,32.5 C54.0450858,32.19 54.0450858,31.81 53.8647426,31.5 L50.9792525,26.539 Z M17.7084624,43.636 C16.1428019,43.636 14.8683099,42.372 14.8683099,40.818 C14.8683099,39.264 16.1428019,38 17.7084624,38 C19.2731155,38 20.5476075,39.264 20.5476075,40.818 C20.5476075,42.372 19.2731155,43.636 17.7084624,43.636 L17.7084624,43.636 Z M20.6221627,44.647 C21.7928819,43.767 22.5626146,42.386 22.5626146,40.818 C22.5626146,38.162 20.3853994,36 17.7084624,36 C17.00724,36 16.3443026,36.155 15.742823,36.421 L13.1706664,32 L17.6429747,24.311 L15.8979785,23.311 L11.1345017,31.5 C10.9551661,31.81 10.9551661,32.19 11.1345017,32.5 L14.1086522,37.614 C13.337912,38.468 12.8533028,39.583 12.8533028,40.818 C12.8533028,43.475 15.030518,45.636 17.7084624,45.636 C18.0762012,45.636 18.4308425,45.588 18.7744012,45.511 L21.5954112,49.568 C21.7838143,49.838 22.0931179,50 22.4245866,50 L31.4921186,50 L31.4921186,48 L22.9545335,48 L20.6221627,44.647 Z" fill="#FFFFFF"></path> </g></g>
+        <text x="76" y="328" fill="#232f3e" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="14" font-weight="600">EventBridge Bus</text>
+        <text x="76" y="348" fill="#545b64" font-family="'Amazon Ember Mono', ui-monospace, monospace" font-size="11">Rate: 8 msg/sec (Spike)</text>
+
+        <!-- Producer 4: Legacy ERP (Spike Flow: 12 req/sec) -->
+        <rect x="60" y="396" width="200" height="72" rx="6" fill="#ffffff" stroke="#232f3e" stroke-width="1.5" />
+        <text x="76" y="428" fill="#232f3e" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="14" font-weight="600">Legacy ERP Batch</text>
+        <text x="76" y="448" fill="#545b64" font-family="'Amazon Ember Mono', ui-monospace, monospace" font-size="11">Rate: 12 msg/sec (Spike)</text>
+
+        <!-- Central Queue Buffer Region (Width expanded to 370px for generous text margins) -->
+        <rect x="340" y="150" width="370" height="320" rx="8" fill="#f2f3f3" stroke="rgba(35,47,62,0.12)" stroke-width="1" />
+        <g transform="translate(686,154) scale(0.25)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g fill="#E7157B"> <rect x="0" y="0" width="64" height="64"></rect> </g> <path d="M23.8465384,35.5138695 L25.8460385,32.5644909 C26.0709823,32.2326117 26.071982,31.7999835 25.848038,31.4681044 L23.8485379,28.492057 L22.1829543,29.5835048 L23.1427143,31.0127583 L20.0164959,31.0127583 L20.0164959,32.9882295 L23.1517121,32.9882295 L22.1849538,34.4145197 L23.8465384,35.5138695 Z M41.8430392,35.511894 L43.8425394,32.5476994 C44.0664834,32.2158202 44.0664834,31.7841798 43.8425394,31.4523006 L41.8430392,28.4900815 L40.1794551,29.5854803 L41.1432142,31.013746 L38.011997,31.013746 L38.011997,32.9892172 L41.1422144,32.9892172 L40.1794551,34.4164952 L41.8430392,35.511894 Z M28.4943764,32.0004939 C28.4943764,33.4850605 28.2624344,34.895547 27.8265434,36.1539221 C29.1372157,35.7183307 30.575856,35.5000412 32.0154961,35.5000412 C33.4541365,35.5000412 34.8937766,35.7183307 36.2034491,36.1539221 C35.7685579,34.895547 35.5356161,33.4850605 35.5356161,32.0004939 C35.5356161,30.516915 35.7685579,29.1064285 36.2034491,27.8480533 C33.5831042,28.7202239 30.447888,28.7202239 27.8265434,27.8480533 C28.2624344,29.1064285 28.4943764,30.516915 28.4943764,32.0004939 L28.4943764,32.0004939 Z M24.3034241,39.6198864 C24.1084729,39.427278 24.0104974,39.1744176 24.0104974,38.9215573 C24.0104974,38.668697 24.1084729,38.4158367 24.3034241,38.2232282 C25.676081,36.8670672 26.4948763,34.5409499 26.4948763,32.0004939 C26.4948763,29.4610256 25.676081,27.1349082 24.3034241,25.7787472 C24.1084729,25.5861388 24.0104974,25.3332785 24.0104974,25.0804181 C24.0104974,24.8275578 24.1084729,24.5746975 24.3034241,24.3820891 C24.6943264,23.9958844 25.3261685,23.9958844 25.7170707,24.3820891 C28.6593352,27.288995 35.3706573,27.288995 38.3139215,24.3820891 C38.703824,23.9958844 39.3366658,23.9958844 39.7275681,24.3820891 C39.9225194,24.5746975 40.0204949,24.8275578 40.0204949,25.0804181 C40.0204949,25.3332785 39.9225194,25.5861388 39.7275681,25.7787472 C38.3549113,27.1349082 37.5351162,29.4610256 37.5351162,32.0004939 C37.5351162,34.5409499 38.3549113,36.8670672 39.7275681,38.2232282 C39.9225194,38.4158367 40.0204949,38.668697 40.0204949,38.9215573 C40.0204949,39.1744176 39.9225194,39.427278 39.7275681,39.6198864 C39.5316171,39.8134826 39.2766808,39.9092929 39.0207448,39.9092929 C38.7648088,39.9092929 38.5088728,39.8134826 38.3139215,39.6198864 C35.3706573,36.7129805 28.6593352,36.7129805 25.7170707,39.6198864 C25.3261685,40.006091 24.6943264,40.006091 24.3034241,39.6198864 L24.3034241,39.6198864 Z M51.2726818,30.2630669 C50.8017996,29.7968557 50.1749563,29.5410322 49.5091227,29.5410322 C48.8432892,29.5410322 48.2164459,29.7968557 47.7455636,30.2630669 C47.2746813,30.7282904 47.0147463,31.3466129 47.0147463,32.0044448 C47.0147463,32.6632645 47.2746813,33.281587 47.7455636,33.7468104 C48.7183204,34.7078772 50.299925,34.7078772 51.2726818,33.7468104 C52.2444389,32.7867314 52.2444389,31.2231459 51.2726818,30.2630669 L51.2726818,30.2630669 Z M52.6863284,35.1434686 C51.8105474,36.008725 50.6588353,36.4423409 49.5091227,36.4423409 C48.3594101,36.4423409 47.2076981,36.008725 46.331917,35.1434686 C45.4831292,34.3058688 45.0152462,33.1907153 45.0152462,32.0044448 C45.0152462,30.8191621 45.4831292,29.7040086 46.331917,28.865421 C47.1807048,28.0268335 48.3094226,27.565561 49.5091227,27.565561 C50.7088228,27.565561 51.8375406,28.0268335 52.6863284,28.8664088 C54.4378905,30.5959338 54.4378905,33.4129558 52.6863284,35.1434686 L52.6863284,35.1434686 Z M16.2544364,30.2798584 C15.7845539,29.8146349 15.1577106,29.5588114 14.491877,29.5588114 C13.8250437,29.5588114 13.1992002,29.8146349 12.7273182,30.2798584 C11.7555611,31.2409252 11.7555611,32.8035229 12.7273182,33.7645897 C13.6690827,34.6940489 15.3126718,34.6950366 16.2544364,33.7645897 C17.2261935,32.8035229 17.2261935,31.2409252 16.2544364,30.2798584 L16.2544364,30.2798584 Z M17.668083,35.1612478 C16.8202949,35.9998354 15.6915771,36.4611079 14.491877,36.4611079 C13.2901775,36.4611079 12.1624594,35.9998354 11.3136716,35.1612478 C9.56210947,33.430735 9.56210947,30.6147008 11.3136716,28.8832003 C12.1624594,28.0446127 13.2901775,27.5833402 14.491877,27.5833402 C15.6915771,27.5833402 16.8202949,28.0446127 17.668083,28.8832003 C19.4196451,30.6147008 19.4196451,33.430735 17.668083,35.1612478 L17.668083,35.1612478 Z M43.4306423,43.3357478 C37.1022244,49.589102 26.8037991,49.589102 20.4753812,43.3357478 C18.8407898,41.7217878 17.824044,40.0614042 16.9622594,37.603918 L15.0727318,38.2508848 C16.0404899,41.0125936 17.1972007,42.8912668 19.0617346,44.732406 C22.615846,48.2447938 27.2836791,50 31.9525119,50 C36.6213447,50 41.2901775,48.2447938 44.8442889,44.732406 C46.8327918,42.7677998 48.0634841,40.8278871 48.9552612,38.2469339 L47.0637341,37.607869 C46.275931,39.8855873 45.1902024,41.5983208 43.4306423,43.3357478 L43.4306423,43.3357478 Z M16.9612597,26.3990452 L15.0737316,25.7501029 C16.0334916,23.0219771 17.2271932,21.0830521 19.0667333,19.2656186 C26.171957,12.2447938 37.7340665,12.2447938 44.8392902,19.2656186 C46.7818045,21.1847889 48.0504874,23.1849535 48.9532617,25.7501029 L47.0657336,26.3990452 C46.255936,24.0986089 45.1672082,22.3829122 43.4256436,20.6622767 C37.0992252,14.4128735 26.8067983,14.4128735 20.4803799,20.6622767 C18.8467883,22.2762367 17.8270432,23.9385958 16.9612597,26.3990452 L16.9612597,26.3990452 Z" fill="#FFFFFF"></path> </g></g>
+        <text x="360" y="182" fill="#232f3e" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="14" font-weight="600">Amazon SQS Order Queue</text>
+        <text x="360" y="200" fill="#545b64" font-family="'Amazon Ember Mono', ui-monospace, monospace" font-size="11">Backlog budget: 5 msgs (FIFO)</text>
+
+        <!-- STEP 1: Ingress Traffic Arrives (Slots 1 & 2 + Initial 2/5 Queue Depth Badge) -->
+        <g data-motion-item data-step="1" aria-label="Step 1: ECS checkout and API Gateway send steady traffic (7 msg/sec total) into SQS slots 1 and 2">
+          <!-- Ingress Flow Arrows 1 & 2 -->
+          <path d="M 260 132 H 308 Q 316 132 316 140 V 226 Q 316 234 324 234 H 340" fill="none" stroke="#232f3e" stroke-width="2" marker-end="url(#arrow-ink)" />
+          <path d="M 260 248 H 284 Q 292 248 292 256 V 270 Q 292 278 300 278 H 340" fill="none" stroke="#232f3e" stroke-width="2" marker-end="url(#arrow-ink)" />
+
+          <!-- Queue Slot 1 -->
+          <rect x="360" y="216" width="265" height="36" rx="4" fill="#ffffff" stroke="#232f3e" stroke-width="1.5" />
+          <text x="372" y="239" fill="#232f3e" font-family="'Amazon Ember Mono', ui-monospace, monospace" font-size="10.5">Slot 1: msg_ecs_8019 [OrderPlaced]</text>
+
+          <!-- Queue Slot 2 -->
+          <rect x="360" y="260" width="265" height="36" rx="4" fill="#ffffff" stroke="#232f3e" stroke-width="1.5" />
+          <text x="372" y="283" fill="#232f3e" font-family="'Amazon Ember Mono', ui-monospace, monospace" font-size="10.5">Slot 2: msg_api_4412 [CartUpdated]</text>
+
+          <!-- Single Unified Queue Status Badge for Step 1 (DEPTH 2/5 - Spans full height of 5 slots) -->
+          <g class="queue-depth-step1">
+            <rect x="635" y="216" width="60" height="212" rx="4" fill="#ffffff" stroke="rgba(35,47,62,0.12)" stroke-width="1" />
+            <text x="665" y="300" text-anchor="middle" fill="#545b64" font-family="'Amazon Ember Mono', ui-monospace, monospace" font-size="10">DEPTH</text>
+            <text x="665" y="330" text-anchor="middle" fill="#232f3e" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="22" font-weight="600">2/5</text>
+          </g>
+        </g>
+
+        <!-- STEP 2: Ingress Spike Fills Queue (Slots 3, 4, 5 + Updated 5/5 Full Warn Queue Depth Badge) -->
+        <g data-motion-item data-step="2" aria-label="Step 2: EventBridge and ERP traffic spike (20 msg/sec total) fills the SQS backlog to 5/5">
+          <!-- Ingress Flow Arrows 3 & 4 -->
+          <path d="M 260 332 H 340" fill="none" stroke="#ec7211" stroke-width="2" marker-end="url(#arrow-accent)" />
+          <path d="M 260 432 H 292 Q 300 432 300 424 V 374 Q 300 366 308 366 H 340" fill="none" stroke="#ec7211" stroke-width="2" marker-end="url(#arrow-accent)" />
+
+          <!-- Queue Slot 3 -->
+          <rect x="360" y="304" width="265" height="36" rx="4" fill="#ffffff" stroke="#ec7211" stroke-width="1.5" />
+          <text x="372" y="327" fill="#232f3e" font-family="'Amazon Ember Mono', ui-monospace, monospace" font-size="10.5">Slot 3: msg_evb_9920 [PaymentEvent]</text>
+
+          <!-- Queue Slot 4 -->
+          <rect x="360" y="348" width="265" height="36" rx="4" fill="rgba(236,114,17,0.08)" stroke="#ec7211" stroke-width="1.5" />
+          <text x="372" y="371" fill="#232f3e" font-family="'Amazon Ember Mono', ui-monospace, monospace" font-size="10.5" font-weight="600">Slot 4: msg_erp_1044 [BATCH]</text>
+
+          <!-- Queue Slot 5 -->
+          <rect x="360" y="392" width="265" height="36" rx="4" fill="rgba(236,114,17,0.08)" stroke="#ec7211" stroke-width="1.5" />
+          <text x="372" y="415" fill="#232f3e" font-family="'Amazon Ember Mono', ui-monospace, monospace" font-size="10.5" font-weight="600">Slot 5: msg_erp_1045 [FULL]</text>
+
+          <!-- Single Unified Queue Status Badge for Step 2+ (FULL 5/5 WARN - Replaces 2/5 badge seamlessly) -->
+          <rect x="635" y="216" width="60" height="212" rx="4" fill="rgba(236,114,17,0.08)" stroke="#ec7211" stroke-width="1.5" />
+          <text x="665" y="290" text-anchor="middle" fill="#232f3e" font-family="'Amazon Ember Mono', ui-monospace, monospace" font-size="10" font-weight="600">FULL</text>
+          <text x="665" y="325" text-anchor="middle" fill="#ec7211" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="24" font-weight="600">5/5</text>
+          <text x="665" y="355" text-anchor="middle" fill="#232f3e" font-family="'Amazon Ember Mono', ui-monospace, monospace" font-size="9.5" font-weight="600">WARN</text>
+        </g>
+
+        <!-- STEP 3: Rate Limiter Diverts Excess Traffic (429 Dropped Sink) -->
+        <g data-motion-item data-step="3" aria-label="Step 3: Overflow activates, shedding excess 19 msg/sec to the SQS dead-letter queue">
+          <!-- Overflow Diverter Connector -->
+          <path d="M 525 150 V 100 Q 525 92 533 92 H 760" fill="none" stroke="#ec7211" stroke-width="2" stroke-dasharray="4 4" marker-end="url(#arrow-accent)" />
+          
+          <!-- 429 Dropped Traffic Sink Node (Expanded to width 350px) -->
+          <rect x="760" y="50" width="350" height="85" rx="6" fill="rgba(236,114,17,0.08)" stroke="#ec7211" stroke-width="1.5" />
+          <g transform="translate(1086,54) scale(0.25)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g fill="#E7157B"> <rect x="0" y="0" width="64" height="64"></rect> </g> <path d="M23.8465384,35.5138695 L25.8460385,32.5644909 C26.0709823,32.2326117 26.071982,31.7999835 25.848038,31.4681044 L23.8485379,28.492057 L22.1829543,29.5835048 L23.1427143,31.0127583 L20.0164959,31.0127583 L20.0164959,32.9882295 L23.1517121,32.9882295 L22.1849538,34.4145197 L23.8465384,35.5138695 Z M41.8430392,35.511894 L43.8425394,32.5476994 C44.0664834,32.2158202 44.0664834,31.7841798 43.8425394,31.4523006 L41.8430392,28.4900815 L40.1794551,29.5854803 L41.1432142,31.013746 L38.011997,31.013746 L38.011997,32.9892172 L41.1422144,32.9892172 L40.1794551,34.4164952 L41.8430392,35.511894 Z M28.4943764,32.0004939 C28.4943764,33.4850605 28.2624344,34.895547 27.8265434,36.1539221 C29.1372157,35.7183307 30.575856,35.5000412 32.0154961,35.5000412 C33.4541365,35.5000412 34.8937766,35.7183307 36.2034491,36.1539221 C35.7685579,34.895547 35.5356161,33.4850605 35.5356161,32.0004939 C35.5356161,30.516915 35.7685579,29.1064285 36.2034491,27.8480533 C33.5831042,28.7202239 30.447888,28.7202239 27.8265434,27.8480533 C28.2624344,29.1064285 28.4943764,30.516915 28.4943764,32.0004939 L28.4943764,32.0004939 Z M24.3034241,39.6198864 C24.1084729,39.427278 24.0104974,39.1744176 24.0104974,38.9215573 C24.0104974,38.668697 24.1084729,38.4158367 24.3034241,38.2232282 C25.676081,36.8670672 26.4948763,34.5409499 26.4948763,32.0004939 C26.4948763,29.4610256 25.676081,27.1349082 24.3034241,25.7787472 C24.1084729,25.5861388 24.0104974,25.3332785 24.0104974,25.0804181 C24.0104974,24.8275578 24.1084729,24.5746975 24.3034241,24.3820891 C24.6943264,23.9958844 25.3261685,23.9958844 25.7170707,24.3820891 C28.6593352,27.288995 35.3706573,27.288995 38.3139215,24.3820891 C38.703824,23.9958844 39.3366658,23.9958844 39.7275681,24.3820891 C39.9225194,24.5746975 40.0204949,24.8275578 40.0204949,25.0804181 C40.0204949,25.3332785 39.9225194,25.5861388 39.7275681,25.7787472 C38.3549113,27.1349082 37.5351162,29.4610256 37.5351162,32.0004939 C37.5351162,34.5409499 38.3549113,36.8670672 39.7275681,38.2232282 C39.9225194,38.4158367 40.0204949,38.668697 40.0204949,38.9215573 C40.0204949,39.1744176 39.9225194,39.427278 39.7275681,39.6198864 C39.5316171,39.8134826 39.2766808,39.9092929 39.0207448,39.9092929 C38.7648088,39.9092929 38.5088728,39.8134826 38.3139215,39.6198864 C35.3706573,36.7129805 28.6593352,36.7129805 25.7170707,39.6198864 C25.3261685,40.006091 24.6943264,40.006091 24.3034241,39.6198864 L24.3034241,39.6198864 Z M51.2726818,30.2630669 C50.8017996,29.7968557 50.1749563,29.5410322 49.5091227,29.5410322 C48.8432892,29.5410322 48.2164459,29.7968557 47.7455636,30.2630669 C47.2746813,30.7282904 47.0147463,31.3466129 47.0147463,32.0044448 C47.0147463,32.6632645 47.2746813,33.281587 47.7455636,33.7468104 C48.7183204,34.7078772 50.299925,34.7078772 51.2726818,33.7468104 C52.2444389,32.7867314 52.2444389,31.2231459 51.2726818,30.2630669 L51.2726818,30.2630669 Z M52.6863284,35.1434686 C51.8105474,36.008725 50.6588353,36.4423409 49.5091227,36.4423409 C48.3594101,36.4423409 47.2076981,36.008725 46.331917,35.1434686 C45.4831292,34.3058688 45.0152462,33.1907153 45.0152462,32.0044448 C45.0152462,30.8191621 45.4831292,29.7040086 46.331917,28.865421 C47.1807048,28.0268335 48.3094226,27.565561 49.5091227,27.565561 C50.7088228,27.565561 51.8375406,28.0268335 52.6863284,28.8664088 C54.4378905,30.5959338 54.4378905,33.4129558 52.6863284,35.1434686 L52.6863284,35.1434686 Z M16.2544364,30.2798584 C15.7845539,29.8146349 15.1577106,29.5588114 14.491877,29.5588114 C13.8250437,29.5588114 13.1992002,29.8146349 12.7273182,30.2798584 C11.7555611,31.2409252 11.7555611,32.8035229 12.7273182,33.7645897 C13.6690827,34.6940489 15.3126718,34.6950366 16.2544364,33.7645897 C17.2261935,32.8035229 17.2261935,31.2409252 16.2544364,30.2798584 L16.2544364,30.2798584 Z M17.668083,35.1612478 C16.8202949,35.9998354 15.6915771,36.4611079 14.491877,36.4611079 C13.2901775,36.4611079 12.1624594,35.9998354 11.3136716,35.1612478 C9.56210947,33.430735 9.56210947,30.6147008 11.3136716,28.8832003 C12.1624594,28.0446127 13.2901775,27.5833402 14.491877,27.5833402 C15.6915771,27.5833402 16.8202949,28.0446127 17.668083,28.8832003 C19.4196451,30.6147008 19.4196451,33.430735 17.668083,35.1612478 L17.668083,35.1612478 Z M43.4306423,43.3357478 C37.1022244,49.589102 26.8037991,49.589102 20.4753812,43.3357478 C18.8407898,41.7217878 17.824044,40.0614042 16.9622594,37.603918 L15.0727318,38.2508848 C16.0404899,41.0125936 17.1972007,42.8912668 19.0617346,44.732406 C22.615846,48.2447938 27.2836791,50 31.9525119,50 C36.6213447,50 41.2901775,48.2447938 44.8442889,44.732406 C46.8327918,42.7677998 48.0634841,40.8278871 48.9552612,38.2469339 L47.0637341,37.607869 C46.275931,39.8855873 45.1902024,41.5983208 43.4306423,43.3357478 L43.4306423,43.3357478 Z M16.9612597,26.3990452 L15.0737316,25.7501029 C16.0334916,23.0219771 17.2271932,21.0830521 19.0667333,19.2656186 C26.171957,12.2447938 37.7340665,12.2447938 44.8392902,19.2656186 C46.7818045,21.1847889 48.0504874,23.1849535 48.9532617,25.7501029 L47.0657336,26.3990452 C46.255936,24.0986089 45.1672082,22.3829122 43.4256436,20.6622767 C37.0992252,14.4128735 26.8067983,14.4128735 20.4803799,20.6622767 C18.8467883,22.2762367 17.8270432,23.9385958 16.9612597,26.3990452 L16.9612597,26.3990452 Z" fill="#FFFFFF"></path> </g></g>
+          <text x="780" y="82" fill="#232f3e" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="14" font-weight="600">Overflow → SQS Dead-Letter Queue</text>
+          <text x="780" y="104" fill="#545b64" font-family="'Amazon Ember Mono', ui-monospace, monospace" font-size="11">Status: Parked for redrive (19 msg/sec shed)</text>
+        </g>
+
+        <!-- STEP 4: Worker Service Processing & Downstream Output -->
+        <g data-motion-item data-step="4" aria-label="Step 4: Lambda worker pool drains the queue at 8 msg/sec max and writes to DynamoDB">
+          <!-- Worker Processing Connector -->
+          <path d="M 710 280 H 760" fill="none" stroke="#232f3e" stroke-width="2" marker-end="url(#arrow-ink)" />
+
+          <!-- Worker Node A (Expanded to width 350px) -->
+          <rect x="760" y="215" width="350" height="130" rx="6" fill="#ffffff" stroke="#232f3e" stroke-width="1.5" />
+          <g transform="translate(1086,219) scale(0.25)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g fill="#ED7100"> <rect x="0" y="0" width="64" height="64"></rect> </g> <path d="M22.6794094,52 L13.5740701,52 L23.8376189,30.41 L28.3997494,39.861 L22.6794094,52 Z M24.7269406,27.667 C24.5606285,27.321 24.2120702,27.103 23.8306478,27.103 L23.8276601,27.103 C23.4452418,27.104 23.0966835,27.325 22.9323632,27.672 L11.0973143,52.569 C10.9499239,52.879 10.9708374,53.243 11.1540795,53.534 C11.3353298,53.824 11.6540117,54 11.9955989,54 L23.309802,54 C23.695208,54 24.0447622,53.777 24.2100784,53.428 L30.4044577,40.284 C30.5329264,40.01 30.5319305,39.692 30.3994783,39.42 L24.7269406,27.667 Z M51.0082382,52 L41.985557,52 L26.9547262,19.578 C26.7914017,19.226 26.4388599,19 26.0524581,19 L20.1279625,19 L20.1349337,12 L31.8146251,12 L46.7747483,44.42 C46.9380728,44.774 47.2906147,45 47.6790082,45 L51.0082382,45 L51.0082382,52 Z M52.0041191,43 L48.3143803,43 L33.354257,10.58 C33.1909326,10.226 32.8383907,10 32.450993,10 L19.1400486,10 C18.5913182,10 18.1451636,10.447 18.1441677,10.999 L18.1362006,19.999 C18.1362006,20.265 18.2407681,20.519 18.4269979,20.707 C18.6142235,20.895 18.8671772,21 19.1310857,21 L25.4170861,21 L40.4479168,53.422 C40.6112413,53.774 40.9627873,54 41.350185,54 L52.0041191,54 C52.5548412,54 53,53.552 53,53 L53,44 C53,43.448 52.5548412,43 52.0041191,43 L52.0041191,43 Z" fill="#FFFFFF"></path> </g></g>
+          <text x="780" y="246" fill="#232f3e" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="14" font-weight="600">Lambda Worker Pool</text>
+          <text x="780" y="268" fill="#545b64" font-family="'Amazon Ember Mono', ui-monospace, monospace" font-size="11">Function: order-worker</text>
+          <text x="780" y="290" fill="#545b64" font-family="'Amazon Ember Mono', ui-monospace, monospace" font-size="11">Reserved concurrency: 8 msg/sec</text>
+          <text x="780" y="312" fill="#232f3e" font-family="'Amazon Ember Mono', ui-monospace, monospace" font-size="11" font-weight="600">Status: PROCESSING [FIFO]</text>
+
+          <!-- 200 OK Downstream Connector -->
+          <path d="M 935 345 L 935 410" fill="none" stroke="#232f3e" stroke-width="2" marker-end="url(#arrow-ink)" />
+
+          <!-- Downstream Service Node (Expanded to width 350px) -->
+          <rect x="760" y="410" width="350" height="85" rx="6" fill="#f2f3f3" stroke="rgba(35,47,62,0.12)" stroke-width="1" />
+          <g transform="translate(1086,414) scale(0.25)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g fill="#C925D1"> <rect x="0" y="0" width="64" height="64"></rect> </g> <path d="M46.5858287,25.2492763 L43.0008475,25.2492763 C42.6728493,25.2492763 42.3658509,25.086523 42.1788519,24.8145936 C41.9918528,24.5416533 41.9488531,24.1939071 42.0648525,23.8835638 L44.5578394,17.162156 L35.6448862,17.162156 L31.5539077,26.2601663 L36.0008843,26.2601663 C36.3218827,26.2601663 36.6238811,26.4158434 36.8128801,26.6806966 C36.9998791,26.943528 37.0518788,27.2821762 36.9488794,27.5904976 L33.2888986,38.6910812 L46.5858287,25.2492763 Z M49.7068123,24.9530855 L31.7079069,43.1491063 C31.5159079,43.3442081 31.2589093,43.4452971 31.0009106,43.4452971 C30.8189116,43.4452971 30.6379125,43.3957635 30.4759134,43.2946744 C30.0809155,43.0480173 29.9049164,42.5597574 30.0529156,42.1149658 L34.6128916,28.2819464 L30.0009159,28.2819464 C29.6609177,28.2819464 29.3449193,28.1070624 29.1599203,27.8189588 C28.9769213,27.5288333 28.9499214,27.1659238 29.0909207,26.8525479 L34.0908944,15.7327574 C34.2528935,15.3718697 34.6078917,15.1403759 35.0008896,15.1403759 L46.0008318,15.1403759 C46.32883,15.1403759 46.6358284,15.3031292 46.8228274,15.5750586 C47.0098265,15.8479989 47.0528262,16.1957451 46.9378268,16.5060883 L44.44384,23.2274962 L48.999816,23.2274962 C49.4038139,23.2274962 49.769812,23.4741534 49.9238111,23.8512154 C50.0788103,24.2292882 49.9928108,24.663971 49.7068123,24.9530855 L49.7068123,24.9530855 Z M41.0008581,44.2196388 C38.2908723,46.1059597 33.3138985,47.1016863 28.5329236,47.1016863 C23.7169489,47.1016863 18.6959753,46.0928181 15.9999895,44.1781923 L16.0009895,47.9943023 C16.0009895,49.6582273 20.7689644,51.9782199 28.5329236,51.9782199 C36.0278842,51.9782199 41.0008581,49.2761108 41.0008581,47.4888572 L41.0008581,44.2196388 Z M43.0648472,40.9504204 C43.0648472,41.1374351 43.0328474,41.3173735 43.0008475,41.4963011 L43.0008475,47.4888572 C43.0008475,51.0795387 36.5108817,54 28.5329236,54 C21.6299599,54 14.6619965,52.1106465 14.0599997,48.4997473 L14.001,48.4997473 L14,43.4452971 L14,30.3037265 L14,16.1512659 L14.001,16.1512659 C14.001,12.1552176 21.4879606,10 28.5329236,10 C32.4739029,10 36.262883,10.6398934 38.9298689,11.755916 L38.163873,13.6240408 C35.7318858,12.6050636 32.2209042,12.0217801 28.5329236,12.0217801 C20.7689644,12.0217801 16.0009895,14.4266875 16.0009895,16.1512659 C16.0009895,17.8758443 20.7689644,20.2807517 28.5329236,20.2807517 C28.7279226,20.2807517 28.9319215,20.2817626 29.1289205,20.2736755 L29.2069201,22.2934338 C28.9819212,22.3025318 28.7579224,22.3025318 28.5329236,22.3025318 C23.7159489,22.3025318 18.6959753,21.2936636 15.9999895,19.3790378 L15.9999895,23.7369848 L16.0009895,23.7369848 L16.0009895,23.7541699 C16.0059895,24.2838763 16.4899869,24.8974866 17.3649823,25.4736939 C19.3469719,26.7615678 22.9149531,27.642053 26.9039322,27.8250241 L26.8129326,29.8447824 C22.6869543,29.6547351 19.0629734,28.7762717 16.7269857,27.4287552 C16.4169873,27.7269678 16.0009895,28.4851353 16.0009895,28.8955567 C16.0009895,30.6201351 20.7689644,33.0250425 28.5329236,33.0250425 C29.2709197,33.0250425 29.9979159,32.9997703 30.6949122,32.9502366 L30.8359115,34.9669623 C30.0919154,35.0205394 29.3169195,35.0468226 28.5329236,35.0468226 C23.7159489,35.0468226 18.6959753,34.0379543 15.9999895,32.1233286 L15.9999895,35.7928594 L16.0009895,35.7928594 C16.0059895,36.339751 16.4899869,36.9533612 17.3649823,37.5295685 C19.6329704,39.0044571 23.9139479,39.9233562 28.5329236,39.9233562 L28.8629219,39.9233562 L28.8629219,41.9451362 L28.5329236,41.9451362 C23.7549487,41.9451362 18.6729754,40.9372789 16.0009895,39.4017369 C15.6789912,39.6999495 16.0009895,40.4126269 16.0009895,40.9504204 C16.0009895,42.6749989 20.7689644,45.0799063 28.5329236,45.0799063 C36.2978828,45.0799063 41.0648577,42.6749989 41.0648577,40.9504204 C41.0648577,40.3408537 40.4658609,39.7757662 39.9728635,39.4118458 C39.5638656,39.658503 39.113868,39.8950512 38.6008707,40.1113817 L37.8328747,38.2442678 C38.3638719,38.0208611 38.8228695,37.7812802 39.1968675,37.5326012 C40.2978617,36.798695 41.0008581,35.7544456 41.0008581,35.3581767 L43.0008475,35.3581767 C43.0008475,36.2983045 42.3798508,37.3051509 41.583855,38.1330699 C42.7758487,39.1732757 43.0648472,40.2114598 43.0648472,40.9504204 L43.0648472,40.9504204 Z M17.1419835,48.3885494 C17.9329793,48.796949 18.8579745,49.1608694 19.893969,49.4691908 L20.457966,47.5292928 C19.5419709,47.2573634 18.7319751,46.9399439 18.0519787,46.5881542 L17.1419835,48.3885494 Z M19.893969,37.3385103 L20.457966,35.3996232 C19.5419709,35.1266829 18.7319751,34.8102743 18.0519787,34.4584846 L17.1419835,36.2578689 C17.9329793,36.6672793 18.8579745,37.0301889 19.893969,37.3385103 L19.893969,37.3385103 Z M17.1419835,24.1281992 L18.0519787,22.3278041 C18.7319751,22.6795938 19.5419709,22.9960024 20.457966,23.2689427 L19.893969,25.2088407 C18.8579745,24.9005192 17.9329793,24.5365988 17.1419835,24.1281992 L17.1419835,24.1281992 Z" fill="#FFFFFF"></path> </g></g>
+          <text x="780" y="440" fill="#232f3e" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="14" font-weight="600">Amazon DynamoDB Orders Table</text>
+          <text x="780" y="464" fill="#545b64" font-family="'Amazon Ember Mono', ui-monospace, monospace" font-size="11">Result: Writes committed (8 msg/sec)</text>
+        </g>
+
+        <!-- STEP 5: Equilibrium State & Performance Metrics Summary -->
+        <g data-motion-item data-step="5" aria-label="Step 5: System reaches controlled equilibrium, protecting the Lambda pool while excess messages wait in the DLQ">
+          <rect x="340" y="490" width="370" height="64" rx="6" fill="#ffffff" stroke="#232f3e" stroke-width="1.5" />
+          <text x="360" y="516" fill="#232f3e" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" font-weight="600">System State: Controlled Equilibrium</text>
+          <text x="360" y="536" fill="#545b64" font-family="'Amazon Ember Mono', ui-monospace, monospace" font-size="11">Lambda Protected · DLQ Absorbing Overflow</text>
+        </g>
+
+        <!-- Precision SVG Legend Footer (Exact visual mini-arrows and mini-rects) -->
+        <g data-motion-decorative aria-hidden="true">
+          <!-- Flow Line 1: Admitted Flow -->
+          <line x1="40" y1="584" x2="65" y2="584" stroke="#232f3e" stroke-width="2" marker-end="url(#arrow-ink)" />
+          <text x="73" y="588" fill="#232f3e" font-family="'Amazon Ember Mono', ui-monospace, monospace" font-size="9.5">Admitted Flow</text>
+
+          <!-- Flow Line 2: High Ingress -->
+          <line x1="165" y1="584" x2="190" y2="584" stroke="#ec7211" stroke-width="2" marker-end="url(#arrow-accent)" />
+          <text x="198" y="588" fill="#232f3e" font-family="'Amazon Ember Mono', ui-monospace, monospace" font-size="9.5">High Ingress</text>
+
+          <!-- Flow Line 3: 429 Backpressure -->
+          <line x1="285" y1="584" x2="310" y2="584" stroke="#ec7211" stroke-width="2" stroke-dasharray="3 3" marker-end="url(#arrow-accent)" />
+          <text x="318" y="588" fill="#232f3e" font-family="'Amazon Ember Mono', ui-monospace, monospace" font-size="9.5">DLQ Overflow</text>
+
+          <!-- Box 1: Normal Slot -->
+          <rect x="430" y="577" width="16" height="12" rx="2" fill="#ffffff" stroke="#232f3e" stroke-width="1.5" />
+          <text x="452" y="588" fill="#232f3e" font-family="'Amazon Ember Mono', ui-monospace, monospace" font-size="9.5">Normal Slot</text>
+
+          <!-- Box 2: Capacity Warn Slot -->
+          <rect x="540" y="577" width="16" height="12" rx="2" fill="#ffffff" stroke="#ec7211" stroke-width="1.5" />
+          <text x="562" y="588" fill="#232f3e" font-family="'Amazon Ember Mono', ui-monospace, monospace" font-size="9.5">Capacity Warn</text>
+
+          <!-- Box 3: Overflown 429 Slot -->
+          <rect x="660" y="577" width="16" height="12" rx="2" fill="rgba(236,114,17,0.08)" stroke="#ec7211" stroke-width="1.5" />
+          <text x="682" y="588" fill="#232f3e" font-family="'Amazon Ember Mono', ui-monospace, monospace" font-size="9.5">Overflow (DLQ)</text>
+
+          <!-- Box 4: Depth / Full Counter Badge -->
+          <rect x="790" y="577" width="16" height="12" rx="2" fill="#ffffff" stroke="rgba(35,47,62,0.25)" stroke-width="1" />
+          <text x="812" y="588" fill="#232f3e" font-family="'Amazon Ember Mono', ui-monospace, monospace" font-size="9.5">Queue Depth Badge</text>
+        </g>
+      </svg>
+    </div>
+
+    <!-- Pinned Motion Controls -->
+    <div data-motion-controls role="group" aria-label="Diagram playback controls">
+      <button type="button" data-motion-action="prev">Previous</button>
+      <button type="button" data-motion-action="play" aria-pressed="false">Play</button>
+      <button type="button" data-motion-action="pause" aria-pressed="true">Pause</button>
+      <button type="button" data-motion-action="next">Next</button>
+      <button type="button" data-motion-action="replay">Replay</button>
+      <span class="keyboard-help">←/→ step · Space play/pause · R replay · Home/End jump</span>
+      <span data-motion-status-visible aria-hidden="true">Step <span data-motion-step-label>5</span> of 5</span>
+    </div>
+    <p class="sr-only" data-motion-status role="status" aria-live="polite" aria-atomic="true"></p>
+    <noscript><p>Animation controls require JavaScript. The complete final diagram is shown above.</p></noscript>
+  </main>
+
+  <script data-diagram-controls>
+    (() => {
+      const params = new URLSearchParams(location.search);
+      const staticOverride = params.get('motion') === 'static' || document.documentElement.dataset.motion === 'static';
+      const requestedStep = params.get('step');
+      const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+      document.fonts.ready.then(() => { document.documentElement.dataset.fontsReady = 'true'; });
+
+      document.querySelectorAll('[data-motion-root]').forEach((root) => {
+        const count = Number(root.dataset.stepCount);
+        const hold = parseFloat(getComputedStyle(root).getPropertyValue('--motion-hold')) || 720;
+        const parsedStep = requestedStep !== null && /^\d+$/.test(requestedStep) ? Number(requestedStep) : null;
+        const exactStep = params.get('motion') === 'step' && Number.isSafeInteger(parsedStep) && parsedStep >= 0 && parsedStep <= count ? parsedStep : null;
+        const items = [...root.querySelectorAll('[data-motion-item]')];
+        const labels = Array.from({ length: count + 1 }, (_, index) => index === 0
+          ? 'Ready'
+          : items.filter((item) => !item.hasAttribute('data-motion-decorative') && Number(item.dataset.step) === index)
+              .map((item) => item.getAttribute('aria-label')).join('; '));
+        const controls = root.querySelector('[data-motion-controls]');
+        const status = root.querySelector('[data-motion-status]');
+        const visibleStep = root.querySelector('[data-motion-step-label]');
+        let step = count;
+        let timer = 0;
+        let playing = false;
+        let stepBeforeReduce = 0;
+        let resumeAfterReduce = root.dataset.motionMode === 'reveal';
+
+        const buttons = (action) => controls.querySelector(`[data-motion-action="${action}"]`);
+        const clearClock = () => { window.clearTimeout(timer); timer = 0; };
+        const announce = () => { status.textContent = `Step ${step} of ${count}: ${labels[step] || 'Complete'}`; };
+        const setControlsAvailable = (available) => {
+          controls.hidden = !available;
+          controls.setAttribute('aria-hidden', String(!available));
+          controls.dataset.playbackDisabled = String(!available);
+          controls.querySelectorAll('button').forEach((control) => { control.disabled = !available; });
+        };
+
+        function render(next, userInitiated = false) {
+          step = Math.max(0, Math.min(count, next));
+          root.dataset.stepCurrent = String(step);
+          root.dataset.frame = step === count ? 'end' : step === 0 ? 'start' : 'step';
+          items.forEach((item) => {
+            const itemStep = Number(item.dataset.step);
+            item.classList.toggle('is-visible', itemStep <= step);
+            item.classList.toggle('is-current', itemStep === step);
+          });
+          if (visibleStep) visibleStep.textContent = String(step);
+          const unavailable = controls.dataset.playbackDisabled === 'true';
+          buttons('prev').disabled = unavailable || step === 0;
+          buttons('next').disabled = unavailable || step === count;
+          if (userInitiated) announce();
+        }
+
+        function pause(userInitiated = false) {
+          clearClock();
+          playing = false;
+          root.classList.remove('is-playing');
+          buttons('play').setAttribute('aria-pressed', 'false');
+          buttons('pause').setAttribute('aria-pressed', 'true');
+          if (userInitiated) status.textContent = `Paused at step ${step} of ${count}`;
+        }
+
+        function finish() {
+          pause(false);
+          root.dataset.frame = 'end';
+          status.textContent = `Complete · step ${count} of ${count}`;
+        }
+
+        function tick() {
+          if (!playing) return;
+          if (step >= count) { finish(); return; }
+          render(step + 1, false);
+          if (step >= count) { finish(); return; }
+          timer = window.setTimeout(tick, hold);
+        }
+
+        function play(fromStart = false, userInitiated = false) {
+          clearClock();
+          if (fromStart || step >= count) render(0, userInitiated);
+          playing = true;
+          root.classList.add('is-playing');
+          buttons('play').setAttribute('aria-pressed', 'true');
+          buttons('pause').setAttribute('aria-pressed', 'false');
+          timer = window.setTimeout(tick, hold);
+        }
+
+        controls.addEventListener('click', (event) => {
+          const button = event.target.closest('[data-motion-action]');
+          if (!button) return;
+          const action = button.dataset.motionAction;
+          if (action === 'play') play(false, true);
+          if (action === 'pause') pause(true);
+          if (action === 'replay') play(true, true);
+          if (action === 'prev') { pause(false); render(step - 1, true); }
+          if (action === 'next') { pause(false); render(step + 1, true); }
+        });
+
+        root.addEventListener('keydown', (event) => {
+          if (event.target.matches('input, textarea, select, a[href]')) return;
+          const keys = { ArrowLeft: step - 1, ArrowRight: step + 1, Home: 0, End: count };
+          if (event.code === 'Space' && !event.target.closest('button')) {
+            event.preventDefault();
+            playing ? pause(true) : play(false, true);
+            return;
+          }
+          if (!event.ctrlKey && !event.metaKey && !event.altKey && event.key.toLowerCase() === 'r') {
+            event.preventDefault();
+            play(true, true);
+            return;
+          }
+          if (!(event.key in keys)) return;
+          event.preventDefault();
+          pause(false);
+          render(keys[event.key], true);
+        });
+
+        document.addEventListener('visibilitychange', () => {
+          if (document.visibilityState === 'hidden' && playing) pause(false);
+        });
+        reduce.addEventListener('change', (event) => {
+          if (event.matches && root.dataset.motionState !== 'reduced') {
+            stepBeforeReduce = step;
+            resumeAfterReduce = playing;
+          }
+          pause(false);
+          if (event.matches) {
+            setControlsAvailable(false);
+            render(count, false);
+            root.dataset.frame = 'static';
+            root.dataset.motionState = 'reduced';
+            status.textContent = 'Reduced motion · complete static frame · playback controls unavailable';
+          } else if (staticOverride || root.dataset.motionMode === 'none') {
+            setControlsAvailable(false);
+            render(count, false);
+            root.dataset.frame = 'static';
+            root.dataset.motionState = 'static';
+            status.textContent = 'Static frame · complete diagram · playback controls unavailable';
+          } else {
+            delete root.dataset.motionState;
+            if (exactStep !== null) {
+              setControlsAvailable(false);
+              render(exactStep, false);
+              root.dataset.frame = 'step';
+              root.dataset.motionState = 'test';
+              status.textContent = `Test frame · step ${step} of ${count} · playback controls unavailable`;
+            } else {
+              setControlsAvailable(true);
+              render(stepBeforeReduce, false);
+              status.textContent = `Ready · step ${step} of ${count}`;
+              if (resumeAfterReduce && root.dataset.motionMode === 'reveal') {
+                play(false, false);
+              }
+            }
+            resumeAfterReduce = false;
+          }
+        });
+
+        if (staticOverride) {
+          document.documentElement.dataset.motion = 'static';
+          pause(false);
+          setControlsAvailable(false);
+          render(count, false);
+          root.dataset.frame = 'static';
+          root.dataset.motionState = 'static';
+          status.textContent = 'Static frame · complete diagram · playback controls unavailable';
+        } else if (reduce.matches || root.dataset.motionMode === 'none') {
+          pause(false);
+          setControlsAvailable(false);
+          render(count, false);
+          root.dataset.frame = 'static';
+          root.dataset.motionState = reduce.matches ? 'reduced' : 'static';
+          status.textContent = reduce.matches
+            ? 'Reduced motion · complete static frame · playback controls unavailable'
+            : 'Static frame · complete diagram · playback controls unavailable';
+        } else if (exactStep !== null) {
+          document.documentElement.dataset.motion = 'step';
+          pause(false);
+          setControlsAvailable(false);
+          render(exactStep, false);
+          root.dataset.frame = 'step';
+          root.dataset.motionState = 'test';
+          status.textContent = `Test frame · step ${step} of ${count} · playback controls unavailable`;
+        } else if (root.dataset.motionMode === 'reveal') {
+          setControlsAvailable(true);
+          render(0, false);
+          play(false, false);
+        } else {
+          pause(false);
+          setControlsAvailable(true);
+          render(0, false);
+          status.textContent = `Ready · step 0 of ${count}`;
+        }
+        root.classList.add('motion-ready');
+      });
+    })();
+  </script>
+</body>
+</html>

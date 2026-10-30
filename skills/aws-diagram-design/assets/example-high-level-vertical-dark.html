@@ -3,18 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>High-level architecture · Vertical chevrons (dark)</title>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <title>Serverless analytics on AWS · Vertical chevrons (dark)</title>
+  <style>
+  @font-face { font-family: 'Amazon Ember'; font-weight: 400; font-style: normal; src: local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_Rg.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 400; font-style: italic; src: local('Amazon Ember Italic'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_RgIt.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 600; font-style: normal; src: local('Amazon Ember Medium'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_SBd.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 700; font-style: normal; src: local('Amazon Ember Bold'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_Bd.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember Mono'; font-weight: 400; font-style: normal; src: local('Amazon Ember Mono'), url('fonts/woff2/AmazonEmberMono_W_Rg.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember Mono'; font-weight: 700; font-style: normal; src: local('Amazon Ember Mono Bold'), local('Amazon Ember Mono'), url('fonts/woff2/AmazonEmberMono_W_Bd.woff2') format('woff2'); }
+</style>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --color-paper:  #2d3142;
-      --color-ink:    #f5f5f5;
-      --color-muted:  #bfc0c0;
-      --color-accent: #f08a59;
-      --font-sans:    'Geist', system-ui, sans-serif;
-      --font-serif:   'Instrument Serif', serif;
-      --font-mono:    'Geist Mono', ui-monospace, monospace;
+      --color-paper:  #161e2d;
+      --color-ink:    #ffffff;
+      --color-muted:  #b6bec9;
+      --color-accent: #ff9900;
+      --font-sans:    'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --font-serif:   'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --font-mono:    'Amazon Ember Mono', ui-monospace, monospace;
     }
     body {
       font-family: var(--font-sans);
@@ -39,7 +46,7 @@
     h1 {
       font-family: var(--font-serif);
       font-size: clamp(1.5rem, 2.4vw + 0.75rem, 2rem);
-      font-weight: 400;
+      font-weight: 700;
       letter-spacing: -0.02em;
       line-height: 1.15;
       margin-bottom: 1.5rem;
@@ -49,31 +56,31 @@
 </head>
 <body>
   <div class="frame">
-    <p class="eyebrow">Architecture · Diagram Design · Parametric</p>
-    <h1>High-level architecture · Vertical Orchestration + Security</h1>
+    <p class="eyebrow">Architecture · AWS Diagram Design · Parametric</p>
+    <h1>Serverless analytics on AWS · Orchestration + Security</h1>
 
     <svg viewBox="0 0 1000 600" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="high-level-vertical-dark-title high-level-vertical-dark-desc">
-      <title id="high-level-vertical-dark-title">High-level architecture · Vertical Orchestration + Security</title>
-      <desc id="high-level-vertical-dark-desc">Architecture diagram showing data sources moving through ingestion, storage, transformation, and visualization alongside orchestration, security, and observability.</desc>
+      <title id="high-level-vertical-dark-title">Serverless analytics on AWS · Orchestration + Security</title>
+      <desc id="high-level-vertical-dark-desc">Architecture diagram showing external sources moving through Amazon Data Firehose into an Amazon S3 lake, queried by Athena and SageMaker AI and visualized in Quick Sight, with Step Functions orchestration, IAM Identity Center security, and CloudWatch observability.</desc>
       <defs>
         <pattern id="dots" width="22" height="22" patternUnits="userSpaceOnUse">
-          <circle cx="1" cy="1" r="0.9" fill="rgba(245,245,245,0.10)"/>
+          <circle cx="1" cy="1" r="0.9" fill="rgba(255,255,255,0.10)"/>
         </pattern>
         <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
-          <polygon points="0 0, 8 3, 0 6" fill="#bfc0c0"/>
+          <polygon points="0 0, 8 3, 0 6" fill="#b6bec9"/>
         </marker>
         <marker id="arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
-          <polygon points="0 0, 8 3, 0 6" fill="#f08a59"/>
+          <polygon points="0 0, 8 3, 0 6" fill="#ff9900"/>
         </marker>
         <marker id="arrow-sm" markerWidth="6" markerHeight="5" refX="5" refY="2.5" orient="auto">
-          <polygon points="0 0, 6 2.5, 0 5" fill="#bfc0c0"/>
+          <polygon points="0 0, 6 2.5, 0 5" fill="#b6bec9"/>
         </marker>
         <marker id="arrow-dim" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
-          <polygon points="0 0, 8 3, 0 6" fill="rgba(245,245,245,0.45)"/>
+          <polygon points="0 0, 8 3, 0 6" fill="rgba(255,255,255,0.45)"/>
         </marker>
       </defs>
 
-      <rect width="100%" height="100%" fill="#2d3142"/>
+      <rect width="100%" height="100%" fill="#161e2d"/>
       <rect width="100%" height="100%" fill="url(#dots)" opacity="0.55"/>
 
       <!-- Horizontal chevron banner (effective_w=964 with 8-px margin to right strip) -->
@@ -82,192 +89,158 @@
       <polygon points="384,4 564,4 576,18 564,32 384,32 396,18" fill="#3d4460"/>
       <polygon points="576,4 756,4 768,18 756,32 576,32 588,18" fill="#4a5270"/>
       <polygon points="768,4 964,4 964,32 768,32 780,18" fill="#3d4460"/>
-      <text x="96"  y="21" fill="#f5f5f5" font-size="7" font-family="'Geist Mono', monospace" letter-spacing="0.14em" text-anchor="middle">DATA SOURCES</text>
-      <text x="288" y="21" fill="#f5f5f5" font-size="7" font-family="'Geist Mono', monospace" letter-spacing="0.14em" text-anchor="middle">INGESTION</text>
-      <text x="480" y="21" fill="#f5f5f5" font-size="7" font-family="'Geist Mono', monospace" letter-spacing="0.14em" text-anchor="middle">STORAGE</text>
-      <text x="672" y="21" fill="#f5f5f5" font-size="7" font-family="'Geist Mono', monospace" letter-spacing="0.14em" text-anchor="middle">TRANSFORM</text>
-      <text x="866" y="21" fill="#f5f5f5" font-size="7" font-family="'Geist Mono', monospace" letter-spacing="0.14em" text-anchor="middle">VISUALIZATION</text>
+      <text x="96"  y="21" fill="#ffffff" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.14em" text-anchor="middle">DATA SOURCES</text>
+      <text x="288" y="21" fill="#ffffff" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.14em" text-anchor="middle">INGESTION</text>
+      <text x="480" y="21" fill="#ffffff" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.14em" text-anchor="middle">STORAGE</text>
+      <text x="672" y="21" fill="#ffffff" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.14em" text-anchor="middle">TRANSFORM</text>
+      <text x="866" y="21" fill="#ffffff" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.14em" text-anchor="middle">VISUALIZATION</text>
 
       <!-- Right strip — 3 vertical chevrons (Orchestration / Security / Observability) -->
       <polygon points="972,40 1000,40 1000,172 986,184 972,172" fill="#3d4460"/>
-      <text x="986" y="112" fill="#f5f5f5" font-size="7" font-family="'Geist Mono', monospace" letter-spacing="0.14em" text-anchor="middle" transform="rotate(-90 986 112)">ORCHESTRATION</text>
+      <text x="986" y="112" fill="#ffffff" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.14em" text-anchor="middle" transform="rotate(-90 986 112)">ORCHESTRATION</text>
       <polygon points="972,184 986,196 1000,184 1000,316 986,328 972,316" fill="#b85450"/>
-      <text x="986" y="256" fill="#f5f5f5" font-size="7" font-family="'Geist Mono', monospace" letter-spacing="0.14em" text-anchor="middle" transform="rotate(-90 986 256)">SECURITY</text>
+      <text x="986" y="256" fill="#ffffff" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.14em" text-anchor="middle" transform="rotate(-90 986 256)">SECURITY</text>
       <polygon points="972,328 986,340 1000,328 1000,472 972,472" fill="#3d4460"/>
-      <text x="986" y="400" fill="#f5f5f5" font-size="7" font-family="'Geist Mono', monospace" letter-spacing="0.14em" text-anchor="middle" transform="rotate(-90 986 400)">OBSERVABILITY</text>
+      <text x="986" y="400" fill="#ffffff" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.14em" text-anchor="middle" transform="rotate(-90 986 400)">OBSERVABILITY</text>
 
       <!-- Structural zones -->
-      <rect x="4" y="40" width="184" height="336" rx="6" fill="rgba(245,245,245,0.03)" stroke="rgba(245,245,245,0.22)" stroke-width="0.8" stroke-dasharray="6,3"/>
-      <text x="96" y="52" fill="#bfc0c0" font-size="7" font-family="'Geist Mono', monospace" letter-spacing="0.14em" text-anchor="middle">SOURCES</text>
-      <rect x="196" y="40" width="768" height="336" rx="8" fill="rgba(245,245,245,0.03)" stroke="rgba(245,245,245,0.18)" stroke-width="1.2"/>
+      <rect x="4" y="40" width="184" height="336" rx="6" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.22)" stroke-width="0.8" stroke-dasharray="6,3"/>
+      <text x="96" y="52" fill="#b6bec9" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.14em" text-anchor="middle">SOURCES</text>
+      <rect x="196" y="40" width="768" height="336" rx="8" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.18)" stroke-width="1.2"/>
       <rect x="4" y="388" width="960" height="40" rx="6" fill="rgba(217,122,120,0.12)" stroke="rgba(217,122,120,0.45)" stroke-width="0.8"/>
 
       <!-- Arrows (drawn before nodes) -->
-      <path d="M 184,92  H 196 Q 200,92  200,96  V 128 Q 200,132 204,132 H 212" fill="none" stroke="#bfc0c0" stroke-width="1" marker-end="url(#arrow)"/>
-      <path d="M 184,172 H 196 Q 200,172 200,168 V 156 Q 200,152 204,152 H 212" fill="none" stroke="#bfc0c0" stroke-width="1" marker-end="url(#arrow)"/>
-      <path d="M 184,252 H 196 Q 200,252 200,248 V 176 Q 200,172 204,172 H 212" fill="none" stroke="#bfc0c0" stroke-width="1" marker-end="url(#arrow)"/>
-      <path d="M 184,332 H 196 Q 200,332 200,328 V 192 Q 200,188 204,188 H 212" fill="none" stroke="#bfc0c0" stroke-width="1" marker-end="url(#arrow)"/>
+      <path d="M 168,124 Q 168,132 176,132 H 212" fill="none" stroke="#b6bec9" stroke-width="1" marker-end="url(#arrow)"/>
+      <path d="M 184,172 H 212" fill="none" stroke="#b6bec9" stroke-width="1" marker-end="url(#arrow)"/>
+      <path d="M 184,252 H 228 Q 236,252 236,244 V 200" fill="none" stroke="#b6bec9" stroke-width="1" marker-end="url(#arrow)"/>
+      <path d="M 184,332 H 252 Q 260,332 260,324 V 200" fill="none" stroke="#b6bec9" stroke-width="1" marker-end="url(#arrow)"/>
 
-      <line x1="288" y1="96" x2="288" y2="120" stroke="#bfc0c0" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrow-sm)"/>
-      <line x1="480" y1="96" x2="480" y2="120" stroke="#bfc0c0" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrow-sm)"/>
-      <line x1="672" y1="96" x2="672" y2="120" stroke="#bfc0c0" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrow-sm)"/>
+      <line x1="288" y1="96" x2="288" y2="120" stroke="#b6bec9" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrow-sm)"/>
+      <line x1="480" y1="96" x2="480" y2="120" stroke="#b6bec9" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrow-sm)"/>
+      <line x1="672" y1="96" x2="672" y2="120" stroke="#b6bec9" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrow-sm)"/>
 
-      <line x1="364" y1="164" x2="404" y2="164" stroke="#bfc0c0" stroke-width="1" marker-end="url(#arrow)"/>
-      <path d="M 364,156 H 384 Q 388,156 388,164 V 248 Q 388,256 396,256 H 404" fill="none" stroke="#f08a59" stroke-width="1.2" marker-end="url(#arrow-accent)"/>
+      <line x1="364" y1="148" x2="404" y2="148" stroke="#b6bec9" stroke-width="1" marker-end="url(#arrow)"/>
+      <path d="M 364,176 H 380 Q 388,176 388,184 V 248 Q 388,256 396,256 H 404" fill="none" stroke="#ff9900" stroke-width="1.2" marker-end="url(#arrow-accent)"/>
 
-      <line x1="480" y1="200" x2="480" y2="216" stroke="rgba(245,245,245,0.30)" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrow-dim)"/>
+      <line x1="480" y1="200" x2="480" y2="216" stroke="rgba(255,255,255,0.30)" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrow-dim)"/>
 
-      <path d="M 556,256 H 576 Q 580,256 580,248 V 168 Q 580,160 588,160 H 596" fill="none" stroke="#f08a59" stroke-width="1.2" marker-end="url(#arrow-accent)"/>
-      <line x1="748" y1="160" x2="790" y2="160" stroke="#bfc0c0" stroke-width="1" marker-end="url(#arrow)"/>
+      <path d="M 556,256 H 576 Q 580,256 580,248 V 168 Q 580,160 588,160 H 596" fill="none" stroke="#ff9900" stroke-width="1.2" marker-end="url(#arrow-accent)"/>
+      <line x1="748" y1="160" x2="790" y2="160" stroke="#b6bec9" stroke-width="1" marker-end="url(#arrow)"/>
 
       <!-- Source nodes -->
-      <rect x="8" y="60" width="176" height="64" rx="6" fill="rgba(245,245,245,0.06)" stroke="rgba(245,245,245,0.20)" stroke-width="1"/>
-      <rect x="16" y="66" width="22" height="12" rx="2" fill="transparent" stroke="rgba(245,245,245,0.30)" stroke-width="0.8"/>
-      <text x="27" y="75" fill="rgba(245,245,245,0.65)" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">EXT</text>
-      <svg x="62" y="66" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f5f5f5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <rect x="8" y="60" width="176" height="64" rx="6" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.20)" stroke-width="1"/>
+      <rect x="16" y="66" width="22" height="12" rx="2" fill="transparent" stroke="rgba(255,255,255,0.30)" stroke-width="0.8"/>
+      <text x="27" y="75" fill="rgba(255,255,255,0.65)" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">EXT</text>
+      <svg x="62" y="66" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <path d="M4 6a8 3 0 1 0 16 0a8 3 0 1 0 -16 0"/>
         <path d="M4 6v6a8 3 0 0 0 16 0v-6"/>
         <path d="M4 12v6a8 3 0 0 0 16 0v-6"/>
       </svg>
-      <text x="96" y="102" fill="#f5f5f5" font-size="11" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">PostgreSQL</text>
-      <text x="96" y="114" fill="#bfc0c0" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">CDC · SQL · API</text>
+      <text x="96" y="102" fill="#ffffff" font-size="11" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">On-prem PostgreSQL</text>
+      <text x="96" y="114" fill="#b6bec9" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">CDC · SQL · API</text>
 
-      <rect x="8" y="140" width="176" height="64" rx="6" fill="rgba(245,245,245,0.06)" stroke="rgba(245,245,245,0.20)" stroke-width="1"/>
-      <rect x="16" y="146" width="22" height="12" rx="2" fill="transparent" stroke="rgba(245,245,245,0.30)" stroke-width="0.8"/>
-      <text x="27" y="155" fill="rgba(245,245,245,0.65)" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">EXT</text>
-      <svg x="62" y="146" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f5f5f5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <rect x="8" y="140" width="176" height="64" rx="6" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.20)" stroke-width="1"/>
+      <rect x="16" y="146" width="22" height="12" rx="2" fill="transparent" stroke="rgba(255,255,255,0.30)" stroke-width="0.8"/>
+      <text x="27" y="155" fill="rgba(255,255,255,0.65)" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">EXT</text>
+      <svg x="62" y="146" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/>
         <path d="M7 9l5 -5l5 5"/>
         <path d="M12 4l0 12"/>
       </svg>
-      <text x="96" y="182" fill="#f5f5f5" font-size="11" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">SFTP drop</text>
-      <text x="96" y="194" fill="#bfc0c0" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">Batch · landing</text>
+      <text x="96" y="182" fill="#ffffff" font-size="11" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">SFTP drop</text>
+      <text x="96" y="194" fill="#b6bec9" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">partner batches</text>
 
-      <rect x="8" y="220" width="176" height="64" rx="6" fill="rgba(245,245,245,0.06)" stroke="rgba(245,245,245,0.20)" stroke-width="1"/>
-      <rect x="16" y="226" width="22" height="12" rx="2" fill="transparent" stroke="rgba(245,245,245,0.30)" stroke-width="0.8"/>
-      <text x="27" y="235" fill="rgba(245,245,245,0.65)" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">EXT</text>
-      <svg x="62" y="226" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f5f5f5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <rect x="8" y="220" width="176" height="64" rx="6" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.20)" stroke-width="1"/>
+      <rect x="16" y="226" width="22" height="12" rx="2" fill="transparent" stroke="rgba(255,255,255,0.30)" stroke-width="0.8"/>
+      <text x="27" y="235" fill="rgba(255,255,255,0.65)" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">EXT</text>
+      <svg x="62" y="226" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <circle cx="12" cy="12" r="9"/>
         <path d="M3.6 9h16.8M3.6 15h16.8"/>
         <path d="M11.5 3a17 17 0 0 0 0 18M12.5 3a17 17 0 0 1 0 18"/>
       </svg>
-      <text x="96" y="262" fill="#f5f5f5" font-size="11" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Web forms</text>
-      <text x="96" y="274" fill="#bfc0c0" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">Survey · admin</text>
+      <text x="96" y="262" fill="#ffffff" font-size="11" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Web forms</text>
+      <text x="96" y="274" fill="#b6bec9" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">survey · admin</text>
 
-      <rect x="8" y="300" width="176" height="64" rx="6" fill="rgba(245,245,245,0.06)" stroke="rgba(245,245,245,0.20)" stroke-width="1"/>
-      <rect x="16" y="306" width="22" height="12" rx="2" fill="transparent" stroke="rgba(245,245,245,0.30)" stroke-width="0.8"/>
-      <text x="27" y="315" fill="rgba(245,245,245,0.65)" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">EXT</text>
-      <svg x="62" y="306" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f5f5f5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <rect x="8" y="300" width="176" height="64" rx="6" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.20)" stroke-width="1"/>
+      <rect x="16" y="306" width="22" height="12" rx="2" fill="transparent" stroke="rgba(255,255,255,0.30)" stroke-width="0.8"/>
+      <text x="27" y="315" fill="rgba(255,255,255,0.65)" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">EXT</text>
+      <svg x="62" y="306" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <path d="M3 7a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v2a3 3 0 0 1 -3 3h-12a3 3 0 0 1 -3 -3"/>
         <path d="M3 15a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v2a3 3 0 0 1 -3 3h-12a3 3 0 0 1 -3 -3l0 -2"/>
         <path d="M7 8l0 .01"/><path d="M7 16l0 .01"/>
       </svg>
-      <text x="96" y="342" fill="#f5f5f5" font-size="11" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Legacy system</text>
-      <text x="96" y="354" fill="#bfc0c0" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">Trade · mainframe</text>
+      <text x="96" y="342" fill="#ffffff" font-size="11" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Mainframe</text>
+      <text x="96" y="354" fill="#b6bec9" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">trade batches</text>
 
-      <!-- Airflow bar -->
-      <rect x="208" y="52" width="744" height="44" rx="4" fill="rgba(245,245,245,0.06)" stroke="rgba(245,245,245,0.18)" stroke-width="0.8"/>
-      <svg x="914" y="58" width="24" height="24" viewBox="0 0 24 24" fill="#bfc0c0" aria-hidden="true">
-        <path d="M17.195 16.822l4.002-4.102C23.55 10.308 23.934 5.154 24 .43a.396.396 0 0 0-.246-.373.392.392 0 0 0-.437.09l-6.495 6.658-4.102-4.003C10.309.45 5.154.066.43 0H.423a.397.397 0 0 0-.277.683l6.658 6.494-4.003 4.103C.45 13.692.065 18.846 0 23.57a.398.398 0 0 0 .683.282l6.494-6.657 3.934 3.837.17.165c2.41 2.353 7.565 2.737 12.288 2.803h.006a.397.397 0 0 0 .277-.683l-6.657-6.495z"/>
-      </svg>
-      <text x="580" y="71" fill="#f5f5f5" font-size="10" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Orchestration / Workflow Automation</text>
-      <text x="580" y="84" fill="#bfc0c0" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">(Apache Airflow)</text>
+      <!-- Step Functions bar -->
+      <rect x="208" y="52" width="744" height="44" rx="4" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.18)" stroke-width="0.8"/>
+      <g transform="translate(914,58) scale(0.375)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g fill="#E7157B"> <rect x="0" y="0" width="64" height="64"></rect> </g> <path d="M37,34 L52,34 L52,30 L37,30 L37,34 Z M53,28 L36,28 C35.447,28 35,28.448 35,29 L35,35 C35,35.552 35.447,36 36,36 L53,36 C53.553,36 54,35.552 54,35 L54,29 C54,28.448 53.553,28 53,28 L53,28 Z M34.5,49.5 C34.5,50.878 33.379,52 32,52 C30.621,52 29.5,50.878 29.5,49.5 C29.5,48.122 30.621,47 32,47 C33.379,47 34.5,48.122 34.5,49.5 L34.5,49.5 Z M12,38 L12,35 L25,35 L25,38 L20,38 L18,38 L12,38 Z M12,29 L12,26 L18,26 L20,26 L25,26 L25,29 L12,29 Z M29.5,14.5 C29.5,13.122 30.621,12 32,12 C33.379,12 34.5,13.122 34.5,14.5 C34.5,15.878 33.379,17 32,17 C30.621,17 29.5,15.878 29.5,14.5 L29.5,14.5 Z M44,42 L20,42 L20,40 L26,40 C26.553,40 27,39.552 27,39 L27,34 C27,33.448 26.553,33 26,33 L20,33 L20,31 L26,31 C26.553,31 27,30.552 27,30 L27,25 C27,24.448 26.553,24 26,24 L20,24 L20,22 L44,22 L44,26 L46,26 L46,21 C46,20.448 45.553,20 45,20 L33,20 L33,18.879 C35,18.422 36.5,16.637 36.5,14.5 C36.5,12.019 34.481,10 32,10 C29.519,10 27.5,12.019 27.5,14.5 C27.5,16.637 29,18.422 31,18.879 L31,20 L19,20 C18.447,20 18,20.448 18,21 L18,24 L11,24 C10.447,24 10,24.448 10,25 L10,30 C10,30.552 10.447,31 11,31 L18,31 L18,33 L11,33 C10.447,33 10,33.448 10,34 L10,39 C10,39.552 10.447,40 11,40 L18,40 L18,43 C18,43.552 18.447,44 19,44 L31,44 L31,45.121 C29,45.578 27.5,47.363 27.5,49.5 C27.5,51.981 29.519,54 32,54 C34.481,54 36.5,51.981 36.5,49.5 C36.5,47.363 35,45.578 33,45.121 L33,44 L45,44 C45.553,44 46,43.552 46,43 L46,38 L44,38 L44,42 Z" fill="#FFFFFF"></path> </g></g>
+      <text x="580" y="71" fill="#ffffff" font-size="10" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Orchestration / Workflow Automation</text>
+      <text x="580" y="84" fill="#b6bec9" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">(AWS Step Functions)</text>
 
       <!-- Cluster nodes -->
-      <rect x="212" y="120" width="152" height="80" rx="6" fill="rgba(245,245,245,0.06)" stroke="rgba(245,245,245,0.20)" stroke-width="1"/>
-      <rect x="220" y="126" width="30" height="12" rx="2" fill="transparent" stroke="rgba(245,245,245,0.30)" stroke-width="0.8"/>
-      <text x="235" y="135" fill="rgba(245,245,245,0.65)" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">COLL</text>
-      <svg x="332" y="126" width="24" height="24" viewBox="0 0 24 24" fill="#f5f5f5" aria-hidden="true">
-        <path d="M11.648 0a.093.093 0 0 0-.084.053A30.71 30.71 0 0 1 8.592 4.73c-2.09 2.728-5.145 6.466-5.145 10.364a8.201 8.201 0 0 0 8.201 8.2v-5.003c0-.106.087-.193.194-.193h2.81v-2.813c0-.106.087-.191.194-.191h5.004c0-3.9-3.056-7.636-5.145-10.364A30.712 30.712 0 0 1 11.732.053.094.094 0 0 0 11.648 0z"/>
-      </svg>
-      <text x="288" y="166" fill="#f5f5f5" font-size="11" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Apache NiFi</text>
-      <text x="288" y="178" fill="#bfc0c0" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">Collect · route · transform</text>
+      <rect x="212" y="120" width="152" height="80" rx="6" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.20)" stroke-width="1"/>
+      <g transform="translate(332,126) scale(0.375)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g fill="#8C4FFF"> <rect x="0" y="0" width="64" height="64"></rect> </g> <g transform="translate(11.000000, 12.000000)" fill="#FFFFFF"> <path d="M32.0641793,22 C35.3301793,22 39.0891793,22.755 42.3791793,24.072 L41.6371793,25.928 C38.5741793,24.703 35.0851793,24 32.0641793,24 L32.0641793,22 Z M41.4251793,22.812 C40.2451793,21.965 35.2581793,21 32.0641793,21 L32.0641793,19 C35.4271793,19 40.2831793,17.952 41.4521793,17.169 L42.5651793,18.831 C41.9371793,19.251 40.8231793,19.648 39.5051793,19.986 C40.8211793,20.32 41.9481793,20.726 42.5911793,21.188 L41.4251793,22.812 Z M42.3661793,15.934 C40.3491793,16.706 36.3301793,18 32.0641793,18 L32.0641793,16 C34.9451793,16 38.4391793,15.295 41.6511793,14.066 L42.3661793,15.934 Z M28.0081793,22.198 L21.0081793,23.753 L21.0081793,16.247 L28.0081793,17.802 L28.0081793,22.198 Z M19.0081793,26 L17.0081793,26 L17.0081793,14 L19.0081793,14 L19.0081793,15 L19.0081793,25 L19.0081793,26 Z M29.2251793,16.024 L21.0081793,14.198 L21.0081793,13 C21.0081793,12.448 20.5611793,12 20.0081793,12 L16.0081793,12 C15.4791793,12 15.0571793,12.415 15.0221793,12.935 C3.51817933,12.065 2.00817933,7.724 2.00817933,4 L2.00817933,0 L0.00817932921,0 L0.00817932921,4 C0.00817932921,12.674 8.30817933,14.468 15.0081793,14.938 L15.0081793,15.935 C8.91917933,15.574 4.31917933,13.699 1.49517933,12.126 L0.522179329,13.874 C3.54917933,15.559 8.48717933,17.572 15.0081793,17.938 L15.0081793,18.955 C10.2391793,18.767 5.19017933,18.069 1.26317933,17.033 L0.753179329,18.967 C2.24517933,19.36 3.90017933,19.703 5.63017933,19.994 C3.92417933,20.286 2.27617933,20.631 0.753179329,21.033 L1.26317933,22.967 C5.33117933,21.894 10.2841793,21.206 15.0081793,21.036 L15.0081793,22.062 C8.53817933,22.426 3.58117933,24.438 0.525179329,26.125 L1.49217933,27.875 C4.34417933,26.301 8.96717933,24.425 15.0081793,24.065 L15.0081793,25.068 C1.99117933,26.09 0.00817932921,32.94 0.00817932921,37 L0.00617932921,37.304 C-0.00582067079,39.729 0.00117932921,39.989 0.0141793292,40.107 L2.00517933,39.926 C1.99817933,39.778 1.99917933,38.899 2.00617933,37.315 L2.00817933,37 C2.00817933,29.775 8.85317933,27.583 15.0231793,27.072 C15.0621793,27.589 15.4811793,28 16.0081793,28 L20.0081793,28 C20.5611793,28 21.0081793,27.552 21.0081793,27 L21.0081793,25.802 L29.2251793,23.976 C29.6831793,23.875 30.0081793,23.469 30.0081793,23 L30.0081793,17 C30.0081793,16.531 29.6831793,16.125 29.2251793,16.024 L29.2251793,16.024 Z"></path> </g> </g></g>
+      <text x="288" y="166" fill="#ffffff" font-size="11" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Data Firehose</text>
+      <text x="288" y="178" fill="#b6bec9" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">stream · transform · land</text>
 
-      <rect x="404" y="120" width="152" height="80" rx="6" fill="rgba(245,245,245,0.06)" stroke="rgba(245,245,245,0.20)" stroke-width="1"/>
-      <rect x="412" y="126" width="28" height="12" rx="2" fill="transparent" stroke="rgba(245,245,245,0.30)" stroke-width="0.8"/>
-      <text x="426" y="135" fill="rgba(245,245,245,0.65)" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">VIRT</text>
-      <svg x="524" y="126" width="24" height="24" viewBox="0 0 24 24" fill="#f5f5f5" aria-hidden="true">
-        <path d="M14.124 16.8529a.1615.1615 0 1 1 .1576.1614.1577.1577 0 0 1-.1576-.1614zm-5.607-.1576a.1614.1614 0 1 0 0 .3228.1614.1614 0 0 0 0-.3228zm10.1341-.6648v1.9869c-.031.5788-.524 1.0237-1.1029.9954h-.3843a5.0596 5.0596 0 0 1-1.1298 1.7178.3192.3192 0 0 0 0 .465l.2382.2191a.3036.3036 0 0 1 .0385.4304c-1.126 1.3835-2.9669 2.1521-5.0498 2.1521a6.575 6.575 0 0 1-4.8192-1.8985c-.0029-.0032-.0059-.0063-.0087-.0096a.6302.6302 0 0 1 .0548-.8896c.137-.1265.1371-.3462 0-.4727a4.944 4.944 0 0 1-1.126-1.714h-.3497c-.5797.0284-1.0737-.416-1.1068-.9954v-1.9869c.0351-.5779.5286-1.02 1.1068-.9915h.2728a5.7648 5.7648 0 0 1 2.0791-3.0936c-.4227-1.0991-1.1529-3.2551-1.226-5.0075C6.0229 4.4705 6.2189.078 7.8253.001c1.6064-.0768 1.3719 4.0275 1.0991 6.6946a32.732 32.732 0 0 0-.123 4.4503 6.994 6.994 0 0 1 2.4826-.4304 7.2414 7.2414 0 0 1 1.7371.2075z"/>
-      </svg>
-      <text x="480" y="166" fill="#f5f5f5" font-size="11" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Trino</text>
-      <text x="480" y="178" fill="#bfc0c0" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">SQL · data virtualization</text>
+      <rect x="404" y="120" width="152" height="80" rx="6" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.20)" stroke-width="1"/>
+      <g transform="translate(524,126) scale(0.375)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g fill="#8C4FFF"> <rect x="0" y="0" width="64" height="64"></rect> </g> <path d="M30.6919231,23.1561559 C33.6551407,23.1561559 35.5337621,23.7464926 36.1138949,24.1516646 C35.5337621,24.5568366 33.6551407,25.1471732 30.6919231,25.1471732 C27.7287055,25.1471732 25.8500841,24.5568366 25.2699512,24.1516646 C25.8500841,23.7464926 27.7287055,23.1561559 30.6919231,23.1561559 L30.6919231,23.1561559 Z M29.9624691,28.6672918 C29.9624691,28.3208547 30.2479954,28.0401213 30.597084,28.0401213 C30.6999945,28.0401213 30.7928158,28.0699866 30.8785745,28.1117979 L30.3166024,29.2217901 C30.1097724,29.1182572 29.9624691,28.9111914 29.9624691,28.6672918 L29.9624691,28.6672918 Z M34.7689957,35.2237116 C34.4047732,35.496481 33.2364361,36.0977682 31.1963864,36.0977682 C28.7386411,36.0977682 27.0870281,35.617933 26.6279665,35.320276 L25.4505491,26.4174422 C26.924591,26.9261472 28.8849354,27.1381905 30.6919231,27.1381905 C32.4989107,27.1381905 34.4592552,26.9261472 35.9332971,26.4174422 L35.4974407,29.7185489 C34.4199071,29.3143724 33.1304988,28.7608696 31.8844744,28.174515 C31.6816801,27.6648146 31.1832704,27.3024494 30.597084,27.3024494 C29.8343354,27.3024494 29.2148545,27.9146872 29.2148545,28.6672918 C29.2148545,29.4198963 29.8343354,30.0311386 30.597084,30.0311386 C30.7373248,30.0311386 30.871512,30.0042599 30.9986368,29.965435 C32.7864548,30.8205769 34.1757468,31.4029495 35.2260395,31.7643191 L34.7689957,35.2237116 Z M23.1340535,24.2800852 L24.640381,35.6826411 C24.7725504,38.0210909 30.5335216,38.0887855 31.1963864,38.0887855 C34.3472644,38.0887855 36.5790101,36.8702829 36.7364027,35.7284345 L37.1924375,32.2770061 C37.3942229,32.3038848 37.5778475,32.321804 37.7332222,32.321804 C38.5433903,32.321804 38.768381,31.9823355 38.9429253,31.7185257 C39.1174696,31.4547159 39.1689248,31.1321711 39.0882107,30.8086308 C38.9409074,30.2163032 38.2064088,29.499537 37.6242581,29.0107422 L38.2497927,24.2800852 L38.2437391,24.2790897 C38.2467659,24.2362828 38.258873,24.1964625 38.258873,24.1516646 C38.258873,21.9476085 34.1828093,21.1651387 30.6919231,21.1651387 C27.2010369,21.1651387 23.1249732,21.9476085 23.1249732,24.1516646 C23.1249732,24.1964625 23.1370803,24.2362828 23.1401071,24.2790897 L23.1340535,24.2800852 Z M30.4669324,17.0785757 C37.4214639,17.0785757 43.0785156,22.6603926 43.0785156,29.5224337 C43.0785156,36.3834792 37.4214639,41.9662916 30.4669324,41.9662916 C23.5134099,41.9662916 17.8553493,36.3834792 17.8553493,29.5224337 C17.8553493,22.6603926 23.5134099,17.0785757 30.4669324,17.0785757 L30.4669324,17.0785757 Z M12.02678,33.1112423 L12.02678,35.1022596 L16.9765741,35.1022596 C19.1941949,40.2988147 24.4053011,43.9573089 30.4669324,43.9573089 C38.5333011,43.9573089 45.0963689,37.4815252 45.0963689,29.5224337 C45.0963689,21.5623466 38.5333011,15.0875585 30.4669324,15.0875585 C23.9462395,15.0875585 18.4122768,19.3204612 16.5296196,25.1471732 L12.02678,25.1471732 L12.02678,27.1381905 L16.0544152,27.1381905 C15.9444422,27.7892531 15.8758352,28.4522619 15.8576745,29.1292078 L9,29.1292078 L9,31.120225 L15.932335,31.120225 C16.0090135,31.8011529 16.1452186,32.4621707 16.3147183,33.1112423 L12.02678,33.1112423 Z M52.3424802,51.3788258 C51.5222228,52.1881743 50.1006452,52.1941473 49.2813967,51.3857943 L41.9434731,44.14546 C43.0986942,43.2624439 44.1510047,42.2569801 45.068119,41.1370329 L52.3515605,48.3584526 C52.7591669,48.7606381 52.9831486,49.2972172 52.9821431,49.8676437 C52.9811308,50.4390656 52.7541223,50.9746493 52.3424802,51.3788258 L52.3424802,51.3788258 Z M53.7802007,46.9517989 L46.2606703,39.4954392 C48.136265,36.6124462 49.2390218,33.194865 49.2390218,29.5224337 C49.2390218,19.3085151 40.817511,11 30.4669324,11 C23.155241,11 16.4579858,15.2378803 13.4029559,21.7962912 L15.2361757,22.6275409 C17.9622955,16.7729546 23.9411948,12.9910173 30.4669324,12.9910173 C39.7056738,12.9910173 47.2211685,20.4065611 47.2211685,29.5224337 C47.2211685,38.6373107 39.7056738,46.0528546 30.4669324,46.0528546 C24.4143814,46.0528546 18.8128206,42.814465 15.8465763,37.5999907 L14.0870082,38.5745937 C17.4094037,44.4152429 23.6859364,48.0438718 30.4669324,48.0438718 C34.0566935,48.0438718 37.4012853,47.0274575 40.2555389,45.296268 L47.8557833,52.794439 C48.6437551,53.5719313 49.6910209,54 50.804876,54 C51.9237756,54 52.977095,53.5689448 53.7660757,52.788466 C54.559092,52.0119693 54.9979751,50.9756448 55,49.8706302 C55.0020108,48.7676066 54.5681724,47.7302866 53.7802007,46.9517989 L53.7802007,46.9517989 Z" fill="#FFFFFF"></path> </g></g>
+      <text x="480" y="166" fill="#ffffff" font-size="11" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Amazon Athena</text>
+      <text x="480" y="178" fill="#b6bec9" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">SQL · federated query</text>
 
-      <!-- MinIO focal -->
-      <rect x="404" y="216" width="152" height="80" rx="8" fill="rgba(240,138,89,0.12)" stroke="#f08a59" stroke-width="1.2"/>
-      <rect x="412" y="222" width="36" height="12" rx="2" fill="transparent" stroke="rgba(240,138,89,0.55)" stroke-width="0.8"/>
-      <text x="430" y="231" fill="rgba(240,138,89,0.95)" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">STORE</text>
-      <svg x="524" y="222" width="24" height="24" viewBox="0 0 24 24" fill="#f08a59" aria-hidden="true">
-        <path d="M13.2072.006c-.6216-.0478-1.2.1943-1.6211.582a2.15 2.15 0 0 0-.0938 3.0352l3.4082 3.5507a3.042 3.042 0 0 1-.664 4.6875l-.463.2383V7.2853a15.4198 15.4198 0 0 0-8.0174 10.4862v.0176l6.5487-3.3281v7.621L13.7794 24V13.6817l.8965-.4629a4.4432 4.4432 0 0 0 1.2207-7.0292l-3.371-3.5254a.7489.7489 0 0 1 .037-1.0547.7522.7522 0 0 1 1.0567.0371l.4668.4863-.006.0059 4.0704 4.2441a.0566.0566 0 0 0 .082 0 .06.06 0 0 0 0-.0703l-3.1406-5.1425-.1484.1425.1484-.1445C14.4945.3926 13.8287.0538 13.2072.006Z"/>
-      </svg>
-      <text x="480" y="262" fill="#f08a59" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">MinIO / S3</text>
-      <text x="480" y="276" fill="#f08a59" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" opacity="0.78">Object store · S3-API</text>
+      <!-- S3 focal -->
+      <rect x="404" y="216" width="152" height="80" rx="8" fill="rgba(255,153,0,0.12)" stroke="#ff9900" stroke-width="1.2"/>
+      <g transform="translate(524,222) scale(0.375)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g fill="#7AA116"> <rect x="0" y="0" width="64" height="64"></rect> </g> <g transform="translate(10.999800, 10.000200)" fill="#FFFFFF"> <path d="M36.759,23.948 L36.993,22.131 C39.166,23.385 39.842,24.121 40.037,24.424 C39.713,24.485 38.832,24.509 36.759,23.948 L36.759,23.948 Z M19.5,11 C9.125,11 2.382,8.488 2,6.696 L2,6.511 C2.349,5.392 8.14,2 19.5,2 C30.84,2 36.632,5.381 37,6.505 L37,6.616 C36.724,8.446 29.961,11 19.5,11 L19.5,11 Z M34.818,23.362 C30.053,21.797 23.912,18.979 21.594,17.888 C21.535,16.786 20.628,15.906 19.512,15.906 C18.358,15.906 17.418,16.845 17.418,18 C17.418,19.154 18.358,20.094 19.512,20.094 C19.969,20.094 20.389,19.942 20.733,19.693 C23.132,20.822 29.619,23.798 34.558,25.38 L32.837,38.724 C32.583,40.352 27.919,42 19.497,42 C11.072,42 6.405,40.352 6.155,38.751 L2.435,9.814 C5.945,11.915 12.749,13 19.5,13 C26.25,13 33.054,11.915 36.565,9.815 L34.818,23.362 Z M39,6.5 C39,3.431 30.661,0 19.5,0 C8.339,0 -3.55271368e-15,3.431 -3.55271368e-15,6.5 L-3.55271368e-15,7.043 L4.174,39.033 C4.875,43.516 15.123,44 19.497,44 C23.869,44 34.113,43.516 34.818,39.007 L36.501,25.947 C37.778,26.279 38.812,26.456 39.616,26.455 C40.606,26.455 41.273,26.203 41.697,25.697 C42.047,25.281 42.185,24.756 42.085,24.221 C41.857,23 40.403,21.712 37.37,20.044 L37.27,19.989 L39,7.044 L39,6.5 Z"></path> </g> </g></g>
+      <text x="480" y="262" fill="#ff9900" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Amazon S3</text>
+      <text x="480" y="276" fill="#ff9900" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" opacity="0.78">data lake · Iceberg</text>
 
-      <rect x="596" y="120" width="152" height="80" rx="6" fill="rgba(245,245,245,0.06)" stroke="rgba(245,245,245,0.20)" stroke-width="1"/>
-      <rect x="604" y="126" width="32" height="12" rx="2" fill="transparent" stroke="rgba(245,245,245,0.30)" stroke-width="0.8"/>
-      <text x="620" y="135" fill="rgba(245,245,245,0.65)" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">ANLZ</text>
-      <svg x="716" y="126" width="24" height="24" viewBox="0 0 24 24" fill="#f5f5f5" aria-hidden="true">
-        <path d="M7.157 22.201A1.784 1.799 0 0 1 5.374 24a1.784 1.799 0 0 1-1.784-1.799 1.784 1.799 0 0 1 1.784-1.799 1.784 1.799 0 0 1 1.783 1.799zM20.582 1.427a1.415 1.427 0 0 1-1.415 1.428 1.415 1.427 0 0 1-1.416-1.428A1.415 1.427 0 0 1 19.167 0a1.415 1.427 0 0 1 1.415 1.427zM4.992 3.336A1.047 1.056 0 0 1 3.946 4.39a1.047 1.056 0 0 1-1.047-1.055A1.047 1.056 0 0 1 3.946 2.28a1.047 1.056 0 0 1 1.046 1.056zm7.336 1.517c3.769 0 7.06 1.38 8.768 3.424a9.363 9.363 0 0 0-3.393-4.547 9.238 9.238 0 0 0-5.377-1.728A9.238 9.238 0 0 0 6.95 3.73a9.363 9.363 0 0 0-3.394 4.547c1.713-2.04 5.004-3.424 8.772-3.424zm.001 13.295c-3.768 0-7.06-1.381-8.768-3.425a9.363 9.363 0 0 0 3.394 4.547A9.238 9.238 0 0 0 12.33 21a9.238 9.238 0 0 0 5.377-1.729 9.363 9.363 0 0 0 3.393-4.547c-1.712 2.044-5.003 3.425-8.772 3.425z"/>
-      </svg>
-      <text x="672" y="166" fill="#f5f5f5" font-size="11" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Notebooks</text>
-      <text x="672" y="178" fill="#bfc0c0" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">Jupyter · Python · R</text>
+      <rect x="596" y="120" width="152" height="80" rx="6" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.20)" stroke-width="1"/>
+      <g transform="translate(716,126) scale(0.375)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g fill="#01A88D"> <rect x="0" y="0" width="64" height="64"></rect> </g> <path d="M43.00075,19.999906 C43.00075,20.5509101 42.5527398,20.999906 42.0007273,20.999906 C41.4487147,20.999906 41.0007046,20.5509101 41.0007046,19.999906 C41.0007046,19.4489072 41.4487147,18.999906 42.0007273,18.999906 C42.5527398,18.999906 43.00075,19.4489072 43.00075,19.999906 L43.00075,19.999906 Z M39.0006591,27.9999301 C39.5526717,27.9999301 40.0006818,28.4489313 40.0006818,28.9999301 C40.0006818,29.5509343 39.5526717,29.9999301 39.0006591,29.9999301 C38.4486466,29.9999301 38.0006364,29.5509343 38.0006364,28.9999301 C38.0006364,28.4489313 38.4486466,27.9999301 39.0006591,27.9999301 L39.0006591,27.9999301 Z M39.0006591,42.9999678 C39.0006591,42.448969 39.4486693,41.9999678 40.0006818,41.9999678 C40.5526944,41.9999678 41.0007046,42.448969 41.0007046,42.9999678 C41.0007046,43.5509719 40.5526944,43.9999678 40.0006818,43.9999678 C39.4486693,43.9999678 39.0006591,43.5509719 39.0006591,42.9999678 L39.0006591,42.9999678 Z M46.0588195,32.9679408 C46.0588195,33.519945 45.6098093,33.9679408 45.0587968,33.9679408 C44.5067842,33.9679408 44.0587741,33.519945 44.0587741,32.9679408 C44.0587741,32.416942 44.5067842,31.9679408 45.0587968,31.9679408 C45.6098093,31.9679408 46.0588195,32.416942 46.0588195,32.9679408 L46.0588195,32.9679408 Z M51.9999545,35.3669499 L48.0218641,33.3369445 C48.0358645,33.2149442 48.058865,33.0949438 48.058865,32.9679435 C48.058865,31.313939 46.7128344,29.9679354 45.0587968,29.9679354 C43.4037592,29.9679354 42.0587286,31.313939 42.0587286,32.9679435 C42.0587286,34.6229479 43.4037592,35.9679516 45.0587968,35.9679516 C45.8628151,35.9679516 46.5918316,35.6459507 47.1318439,35.1279493 L50.9379304,37.0709545 L47.485852,39.1429601 C47.1858451,39.3229606 47.0008409,39.6489614 47.0008409,39.9999624 L47.0008409,46.4339797 L37.9566354,51.8599943 L33.0005227,49.3819876 L33.0005227,43.9999731 L37.1856179,43.9999731 C37.5996273,45.1619763 38.6986522,45.9999785 40.0006818,45.9999785 C41.6547194,45.9999785 43.00075,44.6539749 43.00075,42.9999704 C43.00075,41.345966 41.6547194,39.9999624 40.0006818,39.9999624 C38.6986522,39.9999624 37.5996273,40.8379646 37.1856179,41.9999678 L33.0005227,41.9999678 L33.0005227,31.9999409 C33.0005227,31.68494 32.8525194,31.3889392 32.6005136,31.1999387 L28.6004227,28.1999307 L27.4003955,29.799935 L31.0004773,32.4999422 L31.0004773,36.4509528 L27.0003864,38.9959597 L27.0003864,33.9809462 C27.0003864,33.6009452 26.7843815,33.2529443 26.4433737,33.0849438 L23.0002955,31.3799392 L23.0002955,27.565929 L27.5153981,24.8569217 C27.8154049,24.6769212 28.0004091,24.3509203 28.0004091,23.9999194 L28.0004091,18.999906 L26.0003636,18.999906 L26.0003636,23.4339179 L22.0002727,25.8339243 L18.0001818,23.4339179 L18.0001818,16.5878995 L21.00025,14.921895 L21.00025,20.9999113 L23.0002955,20.9999113 L23.0002955,13.810892 L26.0243642,12.1298875 L31.0004773,14.6158942 L31.0014773,23.9999194 C31.0014773,24.3369203 31.1714812,24.6509211 31.4524876,24.8359216 L36.1995954,27.95193 C36.0765926,28.2799309 36.0005909,28.6299318 36.0005909,28.9999328 C36.0005909,30.6539373 37.3466215,31.9999409 39.0006591,31.9999409 C40.6546967,31.9999409 42.0007273,30.6539373 42.0007273,28.9999328 C42.0007273,27.3459284 40.6546967,25.9999248 39.0006591,25.9999248 C38.4526467,25.9999248 37.9456351,26.1579252 37.5036251,26.4159259 L33.0015228,23.4599179 L33.0005227,14.6178942 L37.9286347,12.1538876 L46.0008182,17.534902 L46.0008182,18.999906 L44.8157913,18.999906 C44.4017819,17.8379028 43.3027569,16.9999006 42.0007273,16.9999006 C40.3466897,16.9999006 39.0006591,18.3459042 39.0006591,19.9999086 C39.0006591,21.6539131 40.3466897,22.9999167 42.0007273,22.9999167 C43.3027569,22.9999167 44.4017819,22.1619145 44.8157913,20.9999113 L46.0008182,20.9999113 L46.0008182,23.9999194 C46.0008182,24.3789204 46.2148231,24.7249213 46.5538308,24.8949218 L51.9999545,27.6179291 L51.9999545,35.3669499 Z M26.9773858,51.8479942 L23.7743131,50.1019895 L27.5153981,47.8569835 L26.4853747,46.1429789 L21.7382668,48.9909865 L17.0001591,46.4059796 L17.0001591,40.5659639 L21.5152617,37.8569566 L20.4852383,36.142952 L16.0001364,38.8339593 L12.0000455,36.4339528 L12.0000455,32.5659424 L16.5151481,29.8569351 L15.4851247,28.1429305 L12.0000455,30.2339361 L12.0000455,27.6179291 L16.9561581,25.1399225 L21.00025,27.565929 L21.00025,31.3819392 L17.5531717,33.1049439 L18.447192,34.8949487 L22.0032728,33.1169439 L25.0003409,34.6019479 L25.0003409,40.2689631 L20.4632378,43.1559709 L21.5372622,44.8439754 L31.0004773,38.8219592 L31.0004773,49.4339877 L26.9773858,51.8479942 Z M53.4469874,26.1049251 L48.0008637,23.3819177 L48.0008637,16.9999006 C48.0008637,16.6658997 47.8338599,16.3538989 47.5558535,16.1678984 L38.555649,10.1678822 C38.2576422,9.9698817 37.8756335,9.94488163 37.5536262,10.1048821 L32.0035001,12.8798895 L26.4473738,10.1048821 C26.1503671,9.95788167 25.8033592,9.96588169 25.5153526,10.1258821 L16.5151481,15.1258956 C16.1971408,15.301896 16.0001364,15.6368969 16.0001364,15.9998979 L16.0001364,23.3819177 L10.5530126,26.1049251 C10.2140049,26.2749255 10,26.6209264 10,26.9999275 L10,36.9999543 C10,37.3509553 10.1850042,37.6769561 10.485011,37.8569566 L15.0001136,40.5659639 L15.0001136,46.9999812 C15.0001136,47.3659822 15.2001182,47.7029831 15.5211255,47.8779836 L26.5213755,53.8779997 C26.6713789,53.9589999 26.8353826,54 27.0003864,54 C27.1793904,54 27.3563945,53.9519999 27.5153981,53.8569996 L32.044501,51.1399923 L37.5536262,53.8949997 C37.6946294,53.9649999 37.8476329,54 38.0006364,54 C38.1796404,54 38.3566445,53.9519999 38.5156481,53.8569996 L48.5158754,47.8569835 C48.8158822,47.676983 49.0008864,47.3509821 49.0008864,46.9999812 L49.0008864,40.5659639 L53.514989,37.8569566 C53.8149958,37.6769561 54,37.3509553 54,36.9999543 L54,26.9999275 C54,26.6209264 53.7859951,26.2749255 53.4469874,26.1049251 L53.4469874,26.1049251 Z" fill="#FFFFFF"></path> </g></g>
+      <text x="672" y="166" fill="#ffffff" font-size="11" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">SageMaker AI</text>
+      <text x="672" y="178" fill="#b6bec9" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">notebooks · Python · R</text>
 
-      <rect x="790" y="120" width="152" height="80" rx="6" fill="rgba(245,245,245,0.06)" stroke="rgba(245,245,245,0.20)" stroke-width="1"/>
-      <rect x="798" y="126" width="28" height="12" rx="2" fill="transparent" stroke="rgba(245,245,245,0.30)" stroke-width="0.8"/>
-      <text x="812" y="135" fill="rgba(245,245,245,0.65)" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">DASH</text>
-      <svg x="910" y="126" width="24" height="24" viewBox="0 0 24 24" fill="#f5f5f5" aria-hidden="true">
-        <path d="M6.168 6.045C2.603 6.045 0 8.579 0 12.014c0 3.434 2.603 5.941 6.168 5.941 2.184 0 3.888-1.026 5.775-3.078 1.53 2.033 4.037 3.136 5.89 3.078 3.566 0 6.167-2.503 6.167-5.941 0-3.438-2.601-5.97-6.168-5.97-2.864 0-5.138 2.425-5.771 3.173-.76-.9-1.674-1.665-2.682-2.274-1.019-.588-2.084-.898-3.211-.898z"/>
-      </svg>
-      <text x="866" y="166" fill="#f5f5f5" font-size="11" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Superset</text>
-      <text x="866" y="178" fill="#bfc0c0" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">Dashboards · reports</text>
+      <rect x="790" y="120" width="152" height="80" rx="6" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.20)" stroke-width="1"/>
+      <g transform="translate(910,126) scale(0.375)" aria-hidden="true"><g clip-path="url(#clip0_177_21683)"> <rect width="64" height="64" fill="#DD344C"/> <path d="M48.998 19.8897L34.001 11.2339C32.7666 10.5225 31.2334 10.5215 29.999 11.2339L15.002 19.8897C13.7676 20.6021 13 21.9302 13 23.3565V40.6666C13 42.0918 13.7676 43.4205 15.002 44.1334L29.999 52.7891C30.6162 53.1451 31.3076 53.3233 32 53.3233C32.6914 53.3233 33.3838 53.1451 34.001 52.7891L48.9981 44.1334C50.2324 43.4205 51 42.0919 51 40.6666V23.3565C51 21.9302 50.2324 20.6021 48.998 19.8897ZM16.0019 21.6221L30.999 12.9664C31.3076 12.7881 31.6543 12.6988 32 12.6988C32.3457 12.6988 32.6924 12.7881 33.001 12.9664L47.998 21.6221C48.6162 21.9786 49 22.6431 49 23.3565V26.3474L32.9687 35.3472V26.9678C32.9687 26.6129 32.7803 26.2843 32.4736 26.1051C32.168 25.9254 31.7871 25.9215 31.4795 26.0958L15 35.3471V23.3565C15 22.6431 15.3838 21.9786 16.0019 21.6221ZM47.998 42.4009L33.001 51.0567C32.3838 51.4131 31.6162 51.4131 30.999 51.0567L16.002 42.4009C15.3838 42.0445 15 41.3799 15 40.6665V37.6405L30.9688 28.6758V37.0552C30.9688 37.4102 31.1572 37.7388 31.4639 37.918C31.6191 38.0093 31.794 38.0552 31.9688 38.0552C32.1377 38.0552 32.3066 38.0127 32.458 37.9273L49 28.6408V40.6665C49 41.3799 48.6162 42.0445 47.998 42.4009Z" fill="white"/> </g> <defs> <clipPath> <rect width="64" height="64" fill="white"/> </clipPath> </defs></g>
+      <text x="866" y="166" fill="#ffffff" font-size="11" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Quick Sight</text>
+      <text x="866" y="178" fill="#b6bec9" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">dashboards · reports</text>
 
-      <!-- Kubernetes label -->
-      <svg x="212" y="348" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#bfc0c0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M19.875 6.27a2.225 2.225 0 0 1 1.125 1.948v7.284c0 .809-.443 1.555-1.158 1.948l-6.75 3.98a2.5 2.5 0 0 1-2.184 0l-6.75-3.98a2.225 2.225 0 0 1-1.158-1.948v-7.284c0-.809.443-1.555 1.158-1.948l6.75-3.98a2.5 2.5 0 0 1 2.184 0z"/>
-        <circle cx="12" cy="12" r="3"/>
-        <line x1="12" y1="3" x2="12" y2="9"/><line x1="12" y1="15" x2="12" y2="21"/>
-        <line x1="20.2" y1="7.5" x2="14.9" y2="10.5"/><line x1="9.1" y1="13.5" x2="3.8" y2="16.5"/>
-        <line x1="20.2" y1="16.5" x2="14.9" y2="13.5"/><line x1="9.1" y1="10.5" x2="3.8" y2="7.5"/>
-      </svg>
-      <text x="236" y="362" fill="#bfc0c0" font-size="8" font-weight="500" font-family="'Geist', sans-serif">Kubernetes</text>
+      <!-- AWS Cloud label -->
+      <g transform="translate(212,348) scale(0.5)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <rect fill="#FFFFFF" x="0" y="0" width="40" height="40"></rect> <path d="M28.993,27.9952689 L11.487,27.9762689 C9.121,27.9742689 7.154,26.1292689 7.012,23.7752689 C7.004,23.6522689 7,23.5262689 7,23.3972689 C7,20.2992689 9.091,19.2872689 10.337,18.9592689 C10.577,18.8962689 10.735,18.6662689 10.707,18.4192689 C10.676,18.1492689 10.659,17.8752689 10.659,17.5962689 C10.659,15.1322689 12.308,12.4822689 14.415,11.5632689 C15.359,11.1502689 16.232,10.9862689 17.023,10.9862689 C19.276,10.9862689 20.867,12.3152689 21.561,13.0332689 C22.329,13.8262689 22.927,14.8382689 23.34,16.0422689 C23.4,16.2192689 23.555,16.3472689 23.74,16.3742689 C23.918,16.4012689 24.109,16.3232689 24.219,16.1712689 C24.807,15.3502689 25.766,14.9822689 26.659,15.2392689 C27.782,15.5602689 28.516,16.7272689 28.62,18.3072689 C28.578,18.5762689 28.759,18.8292689 29.027,18.8772689 C30.222,19.0892689 33,19.9572689 33,23.4402689 C33,27.5892689 29.114,27.9822689 28.993,27.9952689 M29.594,17.9742689 C29.379,16.0672689 28.4,14.6962689 26.934,14.2782689 C25.899,13.9822689 24.811,14.2452689 23.989,14.9502689 C23.553,13.9362689 22.979,13.0602689 22.28,12.3382689 C20.023,10.0052689 16.933,9.37226889 14.014,10.6462689 C11.531,11.7302689 9.659,14.7182689 9.659,17.5962689 C9.659,17.7702689 9.665,17.9432689 9.676,18.1142689 C8.319,18.5732689 6,19.8752689 6,23.3972689 C6,23.5492689 6.004,23.6962689 6.014,23.8382689 C6.188,26.7162689 8.593,28.9732689 11.486,28.9762689 L29.034,28.9932689 C29.084,28.9892689 34,28.5192689 34,23.4402689 C34,19.5022689 31.003,18.3142689 29.594,17.9742689" fill="#232F3E"></path> </g></g>
+      <text x="236" y="362" fill="#b6bec9" font-size="8" font-weight="500" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">AWS Cloud</text>
 
       <!-- Cross-cutting bar #1 — Identity (Security row, y=388..428, color=#d97a78 lightened red for dark mode) -->
-      <svg x="16" y="398" width="20" height="20" viewBox="0 0 24 24" fill="#d97a78" aria-hidden="true">
-        <path d="M12.0001.0036C5.376.0036 0 5.3796 0 12.0036c0 6.6276 5.376 12 12.0001 12 6.6275 0 12-5.3724 12-12 0-6.624-5.3725-12-12-12zm5.532 17.0496c-.612 0-3.972-3.144-5.532-5.046C10.452 13.9356 7.092 17.0796 6.48 17.0796c-1.788 0-2.052-3.564-2.052-5.076 0-1.512.264-5.076 2.052-5.076.612 0 3.972 3.144 5.5201 5.046 1.548-1.932 4.908-5.046 5.532-5.046 1.788 0 2.052 3.564 2.052 5.076 0 1.512-.264 5.076-2.052 5.076z"/>
-      </svg>
-      <text x="484" y="410" fill="#d97a78" font-size="10" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Identity Manager</text>
-      <text x="484" y="422" fill="#bfc0c0" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">(Keycloak · LDAP · OIDC)</text>
+      <g transform="translate(16,398) scale(0.3125)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g fill="#DD344C"> <rect x="0" y="0" width="64" height="64"></rect> </g> <path d="M52.032,49.2350148 L41.44,38.6430148 C41.134,38.3370148 41.059,37.8670148 41.257,37.4820148 C42.617,34.8180148 42.117,31.6140148 40.013,29.5090148 C38.498,27.9940148 36.408,27.2730148 34.274,27.5300148 C32.141,27.7870148 30.261,29.0200148 29.114,30.9110148 C27.77,33.1270148 27.83,35.9690148 29.266,38.1530148 C31.253,41.1750148 35.031,42.1550148 38.247,40.4870148 C38.634,40.2860148 39.106,40.3580148 39.415,40.6680148 L41.208,42.4600148 C41.415,42.6670148 41.521,42.9550148 41.498,43.2470148 L41.336,45.2590148 L43.347,45.0970148 C43.636,45.0680148 43.928,45.1790148 44.135,45.3870148 L45.11,46.3620148 C45.317,46.5690148 45.424,46.8580148 45.4,47.1500148 L45.238,49.1610148 L47.25,49.0000148 C47.54,48.9680148 47.83,49.0820148 48.037,49.2890148 L49.5,50.7520148 L52.011,51.1380148 L52.032,49.2350148 Z M54.036062,48.8360148 L54,52.3110148 C53.997,52.6010148 53.868,52.8760148 53.647,53.0630148 C53.466,53.2180148 53.235,53.3010148 53,53.3010148 C52.949,53.3010148 52.898,53.2970148 52.848,53.2890148 L48.873,52.6790148 C48.662,52.6470148 48.468,52.5480148 48.317,52.3980148 L46.949,51.0300148 L44.227,51.2490148 C43.937,51.2720148 43.647,51.1660148 43.44,50.9590148 C43.233,50.7520148 43.127,50.4640148 43.15,50.1720148 L43.369,47.4500148 L43.047,47.1280148 L40.325,47.3460148 C40.027,47.3720148 39.746,47.2640148 39.538,47.0570148 C39.331,46.8500148 39.224,46.5620148 39.248,46.2700148 L39.467,43.5480148 L38.496,42.5770148 C34.555,44.2300148 29.977,42.8770148 27.595,39.2520148 C25.737,36.4270148 25.662,32.7460148 27.403,29.8740148 C28.871,27.4540148 31.288,25.8760148 34.035,25.5440148 C36.776,25.2140148 39.475,26.1420148 41.428,28.0950148 C43.972,30.6400148 44.702,34.4270148 43.346,37.7210148 L53.743,48.1180148 C53.933,48.3080148 54.039,48.5670148 54.036062,48.8360148 L54.036062,48.8360148 Z M36.258,33.4130148 C35.981,33.1370148 35.619,33.0000148 35.258,33.0000148 C34.895,33.0000148 34.533,33.1370148 34.257,33.4130148 C33.706,33.9640148 33.706,34.8620148 34.257,35.4140148 C34.809,35.9650148 35.707,35.9650148 36.258,35.4130148 C36.809,34.8620148 36.809,33.9640148 36.258,33.4130148 L36.258,33.4130148 Z M37.672,31.9990148 C38.317,32.6440148 38.672,33.5020148 38.672,34.4140148 C38.672,35.3250148 38.317,36.1830148 37.672,36.8280148 L37.672,36.8280148 C37.006,37.4930148 36.132,37.8260148 35.258,37.8260148 C34.383,37.8260148 33.509,37.4930148 32.843,36.8280148 C31.512,35.4960148 31.512,33.3310148 32.843,32.0000148 C34.172,30.6680148 36.339,30.6660148 37.672,31.9990148 L37.672,31.9990148 Z M19.002,36.9930148 L24,36.9930148 L24,38.9930148 L19,38.9930148 C14.116,38.9830148 10.256,35.7670148 10.019,31.5140148 C10.009,31.3250148 10,31.1310148 10,30.9360148 C10,25.7340148 13.52,23.7230148 15.71,22.9770148 C15.701,22.7920148 15.696,22.6070148 15.696,22.4190148 C15.696,18.0790148 18.675,13.5850148 22.626,11.9650148 C27.233,10.0620148 32.115,11.0080148 35.682,14.4980148 C36.569,15.3550148 37.69,16.6160148 38.521,18.1530148 C39.39,17.4480148 40.367,17.1020148 41.476,17.1020148 C43.805,17.1020148 46.413,18.9790148 46.928,23.0760148 C51.622,24.2170148 54,26.9040148 54,31.0690148 C54,34.1540148 52.814,38.0320148 47.165,38.9800148 L46.835,37.0070148 C50.358,36.4160148 52,34.5290148 52,31.0690148 C52,27.6880148 50.031,25.7200148 45.803,24.8760148 C45.358,24.7870148 45.028,24.4080148 45.002,23.9540148 C44.834,21.0970148 43.384,19.1020148 41.476,19.1020148 C40.517,19.1020148 39.76,19.5370148 39.019,20.5130148 C38.799,20.8040148 38.44,20.9560148 38.074,20.8980148 C37.712,20.8440148 37.409,20.5960148 37.283,20.2530148 C36.618,18.4300148 35.287,16.8970148 34.288,15.9320148 C31.307,13.0140148 27.234,12.2240148 23.386,13.8150148 C20.194,15.1240148 17.696,18.9020148 17.696,22.4190148 C17.696,22.8110148 17.719,23.1910148 17.767,23.5780148 C17.771,23.6130148 17.774,23.6480148 17.775,23.6830148 L17.775,23.6850148 L17.775,23.6860148 L17.775,23.6870148 L17.775,23.6880148 L17.775,23.6890148 L17.775,23.6900148 L17.775,23.6910148 L17.775,23.6920148 L17.775,23.6930148 L17.775,23.6950148 L17.775,23.6960148 L17.775,23.6980148 L17.775,23.7000148 L17.775,23.7010148 L17.775,23.7020148 L17.775,23.7040148 C17.775,24.2030148 17.41,24.6200148 16.932,24.6960148 C15.05,25.1880148 12,26.6480148 12,30.9360148 C12,31.0950148 12.009,31.2550148 12.016,31.4060148 C12.218,35.0250148 15.765,36.9860148 19.002,36.9930148 L19.002,36.9930148 Z" fill="#FFFFFF"></path> </g></g>
+      <text x="484" y="410" fill="#d97a78" font-size="10" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Identity &amp; Access</text>
+      <text x="484" y="422" fill="#b6bec9" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">(IAM Identity Center · Lake Formation)</text>
 
       <!-- Cross-cutting bar #2 — Monitoring (Observability row, y=432..472) -->
-      <rect x="4" y="432" width="960" height="40" rx="6" fill="rgba(245,245,245,0.06)" stroke="rgba(245,245,245,0.18)" stroke-width="0.8"/>
-      <svg x="16" y="442" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#bfc0c0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M3 3v18h18"/>
-        <path d="M7 14l3-3 2 2 5-5"/>
-        <path d="M14 8h3v3"/>
-      </svg>
-      <text x="484" y="454" fill="#f5f5f5" font-size="10" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Monitoring &amp; Observability</text>
-      <text x="484" y="466" fill="#bfc0c0" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">(Prometheus · Grafana · Loki)</text>
+      <rect x="4" y="432" width="960" height="40" rx="6" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.18)" stroke-width="0.8"/>
+      <g transform="translate(16,442) scale(0.3125)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g fill="#E7157B"> <rect x="0" y="0" width="64" height="64"></rect> </g> <path d="M42.184,39.3811216 C42.184,37.1282698 40.347,35.2954581 38.089,35.2954581 C35.831,35.2954581 33.995,37.1282698 33.995,39.3811216 C33.995,41.6339735 35.831,43.4667852 38.089,43.4667852 C40.347,43.4667852 42.184,41.6339735 42.184,39.3811216 L42.184,39.3811216 Z M44.184,39.3811216 C44.184,42.7344587 41.45,45.4622252 38.089,45.4622252 C34.729,45.4622252 31.995,42.7344587 31.995,39.3811216 C31.995,36.0277846 34.729,33.3000181 38.089,33.3000181 C41.45,33.3000181 44.184,36.0277846 44.184,39.3811216 L44.184,39.3811216 Z M50.743,49.6157337 L45.846,45.2157884 C45.524,45.6398194 45.17,46.0379097 44.785,46.4050706 L49.671,50.8030205 C49.997,51.0953525 50.505,51.0714072 50.802,50.744155 C51.096,50.4179006 51.07,49.9110588 50.743,49.6157337 L50.743,49.6157337 Z M38.089,47.091502 C42.351,47.091502 45.818,43.6324067 45.818,39.3811216 C45.818,35.1298366 42.351,31.6707413 38.089,31.6707413 C33.829,31.6707413 30.362,35.1298366 30.362,39.3811216 C30.362,43.6324067 33.829,47.091502 38.089,47.091502 L38.089,47.091502 Z M52.081,48.1341194 C53.227,49.1667597 53.319,50.9357173 52.288,52.0801021 C51.735,52.6897091 50.971,53 50.205,53 C49.538,53 48.868,52.7655358 48.333,52.2866302 L43.172,47.6412457 C41.691,48.5521641 39.954,49.0869421 38.089,49.0869421 C32.725,49.0869421 28.362,44.7328919 28.362,39.3811216 C28.362,34.0293514 32.725,29.6753012 38.089,29.6753012 C43.454,29.6753012 47.818,34.0293514 47.818,39.3811216 C47.818,40.8447769 47.482,42.2286146 46.897,43.4757646 L52.081,48.1341194 Z M17.697,23.5383254 C17.697,23.9394088 17.72,24.3384968 17.767,24.722619 C17.802,25.0059715 17.713,25.2913194 17.524,25.5048315 C17.375,25.6714508 17.177,25.7831954 16.961,25.8241019 C15.084,26.3079961 12,27.7716514 12,32.1566309 C12,35.4800363 13.836,37.3138458 15.377,38.2676661 C16.049,38.6897017 16.64,38.9052092 17.138,38.9101978 L26.127,38.9101978 L26.127,40.9056378 L17.127,40.9056378 C16.243,40.8966584 15.3,40.577388 14.317,39.9588015 C12.708,38.9640747 10,36.6214281 10,32.1566309 C10,26.8876715 13.526,24.8642953 15.71,24.117003 C15.702,23.924443 15.697,23.7308853 15.697,23.5383254 C15.697,19.1603299 18.673,14.6217015 22.621,12.9784566 C27.232,11.0508615 32.119,12.0066773 35.687,15.5336176 C36.734,16.5672555 37.604,17.8084192 38.285,19.2361566 C39.203,18.5507229 40.304,18.1745825 41.459,18.1745825 C43.874,18.1745825 46.587,19.9684831 47.122,23.8895228 C50.58,24.7216213 54,27.27778 54,32.2174919 C54,35.1078868 52.864,37.4565197 50.713,39.0089721 L49.541,37.3926656 C51.173,36.2143583 52,34.4733368 52,32.2174919 C52,27.2388689 47.811,25.9997007 46.01,25.6983892 C45.743,25.6534918 45.505,25.5018384 45.351,25.2793468 C45.208,25.071821 45.15,24.8184001 45.186,24.5709656 C44.931,21.5319104 43.141,20.1700225 41.459,20.1700225 C40.402,20.1700225 39.409,20.6858438 38.734,21.5857873 C38.514,21.8791169 38.156,22.0297727 37.786,21.9748981 C37.422,21.9210212 37.118,21.6715912 36.993,21.3263801 C36.359,19.5743837 35.446,18.1027466 34.281,16.9513777 C32.851,15.5396039 28.933,12.506535 23.391,14.81925 C20.198,16.1492108 17.697,19.9784603 17.697,23.5383254 L17.697,23.5383254 Z" fill="#FFFFFF"></path> </g></g>
+      <text x="484" y="454" fill="#ffffff" font-size="10" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Monitoring &amp; Observability</text>
+      <text x="484" y="466" fill="#b6bec9" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">(CloudWatch · Managed Grafana · X-Ray)</text>
 
       <!-- Legend (pushed down past 2nd crosscut) -->
-      <line x1="40" y1="496" x2="952" y2="496" stroke="rgba(245,245,245,0.18)" stroke-width="0.8"/>
-      <text x="40" y="512" fill="#bfc0c0" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.18em">LEGEND</text>
+      <line x1="40" y1="496" x2="952" y2="496" stroke="rgba(255,255,255,0.18)" stroke-width="0.8"/>
+      <text x="40" y="512" fill="#b6bec9" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.18em">LEGEND</text>
 
-      <rect x="40"  y="520" width="20" height="12" rx="3" fill="transparent" stroke="rgba(245,245,245,0.30)" stroke-width="1" stroke-dasharray="4,3"/>
-      <text x="68"  y="530" fill="#bfc0c0" font-size="8.5" font-family="'Geist', sans-serif">External · outside cluster</text>
+      <rect x="40"  y="520" width="20" height="12" rx="3" fill="transparent" stroke="rgba(255,255,255,0.30)" stroke-width="1" stroke-dasharray="4,3"/>
+      <text x="68"  y="530" fill="#b6bec9" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">External · outside AWS</text>
 
-      <rect x="232" y="520" width="20" height="12" rx="3" fill="rgba(245,245,245,0.06)" stroke="rgba(245,245,245,0.20)" stroke-width="1"/>
-      <text x="260" y="530" fill="#bfc0c0" font-size="8.5" font-family="'Geist', sans-serif">Kubernetes boundary</text>
+      <rect x="232" y="520" width="20" height="12" rx="3" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.20)" stroke-width="1"/>
+      <text x="260" y="530" fill="#b6bec9" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">AWS Cloud boundary</text>
 
-      <rect x="404" y="520" width="20" height="12" rx="3" fill="rgba(240,138,89,0.14)" stroke="#f08a59" stroke-width="1.2"/>
-      <text x="432" y="530" fill="#bfc0c0" font-size="8.5" font-family="'Geist', sans-serif">Focal (storage hub)</text>
+      <rect x="404" y="520" width="20" height="12" rx="3" fill="rgba(255,153,0,0.14)" stroke="#ff9900" stroke-width="1.2"/>
+      <text x="432" y="530" fill="#b6bec9" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Focal (storage hub)</text>
 
-      <line x1="552" y1="522" x2="572" y2="522" stroke="#f08a59" stroke-width="1.2" marker-end="url(#arrow-accent)"/>
-      <text x="580" y="527" fill="#bfc0c0" font-size="8.5" font-family="'Geist', sans-serif">Primary path</text>
+      <line x1="552" y1="522" x2="572" y2="522" stroke="#ff9900" stroke-width="1.2" marker-end="url(#arrow-accent)"/>
+      <text x="580" y="527" fill="#b6bec9" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Primary path</text>
 
-      <line x1="680" y1="522" x2="700" y2="522" stroke="#bfc0c0" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrow-sm)"/>
-      <text x="708" y="527" fill="#bfc0c0" font-size="8.5" font-family="'Geist', sans-serif">Orchestration trigger</text>
+      <line x1="680" y1="522" x2="700" y2="522" stroke="#b6bec9" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrow-sm)"/>
+      <text x="708" y="527" fill="#b6bec9" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Orchestration trigger</text>
 
-      <line x1="836" y1="522" x2="856" y2="522" stroke="rgba(245,245,245,0.30)" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrow-dim)"/>
-      <text x="864" y="527" fill="#bfc0c0" font-size="8.5" font-family="'Geist', sans-serif">Query read-back</text>
+      <line x1="836" y1="522" x2="856" y2="522" stroke="rgba(255,255,255,0.30)" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrow-dim)"/>
+      <text x="864" y="527" fill="#b6bec9" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Query read-back</text>
     </svg>
   </div>
 </body>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AWS budget bridge · Waterfall chart · dark</title>
+  <style>
+  @font-face { font-family: 'Amazon Ember'; font-weight: 400; font-style: normal; src: local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_Rg.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 400; font-style: italic; src: local('Amazon Ember Italic'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_RgIt.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 600; font-style: normal; src: local('Amazon Ember Medium'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_SBd.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 700; font-style: normal; src: local('Amazon Ember Bold'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_Bd.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember Mono'; font-weight: 400; font-style: normal; src: local('Amazon Ember Mono'), url('fonts/woff2/AmazonEmberMono_W_Rg.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember Mono'; font-weight: 700; font-style: normal; src: local('Amazon Ember Mono Bold'), local('Amazon Ember Mono'), url('fonts/woff2/AmazonEmberMono_W_Bd.woff2') format('woff2'); }
+</style>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --color-paper:  #161e2d;
+      --color-ink:    #ffffff;
+      --color-muted:  #b6bec9;
+      --color-accent: #ff9900;
+      --font-sans:    'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --font-serif:   'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --font-mono:    'Amazon Ember Mono', ui-monospace, monospace;
+    }
+    body { font-family: var(--font-sans); background: var(--color-paper); color: var(--color-ink); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 3rem 2rem; }
+    .frame { max-width: 1200px; width: 100%; }
+    .eyebrow { font-family: var(--font-mono); font-size: 0.66rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--color-muted); margin-bottom: 0.5rem; }
+    h1 { font-family: var(--font-serif); font-size: clamp(1.5rem, 2.4vw + 0.75rem, 2rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 1.5rem; }
+    .diagram-container { width: 100%; overflow-x: auto; }
+    svg { width: 100%; min-width: 760px; display: block; }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <p class="eyebrow">Waterfall · AWS Diagram Design</p>
+    <h1>AWS budget bridge · FY25 → FY26</h1>
+
+    <div class="diagram-container">
+    <svg viewBox="0 0 1000 500" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="waterfall-dark-title waterfall-dark-desc">
+      <title id="waterfall-dark-title">AWS budget bridge · FY25 → FY26</title>
+      <desc id="waterfall-dark-desc">Waterfall chart bridging the FY25 AWS budget of 240 thousand dollars a month to the FY26 plan of 236, through EC2 fleet growth, Compute Savings Plans, new Amazon Bedrock workloads, and S3 storage tiering — the largest saving.</desc>
+      <defs>
+        <pattern id="dots" width="22" height="22" patternUnits="userSpaceOnUse">
+          <circle cx="1" cy="1" r="0.9" fill="rgba(255,255,255,0.10)"/>
+        </pattern>
+      </defs>
+
+      <rect width="100%" height="100%" fill="#161e2d"/>
+      <rect width="100%" height="100%" fill="url(#dots)" opacity="0.55"/>
+
+      <!-- Y-axis rotated label -->
+      <text transform="rotate(-90 24 230)" x="24" y="230" fill="#b6bec9" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.14em" text-anchor="middle">AWS SPEND · $K / MO</text>
+
+      <!-- Horizontal gridlines (drawn before bars). Domain 0–400, y = 420 − 0.95·v -->
+      <line x1="80" y1="325" x2="960" y2="325" stroke="rgba(255,255,255,0.08)" stroke-width="0.8"/>
+      <line x1="80" y1="230" x2="960" y2="230" stroke="rgba(255,255,255,0.08)" stroke-width="0.8"/>
+      <line x1="80" y1="135" x2="960" y2="135" stroke="rgba(255,255,255,0.08)" stroke-width="0.8"/>
+      <line x1="80" y1="40"  x2="960" y2="40"  stroke="rgba(255,255,255,0.06)" stroke-width="0.8"/>
+
+      <!-- Y-axis line and X-axis baseline (the domain floor: totals anchor here) -->
+      <line x1="80" y1="40" x2="80" y2="420" stroke="rgba(255,255,255,0.20)" stroke-width="1"/>
+      <line x1="80" y1="420" x2="960" y2="420" stroke="rgba(255,255,255,0.20)" stroke-width="1"/>
+
+      <!-- Y-axis tick labels -->
+      <text x="72" y="329" fill="#b6bec9" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="end">100</text>
+      <text x="72" y="234" fill="#b6bec9" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="end">200</text>
+      <text x="72" y="139" fill="#b6bec9" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="end">300</text>
+      <text x="72" y="44"  fill="#b6bec9" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="end">400</text>
+
+      <!-- ─── CARRIES (drawn before bars; each transports the running total across a gap at its own level) ─── -->
+      <line x1="208" y1="192" x2="256" y2="192" stroke="rgba(255,255,255,0.40)" stroke-width="1" data-carry="240"/>
+      <line x1="352" y1="131" x2="400" y2="131" stroke="rgba(255,255,255,0.40)" stroke-width="1" data-carry="304"/>
+      <line x1="496" y1="167" x2="544" y2="167" stroke="rgba(255,255,255,0.40)" stroke-width="1" data-carry="266"/>
+      <line x1="640" y1="146" x2="688" y2="146" stroke="rgba(255,255,255,0.40)" stroke-width="1" data-carry="288"/>
+      <line x1="784" y1="196" x2="832" y2="196" stroke="rgba(255,255,255,0.40)" stroke-width="1" data-carry="236"/>
+
+      <!-- ─── BARS (width=96, pitch=144). Running total: 240 → 304 → 266 → 288 → 236 → 236 ─── -->
+      <!-- FY25 base: total 240, anchored at the floor. y(240)=192, h=228 -->
+      <rect x="112" y="192" width="96" height="228" fill="#161e2d"/>
+      <rect x="112" y="192" width="96" height="228" fill="rgba(255,255,255,0.08)" stroke="#ffffff" stroke-width="1" data-role="total" data-value="240" data-name="FY25 base"/>
+      <text x="160" y="184" fill="#b6bec9" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">240</text>
+
+      <!-- EC2 growth: +64 rises 240 → 304. y(304)=131, h=61 -->
+      <rect x="256" y="131" width="96" height="61" fill="#161e2d"/>
+      <rect x="256" y="131" width="96" height="61" fill="rgba(182,190,201,0.15)" stroke="#b6bec9" stroke-width="1" data-role="delta" data-value="+64" data-name="EC2 growth"/>
+      <text x="304" y="123" fill="#b6bec9" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">+64</text>
+
+      <!-- Savings Plans: −38 falls 304 → 266. Hollow = decrease. y=131, h=36 -->
+      <rect x="400" y="131" width="96" height="36" fill="#161e2d"/>
+      <rect x="400" y="131" width="96" height="36" fill="#161e2d" stroke="#b6bec9" stroke-width="1" data-role="delta" data-value="-38" data-name="Savings Plans"/>
+      <text x="448" y="179" fill="#b6bec9" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">−38</text>
+
+      <!-- Bedrock: +22 rises 266 → 288. y(288)=146, h=21 -->
+      <rect x="544" y="146" width="96" height="21" fill="#161e2d"/>
+      <rect x="544" y="146" width="96" height="21" fill="rgba(182,190,201,0.15)" stroke="#b6bec9" stroke-width="1" data-role="delta" data-value="+22" data-name="Bedrock"/>
+      <text x="592" y="138" fill="#b6bec9" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">+22</text>
+
+      <!-- S3 tiering FOCAL: −52 falls 288 → 236 — the largest saving, the story. y=146, h=50 -->
+      <rect x="688" y="146" width="96" height="50" fill="#161e2d"/>
+      <rect x="688" y="146" width="96" height="50" fill="rgba(255,153,0,0.14)" stroke="#ff9900" stroke-width="1" data-role="delta" data-value="-52" data-name="S3 tiering"/>
+      <text x="736" y="208" fill="#ff9900" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" font-weight="600">−52</text>
+
+      <!-- FY26 plan: total 236 = 240 + 64 − 38 + 22 − 52, anchored at the floor. y(236)=196, h=224 -->
+      <rect x="832" y="196" width="96" height="224" fill="#161e2d"/>
+      <rect x="832" y="196" width="96" height="224" fill="rgba(255,255,255,0.08)" stroke="#ffffff" stroke-width="1" data-role="total" data-value="236" data-name="FY26 plan"/>
+      <text x="880" y="188" fill="#b6bec9" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">236</text>
+
+      <!-- X-axis category labels -->
+      <text x="160" y="440" fill="#ffffff" font-size="11" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">FY25 base</text>
+      <text x="304" y="440" fill="#ffffff" font-size="11" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">EC2 growth</text>
+      <text x="448" y="440" fill="#ffffff" font-size="11" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Savings Plans</text>
+      <text x="592" y="440" fill="#ffffff" font-size="11" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Bedrock</text>
+      <text x="736" y="440" fill="#ff9900" font-size="11" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">S3 tiering</text>
+      <text x="880" y="440" fill="#ffffff" font-size="11" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">FY26 plan</text>
+
+      <!-- Legend -->
+      <line x1="40" y1="462" x2="960" y2="462" stroke="rgba(255,255,255,0.10)" stroke-width="0.8"/>
+      <text x="40" y="478" fill="#b6bec9" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.18em">LEGEND</text>
+
+      <rect x="40" y="488" width="16" height="10" rx="2" fill="rgba(255,255,255,0.08)" stroke="#ffffff" stroke-width="1"/>
+      <text x="64" y="497" fill="#b6bec9" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Start / end total</text>
+
+      <rect x="200" y="488" width="16" height="10" rx="2" fill="rgba(182,190,201,0.15)" stroke="#b6bec9" stroke-width="1"/>
+      <text x="224" y="497" fill="#b6bec9" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Cost added</text>
+
+      <rect x="340" y="488" width="16" height="10" rx="2" fill="#161e2d" stroke="#b6bec9" stroke-width="1"/>
+      <text x="364" y="497" fill="#b6bec9" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Cost removed</text>
+
+      <rect x="480" y="488" width="16" height="10" rx="2" fill="rgba(255,153,0,0.14)" stroke="#ff9900" stroke-width="1"/>
+      <text x="504" y="497" fill="#b6bec9" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">S3 tiering · largest saving</text>
+    </svg>
+    </div>
+  </div>
+</body>
+</html>

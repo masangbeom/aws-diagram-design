@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Orders API ALB 5xx · Root-cause fishbone</title>
+  <style>
+  @font-face { font-family: 'Amazon Ember'; font-weight: 400; font-style: normal; src: local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_Rg.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 400; font-style: italic; src: local('Amazon Ember Italic'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_RgIt.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 600; font-style: normal; src: local('Amazon Ember Medium'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_SBd.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 700; font-style: normal; src: local('Amazon Ember Bold'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_Bd.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember Mono'; font-weight: 400; font-style: normal; src: local('Amazon Ember Mono'), url('fonts/woff2/AmazonEmberMono_W_Rg.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember Mono'; font-weight: 700; font-style: normal; src: local('Amazon Ember Mono Bold'), local('Amazon Ember Mono'), url('fonts/woff2/AmazonEmberMono_W_Bd.woff2') format('woff2'); }
+</style>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --color-paper:   #ffffff;
+      --color-ink:     #232f3e;
+      --color-muted:   #545b64;
+      --color-accent:  #ec7211;
+      --font-sans:     'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --font-serif:    'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --font-mono:     'Amazon Ember Mono', ui-monospace, monospace;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--color-paper);
+      color: var(--color-ink);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 2rem;
+    }
+
+    .frame { max-width: 1320px; width: 100%; }
+
+    .eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(1.5rem, 2.4vw + 0.75rem, 2rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      color: var(--color-ink);
+      margin-bottom: 1.5rem;
+    }
+
+    svg { width: 100%; min-width: 1080px; display: block; }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <p class="eyebrow">Fishbone · AWS Diagram Design</p>
+    <h1>Orders API ALB 5xx · Root-cause fishbone</h1>
+
+    <svg viewBox="-40 0 1480 600" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="fishbone-title fishbone-desc">
+      <title id="fishbone-title">Orders API ALB 5xx · Root-cause fishbone</title>
+      <desc id="fishbone-desc">Fishbone diagram tracing elevated Application Load Balancer 5xx errors on an Amazon ECS orders service to five candidate cause categories, with a missing Amazon Aurora index under Data confirmed as the root cause.</desc>
+      <defs>
+        <marker id="fishbone-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#232f3e"/>
+        </marker>
+      </defs>
+
+      <rect x="-40" y="0" width="1480" height="600" fill="#ffffff"/>
+
+      <!-- Spine -->
+      <line x1="120" y1="320" x2="1200" y2="320" stroke="#232f3e" stroke-width="1.2" marker-end="url(#fishbone-arrow)"/>
+
+      <!-- Bones -->
+      <line x1="880" y1="320" x2="784" y2="152" stroke="#232f3e" stroke-width="1.2"/>
+      <line x1="720" y1="320" x2="624" y2="488" stroke="#ec7211" stroke-width="1.2"/>
+      <line x1="560" y1="320" x2="464" y2="152" stroke="#232f3e" stroke-width="1.2"/>
+      <line x1="400" y1="320" x2="304" y2="488" stroke="#232f3e" stroke-width="1.2"/>
+      <line x1="240" y1="320" x2="144" y2="152" stroke="#232f3e" stroke-width="1.2"/>
+
+      <!-- Sub-cause ticks + labels · Deploy -->
+      <line x1="848" y1="264" x2="816" y2="264" stroke="#545b64" stroke-width="1"/>
+      <text x="812" y="260" fill="#545b64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="end">CodeDeploy canary skipped</text>
+      <line x1="816" y1="208" x2="784" y2="208" stroke="#545b64" stroke-width="1"/>
+      <text x="780" y="204" fill="#545b64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="end">task definition drift</text>
+
+      <!-- Sub-cause ticks + labels · Data (root cause) -->
+      <line x1="688" y1="376" x2="656" y2="376" stroke="#545b64" stroke-width="1"/>
+      <text x="652" y="388" fill="#545b64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="end">Aurora index missing on created_at</text>
+      <line x1="656" y1="432" x2="624" y2="432" stroke="#545b64" stroke-width="1"/>
+      <text x="620" y="444" fill="#545b64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="end">orders table 3x forecast</text>
+
+      <!-- Sub-cause ticks + labels · Runtime -->
+      <line x1="528" y1="264" x2="496" y2="264" stroke="#545b64" stroke-width="1"/>
+      <text x="492" y="260" fill="#545b64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="end">DB pool cap 20 per task</text>
+      <line x1="496" y1="208" x2="464" y2="208" stroke="#545b64" stroke-width="1"/>
+      <text x="460" y="204" fill="#545b64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="end">Fargate CPU at 85%</text>
+
+      <!-- Sub-cause ticks + labels · Observability -->
+      <line x1="368" y1="376" x2="336" y2="376" stroke="#545b64" stroke-width="1"/>
+      <text x="332" y="388" fill="#545b64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="end">no CloudWatch p99 alarm</text>
+      <line x1="336" y1="432" x2="304" y2="432" stroke="#545b64" stroke-width="1"/>
+      <text x="300" y="444" fill="#545b64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="end">metrics at 5-min period</text>
+
+      <!-- Sub-cause tick + label · People -->
+      <line x1="192" y1="236" x2="160" y2="236" stroke="#545b64" stroke-width="1"/>
+      <text x="156" y="232" fill="#545b64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="end">on-call handover mid-incident</text>
+
+      <!-- Category tag boxes -->
+      <rect x="724" y="116" width="120" height="28" rx="4" fill="#ffffff" stroke="#232f3e" stroke-width="0.8"/>
+      <text x="784" y="134" fill="#232f3e" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">DEPLOY</text>
+
+      <rect x="564" y="496" width="120" height="28" rx="4" fill="rgba(236,114,17,0.08)" stroke="#ec7211" stroke-width="0.8"/>
+      <text x="624" y="514" fill="#232f3e" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">DATA</text>
+
+      <rect x="404" y="116" width="120" height="28" rx="4" fill="#ffffff" stroke="#232f3e" stroke-width="0.8"/>
+      <text x="464" y="134" fill="#232f3e" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">ECS / FARGATE</text>
+
+      <rect x="244" y="496" width="120" height="28" rx="4" fill="#ffffff" stroke="#232f3e" stroke-width="0.8"/>
+      <text x="304" y="514" fill="#232f3e" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">OBSERVABILITY</text>
+
+      <rect x="84" y="116" width="120" height="28" rx="4" fill="#ffffff" stroke="#232f3e" stroke-width="0.8"/>
+      <text x="144" y="134" fill="#232f3e" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">PEOPLE</text>
+
+      <!-- Effect box -->
+      <rect x="1200" y="272" width="200" height="96" rx="6" fill="#ffffff"/>
+      <rect x="1200" y="272" width="200" height="96" rx="6" fill="rgba(236,114,17,0.08)" stroke="#ec7211" stroke-width="1"/>
+      <rect x="1208" y="280" width="48" height="12" rx="2" fill="transparent" stroke="rgba(236,114,17,0.40)" stroke-width="0.8"/>
+      <text x="1232" y="289" fill="#232f3e" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">EFFECT</text>
+      <g transform="translate(1376,280) scale(0.25)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g fill="#8C4FFF"> <rect x="0" y="0" width="64" height="64"></rect> </g> <path d="M23.5,42 C17.71,42 13,37.29 13,31.5 C13,25.71 17.71,21 23.5,21 C29.29,21 34,25.71 34,31.5 C34,37.29 29.29,42 23.5,42 M48,48 C48,49.654 46.654,51 45,51 C43.346,51 42,49.654 42,48 C42,46.346 43.346,45 45,45 C46.654,45 48,46.346 48,48 M45,13 C46.654,13 48,14.346 48,16 C48,17.654 46.654,19 45,19 C43.346,19 42,17.654 42,16 C42,14.346 43.346,13 45,13 M48,29 C49.654,29 51,30.346 51,32 C51,33.654 49.654,35 48,35 C46.346,35 45,33.654 45,32 C45,30.346 46.346,29 48,29 M35.901,33 L43.102,33 C43.565,35.279 45.586,37 48,37 C50.757,37 53,34.757 53,32 C53,29.243 50.757,27 48,27 C45.586,27 43.565,28.721 43.102,31 L35.975,31 C35.916,29.541 35.614,28.146 35.096,26.856 L42.799,20.467 C43.466,20.797 44.206,21 45,21 C47.757,21 50,18.757 50,16 C50,13.243 47.757,11 45,11 C42.243,11 40,13.243 40,16 C40,17.224 40.459,18.331 41.191,19.201 L34.172,25.024 C31.977,21.42 28.021,19 23.5,19 C16.607,19 11,24.607 11,31.5 C11,38.393 16.607,44 23.5,44 C27.743,44 31.493,41.871 33.754,38.629 L41.191,44.799 C40.459,45.669 40,46.776 40,48 C40,50.757 42.243,53 45,53 C47.757,53 50,50.757 50,48 C50,45.243 47.757,43 45,43 C44.206,43 43.466,43.203 42.799,43.533 L34.77,36.873 C35.344,35.673 35.736,34.373 35.901,33" fill="#FFFFFF"></path> </g></g>
+      <text x="1300" y="324" fill="#232f3e" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">ALB 5xx · orders API</text>
+      <text x="1300" y="340" fill="#232f3e" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">9% of requests, 40 min</text>
+
+      <!-- Legend -->
+      <line x1="40" y1="560" x2="1400" y2="560" stroke="rgba(35,47,62,0.10)" stroke-width="0.8"/>
+      <text x="40" y="576" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.18em">LEGEND</text>
+
+      <line x1="40" y1="588" x2="56" y2="588" stroke="#232f3e" stroke-width="1.2"/>
+      <text x="64" y="592" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Category (bone)</text>
+
+      <line x1="260" y1="588" x2="276" y2="588" stroke="#ec7211" stroke-width="1.2"/>
+      <text x="284" y="592" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Confirmed root cause</text>
+
+      <line x1="480" y1="588" x2="496" y2="588" stroke="#545b64" stroke-width="1"/>
+      <text x="504" y="592" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Sub-cause</text>
+
+      <rect x="700" y="584" width="16" height="8" fill="rgba(236,114,17,0.08)" stroke="#ec7211" stroke-width="1"/>
+      <text x="724" y="592" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Observed effect</text>
+    </svg>
+  </div>
+</body>
+</html>

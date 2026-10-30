@@ -5,15 +5,14 @@ Use for editorial asides — the "italic pointer" that marks a detail without co
 ## Grammar
 
 ```svg
-<!-- 1. Italic Amazon Ember text -->
-<text x="904" y="36" fill="#232F3E" font-size="14" font-style="italic"
-      font-weight="400"
-      font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="end">no imports, no configuration</text>
+<!-- 1. Italic text: the `callout` role from style-guide.md -->
+<text x="904" y="36" fill="{ink}" font-size="14" font-style="italic"
+      font-family="{callout}" text-anchor="end">no imports, no configuration</text>
 <!-- 2. Dashed Bézier leader -->
 <path d="M 820 44 Q 700 84 520 216" fill="none"
-      stroke="rgba(35,47,62,0.40)" stroke-width="1" stroke-dasharray="4,3"/>
+      stroke="{ink @ 0.40}" stroke-width="1" stroke-dasharray="4,3"/>
 <!-- 3. Landing dot -->
-<circle cx="520" cy="216" r="2" fill="#232F3E"/>
+<circle cx="520" cy="216" r="2" fill="{ink}"/>
 ```
 
 ## Rules
@@ -26,9 +25,9 @@ Use for editorial asides — the "italic pointer" that marks a detail without co
 
 | Intent | Text | Leader |
 |---|---|---|
-| Neutral aside | ink `#232F3E` | `rgba(35,47,62,0.40)` |
-| Focal / accent | coral `#EC7211` | `rgba(255,153,0,0.50)` |
-| Tertiary (muted) | muted `#545B64` | `rgba(35,47,62,0.30)` |
+| Neutral aside | `ink` | `ink @ 0.40` |
+| Focal / accent | `accent` | `accent @ 0.50` |
+| Tertiary (muted) | `muted` | `ink @ 0.30` |
 
 ## Anti-patterns
 - Solid arrow leader (reads as a flow arrow).

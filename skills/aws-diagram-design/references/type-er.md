@@ -1,13 +1,15 @@
 # ER / Data Model
 
-**Best for:** database schemas, API resource relationships, domain models.
+**Best for:** conceptual and logical data models, API resource relationships, domain models — anything where the story is *entities and cardinality*.
+
+**Not for the physical schema.** ER is entity-level: relationship lines join *boxes* and carry cardinality at each end. When the point is real tables with SQL types, constraint chips, indexes, and foreign keys that anchor **column to column**, use [`type-db-schema.md`](type-db-schema.md) instead.
 
 ## Layout conventions
 - Each entity is a two-section box:
-  - **Header**: type tag (`ENTITY`) + entity name in Amazon Ember.
-  - **Body**: field list in Amazon Ember Mono, one per line. PK prefixed with `#`, FK prefixed with `→`.
+  - **Header**: type tag (`ENTITY`) + entity name in the `node-name` role.
+  - **Body**: field list in the `sublabel` role, one per line. PK prefixed with `#`, FK prefixed with `→`.
 - Relationships: lines between entities with cardinality at each end:
-  - `1`, `N`, `0..1`, `1..*` in Amazon Ember Mono, 8px, placed 10–12px from the entity edge.
+  - `1`, `N`, `0..1`, `1..*` in the `arrow-label` role, 8px, placed 10–12px from the entity edge.
   - Optional relationship label ("has", "belongs to") centered on the line.
 - Group related entities close; lay out so most relationships are straight lines, not tangles.
 - Coral on the aggregate root or central entity of the model.

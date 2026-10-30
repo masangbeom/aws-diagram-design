@@ -3,25 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Content site · Architecture</title>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <title>Serverless content site · Architecture</title>
+  <style>
+  @font-face { font-family: 'Amazon Ember'; font-weight: 400; font-style: normal; src: local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_Rg.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 400; font-style: italic; src: local('Amazon Ember Italic'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_RgIt.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 600; font-style: normal; src: local('Amazon Ember Medium'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_SBd.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 700; font-style: normal; src: local('Amazon Ember Bold'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_Bd.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember Mono'; font-weight: 400; font-style: normal; src: local('Amazon Ember Mono'), url('fonts/woff2/AmazonEmberMono_W_Rg.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember Mono'; font-weight: 700; font-style: normal; src: local('Amazon Ember Mono Bold'), local('Amazon Ember Mono'), url('fonts/woff2/AmazonEmberMono_W_Bd.woff2') format('woff2'); }
+</style>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --color-paper: #f5f5f5; --color-paper-2: #ececec;
-      --color-ink: #2d3142; --color-muted: #4f5d75; --color-soft: #7a8399;
-      --color-rule: rgba(45,49,66,0.12);
-      --color-accent: #eb6c36; --color-accent-tint: rgba(235,108,54,0.08);
-      --color-link: #2e5aa8;
-      --font-sans: 'Geist', system-ui, sans-serif;
-      --font-serif: 'Instrument Serif', serif;
-      --font-mono: 'Geist Mono', ui-monospace, monospace;
+      --color-paper: #ffffff; --color-paper-2: #f2f3f3;
+      --color-ink: #232f3e; --color-muted: #545b64; --color-soft: #687078;
+      --color-rule: rgba(35,47,62,0.12);
+      --color-accent: #ec7211; --color-accent-tint: rgba(236,114,17,0.08);
+      --color-link: #0972d3;
+      --font-sans: 'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --font-serif: 'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --font-mono: 'Amazon Ember Mono', ui-monospace, monospace;
     }
     body { font-family: var(--font-sans); background: var(--color-paper); min-height: 100vh; padding: 3rem 2rem; color: var(--color-ink); }
     .container { max-width: 1200px; margin: 0 auto; }
     .header { margin-bottom: 2.5rem; }
     .header-eyebrow { font-family: var(--font-mono); font-size: 0.66rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--color-muted); margin-bottom: 0.75rem; }
-    h1 { font-family: var(--font-serif); font-size: clamp(1.75rem, 3vw + 1rem, 2.5rem); font-weight: 400; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 0.5rem; }
+    h1 { font-family: var(--font-serif); font-size: clamp(1.75rem, 3vw + 1rem, 2.5rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 0.5rem; }
     .subtitle { font-size: 1rem; line-height: 1.55; color: var(--color-muted); max-width: 58ch; }
     .diagram-container { background: var(--color-paper-2); border-radius: 8px; border: 1px solid var(--color-rule); padding: 1.5rem; overflow-x: auto; }
     svg { width: 100%; min-width: 900px; display: block; }
@@ -29,164 +36,160 @@
     @media (max-width: 820px) { .cards { grid-template-columns: 1fr; } }
     .card { background: #fff; border-radius: 6px; border: 1px solid var(--color-rule); padding: 1.25rem; }
     .card .eyebrow { font-family: var(--font-mono); font-size: 0.5rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--color-muted); margin-bottom: 0.5rem; }
-    .card-header { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.875rem; padding-bottom: 0.875rem; border-bottom: 1px solid rgba(45,49,66,0.08); }
+    .card-header { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.875rem; padding-bottom: 0.875rem; border-bottom: 1px solid rgba(35,47,62,0.08); }
     .card-dot { width: 7px; height: 7px; border-radius: 50%; }
     .card-dot.ink { background: var(--color-ink); } .card-dot.muted { background: var(--color-muted); } .card-dot.coral { background: var(--color-accent); }
     .card h3 { font-size: 0.875rem; font-weight: 600; letter-spacing: -0.005em; }
     .card p, .card ul { color: var(--color-muted); font-size: 0.8125rem; line-height: 1.55; list-style: none; }
     .card li { margin-bottom: 0.3rem; padding-left: 0.875rem; position: relative; }
-    .card li::before { content: '—'; position: absolute; left: 0; color: rgba(45,49,66,0.25); font-size: 0.75rem; }
-    .footer { margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid rgba(45,49,66,0.10); font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.06em; color: var(--color-soft); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
+    .card li::before { content: '—'; position: absolute; left: 0; color: rgba(35,47,62,0.25); font-size: 0.75rem; }
+    .footer { margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid rgba(35,47,62,0.10); font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.06em; color: var(--color-soft); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="header">
-      <p class="header-eyebrow">Architecture · Diagram Design</p>
-      <h1>Content site in production</h1>
-      <p class="subtitle">The static-first stack: Cloudflare's edge absorbs most reads, Astro renders MDX on misses, content is checked into the repo.</p>
+      <p class="header-eyebrow">Architecture · AWS Diagram Design</p>
+      <h1>Serverless content site on AWS</h1>
+      <p class="subtitle">The serverless stack: CloudFront absorbs most reads, a Lambda function renders MDX from S3 on misses, and DynamoDB indexes every page.</p>
     </div>
 
     <div class="diagram-container">
       <svg viewBox="0 0 1000 480" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="architecture-full-title architecture-full-desc">
-        <title id="architecture-full-title">Content site in production</title>
-        <desc id="architecture-full-desc">Architecture diagram showing reader requests moving through Cloudflare to an Astro origin, MDX bundle, and content CMS.</desc>
+        <title id="architecture-full-title">Serverless content site on AWS</title>
+        <desc id="architecture-full-desc">Architecture diagram showing reader requests moving through Amazon CloudFront to a Lambda SSR function that reads content from Amazon S3 and page metadata from DynamoDB.</desc>
         <defs>
           <pattern id="dots" width="22" height="22" patternUnits="userSpaceOnUse">
-            <circle cx="1" cy="1" r="0.9" fill="rgba(45,49,66,0.10)"/>
+            <circle cx="1" cy="1" r="0.9" fill="rgba(35,47,62,0.10)"/>
           </pattern>
-          <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#4f5d75"/></marker>
-          <marker id="arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#eb6c36"/></marker>
-          <marker id="arrow-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#2e5aa8"/></marker>
+          <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#545b64"/></marker>
+          <marker id="arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#ec7211"/></marker>
+          <marker id="arrow-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#0972d3"/></marker>
         </defs>
 
-        <rect width="100%" height="100%" fill="#f5f5f5"/>
+        <rect width="100%" height="100%" fill="#ffffff"/>
         <rect width="100%" height="100%" fill="url(#dots)" opacity="0.55"/>
 
         <!-- Zone: Content services (drawn before arrows and nodes) -->
         <rect x="616" y="128" width="164" height="272" rx="8"
-              fill="rgba(45,49,66,0.02)" stroke="rgba(45,49,66,0.10)" stroke-width="0.8"/>
-        <rect x="672" y="132" width="52" height="12" rx="2" fill="#f5f5f5"/>
-        <text x="698" y="141" fill="rgba(45,49,66,0.40)" font-size="7" font-family="'Geist Mono', monospace"
+              fill="rgba(35,47,62,0.02)" stroke="rgba(35,47,62,0.10)" stroke-width="0.8"/>
+        <rect x="672" y="132" width="52" height="12" rx="2" fill="#ffffff"/>
+        <text x="698" y="141" fill="rgba(35,47,62,0.40)" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace"
               text-anchor="middle" letter-spacing="0.14em">CONTENT</text>
 
         <!-- Arrows first (behind boxes) -->
-        <line x1="168" y1="272" x2="220" y2="272" stroke="#2e5aa8" stroke-width="1.2" marker-end="url(#arrow-link)"/>
-        <line x1="364" y1="272" x2="416" y2="272" stroke="#eb6c36" stroke-width="1.4" marker-end="url(#arrow-accent)"/>
-        <path d="M 496,240 H 692 Q 700,240 700,232 V 224"
-              fill="none" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#arrow)"/>
-        <path d="M 496,304 H 692 Q 700,304 700,312 V 320"
-              fill="none" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#arrow)"/>
+        <line x1="168" y1="272" x2="220" y2="272" stroke="#0972d3" stroke-width="1.2" marker-end="url(#arrow-link)"/>
+        <line x1="364" y1="272" x2="416" y2="272" stroke="#ec7211" stroke-width="1.4" marker-end="url(#arrow-accent)"/>
+        <path d="M 576,260 H 692 Q 700,260 700,252 V 224"
+              fill="none" stroke="#545b64" stroke-width="1.2" marker-end="url(#arrow)"/>
+        <path d="M 576,284 H 692 Q 700,284 700,292 V 320"
+              fill="none" stroke="#545b64" stroke-width="1.2" marker-end="url(#arrow)"/>
 
-        <!-- Dashed return: Cloudflare→Reader (cached HTML) -->
-        <path d="M 220,288 H 168" fill="none" stroke="#4f5d75" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
+        <!-- Dashed return: CloudFront→Reader (cached HTML) -->
+        <path d="M 220,288 H 168" fill="none" stroke="#545b64" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
 
         <!-- Arrow labels -->
-        <rect x="172" y="252" width="48" height="12" rx="2" fill="#f5f5f5"/>
-        <text x="196" y="262" fill="#2e5aa8" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">HTTPS</text>
+        <rect x="172" y="252" width="48" height="12" rx="2" fill="#ffffff"/>
+        <text x="196" y="262" fill="#0972d3" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">HTTPS</text>
 
-        <rect x="172" y="278" width="32" height="12" rx="2" fill="#f5f5f5"/>
-        <text x="188" y="287" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">RESP</text>
+        <rect x="172" y="278" width="32" height="12" rx="2" fill="#ffffff"/>
+        <text x="188" y="287" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">RESP</text>
 
-        <rect x="368" y="252" width="48" height="12" rx="2" fill="#f5f5f5"/>
-        <text x="392" y="262" fill="#eb6c36" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">SSR</text>
+        <rect x="368" y="252" width="48" height="12" rx="2" fill="#ffffff"/>
+        <text x="392" y="262" fill="#232f3e" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">ORIGIN</text>
 
-        <rect x="632" y="246" width="60" height="12" rx="2" fill="#f5f5f5"/>
-        <text x="662" y="255" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">READ MDX</text>
+        <rect x="632" y="240" width="60" height="12" rx="2" fill="#ffffff"/>
+        <text x="662" y="249" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">GET MDX</text>
 
-        <rect x="632" y="286" width="44" height="12" rx="2" fill="#f5f5f5"/>
-        <text x="654" y="295" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">QUERY</text>
+        <rect x="632" y="292" width="44" height="12" rx="2" fill="#ffffff"/>
+        <text x="654" y="301" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">QUERY</text>
 
         <!-- Node: Reader -->
-        <rect x="40" y="240" width="128" height="64" rx="6" fill="#f5f5f5"/>
-        <rect x="40" y="240" width="128" height="64" rx="6" fill="rgba(79,93,117,0.10)" stroke="#7a8399" stroke-width="1"/>
-        <rect x="48" y="248" width="28" height="12" rx="2" fill="transparent" stroke="rgba(122,131,153,0.40)" stroke-width="0.8"/>
-        <text x="62" y="257" fill="#7a8399" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">EXT</text>
-        <text x="104" y="276" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Reader</text>
-        <text x="104" y="292" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">Browser</text>
+        <rect x="40" y="240" width="128" height="64" rx="6" fill="#ffffff"/>
+        <rect x="40" y="240" width="128" height="64" rx="6" fill="rgba(84,91,100,0.10)" stroke="#687078" stroke-width="1"/>
+        <rect x="48" y="248" width="28" height="12" rx="2" fill="transparent" stroke="rgba(104,112,120,0.40)" stroke-width="0.8"/>
+        <text x="62" y="257" fill="#687078" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">EXT</text>
+        <text x="104" y="276" fill="#232f3e" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Reader</text>
+        <text x="104" y="292" fill="#545b64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">Browser</text>
 
-        <!-- Node: Cloudflare -->
-        <rect x="220" y="240" width="144" height="64" rx="6" fill="#f5f5f5"/>
-        <rect x="220" y="240" width="144" height="64" rx="6" fill="rgba(45,49,66,0.03)" stroke="rgba(45,49,66,0.30)" stroke-width="1"/>
-        <rect x="228" y="248" width="32" height="12" rx="2" fill="transparent" stroke="rgba(45,49,66,0.22)" stroke-width="0.8"/>
-        <text x="244" y="257" fill="#7a8399" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">EDGE</text>
-        <text x="356" y="300" fill="rgba(45,49,66,0.06)" font-size="32" font-weight="600" font-family="'Geist Mono', monospace" text-anchor="end">01</text>
-        <text x="292" y="276" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Cloudflare</text>
-        <text x="292" y="292" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">Pages · cache</text>
+        <!-- Node: CloudFront -->
+        <rect x="220" y="240" width="144" height="64" rx="6" fill="#ffffff"/>
+        <rect x="220" y="240" width="144" height="64" rx="6" fill="rgba(35,47,62,0.03)" stroke="rgba(35,47,62,0.30)" stroke-width="1"/>
+        <g transform="translate(232,268) scale(0.375)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g fill="#8C4FFF"> <rect x="0" y="0" width="64" height="64"></rect> </g> <path d="M41.5,43.5 C40.397,43.5 39.5,42.603 39.5,41.5 C39.5,40.397 40.397,39.5 41.5,39.5 C42.603,39.5 43.5,40.397 43.5,41.5 C43.5,42.603 42.603,43.5 41.5,43.5 L41.5,43.5 Z M41.5,37.5 C39.294,37.5 37.5,39.294 37.5,41.5 C37.5,43.706 39.294,45.5 41.5,45.5 C43.706,45.5 45.5,43.706 45.5,41.5 C45.5,39.294 43.706,37.5 41.5,37.5 L41.5,37.5 Z M22.5,32.5 C21.397,32.5 20.5,31.603 20.5,30.5 C20.5,29.397 21.397,28.5 22.5,28.5 C23.603,28.5 24.5,29.397 24.5,30.5 C24.5,31.603 23.603,32.5 22.5,32.5 L22.5,32.5 Z M22.5,26.5 C20.294,26.5 18.5,28.294 18.5,30.5 C18.5,32.706 20.294,34.5 22.5,34.5 C24.706,34.5 26.5,32.706 26.5,30.5 C26.5,28.294 24.706,26.5 22.5,26.5 L22.5,26.5 Z M45.389,47.124 C45.168,46.607 44.936,46.094 44.685,45.591 L42.896,46.486 C43.17,47.035 43.42,47.599 43.656,48.165 C42.82,48.762 41.943,49.288 41.028,49.74 C41.384,48.865 41.694,47.975 41.974,47.012 L40.054,46.454 C39.564,48.134 38.985,49.581 38.184,51.133 C36.357,51.698 34.452,52 32.5,52 C29.465,52 26.567,51.314 23.871,49.976 C22.503,46.615 21.838,43.534 21.838,40.559 C21.838,39.267 22.063,38.196 22.322,36.956 C22.386,36.652 22.45,36.343 22.514,36.024 L20.551,35.638 C20.49,35.949 20.427,36.25 20.365,36.545 C20.094,37.838 19.838,39.06 19.838,40.559 C19.838,43.074 20.274,45.644 21.154,48.354 C16.072,44.724 13,38.854 13,32.5 C13,32.389 13.01,32.273 13.012,32.161 C14.642,31.799 16.123,31.614 17.854,31.571 L17.804,29.572 C16.169,29.612 14.694,29.779 13.163,30.084 C14.081,22.683 19.212,16.394 26.323,14.019 C27.873,14.818 29.02,15.524 30.135,16.37 L31.344,14.776 C30.646,14.248 29.934,13.771 29.146,13.299 C30.244,13.108 31.363,13 32.5,13 C35.032,13 37.532,13.494 39.849,14.439 C39.342,14.593 38.82,14.763 38.243,14.971 L38.923,16.852 C40.316,16.349 41.408,16.04 42.571,15.821 C48.399,19.341 52,25.667 52,32.5 C52,38.156 49.605,43.416 45.389,47.124 L45.389,47.124 Z M43.008,13.749 C39.826,11.95 36.192,11 32.5,11 C30.392,11 28.324,11.301 26.357,11.895 C17.723,14.464 11.568,22.23 11.045,31.196 C11.01,31.625 11,32.062 11,32.5 C11,40.444 15.352,47.707 22.354,51.455 C25.459,53.12 28.968,54 32.5,54 C34.892,54 37.229,53.61 39.437,52.843 C41.684,52.086 43.773,50.963 45.646,49.507 C50.955,45.399 54,39.2 54,32.5 C54,24.732 49.787,17.546 43.008,13.749 L43.008,13.749 Z M38.384,37.411 L37.003,38.858 C34.022,36.015 31.047,34.146 27.637,32.975 L28.287,31.083 C31.979,32.351 35.188,34.362 38.384,37.411 L38.384,37.411 Z M38.444,22.364 C41.282,26.692 42.88,31.444 43.193,36.488 L41.197,36.612 C40.905,31.919 39.417,27.495 36.772,23.46 L38.444,22.364 Z M26.451,26.797 L24.773,25.708 C26.316,23.332 27.639,21.758 29.336,20.278 L30.65,21.786 C29.103,23.135 27.886,24.587 26.451,26.797 L26.451,26.797 Z M34.5,16.5 C35.603,16.5 36.5,17.397 36.5,18.5 C36.5,19.603 35.603,20.5 34.5,20.5 C33.397,20.5 32.5,19.603 32.5,18.5 C32.5,17.397 33.397,16.5 34.5,16.5 L34.5,16.5 Z M34.5,22.5 C36.706,22.5 38.5,20.706 38.5,18.5 C38.5,16.294 36.706,14.5 34.5,14.5 C32.294,14.5 30.5,16.294 30.5,18.5 C30.5,20.706 32.294,22.5 34.5,22.5 L34.5,22.5 Z" fill="#FFFFFF"></path> </g></g>
+        <text x="356" y="300" fill="rgba(35,47,62,0.06)" font-size="32" font-weight="600" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="end">01</text>
+        <text x="264" y="276" fill="#232f3e" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">CloudFront</text>
+        <text x="264" y="292" fill="#545b64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace">cache · WAF</text>
 
-        <!-- Node: Astro (focal coral) -->
-        <rect x="416" y="240" width="160" height="64" rx="6" fill="#f5f5f5"/>
-        <rect x="416" y="240" width="160" height="64" rx="6" fill="rgba(235,108,54,0.08)" stroke="#eb6c36" stroke-width="1"/>
-        <rect x="424" y="248" width="32" height="12" rx="2" fill="transparent" stroke="rgba(235,108,54,0.50)" stroke-width="0.8"/>
-        <text x="440" y="257" fill="#eb6c36" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">ORIG</text>
-        <text x="568" y="300" fill="rgba(235,108,54,0.10)" font-size="32" font-weight="600" font-family="'Geist Mono', monospace" text-anchor="end">02</text>
-        <text x="496" y="276" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Astro Origin</text>
-        <text x="496" y="292" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">SSR + MDX</text>
+        <!-- Node: Lambda SSR (focal coral) -->
+        <rect x="416" y="240" width="160" height="64" rx="6" fill="#ffffff"/>
+        <rect x="416" y="240" width="160" height="64" rx="6" fill="rgba(236,114,17,0.08)" stroke="#ec7211" stroke-width="1"/>
+        <g transform="translate(428,268) scale(0.375)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g fill="#ED7100"> <rect x="0" y="0" width="64" height="64"></rect> </g> <path d="M22.6794094,52 L13.5740701,52 L23.8376189,30.41 L28.3997494,39.861 L22.6794094,52 Z M24.7269406,27.667 C24.5606285,27.321 24.2120702,27.103 23.8306478,27.103 L23.8276601,27.103 C23.4452418,27.104 23.0966835,27.325 22.9323632,27.672 L11.0973143,52.569 C10.9499239,52.879 10.9708374,53.243 11.1540795,53.534 C11.3353298,53.824 11.6540117,54 11.9955989,54 L23.309802,54 C23.695208,54 24.0447622,53.777 24.2100784,53.428 L30.4044577,40.284 C30.5329264,40.01 30.5319305,39.692 30.3994783,39.42 L24.7269406,27.667 Z M51.0082382,52 L41.985557,52 L26.9547262,19.578 C26.7914017,19.226 26.4388599,19 26.0524581,19 L20.1279625,19 L20.1349337,12 L31.8146251,12 L46.7747483,44.42 C46.9380728,44.774 47.2906147,45 47.6790082,45 L51.0082382,45 L51.0082382,52 Z M52.0041191,43 L48.3143803,43 L33.354257,10.58 C33.1909326,10.226 32.8383907,10 32.450993,10 L19.1400486,10 C18.5913182,10 18.1451636,10.447 18.1441677,10.999 L18.1362006,19.999 C18.1362006,20.265 18.2407681,20.519 18.4269979,20.707 C18.6142235,20.895 18.8671772,21 19.1310857,21 L25.4170861,21 L40.4479168,53.422 C40.6112413,53.774 40.9627873,54 41.350185,54 L52.0041191,54 C52.5548412,54 53,53.552 53,53 L53,44 C53,43.448 52.5548412,43 52.0041191,43 L52.0041191,43 Z" fill="#FFFFFF"></path> </g></g>
+        <text x="568" y="300" fill="rgba(236,114,17,0.10)" font-size="32" font-weight="600" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="end">02</text>
+        <text x="460" y="276" fill="#232f3e" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">SSR Function</text>
+        <text x="460" y="292" fill="#545b64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace">Lambda · node22</text>
 
-        <!-- Node: MDX Bundle -->
-        <rect x="628" y="160" width="144" height="64" rx="6" fill="#f5f5f5"/>
-        <rect x="628" y="160" width="144" height="64" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
-        <rect x="636" y="168" width="32" height="12" rx="2" fill="transparent" stroke="rgba(45,49,66,0.40)" stroke-width="0.8"/>
-        <text x="652" y="177" fill="#2d3142" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">BUN</text>
-        <text x="700" y="196" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">MDX Bundle</text>
-        <text x="700" y="212" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">src/content/*.mdx</text>
+        <!-- Node: S3 content bucket -->
+        <rect x="628" y="160" width="144" height="64" rx="6" fill="#ffffff"/>
+        <rect x="628" y="160" width="144" height="64" rx="6" fill="#ffffff" stroke="#232f3e" stroke-width="1"/>
+        <g transform="translate(640,188) scale(0.375)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g fill="#7AA116"> <rect x="0" y="0" width="64" height="64"></rect> </g> <g transform="translate(10.999800, 10.000200)" fill="#FFFFFF"> <path d="M36.759,23.948 L36.993,22.131 C39.166,23.385 39.842,24.121 40.037,24.424 C39.713,24.485 38.832,24.509 36.759,23.948 L36.759,23.948 Z M19.5,11 C9.125,11 2.382,8.488 2,6.696 L2,6.511 C2.349,5.392 8.14,2 19.5,2 C30.84,2 36.632,5.381 37,6.505 L37,6.616 C36.724,8.446 29.961,11 19.5,11 L19.5,11 Z M34.818,23.362 C30.053,21.797 23.912,18.979 21.594,17.888 C21.535,16.786 20.628,15.906 19.512,15.906 C18.358,15.906 17.418,16.845 17.418,18 C17.418,19.154 18.358,20.094 19.512,20.094 C19.969,20.094 20.389,19.942 20.733,19.693 C23.132,20.822 29.619,23.798 34.558,25.38 L32.837,38.724 C32.583,40.352 27.919,42 19.497,42 C11.072,42 6.405,40.352 6.155,38.751 L2.435,9.814 C5.945,11.915 12.749,13 19.5,13 C26.25,13 33.054,11.915 36.565,9.815 L34.818,23.362 Z M39,6.5 C39,3.431 30.661,0 19.5,0 C8.339,0 -3.55271368e-15,3.431 -3.55271368e-15,6.5 L-3.55271368e-15,7.043 L4.174,39.033 C4.875,43.516 15.123,44 19.497,44 C23.869,44 34.113,43.516 34.818,39.007 L36.501,25.947 C37.778,26.279 38.812,26.456 39.616,26.455 C40.606,26.455 41.273,26.203 41.697,25.697 C42.047,25.281 42.185,24.756 42.085,24.221 C41.857,23 40.403,21.712 37.37,20.044 L37.27,19.989 L39,7.044 L39,6.5 Z"></path> </g> </g></g>
+        <text x="672" y="196" fill="#232f3e" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">S3 Content</text>
+        <text x="672" y="212" fill="#545b64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace">content/*.mdx</text>
 
-        <!-- Node: Content CMS -->
-        <rect x="628" y="320" width="144" height="64" rx="6" fill="#f5f5f5"/>
-        <rect x="628" y="320" width="144" height="64" rx="6" fill="rgba(45,49,66,0.05)" stroke="#4f5d75" stroke-width="1"/>
-        <rect x="636" y="328" width="28" height="12" rx="2" fill="transparent" stroke="rgba(79,93,117,0.50)" stroke-width="0.8"/>
-        <text x="650" y="337" fill="#4f5d75" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">CMS</text>
-        <text x="700" y="356" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Content CMS</text>
-        <text x="700" y="372" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">assets · og images</text>
+        <!-- Node: DynamoDB -->
+        <rect x="628" y="320" width="144" height="64" rx="6" fill="#ffffff"/>
+        <rect x="628" y="320" width="144" height="64" rx="6" fill="rgba(35,47,62,0.05)" stroke="#545b64" stroke-width="1"/>
+        <g transform="translate(640,348) scale(0.375)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g fill="#C925D1"> <rect x="0" y="0" width="64" height="64"></rect> </g> <path d="M46.5858287,25.2492763 L43.0008475,25.2492763 C42.6728493,25.2492763 42.3658509,25.086523 42.1788519,24.8145936 C41.9918528,24.5416533 41.9488531,24.1939071 42.0648525,23.8835638 L44.5578394,17.162156 L35.6448862,17.162156 L31.5539077,26.2601663 L36.0008843,26.2601663 C36.3218827,26.2601663 36.6238811,26.4158434 36.8128801,26.6806966 C36.9998791,26.943528 37.0518788,27.2821762 36.9488794,27.5904976 L33.2888986,38.6910812 L46.5858287,25.2492763 Z M49.7068123,24.9530855 L31.7079069,43.1491063 C31.5159079,43.3442081 31.2589093,43.4452971 31.0009106,43.4452971 C30.8189116,43.4452971 30.6379125,43.3957635 30.4759134,43.2946744 C30.0809155,43.0480173 29.9049164,42.5597574 30.0529156,42.1149658 L34.6128916,28.2819464 L30.0009159,28.2819464 C29.6609177,28.2819464 29.3449193,28.1070624 29.1599203,27.8189588 C28.9769213,27.5288333 28.9499214,27.1659238 29.0909207,26.8525479 L34.0908944,15.7327574 C34.2528935,15.3718697 34.6078917,15.1403759 35.0008896,15.1403759 L46.0008318,15.1403759 C46.32883,15.1403759 46.6358284,15.3031292 46.8228274,15.5750586 C47.0098265,15.8479989 47.0528262,16.1957451 46.9378268,16.5060883 L44.44384,23.2274962 L48.999816,23.2274962 C49.4038139,23.2274962 49.769812,23.4741534 49.9238111,23.8512154 C50.0788103,24.2292882 49.9928108,24.663971 49.7068123,24.9530855 L49.7068123,24.9530855 Z M41.0008581,44.2196388 C38.2908723,46.1059597 33.3138985,47.1016863 28.5329236,47.1016863 C23.7169489,47.1016863 18.6959753,46.0928181 15.9999895,44.1781923 L16.0009895,47.9943023 C16.0009895,49.6582273 20.7689644,51.9782199 28.5329236,51.9782199 C36.0278842,51.9782199 41.0008581,49.2761108 41.0008581,47.4888572 L41.0008581,44.2196388 Z M43.0648472,40.9504204 C43.0648472,41.1374351 43.0328474,41.3173735 43.0008475,41.4963011 L43.0008475,47.4888572 C43.0008475,51.0795387 36.5108817,54 28.5329236,54 C21.6299599,54 14.6619965,52.1106465 14.0599997,48.4997473 L14.001,48.4997473 L14,43.4452971 L14,30.3037265 L14,16.1512659 L14.001,16.1512659 C14.001,12.1552176 21.4879606,10 28.5329236,10 C32.4739029,10 36.262883,10.6398934 38.9298689,11.755916 L38.163873,13.6240408 C35.7318858,12.6050636 32.2209042,12.0217801 28.5329236,12.0217801 C20.7689644,12.0217801 16.0009895,14.4266875 16.0009895,16.1512659 C16.0009895,17.8758443 20.7689644,20.2807517 28.5329236,20.2807517 C28.7279226,20.2807517 28.9319215,20.2817626 29.1289205,20.2736755 L29.2069201,22.2934338 C28.9819212,22.3025318 28.7579224,22.3025318 28.5329236,22.3025318 C23.7159489,22.3025318 18.6959753,21.2936636 15.9999895,19.3790378 L15.9999895,23.7369848 L16.0009895,23.7369848 L16.0009895,23.7541699 C16.0059895,24.2838763 16.4899869,24.8974866 17.3649823,25.4736939 C19.3469719,26.7615678 22.9149531,27.642053 26.9039322,27.8250241 L26.8129326,29.8447824 C22.6869543,29.6547351 19.0629734,28.7762717 16.7269857,27.4287552 C16.4169873,27.7269678 16.0009895,28.4851353 16.0009895,28.8955567 C16.0009895,30.6201351 20.7689644,33.0250425 28.5329236,33.0250425 C29.2709197,33.0250425 29.9979159,32.9997703 30.6949122,32.9502366 L30.8359115,34.9669623 C30.0919154,35.0205394 29.3169195,35.0468226 28.5329236,35.0468226 C23.7159489,35.0468226 18.6959753,34.0379543 15.9999895,32.1233286 L15.9999895,35.7928594 L16.0009895,35.7928594 C16.0059895,36.339751 16.4899869,36.9533612 17.3649823,37.5295685 C19.6329704,39.0044571 23.9139479,39.9233562 28.5329236,39.9233562 L28.8629219,39.9233562 L28.8629219,41.9451362 L28.5329236,41.9451362 C23.7549487,41.9451362 18.6729754,40.9372789 16.0009895,39.4017369 C15.6789912,39.6999495 16.0009895,40.4126269 16.0009895,40.9504204 C16.0009895,42.6749989 20.7689644,45.0799063 28.5329236,45.0799063 C36.2978828,45.0799063 41.0648577,42.6749989 41.0648577,40.9504204 C41.0648577,40.3408537 40.4658609,39.7757662 39.9728635,39.4118458 C39.5638656,39.658503 39.113868,39.8950512 38.6008707,40.1113817 L37.8328747,38.2442678 C38.3638719,38.0208611 38.8228695,37.7812802 39.1968675,37.5326012 C40.2978617,36.798695 41.0008581,35.7544456 41.0008581,35.3581767 L43.0008475,35.3581767 C43.0008475,36.2983045 42.3798508,37.3051509 41.583855,38.1330699 C42.7758487,39.1732757 43.0648472,40.2114598 43.0648472,40.9504204 L43.0648472,40.9504204 Z M17.1419835,48.3885494 C17.9329793,48.796949 18.8579745,49.1608694 19.893969,49.4691908 L20.457966,47.5292928 C19.5419709,47.2573634 18.7319751,46.9399439 18.0519787,46.5881542 L17.1419835,48.3885494 Z M19.893969,37.3385103 L20.457966,35.3996232 C19.5419709,35.1266829 18.7319751,34.8102743 18.0519787,34.4584846 L17.1419835,36.2578689 C17.9329793,36.6672793 18.8579745,37.0301889 19.893969,37.3385103 L19.893969,37.3385103 Z M17.1419835,24.1281992 L18.0519787,22.3278041 C18.7319751,22.6795938 19.5419709,22.9960024 20.457966,23.2689427 L19.893969,25.2088407 C18.8579745,24.9005192 17.9329793,24.5365988 17.1419835,24.1281992 L17.1419835,24.1281992 Z" fill="#FFFFFF"></path> </g></g>
+        <text x="672" y="356" fill="#232f3e" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">DynamoDB</text>
+        <text x="672" y="372" fill="#545b64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace">page metadata</text>
 
         <!-- Legend strip -->
-        <line x1="40" y1="404" x2="960" y2="404" stroke="rgba(45,49,66,0.10)" stroke-width="0.8"/>
-        <text x="40" y="420" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.18em">LEGEND</text>
+        <line x1="40" y1="404" x2="960" y2="404" stroke="rgba(35,47,62,0.10)" stroke-width="0.8"/>
+        <text x="40" y="420" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.18em">LEGEND</text>
 
-        <rect x="40" y="436" width="14" height="10" rx="2" fill="rgba(235,108,54,0.08)" stroke="#eb6c36" stroke-width="1"/>
-        <text x="60" y="444" fill="#4f5d75" font-size="8.5" font-family="'Geist', sans-serif">Focal / origin</text>
+        <rect x="40" y="436" width="14" height="10" rx="2" fill="rgba(236,114,17,0.08)" stroke="#ec7211" stroke-width="1"/>
+        <text x="60" y="444" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Focal / compute</text>
 
-        <rect x="180" y="436" width="14" height="10" rx="2" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
-        <text x="200" y="444" fill="#4f5d75" font-size="8.5" font-family="'Geist', sans-serif">Backend / bundle</text>
+        <rect x="180" y="436" width="14" height="10" rx="2" fill="#ffffff" stroke="#232f3e" stroke-width="1"/>
+        <text x="200" y="444" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Object storage</text>
 
-        <rect x="340" y="436" width="14" height="10" rx="2" fill="rgba(45,49,66,0.05)" stroke="#4f5d75" stroke-width="1"/>
-        <text x="360" y="444" fill="#4f5d75" font-size="8.5" font-family="'Geist', sans-serif">Store</text>
+        <rect x="340" y="436" width="14" height="10" rx="2" fill="rgba(35,47,62,0.05)" stroke="#545b64" stroke-width="1"/>
+        <text x="360" y="444" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Database</text>
 
-        <rect x="436" y="436" width="14" height="10" rx="2" fill="rgba(45,49,66,0.03)" stroke="rgba(45,49,66,0.30)" stroke-width="1"/>
-        <text x="456" y="444" fill="#4f5d75" font-size="8.5" font-family="'Geist', sans-serif">Cloud</text>
+        <rect x="436" y="436" width="14" height="10" rx="2" fill="rgba(35,47,62,0.03)" stroke="rgba(35,47,62,0.30)" stroke-width="1"/>
+        <text x="456" y="444" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Edge</text>
 
-        <rect x="528" y="436" width="14" height="10" rx="2" fill="rgba(79,93,117,0.10)" stroke="#7a8399" stroke-width="1"/>
-        <text x="548" y="444" fill="#4f5d75" font-size="8.5" font-family="'Geist', sans-serif">External</text>
+        <rect x="528" y="436" width="14" height="10" rx="2" fill="rgba(84,91,100,0.10)" stroke="#687078" stroke-width="1"/>
+        <text x="548" y="444" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">External</text>
 
-        <line x1="636" y1="442" x2="664" y2="442" stroke="#2e5aa8" stroke-width="1.2" marker-end="url(#arrow-link)"/>
-        <text x="672" y="444" fill="#4f5d75" font-size="8.5" font-family="'Geist', sans-serif">HTTP request</text>
+        <line x1="636" y1="442" x2="664" y2="442" stroke="#0972d3" stroke-width="1.2" marker-end="url(#arrow-link)"/>
+        <text x="672" y="444" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">HTTP request</text>
 
-        <line x1="784" y1="442" x2="812" y2="442" stroke="#eb6c36" stroke-width="1.4" marker-end="url(#arrow-accent)"/>
-        <text x="820" y="444" fill="#4f5d75" font-size="8.5" font-family="'Geist', sans-serif">Primary flow</text>
+        <line x1="784" y1="442" x2="812" y2="442" stroke="#ec7211" stroke-width="1.4" marker-end="url(#arrow-accent)"/>
+        <text x="820" y="444" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Primary flow</text>
 
-        <line x1="900" y1="442" x2="928" y2="442" stroke="#4f5d75" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
-        <text x="936" y="444" fill="#4f5d75" font-size="8.5" font-family="'Geist', sans-serif">Return / async</text>
+        <line x1="900" y1="442" x2="928" y2="442" stroke="#545b64" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
+        <text x="936" y="444" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Return / async</text>
       </svg>
     </div>
 
     <div class="cards">
       <div class="card">
         <p class="eyebrow">THE HEADLINE</p>
-        <div class="card-header"><span class="card-dot coral"></span><h3>Edge absorbs the reads</h3></div>
-        <p>Nearly every reader is served by Cloudflare's edge cache. The Astro origin only wakes on a cold slug or a revalidation.</p>
+        <div class="card-header"><span class="card-dot coral"></span><h3>CloudFront absorbs the reads</h3></div>
+        <p>Nearly every reader is served from a CloudFront edge location. The Lambda SSR origin only runs on a cache miss or an invalidation.</p>
       </div>
       <div class="card">
-        <div class="card-header"><span class="card-dot ink"></span><h3>Content lives in the repo</h3></div>
-        <ul><li>Posts are MDX files</li><li>Checked in, reviewed in PRs</li><li>No runtime database</li></ul>
+        <div class="card-header"><span class="card-dot ink"></span><h3>Content lives in S3</h3></div>
+        <ul><li>Posts are MDX objects</li><li>Synced from the repo by CodePipeline</li><li>Versioned, private bucket behind OAC</li></ul>
       </div>
       <div class="card">
-        <div class="card-header"><span class="card-dot muted"></span><h3>CMS holds the big stuff</h3></div>
-        <p>Images, OG art, and downloadable assets live in a separate bucket keyed by slug. Astro links them at render time.</p>
+        <div class="card-header"><span class="card-dot muted"></span><h3>DynamoDB holds the index</h3></div>
+        <p>Slugs, titles, tags, and publish dates live in one on-demand table keyed by slug. The function queries it at render time.</p>
       </div>
     </div>
 
     <div class="footer">
-      <span>content site · architecture</span>
+      <span>serverless content site · architecture</span>
       <span>example · schematic skill</span>
     </div>
   </div>

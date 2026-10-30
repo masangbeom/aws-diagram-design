@@ -57,7 +57,8 @@ internal_connections:               # explicit platform-component edges
   - { from: "JupyterLab",  to: "Trino",      style: "secondary", dashed: true }
   - { from: "Airflow",     to: ["Apache NiFi", "MinIO", "JupyterLab"], style: "trigger" }
 
-focal_accent: "#EC7211"             # one color for all focal components (default = SKILL accent)
+focal_accent: accent                # one color for all focal components; the `accent` role by default,
+                                    # or an explicit "#hex" to override it
 dark: false
 ```
 
@@ -177,7 +178,7 @@ bar_w      = zone_w - 2*zone_pad_x       # 664
 bar_cx     = zone_cx                     # 608
 ```
 
-Bars span the full zone width minus 16-px padding on each side. Bars marked `focal: true` use `bar_h_focal=56` and accent styling (fill `rgba(focal_accent, 0.08)`, stroke `focal_accent`). Non-focal bars use `bar_h_default=44` with muted styling (fill `rgba(35,47,62,0.05)`, stroke `rgba(35,47,62,0.32)`).
+Bars span the full zone width minus 16-px padding on each side. Bars marked `focal: true` use `bar_h_focal=56` and accent styling (fill `rgba(focal_accent, 0.08)`, stroke `focal_accent`). Non-focal bars use `bar_h_default=44` with muted styling (fill `ink @ 0.05`, stroke `ink @ 0.32`).
 
 ### 2.4 Source / consumer placement (side columns)
 
@@ -188,7 +189,7 @@ consumer_y(k)     = source_y(k)                 # mirrored
 consumer_cy(k)    = source_cy(k)
 ```
 
-All side-column nodes use fixed `w=160 h=64`. Same fill / stroke pattern: fill `rgba(84,91,100,0.06)`, stroke `#7D8998`, stroke-width 1.
+All side-column nodes use fixed `w=160 h=64`. Same fill / stroke pattern: fill `muted @ 0.06`, stroke `soft`, stroke-width 1.
 
 ---
 
@@ -198,21 +199,22 @@ Five styles, bound to topology. Don't let user override style on focal-touching,
 
 | `style` | Stroke | Width | Dash | Marker | When required |
 |---|---|---|---|---|---|
-| `primary` | `#EC7211` (focal_accent) | 1.4 | — | `arrow-accent` | Every edge whose endpoint is a `focal: true` component. Also every Trino → consumer edge (serve-flow rule). |
-| `secondary` | `#545B64` (muted) | 1.2 | — | `arrow` | Default for internal platform-component edges and source → platform edges that don't touch focal. |
-| `federated` | `#0972D3` (link-blue) | 1.0 | `4,3` | `arrow-link` | Federation queries (e.g., source DB → Trino). |
-| `trigger` | `#545B64` (muted) | 1.0 | `4,3` | `arrow` | Every edge originating from a `kind: bar` component (Airflow drops). Unlabelled. |
-| `auth` | `#EC7211` | 1.2 | `5,4` | `arrow-accent` | Every edge from a footer node up to the zone bottom edge. **Never to a specific component.** |
+| `primary` | `focal_accent` (default `accent`) | 1.4 | — | `arrow-focal` | Every edge whose endpoint is a `focal: true` component. Also every Trino → consumer edge (serve-flow rule). |
+| `secondary` | `muted` | 1.2 | — | `arrow` | Default for internal platform-component edges and source → platform edges that don't touch focal. |
+| `federated` | `link` | 1.0 | `4,3` | `arrow-link` | Federation queries (e.g., source DB → Trino). |
+| `trigger` | `muted` | 1.0 | `4,3` | `arrow` | Every edge originating from a `kind: bar` component (Airflow drops). Unlabelled. |
+| `auth` | `accent` | 1.2 | `5,4` | `arrow-accent` | Every edge from a footer node up to the zone bottom edge. **Never to a specific component.** |
 
-**Defs block** (required, five markers — exactly):
+**Defs block** (required, six markers — exactly):
 
 ```svg
 <defs>
-  <marker id="arrow"        markerWidth="8" markerHeight="6" refX="7" refY="3"   orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#545B64"/></marker>
-  <marker id="arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3"   orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#EC7211"/></marker>
-  <marker id="arrow-link"   markerWidth="8" markerHeight="6" refX="7" refY="3"   orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#0972D3"/></marker>
-  <marker id="arrow-sm"     markerWidth="6" markerHeight="5" refX="5" refY="2.5" orient="auto"><polygon points="0 0, 6 2.5, 0 5" fill="#545B64"/></marker>
-  <marker id="arrow-dim"    markerWidth="8" markerHeight="6" refX="7" refY="3"   orient="auto"><polygon points="0 0, 8 3, 0 6" fill="rgba(35,47,62,0.45)"/></marker>
+  <marker id="arrow"        markerWidth="8" markerHeight="6" refX="7" refY="3"   orient="auto"><polygon points="0 0, 8 3, 0 6" fill="{muted}"/></marker>
+  <marker id="arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3"   orient="auto"><polygon points="0 0, 8 3, 0 6" fill="{accent}"/></marker>
+  <marker id="arrow-focal"  markerWidth="8" markerHeight="6" refX="7" refY="3"   orient="auto"><polygon points="0 0, 8 3, 0 6" fill="{focal_accent}"/></marker>
+  <marker id="arrow-link"   markerWidth="8" markerHeight="6" refX="7" refY="3"   orient="auto"><polygon points="0 0, 8 3, 0 6" fill="{link}"/></marker>
+  <marker id="arrow-sm"     markerWidth="6" markerHeight="5" refX="5" refY="2.5" orient="auto"><polygon points="0 0, 6 2.5, 0 5" fill="{muted}"/></marker>
+  <marker id="arrow-dim"    markerWidth="8" markerHeight="6" refX="7" refY="3"   orient="auto"><polygon points="0 0, 8 3, 0 6" fill="{ink @ 0.45}"/></marker>
 </defs>
 ```
 
@@ -233,7 +235,7 @@ Five styles, bound to topology. Don't let user override style on focal-touching,
 - **Fan-out staggering:** when one node fans out to N targets on the same side, stagger the exit y by ±4 px per index so arrows don't overlap (e.g., Trino → 4 consumers exits at y=124, 132, 140, 148). The vertical segments run in the corridor between the zone edge and the consumer column, also y-staggered.
 - **Z-order:** all connectors drawn **before** any rect (so node fills mask the line ends).
 - **Markers:** exactly one `marker-end` per `<line>` / `<path>`. Never `marker-start`.
-- **Labels:** every `primary`, `secondary`, `federated`, `auth` edge gets a protocol label (Amazon Ember Mono 8 px, paper-filled rect mask with 6–10 px clear gap above the stroke). `trigger` edges are unlabelled.
+- **Labels:** every `primary`, `secondary`, `federated`, `auth` edge gets a protocol label (the `arrow-label` role at 8 px, paper-filled rect mask with 6–10 px clear gap above the stroke). `trigger` edges are unlabelled.
 
 ### 3.3 Footer → zone trunk
 
@@ -305,21 +307,19 @@ Any source, consumer, platform component (node or bar), or footer node accepts a
 
 ## 6. Dark mode
 
-| Token | Light | Dark |
-|---|---|---|
-| Page paper | `#ffffff` | `#161E2D` |
-| Ink | `#232F3E` | `#ffffff` |
-| Muted | `#545B64` | `#B6BEC9` |
-| Accent | `#EC7211` | `#FF9900` |
-| Link (federated) | `#0972D3` | `#539FE5` |
-| Side-column fill | `rgba(84,91,100,0.06)` | `rgba(255,255,255,0.06)` |
-| Side-column stroke | `#7D8998` | `rgba(255,255,255,0.30)` |
-| Zone fill | `rgba(35,47,62,0.025)` | `rgba(255,255,255,0.04)` |
-| Zone stroke | `rgba(35,47,62,0.32)` | `rgba(255,255,255,0.30)` |
-| Non-focal bar fill | `rgba(35,47,62,0.05)` | `rgba(255,255,255,0.06)` |
-| Focal fill | `rgba(255,153,0,0.08)` | `rgba(255,153,0,0.12)` |
-| Focal stroke | `#EC7211` | `#FF9900` |
-| Custom component colors | `C` | `C_light` (lighten ~15%) |
+`paper`, `ink`, `muted`, `soft`, `accent`, and `link` invert with the skin: take their values from the dark column in [`style-guide.md`](style-guide.md). A **role at an opacity** needs no dark-mode handling, since `ink @ 0.32` resolves against whichever ink is active.
+
+Only these differ between modes:
+
+| Element | Light | Dark | Why it differs |
+|---|---|---|---|
+| Side-column fill | `muted @ 0.06` | `ink @ 0.06` | The slate tint reads as mud on dark paper; plain ink stays neutral |
+| Side-column stroke | `soft` | `ink @ 0.30` | ditto |
+| Zone fill | `ink @ 0.025` | `ink @ 0.04` | A wash needs slightly more presence on dark paper |
+| Non-focal bar fill | `ink @ 0.05` | `ink @ 0.06` | ditto |
+| Focal fill | `accent @ 0.08` | `accent @ 0.12` | ditto |
+
+Unchanged across modes: zone stroke `ink @ 0.32`, focal stroke `accent`, and custom component colors (`C` light → `C_light`, lightened ~15%).
 
 ---
 
@@ -402,9 +402,6 @@ When this gets unwieldy:
 
 ## 12. Examples
 
-- `assets/example-dp-integration.html` — minimal light (1 footer = AD). Gallery default.
+- `assets/example-dp-integration.html` — minimal light (AppFlow/DMS/Kinesis sources → S3 + Athena core → Quick Suite/SageMaker AI/API Gateway consumers; footers IAM Identity Center and CloudWatch). Gallery default.
 - `assets/example-dp-integration-dark.html` — same, dark skin.
 - `assets/example-dp-integration-full.html` — same, editorial-card frame.
-- `assets/example-dp-integration-extended.html` — exercises §4 color override + multi-footer: AD in rust-red, Observability (Prometheus/Grafana/Loki) in slate-blue. Canvas height grown to fit 2 footer rows.
-- `assets/example-dp-integration-extended-dark.html` — extended pattern, dark skin.
-- `assets/example-dp-integration-extended-full.html` — extended pattern, editorial-card frame.

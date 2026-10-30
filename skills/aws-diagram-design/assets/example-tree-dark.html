@@ -3,18 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Claude Code skill taxonomy · Tree</title>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <title>AWS Organizations OU hierarchy · Tree</title>
+  <style>
+  @font-face { font-family: 'Amazon Ember'; font-weight: 400; font-style: normal; src: local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_Rg.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 400; font-style: italic; src: local('Amazon Ember Italic'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_RgIt.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 600; font-style: normal; src: local('Amazon Ember Medium'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_SBd.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 700; font-style: normal; src: local('Amazon Ember Bold'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_Bd.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember Mono'; font-weight: 400; font-style: normal; src: local('Amazon Ember Mono'), url('fonts/woff2/AmazonEmberMono_W_Rg.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember Mono'; font-weight: 700; font-style: normal; src: local('Amazon Ember Mono Bold'), local('Amazon Ember Mono'), url('fonts/woff2/AmazonEmberMono_W_Bd.woff2') format('woff2'); }
+</style>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --color-paper:   #2d3142;
-      --color-ink:     #f5f5f5;
-      --color-muted:   #bfc0c0;
-      --color-accent:  #f08a59;
-      --font-sans:     'Geist', system-ui, sans-serif;
-      --font-serif:    'Instrument Serif', serif;
-      --font-mono:     'Geist Mono', ui-monospace, monospace;
+      --color-paper:   #161e2d;
+      --color-ink:     #ffffff;
+      --color-muted:   #b6bec9;
+      --color-accent:  #ff9900;
+      --font-sans:     'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --font-serif:    'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --font-mono:     'Amazon Ember Mono', ui-monospace, monospace;
     }
 
     body {
@@ -43,7 +50,7 @@
     h1 {
       font-family: var(--font-serif);
       font-size: clamp(1.5rem, 2.4vw + 0.75rem, 2rem);
-      font-weight: 400;
+      font-weight: 700;
       letter-spacing: -0.02em;
       line-height: 1.15;
       color: var(--color-ink);
@@ -55,118 +62,117 @@
 </head>
 <body>
   <div class="frame">
-    <p class="eyebrow">Tree · Diagram Design</p>
-    <h1>Claude Code skill taxonomy</h1>
+    <p class="eyebrow">Tree · AWS Diagram Design</p>
+    <h1>AWS Organizations OU hierarchy</h1>
 
     <svg viewBox="0 0 1000 480" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="tree-dark-title tree-dark-desc">
-      <title id="tree-dark-title">Claude Code skill taxonomy</title>
-      <desc id="tree-dark-desc">Tree diagram showing a Skills root branching into Design, Engineering, and Research categories and their leaf skills.</desc>
+      <title id="tree-dark-title">AWS Organizations OU hierarchy</title>
+      <desc id="tree-dark-desc">Tree diagram showing an AWS Organizations root branching into Security, Infrastructure, and Workloads organizational units and their member accounts.</desc>
         <defs>
           <pattern id="dots" width="22" height="22" patternUnits="userSpaceOnUse">
-            <circle cx="1" cy="1" r="0.9" fill="rgba(245,245,245,0.10)"/>
+            <circle cx="1" cy="1" r="0.9" fill="rgba(255,255,255,0.10)"/>
           </pattern>
         </defs>
 
-        <rect width="100%" height="100%" fill="#2d3142"/>
+        <rect width="100%" height="100%" fill="#161e2d"/>
         <rect width="100%" height="100%" fill="url(#dots)" opacity="0.55"/>
 
         <!-- Tier tags (left margin) -->
-        <text x="40" y="108" fill="#bfc0c0" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.18em">TIER 0 · ROOT</text>
-        <text x="40" y="224" fill="#bfc0c0" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.18em" text-anchor="start">TIER 1</text>
-        <text x="40" y="324" fill="#bfc0c0" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.18em" text-anchor="start">TIER 2</text>
+        <text x="40" y="108" fill="#b6bec9" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.18em">TIER 0 · ROOT</text>
+        <text x="40" y="224" fill="#b6bec9" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.18em" text-anchor="start">TIER 1</text>
+        <text x="40" y="324" fill="#b6bec9" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.18em" text-anchor="start">TIER 2</text>
 
         <!-- Connectors drawn first (behind nodes) -->
         <!-- Root → Tier 1 bus -->
-        <path d="M 500 128 L 500 168 L 220 168 L 220 208" fill="none" stroke="#bfc0c0" stroke-width="1"/>
-        <path d="M 500 168 L 500 208" fill="none" stroke="#bfc0c0" stroke-width="1"/>
-        <path d="M 500 168 L 780 168 L 780 208" fill="none" stroke="#bfc0c0" stroke-width="1"/>
+        <path d="M 500 128 L 500 168 L 220 168 L 220 208" fill="none" stroke="#b6bec9" stroke-width="1"/>
+        <path d="M 500 168 L 500 208" fill="none" stroke="#b6bec9" stroke-width="1"/>
+        <path d="M 500 168 L 780 168 L 780 208" fill="none" stroke="#b6bec9" stroke-width="1"/>
 
-        <!-- Design → leaves -->
-        <path d="M 220 256 L 220 296 L 140 296 L 140 336" fill="none" stroke="#bfc0c0" stroke-width="1"/>
-        <path d="M 220 296 L 300 296 L 300 336" fill="none" stroke="#bfc0c0" stroke-width="1"/>
+        <!-- Security → accounts -->
+        <path d="M 220 256 L 220 296 L 140 296 L 140 336" fill="none" stroke="#b6bec9" stroke-width="1"/>
+        <path d="M 220 296 L 300 296 L 300 336" fill="none" stroke="#b6bec9" stroke-width="1"/>
 
-        <!-- Engineering → leaves -->
-        <path d="M 500 256 L 500 296 L 480 296 L 480 336" fill="none" stroke="#bfc0c0" stroke-width="1"/>
-        <path d="M 500 296 L 660 296 L 660 336" fill="none" stroke="#bfc0c0" stroke-width="1"/>
+        <!-- Infrastructure → accounts -->
+        <path d="M 500 256 L 500 296 L 480 296 L 480 336" fill="none" stroke="#b6bec9" stroke-width="1"/>
+        <path d="M 500 296 L 660 296 L 660 336" fill="none" stroke="#b6bec9" stroke-width="1"/>
 
-        <!-- Research → single leaf -->
-        <path d="M 780 256 L 780 296 L 840 296 L 840 336" fill="none" stroke="#bfc0c0" stroke-width="1"/>
+        <!-- Workloads → single account -->
+        <path d="M 780 256 L 780 296 L 840 296 L 840 336" fill="none" stroke="#b6bec9" stroke-width="1"/>
 
-        <!-- Root node: Skills (coral focal) -->
-        <rect x="420" y="80" width="160" height="48" rx="6" fill="#2d3142"/>
-        <rect x="420" y="80" width="160" height="48" rx="6" fill="rgba(240,138,89,0.10)" stroke="#f08a59" stroke-width="1"/>
-        <rect x="428" y="88" width="32" height="12" rx="2" fill="transparent" stroke="rgba(240,138,89,0.50)" stroke-width="0.8"/>
-        <text x="444" y="97" fill="#f08a59" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">ROOT</text>
-        <text x="500" y="118" fill="#f5f5f5" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Skills</text>
+        <!-- Root node: Organization root (coral focal) -->
+        <rect x="420" y="80" width="160" height="48" rx="6" fill="#161e2d"/>
+        <rect x="420" y="80" width="160" height="48" rx="6" fill="rgba(255,153,0,0.10)" stroke="#ff9900" stroke-width="1"/>
+        <g transform="translate(560,84) scale(0.25)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g fill="#E7157B"> <rect x="0" y="0" width="64" height="64"></rect> </g> <path d="M44,51.0054 L50,51.0054 L50,45.0216001 L44,45.0216001 L44,51.0054 Z M29,51.0054 L35,51.0054 L35,45.0216001 L29,45.0216001 L29,51.0054 Z M14,51.0054 L20,51.0054 L20,45.0216001 L14,45.0216001 L14,51.0054 Z M51,43.0270001 L48,43.0270001 L48,39.0378001 C48,38.4872905 47.552,38.0405001 47,38.0405001 L33,38.0405001 L33,35.0486001 L31,35.0486001 L31,38.0405001 L17,38.0405001 C16.447,38.0405001 16,38.4872905 16,39.0378001 L16,43.0270001 L13,43.0270001 C12.447,43.0270001 12,43.4737905 12,44.0243001 L12,52.0027 C12,52.5532096 12.447,53 13,53 L21,53 C21.552,53 22,52.5532096 22,52.0027 L22,44.0243001 C22,43.4737905 21.552,43.0270001 21,43.0270001 L18,43.0270001 L18,40.0351001 L31,40.0351001 L31,43.0270001 L28,43.0270001 C27.447,43.0270001 27,43.4737905 27,44.0243001 L27,52.0027 C27,52.5532096 27.447,53 28,53 L36,53 C36.552,53 37,52.5532096 37,52.0027 L37,44.0243001 C37,43.4737905 36.552,43.0270001 36,43.0270001 L33,43.0270001 L33,40.0351001 L46,40.0351001 L46,43.0270001 L43,43.0270001 C42.447,43.0270001 42,43.4737905 42,44.0243001 L42,52.0027 C42,52.5532096 42.447,53 43,53 L51,53 C51.552,53 52,52.5532096 52,52.0027 L52,44.0243001 C52,43.4737905 51.552,43.0270001 51,43.0270001 L51,43.0270001 Z M32,14.1382112 L38.949,17.9887865 L32,21.8812483 L25.05,17.9887865 L32,14.1382112 Z M33,31.3406388 L33,23.6085719 L40,19.6881856 L40,27.3763713 L33,31.3406388 Z M24,19.6881856 L31,23.6085719 L31,31.3406388 L24,27.3763713 L24,19.6881856 Z M22.505,28.8244509 L31.505,33.9216511 C31.659,34.0084162 31.83,34.0513001 32,34.0513001 C32.17,34.0513001 32.34,34.0084162 32.494,33.9216511 L41.494,28.8244509 C41.806,28.6469315 42,28.3158279 42,27.9567999 L42,17.9838 C42,17.6217801 41.802,17.2876846 41.485,17.1121598 L32.485,12.1256598 C32.184,11.9581134 31.815,11.9581134 31.514,12.1256598 L22.514,17.1121598 C22.197,17.2876846 22,17.6217801 22,17.9838 L22,27.9567999 C22,28.3158279 22.193,28.6469315 22.505,28.8244509 L22.505,28.8244509 Z" fill="#FFFFFF"></path> </g></g>
+        <text x="500" y="118" fill="#ffffff" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Organization root</text>
 
-        <!-- Tier 1: Design -->
-        <rect x="140" y="208" width="160" height="48" rx="6" fill="#2d3142"/>
-        <rect x="140" y="208" width="160" height="48" rx="6" fill="rgba(245,245,245,0.04)" stroke="#f5f5f5" stroke-width="1"/>
-        <rect x="148" y="216" width="28" height="12" rx="2" fill="transparent" stroke="rgba(245,245,245,0.40)" stroke-width="0.8"/>
-        <text x="162" y="225" fill="#f5f5f5" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">CAT</text>
-        <text x="220" y="240" fill="#f5f5f5" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Design</text>
-        <text x="220" y="252" fill="#bfc0c0" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">ui · visual · ux</text>
+        <!-- Tier 1: Security -->
+        <rect x="140" y="208" width="160" height="48" rx="6" fill="#161e2d"/>
+        <rect x="140" y="208" width="160" height="48" rx="6" fill="rgba(255,255,255,0.04)" stroke="#ffffff" stroke-width="1"/>
+        <rect x="148" y="216" width="28" height="12" rx="2" fill="transparent" stroke="rgba(255,255,255,0.40)" stroke-width="0.8"/>
+        <text x="162" y="225" fill="#ffffff" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">OU</text>
+        <text x="220" y="240" fill="#ffffff" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Security</text>
+        <text x="220" y="252" fill="#b6bec9" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">log archive · audit</text>
 
-        <!-- Tier 1: Engineering -->
-        <rect x="420" y="208" width="160" height="48" rx="6" fill="#2d3142"/>
-        <rect x="420" y="208" width="160" height="48" rx="6" fill="rgba(245,245,245,0.04)" stroke="#f5f5f5" stroke-width="1"/>
-        <rect x="428" y="216" width="28" height="12" rx="2" fill="transparent" stroke="rgba(245,245,245,0.40)" stroke-width="0.8"/>
-        <text x="442" y="225" fill="#f5f5f5" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">CAT</text>
-        <text x="500" y="240" fill="#f5f5f5" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Engineering</text>
-        <text x="500" y="252" fill="#bfc0c0" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">ship · review · test</text>
+        <!-- Tier 1: Infrastructure -->
+        <rect x="420" y="208" width="160" height="48" rx="6" fill="#161e2d"/>
+        <rect x="420" y="208" width="160" height="48" rx="6" fill="rgba(255,255,255,0.04)" stroke="#ffffff" stroke-width="1"/>
+        <rect x="428" y="216" width="28" height="12" rx="2" fill="transparent" stroke="rgba(255,255,255,0.40)" stroke-width="0.8"/>
+        <text x="442" y="225" fill="#ffffff" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">OU</text>
+        <text x="500" y="240" fill="#ffffff" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Infrastructure</text>
+        <text x="500" y="252" fill="#b6bec9" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">network · shared svcs</text>
 
-        <!-- Tier 1: Research -->
-        <rect x="700" y="208" width="160" height="48" rx="6" fill="#2d3142"/>
-        <rect x="700" y="208" width="160" height="48" rx="6" fill="rgba(245,245,245,0.04)" stroke="#f5f5f5" stroke-width="1"/>
-        <rect x="708" y="216" width="28" height="12" rx="2" fill="transparent" stroke="rgba(245,245,245,0.40)" stroke-width="0.8"/>
-        <text x="722" y="225" fill="#f5f5f5" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">CAT</text>
-        <text x="780" y="240" fill="#f5f5f5" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Research</text>
-        <text x="780" y="252" fill="#bfc0c0" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">investigate · analyze</text>
+        <!-- Tier 1: Workloads -->
+        <rect x="700" y="208" width="160" height="48" rx="6" fill="#161e2d"/>
+        <rect x="700" y="208" width="160" height="48" rx="6" fill="rgba(255,255,255,0.04)" stroke="#ffffff" stroke-width="1"/>
+        <rect x="708" y="216" width="28" height="12" rx="2" fill="transparent" stroke="rgba(255,255,255,0.40)" stroke-width="0.8"/>
+        <text x="722" y="225" fill="#ffffff" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">OU</text>
+        <text x="780" y="240" fill="#ffffff" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Workloads</text>
+        <text x="780" y="252" fill="#b6bec9" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">prod · SCP guardrails</text>
 
-        <!-- Tier 2: polish -->
-        <rect x="60" y="336" width="160" height="48" rx="6" fill="#2d3142"/>
-        <rect x="60" y="336" width="160" height="48" rx="6" fill="rgba(245,245,245,0.05)" stroke="#bfc0c0" stroke-width="0.8"/>
-        <text x="140" y="360" fill="#f5f5f5" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">polish</text>
-        <text x="140" y="372" fill="#bfc0c0" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">align · space · rhythm</text>
+        <!-- Tier 2: log-archive -->
+        <rect x="60" y="336" width="160" height="48" rx="6" fill="#161e2d"/>
+        <rect x="60" y="336" width="160" height="48" rx="6" fill="rgba(255,255,255,0.05)" stroke="#b6bec9" stroke-width="0.8"/>
+        <text x="140" y="360" fill="#ffffff" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">log-archive</text>
+        <text x="140" y="372" fill="#b6bec9" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">CloudTrail · Config</text>
 
-        <!-- Tier 2: critique -->
-        <rect x="220" y="336" width="160" height="48" rx="6" fill="#2d3142"/>
-        <rect x="220" y="336" width="160" height="48" rx="6" fill="rgba(245,245,245,0.05)" stroke="#bfc0c0" stroke-width="0.8"/>
-        <text x="300" y="360" fill="#f5f5f5" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">critique</text>
-        <text x="300" y="372" fill="#bfc0c0" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">hierarchy · density</text>
+        <!-- Tier 2: audit -->
+        <rect x="220" y="336" width="160" height="48" rx="6" fill="#161e2d"/>
+        <rect x="220" y="336" width="160" height="48" rx="6" fill="rgba(255,255,255,0.05)" stroke="#b6bec9" stroke-width="0.8"/>
+        <text x="300" y="360" fill="#ffffff" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">audit</text>
+        <text x="300" y="372" fill="#b6bec9" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">GuardDuty · Security Hub</text>
 
-        <!-- Tier 2: review -->
-        <rect x="400" y="336" width="160" height="48" rx="6" fill="#2d3142"/>
-        <rect x="400" y="336" width="160" height="48" rx="6" fill="rgba(245,245,245,0.05)" stroke="#bfc0c0" stroke-width="0.8"/>
-        <text x="480" y="360" fill="#f5f5f5" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">review</text>
-        <text x="480" y="372" fill="#bfc0c0" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">pre-land diff · sql</text>
+        <!-- Tier 2: network -->
+        <rect x="400" y="336" width="160" height="48" rx="6" fill="#161e2d"/>
+        <rect x="400" y="336" width="160" height="48" rx="6" fill="rgba(255,255,255,0.05)" stroke="#b6bec9" stroke-width="0.8"/>
+        <text x="480" y="360" fill="#ffffff" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">network</text>
+        <text x="480" y="372" fill="#b6bec9" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">Transit Gateway · IPAM</text>
 
-        <!-- Tier 2: ship -->
-        <rect x="580" y="336" width="160" height="48" rx="6" fill="#2d3142"/>
-        <rect x="580" y="336" width="160" height="48" rx="6" fill="rgba(245,245,245,0.05)" stroke="#bfc0c0" stroke-width="0.8"/>
-        <text x="660" y="360" fill="#f5f5f5" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">ship</text>
-        <text x="660" y="372" fill="#bfc0c0" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">merge · deploy · verify</text>
+        <!-- Tier 2: shared-services -->
+        <rect x="580" y="336" width="160" height="48" rx="6" fill="#161e2d"/>
+        <rect x="580" y="336" width="160" height="48" rx="6" fill="rgba(255,255,255,0.05)" stroke="#b6bec9" stroke-width="0.8"/>
+        <text x="660" y="360" fill="#ffffff" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">shared-services</text>
+        <text x="660" y="372" fill="#b6bec9" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">CodePipeline · AMIs</text>
 
-        <!-- Tier 2: investigate -->
-        <rect x="760" y="336" width="160" height="48" rx="6" fill="#2d3142"/>
-        <rect x="760" y="336" width="160" height="48" rx="6" fill="rgba(245,245,245,0.05)" stroke="#bfc0c0" stroke-width="0.8"/>
-        <text x="840" y="360" fill="#f5f5f5" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">investigate</text>
-        <text x="840" y="372" fill="#bfc0c0" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">root cause · evidence</text>
+        <!-- Tier 2: prod-commerce -->
+        <rect x="760" y="336" width="160" height="48" rx="6" fill="#161e2d"/>
+        <rect x="760" y="336" width="160" height="48" rx="6" fill="rgba(255,255,255,0.05)" stroke="#b6bec9" stroke-width="0.8"/>
+        <text x="840" y="360" fill="#ffffff" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">prod-commerce</text>
+        <text x="840" y="372" fill="#b6bec9" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">ECS · Aurora · S3</text>
 
         <!-- Legend strip -->
-        <line x1="40" y1="412" x2="960" y2="412" stroke="rgba(245,245,245,0.10)" stroke-width="0.8"/>
-        <text x="40" y="428" fill="#bfc0c0" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.18em">LEGEND</text>
+        <line x1="40" y1="412" x2="960" y2="412" stroke="rgba(255,255,255,0.10)" stroke-width="0.8"/>
+        <text x="40" y="428" fill="#b6bec9" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.18em">LEGEND</text>
 
-        <rect x="40" y="444" width="14" height="10" rx="2" fill="rgba(240,138,89,0.10)" stroke="#f08a59" stroke-width="1"/>
-        <text x="60" y="452" fill="#bfc0c0" font-size="8.5" font-family="'Geist', sans-serif">Root · focal</text>
+        <rect x="40" y="444" width="14" height="10" rx="2" fill="rgba(255,153,0,0.10)" stroke="#ff9900" stroke-width="1"/>
+        <text x="60" y="452" fill="#b6bec9" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Root · focal</text>
 
-        <rect x="180" y="444" width="14" height="10" rx="2" fill="rgba(245,245,245,0.04)" stroke="#f5f5f5" stroke-width="1"/>
-        <text x="200" y="452" fill="#bfc0c0" font-size="8.5" font-family="'Geist', sans-serif">Category branch</text>
+        <rect x="180" y="444" width="14" height="10" rx="2" fill="rgba(255,255,255,0.04)" stroke="#ffffff" stroke-width="1"/>
+        <text x="200" y="452" fill="#b6bec9" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Organizational unit</text>
 
-        <rect x="340" y="444" width="14" height="10" rx="2" fill="rgba(245,245,245,0.05)" stroke="#bfc0c0" stroke-width="0.8"/>
-        <text x="360" y="452" fill="#bfc0c0" font-size="8.5" font-family="'Geist', sans-serif">Leaf skill</text>
+        <rect x="340" y="444" width="14" height="10" rx="2" fill="rgba(255,255,255,0.05)" stroke="#b6bec9" stroke-width="0.8"/>
+        <text x="360" y="452" fill="#b6bec9" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Member account</text>
 
-        <text x="500" y="452" fill="#bfc0c0" font-size="8.5" font-family="'Geist', sans-serif" font-style="italic">Orthogonal connectors only. Coral marks the root — every branch descends from one idea.</text>
+        <text x="500" y="452" fill="#b6bec9" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-style="italic">Orthogonal connectors only. Coral marks the root — SCPs attached there apply to every branch.</text>
       </svg>
   </div>
 </body>

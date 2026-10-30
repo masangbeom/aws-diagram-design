@@ -3,18 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The CLAUDE.md Hierarchy</title>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <title>AWS Guardrail Hierarchy</title>
+  <style>
+  @font-face { font-family: 'Amazon Ember'; font-weight: 400; font-style: normal; src: local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_Rg.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 400; font-style: italic; src: local('Amazon Ember Italic'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_RgIt.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 600; font-style: normal; src: local('Amazon Ember Medium'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_SBd.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 700; font-style: normal; src: local('Amazon Ember Bold'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_Bd.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember Mono'; font-weight: 400; font-style: normal; src: local('Amazon Ember Mono'), url('fonts/woff2/AmazonEmberMono_W_Rg.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember Mono'; font-weight: 700; font-style: normal; src: local('Amazon Ember Mono Bold'), local('Amazon Ember Mono'), url('fonts/woff2/AmazonEmberMono_W_Bd.woff2') format('woff2'); }
+</style>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --color-paper:   #f5f5f5;
-      --color-ink:     #2d3142;
-      --color-muted:   #4f5d75;
-      --color-accent:  #eb6c36;
-      --font-sans:     'Geist', system-ui, sans-serif;
-      --font-serif:    'Instrument Serif', serif;
-      --font-mono:     'Geist Mono', ui-monospace, monospace;
+      --color-paper:   #ffffff;
+      --color-ink:     #232f3e;
+      --color-muted:   #545b64;
+      --color-accent:  #ec7211;
+      --font-sans:     'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --font-serif:    'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --font-mono:     'Amazon Ember Mono', ui-monospace, monospace;
     }
 
     body {
@@ -43,7 +50,7 @@
     h1 {
       font-family: var(--font-serif);
       font-size: clamp(1.5rem, 2.4vw + 0.75rem, 2rem);
-      font-weight: 400;
+      font-weight: 700;
       letter-spacing: -0.02em;
       line-height: 1.15;
       color: var(--color-ink);
@@ -55,81 +62,69 @@
 </head>
 <body>
   <div class="frame">
-    <p class="eyebrow">Nested · Diagram Design</p>
-    <h1>The CLAUDE.md Hierarchy</h1>
+    <p class="eyebrow">Nested · AWS Diagram Design</p>
+    <h1>Where a workload's guardrails come from</h1>
 
     <svg viewBox="0 0 1000 500" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="nested-title nested-desc">
-      <title id="nested-title">The CLAUDE.md Hierarchy</title>
-      <desc id="nested-desc">Nested diagram showing how project CLAUDE.md instructions inherit broader scopes from the global, vault, business, and marketing levels.</desc>
+      <title id="nested-title">Where a workload's guardrails come from</title>
+      <desc id="nested-desc">Nested diagram showing how a production VPC workload inherits guardrails from its AWS Organization root, Workloads/Prod OU, prod account, and us-east-1 Region.</desc>
         <defs>
           <pattern id="dots" width="22" height="22" patternUnits="userSpaceOnUse">
-            <circle cx="1" cy="1" r="0.9" fill="rgba(45,49,66,0.10)"/>
+            <circle cx="1" cy="1" r="0.9" fill="rgba(35,47,62,0.10)"/>
           </pattern>
         </defs>
 
-        <rect width="100%" height="100%" fill="#f5f5f5"/>
+        <rect width="100%" height="100%" fill="#ffffff"/>
         <rect width="100%" height="100%" fill="url(#dots)" opacity="0.55"/>
 
-        <!-- Level 1: ~/.claude/ (global) — outermost -->
-        <rect x="40" y="60" width="920" height="380" rx="8" fill="rgba(45,49,66,0.015)" stroke="rgba(45,49,66,0.30)" stroke-width="1"/>
-        <!-- Level 2: ~/vault/ -->
-        <rect x="72" y="96" width="856" height="308" rx="8" fill="rgba(45,49,66,0.02)" stroke="rgba(45,49,66,0.35)" stroke-width="1"/>
-        <!-- Level 3: /business -->
-        <rect x="104" y="132" width="792" height="236" rx="8" fill="rgba(45,49,66,0.025)" stroke="rgba(45,49,66,0.45)" stroke-width="1"/>
-        <!-- Level 4: /marketing -->
-        <rect x="136" y="168" width="728" height="164" rx="8" fill="rgba(45,49,66,0.03)" stroke="#4f5d75" stroke-width="1"/>
-        <!-- Level 5: /project — innermost, coral focal -->
-        <rect x="168" y="204" width="664" height="92" rx="8" fill="rgba(235,108,54,0.06)" stroke="#eb6c36" stroke-width="1"/>
+        <!-- Level 1: AWS Organization — outermost -->
+        <rect x="40" y="60" width="920" height="380" rx="8" fill="rgba(35,47,62,0.015)" stroke="rgba(35,47,62,0.30)" stroke-width="1"/>
+        <!-- Level 2: Workloads OU -->
+        <rect x="72" y="96" width="856" height="308" rx="8" fill="rgba(35,47,62,0.02)" stroke="rgba(35,47,62,0.35)" stroke-width="1"/>
+        <!-- Level 3: prod account -->
+        <rect x="104" y="132" width="792" height="236" rx="8" fill="rgba(35,47,62,0.025)" stroke="rgba(35,47,62,0.45)" stroke-width="1"/>
+        <!-- Level 4: us-east-1 Region -->
+        <rect x="136" y="168" width="728" height="164" rx="8" fill="rgba(35,47,62,0.03)" stroke="#545b64" stroke-width="1"/>
+        <!-- Level 5: vpc-prod — innermost, coral focal -->
+        <rect x="168" y="204" width="664" height="92" rx="8" fill="rgba(236,114,17,0.06)" stroke="#ec7211" stroke-width="1"/>
 
         <!-- Level labels on paper-colored masks -->
-        <rect x="56" y="52" width="188" height="16" fill="#f5f5f5"/>
-        <text x="64" y="64" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.14em">~/.claude/ (global)</text>
+        <rect x="56" y="52" width="188" height="16" fill="#ffffff"/>
+        <text x="64" y="64" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.14em">AWS Organization (root)</text>
 
-        <rect x="88" y="88" width="148" height="16" fill="#f5f5f5"/>
-        <text x="96" y="100" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.14em">~/vault/ (notes)</text>
+        <rect x="88" y="88" width="148" height="16" fill="#ffffff"/>
+        <text x="96" y="100" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.14em">OU · Workloads/Prod</text>
 
-        <rect x="120" y="124" width="96" height="16" fill="#f5f5f5"/>
-        <text x="128" y="136" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.14em">/business</text>
+        <rect x="120" y="124" width="96" height="16" fill="#ffffff"/>
+        <text x="128" y="136" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.14em">prod account</text>
 
-        <rect x="152" y="160" width="108" height="16" fill="#f5f5f5"/>
-        <text x="160" y="172" fill="#2d3142" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.14em">/marketing</text>
+        <rect x="152" y="160" width="108" height="16" fill="#ffffff"/>
+        <text x="160" y="172" fill="#232f3e" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.14em">us-east-1</text>
 
-        <rect x="184" y="196" width="88" height="16" fill="#f5f5f5"/>
-        <text x="192" y="208" fill="#eb6c36" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.14em" font-weight="600">/project</text>
+        <rect x="184" y="196" width="88" height="16" fill="#ffffff"/>
+        <text x="192" y="208" fill="#232f3e" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.14em" font-weight="600">vpc-prod</text>
 
-        <!-- File-icon glyphs (simple rect with folded corner) inside each level -->
-        <!-- Glyph in level 1 (bottom-right area of outer ring) -->
-        <g transform="translate(908, 408)">
-          <path d="M0 0 L16 0 L20 4 L20 20 L0 20 Z" fill="#f5f5f5" stroke="rgba(45,49,66,0.35)" stroke-width="1"/>
-          <path d="M16 0 L16 4 L20 4" fill="none" stroke="rgba(45,49,66,0.35)" stroke-width="1"/>
-        </g>
-        <!-- Glyph in level 2 ring -->
-        <g transform="translate(876, 372)">
-          <path d="M0 0 L16 0 L20 4 L20 20 L0 20 Z" fill="#f5f5f5" stroke="rgba(45,49,66,0.40)" stroke-width="1"/>
-          <path d="M16 0 L16 4 L20 4" fill="none" stroke="rgba(45,49,66,0.40)" stroke-width="1"/>
-        </g>
-        <!-- Glyph in level 3 ring -->
-        <g transform="translate(844, 336)">
-          <path d="M0 0 L16 0 L20 4 L20 20 L0 20 Z" fill="#f5f5f5" stroke="rgba(45,49,66,0.50)" stroke-width="1"/>
-          <path d="M16 0 L16 4 L20 4" fill="none" stroke="rgba(45,49,66,0.50)" stroke-width="1"/>
-        </g>
-        <!-- Glyph in level 4 ring -->
-        <g transform="translate(812, 300)">
-          <path d="M0 0 L16 0 L20 4 L20 20 L0 20 Z" fill="#f5f5f5" stroke="#4f5d75" stroke-width="1"/>
-          <path d="M16 0 L16 4 L20 4" fill="none" stroke="#4f5d75" stroke-width="1"/>
-        </g>
+        <!-- 16px AWS scope icons inside each level (Organizations, OU, account, Region) -->
+        <!-- Level 1: AWS Organizations -->
+        <g transform="translate(910,410) scale(0.25)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g fill="#E7157B"> <rect x="0" y="0" width="64" height="64"></rect> </g> <path d="M44,51.0054 L50,51.0054 L50,45.0216001 L44,45.0216001 L44,51.0054 Z M29,51.0054 L35,51.0054 L35,45.0216001 L29,45.0216001 L29,51.0054 Z M14,51.0054 L20,51.0054 L20,45.0216001 L14,45.0216001 L14,51.0054 Z M51,43.0270001 L48,43.0270001 L48,39.0378001 C48,38.4872905 47.552,38.0405001 47,38.0405001 L33,38.0405001 L33,35.0486001 L31,35.0486001 L31,38.0405001 L17,38.0405001 C16.447,38.0405001 16,38.4872905 16,39.0378001 L16,43.0270001 L13,43.0270001 C12.447,43.0270001 12,43.4737905 12,44.0243001 L12,52.0027 C12,52.5532096 12.447,53 13,53 L21,53 C21.552,53 22,52.5532096 22,52.0027 L22,44.0243001 C22,43.4737905 21.552,43.0270001 21,43.0270001 L18,43.0270001 L18,40.0351001 L31,40.0351001 L31,43.0270001 L28,43.0270001 C27.447,43.0270001 27,43.4737905 27,44.0243001 L27,52.0027 C27,52.5532096 27.447,53 28,53 L36,53 C36.552,53 37,52.5532096 37,52.0027 L37,44.0243001 C37,43.4737905 36.552,43.0270001 36,43.0270001 L33,43.0270001 L33,40.0351001 L46,40.0351001 L46,43.0270001 L43,43.0270001 C42.447,43.0270001 42,43.4737905 42,44.0243001 L42,52.0027 C42,52.5532096 42.447,53 43,53 L51,53 C51.552,53 52,52.5532096 52,52.0027 L52,44.0243001 C52,43.4737905 51.552,43.0270001 51,43.0270001 L51,43.0270001 Z M32,14.1382112 L38.949,17.9887865 L32,21.8812483 L25.05,17.9887865 L32,14.1382112 Z M33,31.3406388 L33,23.6085719 L40,19.6881856 L40,27.3763713 L33,31.3406388 Z M24,19.6881856 L31,23.6085719 L31,31.3406388 L24,27.3763713 L24,19.6881856 Z M22.505,28.8244509 L31.505,33.9216511 C31.659,34.0084162 31.83,34.0513001 32,34.0513001 C32.17,34.0513001 32.34,34.0084162 32.494,33.9216511 L41.494,28.8244509 C41.806,28.6469315 42,28.3158279 42,27.9567999 L42,17.9838 C42,17.6217801 41.802,17.2876846 41.485,17.1121598 L32.485,12.1256598 C32.184,11.9581134 31.815,11.9581134 31.514,12.1256598 L22.514,17.1121598 C22.197,17.2876846 22,17.6217801 22,17.9838 L22,27.9567999 C22,28.3158279 22.193,28.6469315 22.505,28.8244509 L22.505,28.8244509 Z" fill="#FFFFFF"></path> </g></g>
+        <!-- Level 2: organizational unit -->
+        <g transform="translate(878,374) scale(0.3333)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <path d="M34,30 C36.757,30 39,32.243 39,35 C39,37.757 36.757,40 34,40 C31.243,40 29,37.757 29,35 C29,32.243 31.243,30 34,30 L34,30 Z M34,42 C37.859,42 41,38.86 41,35 C41,31.14 37.859,28 34,28 C30.141,28 27,31.14 27,35 C27,38.86 30.141,42 34,42 L34,42 Z M35.831,15.503 L39.579,23 L32.083,23 L35.831,15.503 Z M30.465,25 L41.197,25 C41.544,25 41.865,24.82 42.048,24.526 C42.23,24.231 42.247,23.863 42.092,23.553 L36.726,12.82 C36.386,12.143 35.276,12.143 34.937,12.82 L29.57,23.553 C29.415,23.863 29.432,24.231 29.614,24.526 C29.797,24.82 30.118,25 30.465,25 L30.465,25 Z M14,32 L23,32 L23,23 L14,23 L14,32 Z M13,34 L24,34 C24.553,34 25,33.552 25,33 L25,22 C25,21.448 24.553,21 24,21 L13,21 C12.447,21 12,21.448 12,22 L12,33 C12,33.552 12.447,34 13,34 L13,34 Z M4,38 L6,38 L6,40 L3,40 C2.447,40 2,39.552 2,39 L2,3 C2,2.448 2.447,2 3,2 L39,2 C39.553,2 40,2.448 40,3 L40,6 L38,6 L38,4 L4,4 L4,38 Z M10,44 L44,44 L44,10 L10,10 L10,44 Z M45,8 L9,8 C8.447,8 8,8.448 8,9 L8,45 C8,45.552 8.447,46 9,46 L45,46 C45.553,46 46,45.552 46,45 L46,9 C46,8.448 45.553,8 45,8 L45,8 Z" fill="#E7157B"></path> </g></g>
+        <!-- Level 3: AWS account badge -->
+        <g transform="translate(846,338) scale(0.4)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <rect fill="#E7157B" x="0" y="0" width="40" height="40"></rect> <path d="M24.5,22 C26.43,22 28,23.57 28,25.5 C28,27.43 26.43,29 24.5,29 C22.57,29 21,27.43 21,25.5 C21,23.57 22.57,22 24.5,22 L24.5,22 Z M24.5,30 C26.981,30 29,27.981 29,25.5 C29,23.019 26.981,21 24.5,21 C22.019,21 20,23.019 20,25.5 C20,27.981 22.019,30 24.5,30 L24.5,30 Z M26.023,10.88 L29.084,17 L22.963,17 L26.023,10.88 Z M22.154,18 L29.893,18 C30.065,18 30.227,17.91 30.318,17.763 C30.409,17.615 30.417,17.432 30.34,17.276 L26.471,9.538 C26.301,9.2 25.746,9.2 25.576,9.538 L21.707,17.276 C21.63,17.432 21.638,17.615 21.729,17.763 C21.82,17.91 21.981,18 22.154,18 L22.154,18 Z M11,23 L18,23 L18,16 L11,16 L11,23 Z M10.5,24 L18.5,24 C18.776,24 19,23.776 19,23.5 L19,15.5 C19,15.224 18.776,15 18.5,15 L10.5,15 C10.224,15 10,15.224 10,15.5 L10,23.5 C10,23.776 10.224,24 10.5,24 L10.5,24 Z M8,32 L32,32 L32,8 L8,8 L8,32 Z M32.5,7 L7.5,7 C7.224,7 7,7.224 7,7.5 L7,32.5 C7,32.776 7.224,33 7.5,33 L32.5,33 C32.776,33 33,32.776 33,32.5 L33,7.5 C33,7.224 32.776,7 32.5,7 L32.5,7 Z" fill="#FFFFFF"></path> </g></g>
+        <!-- Level 4: Region badge -->
+        <g transform="translate(814,302) scale(0.4)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <rect fill="#00A4A6" x="0" y="0" width="40" height="40"></rect> <path d="M14,20.026 L14,11.026 L29.293,11.026 L25.146,15.172 C24.951,15.368 24.951,15.684 25.146,15.88 L29.293,20.026 L14,20.026 Z M26.207,15.526 L30.854,10.88 C30.996,10.736 31.039,10.522 30.962,10.335 C30.885,10.148 30.702,10.026 30.5,10.026 L14,10.026 L14,8.97 C14.596,8.76 15.026,8.198 15.026,7.531 C15.026,6.687 14.34,6 13.495,6 C12.65,6 11.963,6.687 11.963,7.531 C11.963,8.201 12.398,8.766 13,8.973 L13,33.026 L10,33.026 L10,34.026 L17,34.026 L17,33.026 L14,33.026 L14,21.026 L30.5,21.026 C30.702,21.026 30.885,20.904 30.962,20.717 C31.039,20.53 30.996,20.316 30.854,20.172 L26.207,15.526 Z" fill="#FFFFFF"></path> </g></g>
 
         <!-- Innermost label — human readable -->
-        <text x="500" y="248" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">CLAUDE.md</text>
-        <text x="500" y="272" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">inherits every level above</text>
+        <text x="500" y="248" fill="#232f3e" font-size="16" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">PROD WORKLOAD</text>
+        <text x="500" y="272" fill="#545b64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">inherits every guardrail above</text>
 
         <!-- Annotation top-right: italic callout with curved arrow -->
-        <text x="904" y="36" fill="#2d3142" font-size="14" font-style="italic" font-family="'Instrument Serif', serif" text-anchor="end">no imports, no configuration</text>
-        <path d="M 820 44 Q 700 84 520 216" fill="none" stroke="rgba(45,49,66,0.40)" stroke-width="1" stroke-dasharray="4,3"/>
-        <circle cx="520" cy="216" r="2" fill="#2d3142"/>
+        <text x="904" y="36" fill="#232f3e" font-size="14" font-style="italic" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="end">SCPs flow down, never up</text>
+        <path d="M 820 44 Q 700 84 520 216" fill="none" stroke="rgba(35,47,62,0.40)" stroke-width="1" stroke-dasharray="4,3"/>
+        <circle cx="520" cy="216" r="2" fill="#232f3e"/>
 
         <!-- Annotation bottom-left: italic callout -->
-        <text x="40" y="484" fill="#4f5d75" font-size="14" font-style="italic" font-family="'Instrument Serif', serif">structure IS the index</text>
+        <text x="40" y="484" fill="#545b64" font-size="14" font-style="italic" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">the hierarchy IS the policy</text>
       </svg>
   </div>
 </body>

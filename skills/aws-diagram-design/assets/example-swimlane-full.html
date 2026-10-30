@@ -3,16 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Publishing an article · Swimlane</title>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <title>Shipping a CDK change · Swimlane</title>
+  <style>
+  @font-face { font-family: 'Amazon Ember'; font-weight: 400; font-style: normal; src: local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_Rg.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 400; font-style: italic; src: local('Amazon Ember Italic'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_RgIt.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 600; font-style: normal; src: local('Amazon Ember Medium'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_SBd.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 700; font-style: normal; src: local('Amazon Ember Bold'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_Bd.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember Mono'; font-weight: 400; font-style: normal; src: local('Amazon Ember Mono'), url('fonts/woff2/AmazonEmberMono_W_Rg.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember Mono'; font-weight: 700; font-style: normal; src: local('Amazon Ember Mono Bold'), local('Amazon Ember Mono'), url('fonts/woff2/AmazonEmberMono_W_Bd.woff2') format('woff2'); }
+</style>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root { --color-paper:#f5f5f5; --color-paper-2:#ececec; --color-ink:#2d3142; --color-muted:#4f5d75; --color-soft:#7a8399; --color-rule:rgba(45,49,66,0.12); --color-accent:#eb6c36; --color-link:#2e5aa8; --font-sans:'Geist',system-ui,sans-serif; --font-serif:'Instrument Serif',serif; --font-mono:'Geist Mono',ui-monospace,monospace; }
+    :root { --color-paper:#ffffff; --color-paper-2:#f2f3f3; --color-ink:#232f3e; --color-muted:#545b64; --color-soft:#687078; --color-rule:rgba(35,47,62,0.12); --color-accent:#ec7211; --color-link:#0972d3; --font-sans:'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif; --font-serif:'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif; --font-mono:'Amazon Ember Mono', ui-monospace, monospace; }
     body { font-family: var(--font-sans); background: var(--color-paper); min-height: 100vh; padding: 3rem 2rem; color: var(--color-ink); }
     .container { max-width: 1200px; margin: 0 auto; }
     .header { margin-bottom: 2.5rem; }
     .header-eyebrow { font-family: var(--font-mono); font-size: 0.66rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--color-muted); margin-bottom: 0.75rem; }
-    h1 { font-family: var(--font-serif); font-size: clamp(1.75rem, 3vw + 1rem, 2.5rem); font-weight: 400; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 0.5rem; }
+    h1 { font-family: var(--font-serif); font-size: clamp(1.75rem, 3vw + 1rem, 2.5rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 0.5rem; }
     .subtitle { font-size: 1rem; line-height: 1.55; color: var(--color-muted); max-width: 58ch; }
     .diagram-container { background: var(--color-paper-2); border-radius: 8px; border: 1px solid var(--color-rule); padding: 1.5rem; overflow-x: auto; }
     svg { width: 100%; min-width: 900px; display: block; }
@@ -20,141 +27,143 @@
     @media (max-width: 820px) { .cards { grid-template-columns: 1fr; } }
     .card { background: #fff; border-radius: 6px; border: 1px solid var(--color-rule); padding: 1.25rem; }
     .card .eyebrow { font-family: var(--font-mono); font-size: 0.5rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--color-muted); margin-bottom: 0.5rem; }
-    .card-header { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.875rem; padding-bottom: 0.875rem; border-bottom: 1px solid rgba(45,49,66,0.08); }
+    .card-header { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.875rem; padding-bottom: 0.875rem; border-bottom: 1px solid rgba(35,47,62,0.08); }
     .card-dot { width: 7px; height: 7px; border-radius: 50%; }
     .card-dot.ink { background: var(--color-ink); } .card-dot.muted { background: var(--color-muted); } .card-dot.coral { background: var(--color-accent); }
     .card h3 { font-size: 0.875rem; font-weight: 600; }
     .card p, .card ul { color: var(--color-muted); font-size: 0.8125rem; line-height: 1.55; list-style: none; }
     .card li { margin-bottom: 0.3rem; padding-left: 0.875rem; position: relative; }
-    .card li::before { content: '—'; position: absolute; left: 0; color: rgba(45,49,66,0.25); font-size: 0.75rem; }
-    .footer { margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid rgba(45,49,66,0.10); font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.06em; color: var(--color-soft); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
+    .card li::before { content: '—'; position: absolute; left: 0; color: rgba(35,47,62,0.25); font-size: 0.75rem; }
+    .footer { margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid rgba(35,47,62,0.10); font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.06em; color: var(--color-soft); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="header">
-      <p class="header-eyebrow">Swimlane · Diagram Design</p>
-      <h1>Publishing an article</h1>
-      <p class="subtitle">Four actors, seven steps, three handoffs. The step each person owns lives in their lane — arrows crossing lanes are where coordination happens.</p>
+      <p class="header-eyebrow">Swimlane · AWS CodePipeline</p>
+      <h1>Shipping a CDK change</h1>
+      <p class="subtitle">Three people and one AWS CodePipeline, seven steps, three handoffs. The step each actor owns lives in their lane — arrows crossing lanes are where coordination happens.</p>
     </div>
 
     <div class="diagram-container">
       <svg viewBox="0 0 1000 480" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="swimlane-full-title swimlane-full-desc">
-        <title id="swimlane-full-title">Publishing an article</title>
-        <desc id="swimlane-full-desc">Swimlane diagram showing an article moving from MDX draft through review, editing, approval, build, and Cloudflare Pages deployment.</desc>
+        <title id="swimlane-full-title">Shipping a CDK change</title>
+        <desc id="swimlane-full-desc">Swimlane diagram showing an AWS CDK change moving from developer commit through pull-request review, fixes, approval, then an AWS CodePipeline run that builds in AWS CodeBuild and deploys with AWS CodeDeploy.</desc>
         <defs>
           <pattern id="dots" width="22" height="22" patternUnits="userSpaceOnUse">
-            <circle cx="1" cy="1" r="0.9" fill="rgba(45,49,66,0.10)"/>
+            <circle cx="1" cy="1" r="0.9" fill="rgba(35,47,62,0.10)"/>
           </pattern>
-          <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#4f5d75"/></marker>
-          <marker id="arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#eb6c36"/></marker>
+          <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#545b64"/></marker>
+          <marker id="arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#ec7211"/></marker>
         </defs>
 
-        <rect width="100%" height="100%" fill="#f5f5f5"/>
+        <rect width="100%" height="100%" fill="#ffffff"/>
         <rect width="100%" height="100%" fill="url(#dots)" opacity="0.55"/>
 
         <!-- Lane dividers -->
-        <line x1="40" y1="80" x2="960" y2="80" stroke="rgba(45,49,66,0.22)" stroke-width="1"/>
-        <line x1="40" y1="160" x2="960" y2="160" stroke="rgba(45,49,66,0.10)" stroke-width="1"/>
-        <line x1="40" y1="240" x2="960" y2="240" stroke="rgba(45,49,66,0.10)" stroke-width="1"/>
-        <line x1="40" y1="320" x2="960" y2="320" stroke="rgba(45,49,66,0.10)" stroke-width="1"/>
-        <line x1="40" y1="400" x2="960" y2="400" stroke="rgba(45,49,66,0.22)" stroke-width="1"/>
+        <line x1="40" y1="80" x2="960" y2="80" stroke="rgba(35,47,62,0.22)" stroke-width="1"/>
+        <line x1="40" y1="160" x2="960" y2="160" stroke="rgba(35,47,62,0.10)" stroke-width="1"/>
+        <line x1="40" y1="240" x2="960" y2="240" stroke="rgba(35,47,62,0.10)" stroke-width="1"/>
+        <line x1="40" y1="320" x2="960" y2="320" stroke="rgba(35,47,62,0.10)" stroke-width="1"/>
+        <line x1="40" y1="400" x2="960" y2="400" stroke="rgba(35,47,62,0.22)" stroke-width="1"/>
 
         <!-- Actor column divider -->
-        <line x1="160" y1="80" x2="160" y2="400" stroke="rgba(45,49,66,0.22)" stroke-width="1"/>
+        <line x1="160" y1="80" x2="160" y2="400" stroke="rgba(35,47,62,0.22)" stroke-width="1"/>
 
         <!-- Lane labels -->
-        <text x="60" y="124" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" letter-spacing="0.18em">AUTHOR</text>
-        <text x="60" y="204" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" letter-spacing="0.18em">REVIEWER</text>
-        <text x="60" y="284" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" letter-spacing="0.18em">EDITOR</text>
-        <text x="60" y="364" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" letter-spacing="0.18em">CI / CD</text>
+        <text x="60" y="124" fill="#545b64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.18em">DEVELOPER</text>
+        <text x="60" y="204" fill="#545b64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.18em">REVIEWER</text>
+        <text x="60" y="284" fill="#545b64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.18em">APPROVER</text>
+        <text x="60" y="364" fill="#545b64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.18em">PIPELINE</text>
 
         <!-- Arrows (drawn first) -->
         <!-- 1. Draft → Open PR (within Author) -->
-        <line x1="300" y1="120" x2="340" y2="120" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#arrow)"/>
-        <!-- 2. Open PR → Review (Author → Reviewer handoff, diagonal down-right) -->
-        <line x1="460" y1="144" x2="500" y2="176" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#arrow)"/>
+        <line x1="300" y1="120" x2="340" y2="120" stroke="#545b64" stroke-width="1.2" marker-end="url(#arrow)"/>
+        <!-- 2. Open PR → Review (Author → Reviewer handoff: right edge, one turn, down into Review's top) -->
+        <path d="M 460,120 H 512 Q 520,120 520,128 V 176" fill="none" stroke="#545b64" stroke-width="1.2" marker-end="url(#arrow)"/>
         <!-- 3. Review → Polish (Reviewer → Editor, vertical down) -->
-        <line x1="570" y1="224" x2="570" y2="256" stroke="#4f5d75" stroke-width="1.2" stroke-dasharray="5,4" marker-end="url(#arrow)"/>
+        <line x1="570" y1="224" x2="570" y2="256" stroke="#545b64" stroke-width="1.2" stroke-dasharray="5,4" marker-end="url(#arrow)"/>
         <!-- 4. Polish → Approve (within Editor) -->
-        <line x1="640" y1="280" x2="680" y2="280" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#arrow)"/>
-        <!-- 5. Approve → Build (Editor → CI/CD, coral handoff) -->
-        <line x1="750" y1="304" x2="720" y2="336" stroke="#eb6c36" stroke-width="1.4" marker-end="url(#arrow-accent)"/>
+        <line x1="640" y1="280" x2="680" y2="280" stroke="#545b64" stroke-width="1.2" marker-end="url(#arrow)"/>
+        <!-- 5. Approve → Build (Editor → CI/CD, coral handoff, straight down) -->
+        <line x1="720" y1="304" x2="720" y2="336" stroke="#ec7211" stroke-width="1.4" marker-end="url(#arrow-accent)"/>
         <!-- 6. Build → Deploy (within CI/CD) -->
-        <line x1="760" y1="360" x2="800" y2="360" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#arrow)"/>
+        <line x1="760" y1="360" x2="800" y2="360" stroke="#545b64" stroke-width="1.2" marker-end="url(#arrow)"/>
 
         <!-- Arrow labels -->
-        <rect x="478" y="140" width="60" height="12" rx="2" fill="#f5f5f5"/>
-        <text x="508" y="150" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.12em">HANDOFF</text>
+        <rect x="528" y="140" width="60" height="12" rx="2" fill="#ffffff"/>
+        <text x="558" y="150" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.12em">HANDOFF</text>
 
-        <rect x="548" y="228" width="52" height="12" rx="2" fill="#ececec"/>
-        <text x="574" y="238" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.12em">REVISE</text>
+        <rect x="578" y="234" width="52" height="12" rx="2" fill="#f2f3f3"/>
+        <text x="604" y="244" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.12em">REVISE</text>
 
-        <rect x="712" y="308" width="80" height="12" rx="2" fill="#f5f5f5"/>
-        <text x="752" y="318" fill="#eb6c36" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.12em">DEPLOY TRIGGER</text>
+        <rect x="728" y="314" width="80" height="12" rx="2" fill="#ffffff"/>
+        <text x="768" y="324" fill="#232f3e" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.12em">SOURCE TRIGGER</text>
 
         <!-- Steps -->
         <!-- Author: Draft MDX -->
-        <rect x="180" y="96" width="120" height="48" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
-        <text x="240" y="118" fill="#2d3142" font-size="11" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Draft MDX</text>
-        <text x="240" y="132" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">src/content/…</text>
+        <rect x="180" y="96" width="120" height="48" rx="6" fill="#ffffff" stroke="#232f3e" stroke-width="1"/>
+        <text x="240" y="118" fill="#232f3e" font-size="11" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Write change</text>
+        <text x="240" y="132" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">cdk stack update</text>
 
         <!-- Author: Open PR -->
-        <rect x="340" y="96" width="120" height="48" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
-        <text x="400" y="118" fill="#2d3142" font-size="11" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Open PR</text>
-        <text x="400" y="132" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">gh pr create</text>
+        <rect x="340" y="96" width="120" height="48" rx="6" fill="#ffffff" stroke="#232f3e" stroke-width="1"/>
+        <text x="400" y="118" fill="#232f3e" font-size="11" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Open PR</text>
+        <text x="400" y="132" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">cdk diff attached</text>
 
         <!-- Reviewer: Review content -->
-        <rect x="500" y="176" width="140" height="48" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
-        <text x="570" y="198" fill="#2d3142" font-size="11" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Review content</text>
-        <text x="570" y="212" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">fact-check · voice</text>
+        <rect x="500" y="176" width="140" height="48" rx="6" fill="#ffffff" stroke="#232f3e" stroke-width="1"/>
+        <text x="570" y="198" fill="#232f3e" font-size="11" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Review diff</text>
+        <text x="570" y="212" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">IAM · cost impact</text>
 
         <!-- Editor: Polish copy -->
-        <rect x="500" y="256" width="140" height="48" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
-        <text x="570" y="278" fill="#2d3142" font-size="11" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Polish copy</text>
-        <text x="570" y="292" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">style · line edits</text>
+        <rect x="500" y="256" width="140" height="48" rx="6" fill="#ffffff" stroke="#232f3e" stroke-width="1"/>
+        <text x="570" y="278" fill="#232f3e" font-size="11" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Address notes</text>
+        <text x="570" y="292" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">fix · re-run diff</text>
 
         <!-- Editor: Approve merge -->
-        <rect x="680" y="256" width="140" height="48" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
-        <text x="750" y="278" fill="#2d3142" font-size="11" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Approve merge</text>
-        <text x="750" y="292" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">squash · main</text>
+        <rect x="680" y="256" width="140" height="48" rx="6" fill="#ffffff" stroke="#232f3e" stroke-width="1"/>
+        <text x="750" y="278" fill="#232f3e" font-size="11" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Approve merge</text>
+        <text x="750" y="292" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">squash · main</text>
 
         <!-- CI/CD: Build -->
-        <rect x="680" y="336" width="80" height="48" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
-        <text x="720" y="358" fill="#2d3142" font-size="11" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Build</text>
-        <text x="720" y="372" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">astro build</text>
+        <rect x="680" y="336" width="80" height="48" rx="6" fill="#ffffff" stroke="#232f3e" stroke-width="1"/>
+        <g transform="translate(740,340) scale(0.25)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g fill="#C925D1"> <rect x="0" y="0" width="64" height="64"></rect> </g> <path d="M50.5180223,18 L46.5574424,14.576 L42.8122625,18 L50.5180223,18 Z M44.2337037,14 L36.0365939,14 L40.4230105,17.485 L44.2337037,14 Z M40.5510593,27.325 L33.970938,30 L46.2308683,30 L40.5510593,27.325 Z M29.8525306,45 L49.7050612,45 L49.7050612,32 L29.8525306,32 L29.8525306,45 Z M37.8650119,18 L33.955056,14.894 L30.071901,18 L37.8650119,18 Z M27.4831311,17.517 L31.8804666,14 L23.0996923,14 L27.4831311,17.517 Z M24.8983316,18 L20.9903609,14.864 L17.0813977,18 L24.8983316,18 Z M22.9041449,20 L17.2680114,20 L22.9041449,24.835 L22.9041449,20 Z M22.9041449,29.227 L16.4570356,35 L22.9041449,40.773 L22.9041449,29.227 Z M22.9041449,45.227 L15.9557592,51.449 L15.9557592,52 L22.9041449,52 L22.9041449,45.227 Z M15.9557592,37.227 L15.9557592,48.773 L22.4028685,43 L15.9557592,37.227 Z M15.9557592,32.773 L22.3840086,27.016 L15.9557592,21.501 L15.9557592,32.773 Z M14.9631326,17.143 L18.8800369,14 L14.9631326,14 L14.9631326,17.143 Z M11.9852531,20 L12.9778796,20 L12.9778796,12 L11.9852531,12 L11.9852531,20 Z M53.9296797,19.371 C53.7788004,19.75 53.4135139,20 53.0075296,20 L40.7714224,20 L40.7714224,25.274 C40.8488473,25.29 40.9282574,25.294 41.0007191,25.329 L51.1175687,30.094 L51.1155835,30.1 C51.4530765,30.26 51.6903142,30.6 51.6903142,31 L51.6903142,46 C51.6903142,46.552 51.2456175,47 50.6976877,47 L28.8599041,47 C28.3109816,47 27.8672775,46.552 27.8672775,46 L27.8672775,31 C27.8672775,30.58 28.1243678,30.224 28.4896544,30.075 L28.4886617,30.073 L38.7861693,25.886 L38.7861693,20 L24.8893979,20 L24.8893979,53 C24.8893979,53.552 24.4447012,54 23.8967714,54 L14.9631326,54 C14.4142102,54 13.9705061,53.552 13.9705061,53 L13.9705061,22 L10.9926265,22 C10.4437041,22 10,21.552 10,21 L10,11 C10,10.448 10.4437041,10 10.9926265,10 L13.9705061,10 C14.518436,10 14.9631326,10.448 14.9631326,11 L14.9631326,12 L46.7271816,12 C46.981294,12 47.2254801,12.098 47.4101086,12.274 L53.6904567,18.274 C53.9852668,18.556 54.0795663,18.99 53.9296797,19.371 L53.9296797,19.371 Z M38.7147002,43.372 L42.6852063,33.372 L40.8418989,32.628 L36.8713928,42.628 L38.7147002,43.372 Z M43.7999259,39.793 L45.2034999,41.207 L48.1813794,38.207 C48.3729564,38.015 48.4781748,37.751 48.472219,37.479 C48.4672559,37.207 48.3511186,36.949 48.1525933,36.764 L44.9176234,33.764 L43.5726145,35.236 L46.0462398,37.53 L43.7999259,39.793 Z M32.6249365,38.207 C32.4333596,38.015 32.3281411,37.751 32.3340969,37.479 C32.3400527,37.207 32.4551973,36.949 32.6537226,36.764 L35.8886925,33.764 L37.2337014,35.236 L34.7600761,37.53 L37.00639,39.793 L35.6028161,41.207 L32.6249365,38.207 Z" fill="#FFFFFF"></path> </g></g>
+        <text x="720" y="358" fill="#232f3e" font-size="11" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Build</text>
+        <text x="720" y="372" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">CodeBuild</text>
 
         <!-- CI/CD: Deploy (coral focal) -->
-        <rect x="800" y="336" width="120" height="48" rx="6" fill="rgba(235,108,54,0.08)" stroke="#eb6c36" stroke-width="1"/>
-        <text x="860" y="358" fill="#2d3142" font-size="11" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Deploy</text>
-        <text x="860" y="372" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">cloudflare pages</text>
+        <rect x="800" y="336" width="120" height="48" rx="6" fill="rgba(236,114,17,0.08)" stroke="#ec7211" stroke-width="1"/>
+        <g transform="translate(900,340) scale(0.25)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g fill="#C925D1"> <rect x="0" y="0" width="64" height="64"></rect> </g> <path d="M35.5075522,48.1501433 L38.4235925,45.9312321 L35.5075522,43.7123209 L36.6996191,42.0985673 L40.6764896,45.1243553 C40.9270325,45.3139713 41.0751709,45.6135244 41.0751709,45.9312321 C41.0751709,46.2489398 40.9270325,46.5474842 40.6764896,46.7381089 L36.6996191,49.7638968 L35.5075522,48.1501433 Z M24.5711583,46.7381089 C24.3206155,46.5474842 24.1734713,46.2489398 24.1734713,45.9312321 C24.1734713,45.6135244 24.3206155,45.3139713 24.5711583,45.1243553 L28.5480288,42.0985673 L29.7400958,43.7123209 L26.8250497,45.9312321 L29.7400958,48.1501433 L28.5480288,49.7638968 L24.5711583,46.7381089 Z M23.1792537,51.982808 L42.0693885,51.982808 L42.0693885,39.8796562 L23.1792537,39.8796562 L23.1792537,51.982808 Z M43.0636061,37.8624642 L22.185036,37.8624642 C21.6352337,37.8624642 21.1908184,38.3143152 21.1908184,38.8710602 L21.1908184,52.991404 C21.1908184,53.548149 21.6352337,54 22.185036,54 L43.0636061,54 C43.6124143,54 44.0578238,53.548149 44.0578238,52.991404 L44.0578238,38.8710602 C44.0578238,38.3143152 43.6124143,37.8624642 43.0636061,37.8624642 L43.0636061,37.8624642 Z M32.0854551,51.2636791 L30.1805342,50.684745 L33.163187,40.5987851 L35.068108,41.1777192 L32.0854551,51.2636791 Z M46.1844553,25.1057421 C43.7158129,25.1057421 41.6538055,25.9085845 40.2589182,27.2732149 C39.8980172,21.269043 38.5568176,15.4887794 36.3228106,12.3732264 C44.0687602,13.8054327 49.9664591,19.5423266 51.5751032,27.2177421 C50.1145975,25.8541203 48.2086823,25.1057421 46.1844553,25.1057421 L46.1844553,25.1057421 Z M38.046784,27.3539026 C36.5683824,25.9045501 34.6008257,25.1057421 32.5040207,25.1057421 C30.1377828,25.1057421 28.1543186,25.8168023 26.7703677,27.0593926 C27.3420428,18.0455702 30.0492974,12.0202178 32.5109803,12.017192 L32.5159514,12.017192 C35.0263509,12.022235 37.7853048,18.2846074 38.284402,27.5858797 L38.046784,27.3539026 Z M24.7401753,27.7250659 C24.6606379,27.6453868 24.5830889,27.5667163 24.5015631,27.4860287 L24.3663495,27.3539026 C22.8889421,25.9045501 20.9203912,25.1057421 18.8245805,25.1057421 C16.7655558,25.1057421 14.984912,25.6513926 13.6437124,26.6236791 C15.5446565,19.2710143 21.3091303,13.8044241 28.6931846,12.3893639 C26.4094667,15.5856046 25.0593192,21.5696046 24.7401753,27.7250659 L24.7401753,27.7250659 Z M54,31.1764814 C54,31.1442063 54,31.1129398 53.9990058,31.0816734 C53.7862432,19.0672779 44.5738227,10.0171461 32.5358357,10.0010086 C32.527882,10.0010086 32.5209224,10 32.5129687,10 L32.5089918,10 L32.5040207,10 C20.6976865,10 11.453451,19.0582006 11.001082,31.0615014 C10.9831861,31.4397249 11.1889891,31.781639 11.4922255,31.9732722 L11.4882486,31.9793238 L19.1278168,37.0243209 L20.2135025,35.333914 L13.1585342,30.6752092 C13.7600359,28.503702 15.9025749,27.1229341 18.8245805,27.1229341 C20.4024038,27.1229341 21.878817,27.7200229 22.9833928,28.8042636 L23.1196006,28.9373983 C24.1337026,29.9298567 24.6934471,31.661616 24.6984182,31.6918739 C24.7043835,31.7312092 24.7043835,31.771553 24.7133314,31.8048367 L25.7105317,35.5416848 L27.6283775,35.0141891 L26.6709459,31.429639 L26.6739286,31.3892951 C27.0169337,28.2434842 29.910107,27.1229341 32.5040207,27.1229341 C34.0818441,27.1229341 35.5592515,27.7200229 36.6638273,28.8042636 L36.9402198,29.0735587 C37.8111544,29.9177536 38.2118241,30.3080802 38.3361013,31.4397249 L37.370716,35.0111633 L39.289556,35.543702 L40.2947101,31.8199656 C40.303658,31.7866819 40.3116118,31.7513811 40.3185713,31.7170888 C40.3235424,31.6858223 40.3255308,31.6535473 40.3295077,31.6222808 C40.3295077,31.6172378 40.3324903,31.6132034 40.3324903,31.6091691 C40.5581777,28.2979484 43.6263333,27.1229341 46.1844553,27.1229341 C47.7563133,27.1229341 49.2307381,27.7200229 50.3353138,28.8042636 C51.1237284,29.5778567 51.6944093,30.173937 51.9111488,30.720596 L45.6247107,35.1604355 L46.7601073,36.8165501 L53.5734806,32.0045387 L53.5625442,31.9894097 C53.8210408,31.8068539 54,31.5183954 54,31.1764814 L54,31.1764814 Z" fill="#FFFFFF"></path> </g></g>
+        <text x="860" y="358" fill="#232f3e" font-size="11" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Deploy</text>
+        <text x="860" y="372" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">CodeDeploy · prod</text>
 
         <!-- Legend -->
-        <line x1="40" y1="428" x2="960" y2="428" stroke="rgba(45,49,66,0.10)" stroke-width="0.8"/>
-        <text x="40" y="444" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.18em">LEGEND</text>
+        <line x1="40" y1="428" x2="960" y2="428" stroke="rgba(35,47,62,0.10)" stroke-width="0.8"/>
+        <text x="40" y="444" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.18em">LEGEND</text>
 
-        <rect x="40" y="460" width="14" height="10" rx="2" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
-        <text x="60" y="468" fill="#4f5d75" font-size="8.5" font-family="'Geist', sans-serif">Step</text>
+        <rect x="40" y="460" width="14" height="10" rx="2" fill="#ffffff" stroke="#232f3e" stroke-width="1"/>
+        <text x="60" y="468" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Step</text>
 
-        <rect x="132" y="460" width="14" height="10" rx="2" fill="rgba(235,108,54,0.08)" stroke="#eb6c36" stroke-width="1"/>
-        <text x="152" y="468" fill="#4f5d75" font-size="8.5" font-family="'Geist', sans-serif">Focal outcome</text>
+        <rect x="132" y="460" width="14" height="10" rx="2" fill="rgba(236,114,17,0.08)" stroke="#ec7211" stroke-width="1"/>
+        <text x="152" y="468" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Focal outcome</text>
 
-        <line x1="268" y1="466" x2="296" y2="466" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#arrow)"/>
-        <text x="304" y="468" fill="#4f5d75" font-size="8.5" font-family="'Geist', sans-serif">Within-lane step</text>
+        <line x1="268" y1="466" x2="296" y2="466" stroke="#545b64" stroke-width="1.2" marker-end="url(#arrow)"/>
+        <text x="304" y="468" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Within-lane step</text>
 
-        <line x1="444" y1="466" x2="472" y2="466" stroke="#4f5d75" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
-        <text x="480" y="468" fill="#4f5d75" font-size="8.5" font-family="'Geist', sans-serif">Revision loop</text>
+        <line x1="444" y1="466" x2="472" y2="466" stroke="#545b64" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
+        <text x="480" y="468" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Revision loop</text>
 
-        <line x1="608" y1="466" x2="636" y2="466" stroke="#eb6c36" stroke-width="1.4" marker-end="url(#arrow-accent)"/>
-        <text x="644" y="468" fill="#4f5d75" font-size="8.5" font-family="'Geist', sans-serif">Critical handoff</text>
+        <line x1="608" y1="466" x2="636" y2="466" stroke="#ec7211" stroke-width="1.4" marker-end="url(#arrow-accent)"/>
+        <text x="644" y="468" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Critical handoff</text>
       </svg>
     </div>
 
     <div class="cards">
       <div class="card">
         <p class="eyebrow">THE HEADLINE</p>
-        <div class="card-header"><span class="card-dot coral"></span><h3>The deploy trigger is the risky edge</h3></div>
-        <p>Every other step lives inside one person's head. The Editor→CI/CD handoff is where automation takes over and humans lose the ability to undo — hence coral.</p>
+        <div class="card-header"><span class="card-dot coral"></span><h3>The source trigger is the risky edge</h3></div>
+        <p>Every other step lives inside one person's head. The Approver→Pipeline handoff is where CodePipeline takes over and humans lose the ability to undo — hence coral.</p>
       </div>
       <div class="card">
         <div class="card-header"><span class="card-dot ink"></span><h3>One owner per step</h3></div>
@@ -162,12 +171,12 @@
       </div>
       <div class="card">
         <div class="card-header"><span class="card-dot muted"></span><h3>Uneven step counts are fine</h3></div>
-        <p>The Reviewer lane has one step; CI/CD has two. Lanes don't need to match — they exist to make ownership unambiguous.</p>
+        <p>The Reviewer lane has one step; the Pipeline lane has two. Lanes don't need to match — they exist to make ownership unambiguous.</p>
       </div>
     </div>
 
     <div class="footer">
-      <span>publishing an article · swimlane</span>
+      <span>shipping a cdk change · swimlane</span>
       <span>example · schematic skill</span>
     </div>
   </div>

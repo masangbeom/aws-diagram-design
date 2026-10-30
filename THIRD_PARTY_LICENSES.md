@@ -8,7 +8,7 @@ content from the following third-party sources under their respective licenses.
 ## diagram-design (upstream base)
 
 - **License:** MIT
-- **Upstream:** https://github.com/cathrynlavery/diagram-design (base version 2.3.2)
+- **Upstream:** https://github.com/cathrynlavery/diagram-design (base version 2.3.2, synced with 2.6.136 including its 45 visual types; Excalidraw import, client profiles, doctor, and registry export are not included)
 - **Used in:** the entire skill structure — `skills/aws-diagram-design/` (SKILL.md, references, templates, examples, scripts), `commands/`, and `scripts/`.
 
 ## AWS Architecture Icons
@@ -42,7 +42,7 @@ reusing the fonts outside this skill.
 
 - **License:** SIL Open Font License 1.1
 - **Upstream:** https://vercel.com/font (loaded at render time from Google Fonts)
-- **Used in:** legacy pre-baked example assets only (`skills/aws-diagram-design/assets/example-*.html`, built under earlier skins) and the opt-in terminal variant — loaded via `fonts.googleapis.com` at render time, not bundled. Newly generated diagrams use the bundled **Amazon Ember Mono** for all mono roles instead.
+- **Used in:** the opt-in terminal variant only (`template-terminal.html`, `example-loop-terminal.html`) — loaded via `fonts.googleapis.com` at render time, not bundled. Every other template and example, and every newly generated diagram, uses the bundled **Amazon Ember Mono** for all mono roles.
 
 ## Tabler Icons
 

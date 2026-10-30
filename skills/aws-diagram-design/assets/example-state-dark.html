@@ -3,18 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Article lifecycle · State machine</title>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <title>Golden AMI lifecycle · State machine</title>
+  <style>
+  @font-face { font-family: 'Amazon Ember'; font-weight: 400; font-style: normal; src: local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_Rg.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 400; font-style: italic; src: local('Amazon Ember Italic'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_RgIt.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 600; font-style: normal; src: local('Amazon Ember Medium'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_SBd.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 700; font-style: normal; src: local('Amazon Ember Bold'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_Bd.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember Mono'; font-weight: 400; font-style: normal; src: local('Amazon Ember Mono'), url('fonts/woff2/AmazonEmberMono_W_Rg.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember Mono'; font-weight: 700; font-style: normal; src: local('Amazon Ember Mono Bold'), local('Amazon Ember Mono'), url('fonts/woff2/AmazonEmberMono_W_Bd.woff2') format('woff2'); }
+</style>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --color-paper:   #2d3142;
-      --color-ink:     #f5f5f5;
-      --color-muted:   #bfc0c0;
-      --color-accent:  #f08a59;
-      --font-sans:     'Geist', system-ui, sans-serif;
-      --font-serif:    'Instrument Serif', serif;
-      --font-mono:     'Geist Mono', ui-monospace, monospace;
+      --color-paper:   #161e2d;
+      --color-ink:     #ffffff;
+      --color-muted:   #b6bec9;
+      --color-accent:  #ff9900;
+      --font-sans:     'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --font-serif:    'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --font-mono:     'Amazon Ember Mono', ui-monospace, monospace;
     }
 
     body {
@@ -43,7 +50,7 @@
     h1 {
       font-family: var(--font-serif);
       font-size: clamp(1.5rem, 2.4vw + 0.75rem, 2rem);
-      font-weight: 400;
+      font-weight: 700;
       letter-spacing: -0.02em;
       line-height: 1.15;
       color: var(--color-ink);
@@ -55,92 +62,94 @@
 </head>
 <body>
   <div class="frame">
-    <p class="eyebrow">State machine · Diagram Design</p>
-    <h1>Article lifecycle</h1>
+    <p class="eyebrow">State machine · EC2 Image Builder</p>
+    <h1>Golden AMI lifecycle</h1>
 
     <svg viewBox="0 0 1000 460" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="state-dark-title state-dark-desc">
-      <title id="state-dark-title">Article lifecycle</title>
-      <desc id="state-dark-desc">State machine showing an article moving from Draft through In Review and Published to Archived, including rejection and revision.</desc>
+      <title id="state-dark-title">Golden AMI lifecycle</title>
+      <desc id="state-dark-desc">State machine showing a golden AMI moving from Building in EC2 Image Builder through Testing and Available to Deprecated, including the failed-test rebuild loop.</desc>
         <defs>
           <pattern id="dots" width="22" height="22" patternUnits="userSpaceOnUse">
-            <circle cx="1" cy="1" r="0.9" fill="rgba(245,245,245,0.10)"/>
+            <circle cx="1" cy="1" r="0.9" fill="rgba(255,255,255,0.10)"/>
           </pattern>
-          <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#bfc0c0"/></marker>
-          <marker id="arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#f08a59"/></marker>
+          <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#b6bec9"/></marker>
+          <marker id="arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#ff9900"/></marker>
         </defs>
 
-        <rect width="100%" height="100%" fill="#2d3142"/>
+        <rect width="100%" height="100%" fill="#161e2d"/>
         <rect width="100%" height="100%" fill="url(#dots)" opacity="0.55"/>
 
         <!-- Transitions (drawn first) -->
         <!-- Start → Draft -->
-        <line x1="68" y1="200" x2="120" y2="200" stroke="#bfc0c0" stroke-width="1.2" marker-end="url(#arrow)"/>
+        <line x1="68" y1="200" x2="120" y2="200" stroke="#b6bec9" stroke-width="1.2" marker-end="url(#arrow)"/>
         <!-- Draft → In Review -->
-        <line x1="280" y1="200" x2="340" y2="200" stroke="#bfc0c0" stroke-width="1.2" marker-end="url(#arrow)"/>
+        <line x1="280" y1="200" x2="340" y2="200" stroke="#b6bec9" stroke-width="1.2" marker-end="url(#arrow)"/>
         <!-- In Review → Published (coral — happy path) -->
-        <line x1="500" y1="200" x2="560" y2="200" stroke="#f08a59" stroke-width="1.4" marker-end="url(#arrow-accent)"/>
+        <line x1="500" y1="200" x2="560" y2="200" stroke="#ff9900" stroke-width="1.4" marker-end="url(#arrow-accent)"/>
         <!-- Published → Archived (down) -->
-        <line x1="640" y1="240" x2="640" y2="300" stroke="#bfc0c0" stroke-width="1.2" marker-end="url(#arrow)"/>
+        <line x1="640" y1="240" x2="640" y2="300" stroke="#b6bec9" stroke-width="1.2" marker-end="url(#arrow)"/>
         <!-- Archived → End (down) -->
-        <line x1="640" y1="400" x2="640" y2="432" stroke="#bfc0c0" stroke-width="1.2" marker-end="url(#arrow)"/>
+        <line x1="640" y1="400" x2="640" y2="432" stroke="#b6bec9" stroke-width="1.2" marker-end="url(#arrow)"/>
         <!-- In Review → Draft (curved back up-and-left) -->
-        <path d="M 420 160 C 420 96, 200 96, 200 160" fill="none" stroke="#bfc0c0" stroke-width="1.2" stroke-dasharray="5,4" marker-end="url(#arrow)"/>
+        <path d="M 420 160 C 420 96, 200 96, 200 160" fill="none" stroke="#b6bec9" stroke-width="1.2" stroke-dasharray="5,4" marker-end="url(#arrow)"/>
 
         <!-- Transition labels -->
-        <rect x="172" y="184" width="48" height="12" rx="2" fill="#2d3142"/>
-        <text x="196" y="194" fill="#bfc0c0" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">CREATE</text>
+        <rect x="172" y="184" width="48" height="12" rx="2" fill="#161e2d"/>
+        <text x="196" y="194" fill="#b6bec9" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">CREATE</text>
 
-        <rect x="288" y="184" width="48" height="12" rx="2" fill="#2d3142"/>
-        <text x="312" y="194" fill="#bfc0c0" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">SUBMIT</text>
+        <rect x="288" y="184" width="48" height="12" rx="2" fill="#161e2d"/>
+        <text x="312" y="194" fill="#b6bec9" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">BUILT</text>
 
-        <rect x="500" y="184" width="60" height="12" rx="2" fill="#2d3142"/>
-        <text x="530" y="194" fill="#f08a59" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">APPROVE</text>
+        <rect x="500" y="184" width="60" height="12" rx="2" fill="#161e2d"/>
+        <text x="530" y="194" fill="#ff9900" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">PASS</text>
 
-        <rect x="612" y="264" width="56" height="12" rx="2" fill="#2d3142"/>
-        <text x="640" y="274" fill="#bfc0c0" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">EXPIRE</text>
+        <rect x="612" y="264" width="56" height="12" rx="2" fill="#161e2d"/>
+        <text x="640" y="274" fill="#b6bec9" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">EXPIRE</text>
 
-        <rect x="620" y="416" width="40" height="12" rx="2" fill="#2d3142"/>
-        <text x="640" y="426" fill="#bfc0c0" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">PURGE</text>
+        <rect x="620" y="416" width="40" height="12" rx="2" fill="#161e2d"/>
+        <text x="640" y="426" fill="#b6bec9" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">DELETE</text>
 
         <!-- Reject label on curved path -->
-        <rect x="276" y="92" width="80" height="12" rx="2" fill="#2d3142"/>
-        <text x="316" y="102" fill="#bfc0c0" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">REJECT · REVISE</text>
+        <rect x="276" y="92" width="80" height="12" rx="2" fill="#161e2d"/>
+        <text x="316" y="102" fill="#b6bec9" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">FAIL · REBUILD</text>
 
         <!-- Start dot (filled ink) -->
-        <circle cx="60" cy="200" r="6" fill="#f5f5f5"/>
+        <circle cx="60" cy="200" r="6" fill="#ffffff"/>
 
         <!-- State: Draft -->
-        <rect x="120" y="160" width="160" height="80" rx="8" fill="#393e53" stroke="#f5f5f5" stroke-width="1"/>
-        <rect x="128" y="168" width="40" height="12" rx="2" fill="transparent" stroke="rgba(245,245,245,0.40)" stroke-width="0.8"/>
-        <text x="148" y="177" fill="#f5f5f5" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">STATE</text>
-        <text x="200" y="208" fill="#f5f5f5" font-size="14" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Draft</text>
-        <text x="200" y="224" fill="#bfc0c0" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">unpublished</text>
+        <rect x="120" y="160" width="160" height="80" rx="8" fill="#232f3e" stroke="#ffffff" stroke-width="1"/>
+        <rect x="128" y="168" width="40" height="12" rx="2" fill="transparent" stroke="rgba(255,255,255,0.40)" stroke-width="0.8"/>
+        <text x="148" y="177" fill="#ffffff" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">STATE</text>
+        <g transform="translate(256,164) scale(0.25)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g fill="#ED7100"> <rect x="0" y="0" width="64" height="64"></rect> </g> <path d="M25.793,26.293 L19.586,32.5 L25.793,38.707 L27.207,37.293 L22.414,32.5 L27.207,27.707 L25.793,26.293 Z M12,50 L31,50 L31,14 L12,14 L12,50 Z M10,52 L33,52 L33,12 L10,12 L10,52 Z M14,32 C14,40.822 21.178,48 30,48 L30,46 C22.28,46 16,39.72 16,32 C16,24.28 22.28,18 30,18 L30,16 C21.178,16 14,23.178 14,32 L14,32 Z M34.448,39.705 L34.448,41.705 C39.8,41.705 44.154,37.352 44.154,32 C44.154,26.648 39.8,22.295 34.448,22.295 L34.448,24.295 C38.697,24.295 42.154,27.751 42.154,32 C42.154,36.249 38.697,39.705 34.448,39.705 L34.448,39.705 Z M54,28.834 L54,35.167 C54,36.155 53.196,36.959 52.208,36.959 L49.674,36.959 C49.39,37.857 49.025,38.732 48.587,39.575 L50.381,41.369 C50.72,41.707 50.906,42.157 50.906,42.636 C50.906,43.115 50.72,43.565 50.381,43.903 L45.903,48.381 C45.204,49.078 44.068,49.08 43.369,48.382 L41.575,46.587 C40.733,47.025 39.857,47.389 38.958,47.673 L38.958,50.209 C38.958,51.196 38.154,52 37.167,52 L34,52 L34,50 L36.958,50 L36.958,46.153 L37.702,45.956 C38.939,45.629 40.132,45.134 41.248,44.484 L41.914,44.097 L44.636,46.82 L48.819,42.636 L46.097,39.914 L46.484,39.248 C47.135,38.13 47.63,36.937 47.956,35.703 L48.152,34.959 L52,34.959 L52,29.042 L48.152,29.042 L47.956,28.297 C47.63,27.063 47.135,25.87 46.484,24.752 L46.097,24.086 L48.819,21.364 L44.637,17.18 L41.914,19.903 L41.248,19.516 C40.132,18.866 38.939,18.371 37.702,18.044 L36.958,17.847 L36.958,14 L34.064,14 L34.064,12 L37.167,12 C38.154,12 38.958,12.804 38.958,13.792 L38.958,16.327 C39.857,16.611 40.733,16.975 41.575,17.413 L43.369,15.619 C44.067,14.921 45.203,14.919 45.903,15.618 L50.381,20.097 C50.72,20.435 50.906,20.885 50.906,21.364 C50.906,21.843 50.72,22.293 50.381,22.631 L48.587,24.425 C49.025,25.268 49.39,26.143 49.674,27.042 L52.208,27.042 C53.196,27.042 54,27.845 54,28.834 L54,28.834 Z" fill="#FFFFFF"></path> </g></g>
+        <text x="200" y="208" fill="#ffffff" font-size="14" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Building</text>
+        <text x="200" y="224" fill="#b6bec9" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">EC2 Image Builder</text>
 
         <!-- State: In Review -->
-        <rect x="340" y="160" width="160" height="80" rx="8" fill="#393e53" stroke="#f5f5f5" stroke-width="1"/>
-        <rect x="348" y="168" width="40" height="12" rx="2" fill="transparent" stroke="rgba(245,245,245,0.40)" stroke-width="0.8"/>
-        <text x="368" y="177" fill="#f5f5f5" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">STATE</text>
-        <text x="420" y="208" fill="#f5f5f5" font-size="14" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">In Review</text>
-        <text x="420" y="224" fill="#bfc0c0" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">awaiting approval</text>
+        <rect x="340" y="160" width="160" height="80" rx="8" fill="#232f3e" stroke="#ffffff" stroke-width="1"/>
+        <rect x="348" y="168" width="40" height="12" rx="2" fill="transparent" stroke="rgba(255,255,255,0.40)" stroke-width="0.8"/>
+        <text x="368" y="177" fill="#ffffff" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">STATE</text>
+        <text x="420" y="208" fill="#ffffff" font-size="14" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Testing</text>
+        <text x="420" y="224" fill="#b6bec9" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">test components</text>
 
         <!-- State: Published (focal coral) -->
-        <rect x="560" y="160" width="160" height="80" rx="8" fill="rgba(240,138,89,0.08)" stroke="#f08a59" stroke-width="1"/>
-        <rect x="568" y="168" width="40" height="12" rx="2" fill="transparent" stroke="rgba(240,138,89,0.50)" stroke-width="0.8"/>
-        <text x="588" y="177" fill="#f08a59" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">STATE</text>
-        <text x="640" y="208" fill="#f5f5f5" font-size="14" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Published</text>
-        <text x="640" y="224" fill="#bfc0c0" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">live on site</text>
+        <rect x="560" y="160" width="160" height="80" rx="8" fill="rgba(255,153,0,0.08)" stroke="#ff9900" stroke-width="1"/>
+        <rect x="568" y="168" width="40" height="12" rx="2" fill="transparent" stroke="rgba(255,153,0,0.50)" stroke-width="0.8"/>
+        <text x="588" y="177" fill="#ff9900" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">STATE</text>
+        <g transform="translate(696,164) scale(0.3333)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <path d="M30.143,37.727 L38.599,37.727 L38.599,26.656 L30.143,26.656 L30.143,37.727 Z M9.229,37.727 L17.686,37.727 L17.686,26.656 L9.229,26.656 L9.229,37.727 Z M19.686,37.727 L28.143,37.727 L28.143,26.656 L19.686,26.656 L19.686,37.727 Z M39.599,24.656 L8.229,24.656 C7.676,24.656 7.229,25.104 7.229,25.656 L7.229,38.727 C7.229,39.279 7.676,39.727 8.229,39.727 L39.599,39.727 C40.151,39.727 40.599,39.279 40.599,38.727 L40.599,25.656 C40.599,25.104 40.151,24.656 39.599,24.656 L39.599,24.656 Z M30.143,19.428 L38.599,19.428 L38.599,10.971 L30.143,10.971 L30.143,19.428 Z M9.229,19.428 L17.686,19.428 L17.686,10.971 L9.229,10.971 L9.229,19.428 Z M19.686,19.428 L28.143,19.428 L28.143,10.971 L19.686,10.971 L19.686,19.428 Z M39.599,8.971 L8.229,8.971 C7.676,8.971 7.229,9.419 7.229,9.971 L7.229,20.428 C7.229,20.98 7.676,21.428 8.229,21.428 L39.599,21.428 C40.151,21.428 40.599,20.98 40.599,20.428 L40.599,9.971 C40.599,9.419 40.151,8.971 39.599,8.971 L39.599,8.971 Z M43.827,39.379 C43.827,41.832 41.832,43.827 39.38,43.827 L8.448,43.827 C5.995,43.827 4,41.832 4,39.379 L4,8.448 C4,5.995 5.995,4 8.448,4 L39.38,4 C41.832,4 43.827,5.995 43.827,8.448 L43.827,39.379 Z M39.38,2 L8.448,2 C4.893,2 2,4.892 2,8.448 L2,39.379 C2,42.934 4.893,45.827 8.448,45.827 L39.38,45.827 C42.935,45.827 45.827,42.934 45.827,39.379 L45.827,8.448 C45.827,4.892 42.935,2 39.38,2 L39.38,2 Z" fill="#ED7100"></path> </g></g>
+        <text x="640" y="208" fill="#ffffff" font-size="14" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Available</text>
+        <text x="640" y="224" fill="#b6bec9" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">launchable · shared</text>
 
         <!-- State: Archived -->
-        <rect x="560" y="300" width="160" height="100" rx="8" fill="rgba(245,245,245,0.05)" stroke="#bfc0c0" stroke-width="1"/>
-        <rect x="568" y="308" width="40" height="12" rx="2" fill="transparent" stroke="rgba(191,192,192,0.50)" stroke-width="0.8"/>
-        <text x="588" y="317" fill="#bfc0c0" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">STATE</text>
-        <text x="640" y="348" fill="#f5f5f5" font-size="14" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Archived</text>
-        <text x="640" y="364" fill="#bfc0c0" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">noindex · hidden</text>
-        <text x="640" y="382" fill="#bfc0c0" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">redirect retained</text>
+        <rect x="560" y="300" width="160" height="100" rx="8" fill="rgba(255,255,255,0.05)" stroke="#b6bec9" stroke-width="1"/>
+        <rect x="568" y="308" width="40" height="12" rx="2" fill="transparent" stroke="rgba(182,190,201,0.50)" stroke-width="0.8"/>
+        <text x="588" y="317" fill="#b6bec9" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">STATE</text>
+        <text x="640" y="348" fill="#ffffff" font-size="14" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Deprecated</text>
+        <text x="640" y="364" fill="#b6bec9" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">hidden from search</text>
+        <text x="640" y="382" fill="#b6bec9" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">launches still work</text>
 
         <!-- End ring dot -->
-        <circle cx="640" cy="440" r="8" fill="none" stroke="#f5f5f5" stroke-width="1"/>
-        <circle cx="640" cy="440" r="5" fill="#f5f5f5"/>
+        <circle cx="640" cy="440" r="8" fill="none" stroke="#ffffff" stroke-width="1"/>
+        <circle cx="640" cy="440" r="5" fill="#ffffff"/>
       </svg>
   </div>
 </body>

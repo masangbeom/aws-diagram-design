@@ -13,7 +13,7 @@ You get a self-contained HTML diagram with the [official AWS Architecture Icons]
 ## What it draws
 
 - **Architecture diagrams**: serverless, VPC networking, multi-account / multi-region, hybrid (Direct Connect / VPN). VPC, subnet, Region, and account boundaries follow the official group-container color and badge conventions.
-- **Everything else your design docs need**: flowcharts, sequence diagrams, state machines, ER, timelines, swimlanes, Gantt charts, org charts, layer stacks, data flows — 27 visual types in total.
+- **Everything else your design docs need**: flowcharts, sequence diagrams, state machines, ER and database schemas, timelines, swimlanes, Gantt charts, org charts, layer stacks, data flows, deployment and dependency graphs, architecture before/after deltas, waterfall, Sankey, treemap and heatmap charts, service blueprints, Wardley maps — 45 visual types in total.
 - **Redrawing existing diagrams**: reads your draw.io (.drawio) or Mermaid (.mmd) files and redraws them at the size and detail level you choose (doc / slide / summary) while preserving the content.
 
 Any node that names an AWS service gets its official icon — in every diagram type, not just architecture — on top of a restrained editorial design system (based on [cathrynlavery/diagram-design](https://github.com/cathrynlavery/diagram-design)) that limits emphasis to one or two smile-orange focal elements.
@@ -123,10 +123,10 @@ aws-diagram-design/
 ├── plugin.json                     # Agent Plugins manifest (for Kiro Powers)
 ├── commands/                       # 3 slash commands (import-drawio / import-mermaid / export-diagram)
 ├── skills/aws-diagram-design/      # canonical skill (shared by every environment)
-│   ├── SKILL.md                    #   design system + routing for the 27 types
-│   ├── references/                 #   40 per-type specs (style-guide, type-*, primitive-aws-icons, …)
+│   ├── SKILL.md                    #   design system + routing for the 45 types
+│   ├── references/                 #   58 specs (style-guide, type-*, primitive-aws-icons, …)
 │   ├── assets/                     #   templates & examples, aws-icons/ 812 SVGs, fonts/ Amazon Ember
-│   └── scripts/                    #   self-checks (self_check, verify-geometry), drawio/mermaid extractors
+│   └── scripts/                    #   self-checks (self_check, verify-geometry), drawio/mermaid extractors, SVG/PNG exporters (export_svg, export_png)
 ├── scripts/                        # repo-level verification scripts + test fixtures
 ├── docs/                           # per-environment guides + samples/ example diagrams
 └── install.sh                      # claude-code · kiro · fonts installers

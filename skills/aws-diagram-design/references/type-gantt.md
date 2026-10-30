@@ -4,11 +4,11 @@
 
 ## Layout conventions
 
-- **Left label column:** x=20–200 (180px). Task names in Amazon Ember 11px 600. Phase labels as Amazon Ember Mono 7px eyebrows above each group.
+- **Left label column:** x=20–200 (180px). Task names in the `node-name` role at 11px 600. Phase labels as `eyebrow` 7px above each group.
 - **Timeline area:** x=200–960 (760px). Time axis runs left→right.
 - **Row height:** 40px per task. Each bar occupies h=24px centered in the row (8px top padding).
-- **Time axis:** Amazon Ember Mono 8px week/month labels at x=200+i×pitch, y=56 (just above first task row). A hairline separator at y=64.
-- **Phase grouping:** a subtle zone rect (same pattern as architecture zone) behind each phase's rows, with an eyebrow label in the top-left margin. Use `rgba(35,47,62,0.02)` fill, `rgba(35,47,62,0.10)` stroke.
+- **Time axis:** `arrow-label` role 8px week/month labels at x=200+i×pitch, y=56 (just above first task row). A hairline separator at y=64.
+- **Phase grouping:** a subtle zone rect (same pattern as architecture zone) behind each phase's rows, with an eyebrow label in the top-left margin. Use `ink @ 0.02` fill, `ink @ 0.10` stroke.
 - **Focal task bar:** 1 bar in accent fill/stroke (the key deliverable or critical path task). All others: muted fill @ 0.15, muted stroke.
 - **Today / milestone marker:** optional vertical dashed line in `muted` at the current week x-position.
 
@@ -17,15 +17,15 @@
 ```svg
 <!-- Non-focal task -->
 <rect x="X_start" y="ROW_Y+8" width="DURATION_PX" height="24" rx="4"
-      fill="rgba(84,91,100,0.15)" stroke="#545B64" stroke-width="1"/>
-<text x="X_start+8" y="ROW_Y+25" fill="#232F3E" font-size="10" font-weight="600"
-      font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Task name</text>
+      fill="{muted @ 0.15}" stroke="{muted}" stroke-width="1"/>
+<text x="X_start+8" y="ROW_Y+25" fill="{ink}" font-size="10" font-weight="600"
+      font-family="{node-name}">Task name</text>
 
 <!-- Focal task -->
 <rect x="X_start" y="ROW_Y+8" width="DURATION_PX" height="24" rx="4"
-      fill="rgba(255,153,0,0.12)" stroke="#EC7211" stroke-width="1"/>
-<text x="X_start+8" y="ROW_Y+25" fill="#EC7211" font-size="10" font-weight="600"
-      font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Key task</text>
+      fill="{accent @ 0.12}" stroke="{accent}" stroke-width="1"/>
+<text x="X_start+8" y="ROW_Y+25" fill="{accent}" font-size="10" font-weight="600"
+      font-family="{node-name}">Key task</text>
 ```
 
 Duration in pixels: `(end_week - start_week) × pitch`. Pitch = timeline_width / total_weeks.

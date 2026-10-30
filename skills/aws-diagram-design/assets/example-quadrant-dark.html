@@ -3,18 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Content ideas · Impact × Effort</title>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <title>AWS optimization backlog · Impact × Effort</title>
+  <style>
+  @font-face { font-family: 'Amazon Ember'; font-weight: 400; font-style: normal; src: local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_Rg.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 400; font-style: italic; src: local('Amazon Ember Italic'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_RgIt.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 600; font-style: normal; src: local('Amazon Ember Medium'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_SBd.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 700; font-style: normal; src: local('Amazon Ember Bold'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_Bd.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember Mono'; font-weight: 400; font-style: normal; src: local('Amazon Ember Mono'), url('fonts/woff2/AmazonEmberMono_W_Rg.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember Mono'; font-weight: 700; font-style: normal; src: local('Amazon Ember Mono Bold'), local('Amazon Ember Mono'), url('fonts/woff2/AmazonEmberMono_W_Bd.woff2') format('woff2'); }
+</style>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --color-paper:   #2d3142;
-      --color-ink:     #f5f5f5;
-      --color-muted:   #bfc0c0;
-      --color-accent:  #f08a59;
-      --font-sans:     'Geist', system-ui, sans-serif;
-      --font-serif:    'Instrument Serif', serif;
-      --font-mono:     'Geist Mono', ui-monospace, monospace;
+      --color-paper:   #161e2d;
+      --color-ink:     #ffffff;
+      --color-muted:   #b6bec9;
+      --color-accent:  #ff9900;
+      --font-sans:     'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --font-serif:    'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --font-mono:     'Amazon Ember Mono', ui-monospace, monospace;
     }
 
     body {
@@ -43,7 +50,7 @@
     h1 {
       font-family: var(--font-serif);
       font-size: clamp(1.5rem, 2.4vw + 0.75rem, 2rem);
-      font-weight: 400;
+      font-weight: 700;
       letter-spacing: -0.02em;
       line-height: 1.15;
       color: var(--color-ink);
@@ -55,80 +62,80 @@
 </head>
 <body>
   <div class="frame">
-    <p class="eyebrow">Quadrant · Diagram Design</p>
-    <h1>Content ideas · Impact × Effort</h1>
+    <p class="eyebrow">Quadrant · AWS Diagram Design</p>
+    <h1>AWS optimization backlog · Impact × Effort</h1>
 
     <svg viewBox="0 0 1000 500" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="quadrant-dark-title quadrant-dark-desc">
-      <title id="quadrant-dark-title">Content ideas · Impact × Effort</title>
-      <desc id="quadrant-dark-desc">Impact-effort matrix showing eight content projects across do first, major projects, quick wins, and avoid quadrants.</desc>
+      <title id="quadrant-dark-title">AWS optimization backlog · Impact × Effort</title>
+      <desc id="quadrant-dark-desc">Impact-effort matrix showing eight AWS optimization and modernization items across do first, major projects, quick wins, and avoid quadrants, with a Compute Savings Plan purchase as the single action to start tomorrow.</desc>
         <defs>
           <pattern id="dots" width="22" height="22" patternUnits="userSpaceOnUse">
-            <circle cx="1" cy="1" r="0.9" fill="rgba(245,245,245,0.10)"/>
+            <circle cx="1" cy="1" r="0.9" fill="rgba(255,255,255,0.10)"/>
           </pattern>
         </defs>
 
-        <rect width="100%" height="100%" fill="#2d3142"/>
+        <rect width="100%" height="100%" fill="#161e2d"/>
         <rect width="100%" height="100%" fill="url(#dots)" opacity="0.55"/>
 
         <!-- Quadrant backgrounds (very subtle, only coral on DO FIRST) -->
-        <rect x="120" y="80" width="380" height="170" fill="rgba(240,138,89,0.03)"/>
+        <rect x="120" y="80" width="380" height="170" fill="rgba(255,153,0,0.03)"/>
 
         <!-- Axis cross -->
-        <line x1="120" y1="250" x2="880" y2="250" stroke="rgba(245,245,245,0.45)" stroke-width="1"/>
-        <line x1="500" y1="80" x2="500" y2="420" stroke="rgba(245,245,245,0.45)" stroke-width="1"/>
+        <line x1="120" y1="250" x2="880" y2="250" stroke="rgba(255,255,255,0.45)" stroke-width="1"/>
+        <line x1="500" y1="80" x2="500" y2="420" stroke="rgba(255,255,255,0.45)" stroke-width="1"/>
 
         <!-- Axis end labels -->
-        <text x="880" y="266" fill="#bfc0c0" font-size="8" font-family="'Geist Mono', monospace" text-anchor="end" letter-spacing="0.14em">HIGH EFFORT →</text>
-        <text x="120" y="266" fill="#bfc0c0" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.14em">← LOW EFFORT</text>
-        <text x="512" y="80" fill="#bfc0c0" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.14em">↑ HIGH IMPACT</text>
-        <text x="512" y="432" fill="#bfc0c0" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.14em">↓ LOW IMPACT</text>
+        <text x="880" y="266" fill="#b6bec9" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="end" letter-spacing="0.14em">HIGH EFFORT →</text>
+        <text x="120" y="266" fill="#b6bec9" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.14em">← LOW EFFORT</text>
+        <text x="512" y="80" fill="#b6bec9" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.14em">↑ HIGH IMPACT</text>
+        <text x="512" y="432" fill="#b6bec9" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.14em">↓ LOW IMPACT</text>
 
         <!-- Quadrant corner labels -->
-        <text x="140" y="104" fill="#f08a59" font-size="9" font-family="'Geist Mono', monospace" letter-spacing="0.18em" font-weight="600">DO FIRST</text>
-        <text x="860" y="104" fill="#bfc0c0" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end" letter-spacing="0.18em">MAJOR PROJECTS</text>
-        <text x="140" y="412" fill="#bfc0c0" font-size="9" font-family="'Geist Mono', monospace" letter-spacing="0.18em">QUICK WINS</text>
-        <text x="860" y="412" fill="#bfc0c0" font-size="9" font-family="'Geist Mono', monospace" text-anchor="end" letter-spacing="0.18em">AVOID</text>
+        <text x="140" y="104" fill="#ff9900" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.18em" font-weight="600">DO FIRST</text>
+        <text x="860" y="104" fill="#b6bec9" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="end" letter-spacing="0.18em">MAJOR PROJECTS</text>
+        <text x="140" y="412" fill="#b6bec9" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.18em">QUICK WINS</text>
+        <text x="860" y="412" fill="#b6bec9" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="end" letter-spacing="0.18em">AVOID</text>
 
         <!-- Items: TL (Do First) -->
         <!-- coral focal -->
-        <circle cx="220" cy="140" r="6" fill="#f08a59"/>
-        <text x="232" y="144" fill="#f5f5f5" font-size="11" font-weight="600" font-family="'Geist', sans-serif">Schematic skill v4</text>
+        <circle cx="220" cy="140" r="6" fill="#ff9900"/>
+        <text x="232" y="144" fill="#ffffff" font-size="11" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Buy Compute Savings Plan</text>
 
-        <circle cx="320" cy="200" r="4" fill="#f5f5f5"/>
-        <text x="332" y="204" fill="#bfc0c0" font-size="11" font-family="'Geist', sans-serif">Update changelog</text>
+        <circle cx="320" cy="200" r="4" fill="#ffffff"/>
+        <text x="332" y="204" fill="#b6bec9" font-size="11" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Enable GuardDuty</text>
 
         <!-- Items: TR (Major Projects) -->
-        <circle cx="620" cy="140" r="4" fill="#f5f5f5"/>
-        <text x="632" y="144" fill="#bfc0c0" font-size="11" font-family="'Geist', sans-serif">Design v4 refresh</text>
+        <circle cx="620" cy="140" r="4" fill="#ffffff"/>
+        <text x="632" y="144" fill="#b6bec9" font-size="11" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Migrate Oracle to Aurora</text>
 
-        <circle cx="760" cy="180" r="4" fill="#f5f5f5"/>
-        <text x="772" y="184" fill="#bfc0c0" font-size="11" font-family="'Geist', sans-serif">New publication</text>
+        <circle cx="760" cy="180" r="4" fill="#ffffff"/>
+        <text x="772" y="184" fill="#b6bec9" font-size="11" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Move to EKS</text>
 
         <!-- Items: BL (Quick Wins) -->
-        <circle cx="260" cy="320" r="4" fill="#f5f5f5"/>
-        <text x="272" y="324" fill="#bfc0c0" font-size="11" font-family="'Geist', sans-serif">Fix footer link</text>
+        <circle cx="260" cy="320" r="4" fill="#ffffff"/>
+        <text x="272" y="324" fill="#b6bec9" font-size="11" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">S3 Intelligent-Tiering</text>
 
-        <circle cx="360" cy="380" r="4" fill="#f5f5f5"/>
-        <text x="372" y="384" fill="#bfc0c0" font-size="11" font-family="'Geist', sans-serif">Update OG tags</text>
+        <circle cx="360" cy="380" r="4" fill="#ffffff"/>
+        <text x="372" y="384" fill="#b6bec9" font-size="11" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Tag cost centers</text>
 
         <!-- Items: BR (Avoid) -->
-        <circle cx="640" cy="380" r="4" fill="#f5f5f5"/>
-        <text x="652" y="384" fill="#bfc0c0" font-size="11" font-family="'Geist', sans-serif">Rewrite build pipeline</text>
+        <circle cx="640" cy="380" r="4" fill="#ffffff"/>
+        <text x="652" y="384" fill="#b6bec9" font-size="11" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Self-host CI runners on EC2</text>
 
-        <circle cx="780" cy="320" r="4" fill="#f5f5f5"/>
-        <text x="792" y="324" fill="#bfc0c0" font-size="11" font-family="'Geist', sans-serif">Port to Nuxt</text>
+        <circle cx="780" cy="320" r="4" fill="#ffffff"/>
+        <text x="792" y="324" fill="#b6bec9" font-size="11" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">DIY Kafka</text>
 
         <!-- Legend -->
-        <line x1="40" y1="456" x2="960" y2="456" stroke="rgba(245,245,245,0.10)" stroke-width="0.8"/>
-        <text x="40" y="472" fill="#bfc0c0" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.18em">LEGEND</text>
+        <line x1="40" y1="456" x2="960" y2="456" stroke="rgba(255,255,255,0.10)" stroke-width="0.8"/>
+        <text x="40" y="472" fill="#b6bec9" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.18em">LEGEND</text>
 
-        <circle cx="52" cy="488" r="6" fill="#f08a59"/>
-        <text x="68" y="492" fill="#bfc0c0" font-size="8.5" font-family="'Geist', sans-serif">Start tomorrow</text>
+        <circle cx="52" cy="488" r="6" fill="#ff9900"/>
+        <text x="68" y="492" fill="#b6bec9" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Start tomorrow</text>
 
-        <circle cx="192" cy="488" r="4" fill="#f5f5f5"/>
-        <text x="208" y="492" fill="#bfc0c0" font-size="8.5" font-family="'Geist', sans-serif">Candidate project</text>
+        <circle cx="192" cy="488" r="4" fill="#ffffff"/>
+        <text x="208" y="492" fill="#b6bec9" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Backlog item</text>
 
-        <text x="336" y="492" fill="#bfc0c0" font-size="8.5" font-family="'Geist', sans-serif" font-style="italic">Position is the signal. Colour is reserved for the single action item.</text>
+        <text x="336" y="492" fill="#b6bec9" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-style="italic">Position is the signal. Colour is reserved for the single action item.</text>
       </svg>
   </div>
 </body>

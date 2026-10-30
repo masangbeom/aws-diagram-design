@@ -3,21 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Analytics pipeline · Data flow · Full</title>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+  <title>AWS analytics pipeline · Data flow · Full</title>
+  <style>
+  @font-face { font-family: 'Amazon Ember'; font-weight: 400; font-style: normal; src: local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_Rg.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 400; font-style: italic; src: local('Amazon Ember Italic'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_RgIt.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 600; font-style: normal; src: local('Amazon Ember Medium'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_SBd.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 700; font-style: normal; src: local('Amazon Ember Bold'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_Bd.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember Mono'; font-weight: 400; font-style: normal; src: local('Amazon Ember Mono'), url('fonts/woff2/AmazonEmberMono_W_Rg.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember Mono'; font-weight: 700; font-style: normal; src: local('Amazon Ember Mono Bold'), local('Amazon Ember Mono'), url('fonts/woff2/AmazonEmberMono_W_Bd.woff2') format('woff2'); }
+</style>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --paper: #f5f5f5; --paper-2: #ececec; --ink: #2d3142; --muted: #4f5d75;
-      --soft: #7a8399; --rule: rgba(45,49,66,0.12); --accent: #eb6c36;
-      --accent-tint: rgba(235,108,54,0.08); --link: #2e5aa8;
-      --sans: 'Geist', system-ui, sans-serif; --serif: 'Instrument Serif', serif;
-      --mono: 'Geist Mono', ui-monospace, monospace;
+      --paper: #ffffff; --paper-2: #f2f3f3; --ink: #232f3e; --muted: #545b64;
+      --soft: #687078; --rule: rgba(35,47,62,0.12); --accent: #ec7211;
+      --accent-tint: rgba(236,114,17,0.08); --link: #0972d3;
+      --sans: 'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif; --serif: 'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --mono: 'Amazon Ember Mono', ui-monospace, monospace;
     }
     body { min-height: 100vh; padding: 3rem 2rem; background: var(--paper); color: var(--ink); font-family: var(--sans); }
     .container { width: 100%; max-width: 1200px; margin: 0 auto; }
     .eyebrow { margin-bottom: 0.5rem; color: var(--muted); font: 500 0.66rem var(--mono); letter-spacing: 0.18em; text-transform: uppercase; }
-    h1 { margin-bottom: 1.5rem; color: var(--ink); font: 400 clamp(1.5rem, 2.4vw + 0.75rem, 2rem)/1.15 var(--serif); letter-spacing: -0.02em; }
+    h1 { margin-bottom: 1.5rem; color: var(--ink); font: 700 clamp(1.5rem, 2.4vw + 0.75rem, 2rem)/1.15 var(--serif); letter-spacing: -0.02em; }
     svg { display: block; width: 100%; min-width: 728px; }
     .step-number, .step-label, .lane-label, .role-text, .chip-text, .legend-label { font-family: var(--mono); text-anchor: middle; }
     .step-number { fill: var(--ink); font-size: 7px; font-weight: 600; }
@@ -28,7 +35,7 @@
     .node-sub { fill: var(--muted); font: 400 6.5px var(--mono); text-anchor: middle; }
     .node-tool { fill: var(--soft); font: 400 6.5px var(--mono); text-anchor: middle; }
     .chip-text { fill: #fff; font-size: 5px; font-weight: 700; }
-    .focal-text { fill: var(--accent); }
+    .focal-text { fill: #232f3e; }
     .legend-label { fill: var(--muted); font-size: 7px; font-weight: 500; letter-spacing: 0.12em; text-anchor: end; }
     .legend-text { fill: var(--muted); font: 400 7px var(--sans); }
     .header { margin-bottom: 2.5rem; }
@@ -38,53 +45,53 @@
     .cards { display: grid; grid-template-columns: 1.1fr 1fr 0.9fr; gap: 1rem; margin-top: 1.5rem; }
     .card { padding: 1.25rem; background: #fff; border: 1px solid var(--rule); border-radius: 6px; }
     .card .card-eyebrow { margin-bottom: 0.5rem; color: var(--muted); font: 500 0.5rem var(--mono); letter-spacing: 0.18em; text-transform: uppercase; }
-    .card-header { display: flex; gap: 0.6rem; align-items: center; margin-bottom: 0.875rem; padding-bottom: 0.875rem; border-bottom: 1px solid rgba(45,49,66,0.08); }
+    .card-header { display: flex; gap: 0.6rem; align-items: center; margin-bottom: 0.875rem; padding-bottom: 0.875rem; border-bottom: 1px solid rgba(35,47,62,0.08); }
     .card-dot { width: 7px; height: 7px; border-radius: 50%; }
     .card-dot.coral { background: var(--accent); } .card-dot.ink { background: var(--ink); } .card-dot.muted { background: var(--muted); }
     .card h2 { font-size: 0.875rem; font-weight: 600; }
     .card p, .card ul { color: var(--muted); font-size: 0.8125rem; line-height: 1.55; list-style: none; }
     .card li { position: relative; margin-bottom: 0.3rem; padding-left: 0.875rem; }
-    .card li::before { position: absolute; left: 0; color: rgba(45,49,66,0.25); content: '—'; }
-    .footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem; margin-top: 2rem; padding-top: 1.5rem; color: var(--soft); border-top: 1px solid rgba(45,49,66,0.10); font: 400 0.72rem var(--mono); letter-spacing: 0.06em; }
+    .card li::before { position: absolute; left: 0; color: rgba(35,47,62,0.25); content: '—'; }
+    .footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem; margin-top: 2rem; padding-top: 1.5rem; color: var(--soft); border-top: 1px solid rgba(35,47,62,0.10); font: 400 0.72rem var(--mono); letter-spacing: 0.06em; }
     @media (max-width: 820px) { .cards { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
   <main class="container">
     <header class="header">
-      <p class="eyebrow">Data flow · Diagram Design</p>
-      <h1>Role-scoped analytics pipeline</h1>
-      <p class="subtitle">Typed commerce data crosses clear ownership boundaries: engineering lands it, data science makes it trustworthy, and analytics publishes it.</p>
+      <p class="eyebrow">Data flow · AWS Analytics</p>
+      <h1>Role-scoped AWS analytics pipeline</h1>
+      <p class="subtitle">Typed commerce data crosses clear ownership boundaries on AWS: engineering streams it into Amazon S3, data science makes it trustworthy with AWS Glue and Amazon Athena, and analytics publishes it in Amazon Quick.</p>
     </header>
 
     <div class="diagram-container">
     <svg viewBox="0 0 728 356" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="data-flow-full-title data-flow-full-desc">
-      <title id="data-flow-full-title">Role-scoped analytics data flow</title>
-      <desc id="data-flow-full-desc">A Data Engineer ingests and stores commerce data, a Data Scientist transforms and analyzes it, and an Analyst publishes a dashboard.</desc>
+      <title id="data-flow-full-title">Role-scoped AWS analytics data flow</title>
+      <desc id="data-flow-full-desc">A Data Engineer streams commerce events through Amazon Kinesis Data Streams into an Amazon S3 raw zone, a Data Scientist transforms them with AWS Glue and curates metrics in Amazon Athena, and an Analyst publishes an Amazon Quick dashboard.</desc>
       <defs>
-        <pattern id="dots" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="11" cy="11" r="0.8" fill="rgba(45,49,66,0.10)"/></pattern>
-        <marker id="arr-muted" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 Z" fill="#4f5d75"/></marker>
-        <marker id="arr-accent" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 Z" fill="#eb6c36"/></marker>
-        <marker id="arr-link" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 Z" fill="#2e5aa8"/></marker>
+        <pattern id="dots" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="11" cy="11" r="0.8" fill="rgba(35,47,62,0.10)"/></pattern>
+        <marker id="arr-muted" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 Z" fill="#545b64"/></marker>
+        <marker id="arr-accent" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 Z" fill="#ec7211"/></marker>
+        <marker id="arr-link" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 Z" fill="#0972d3"/></marker>
       </defs>
-      <rect width="728" height="356" fill="#f5f5f5"/>
+      <rect width="728" height="356" fill="#ffffff"/>
       <rect width="728" height="356" fill="url(#dots)"/>
-      <rect x="0" y="36" width="728" height="80" fill="rgba(45,49,66,0.018)"/>
-      <rect x="0" y="196" width="728" height="80" fill="rgba(45,49,66,0.018)"/>
+      <rect x="0" y="36" width="728" height="80" fill="rgba(35,47,62,0.018)"/>
+      <rect x="0" y="196" width="728" height="80" fill="rgba(35,47,62,0.018)"/>
 
       <!-- Header and lane structure -->
-      <line x1="0" y1="36" x2="728" y2="36" stroke="rgba(45,49,66,0.12)" stroke-width="0.8"/>
-      <line x1="0" y1="116" x2="728" y2="116" stroke="rgba(45,49,66,0.12)" stroke-width="0.8"/>
-      <line x1="0" y1="196" x2="728" y2="196" stroke="rgba(45,49,66,0.12)" stroke-width="0.8"/>
-      <line x1="0" y1="276" x2="728" y2="276" stroke="rgba(45,49,66,0.12)" stroke-width="0.8"/>
-      <line x1="140" y1="36" x2="140" y2="276" stroke="rgba(45,49,66,0.12)" stroke-width="0.8"/>
+      <line x1="0" y1="36" x2="728" y2="36" stroke="rgba(35,47,62,0.12)" stroke-width="0.8"/>
+      <line x1="0" y1="116" x2="728" y2="116" stroke="rgba(35,47,62,0.12)" stroke-width="0.8"/>
+      <line x1="0" y1="196" x2="728" y2="196" stroke="rgba(35,47,62,0.12)" stroke-width="0.8"/>
+      <line x1="0" y1="276" x2="728" y2="276" stroke="rgba(35,47,62,0.12)" stroke-width="0.8"/>
+      <line x1="140" y1="36" x2="140" y2="276" stroke="rgba(35,47,62,0.12)" stroke-width="0.8"/>
 
       <g aria-label="Pipeline steps">
-        <rect x="180" y="6" width="32" height="16" rx="8" fill="rgba(45,49,66,0.12)"/><text x="196" y="14" class="step-number">01</text><text x="196" y="29" class="step-label">INGEST</text>
-        <rect x="292" y="6" width="32" height="16" rx="8" fill="rgba(45,49,66,0.12)"/><text x="308" y="14" class="step-number">02</text><text x="308" y="29" class="step-label">STORE</text>
-        <rect x="404" y="6" width="32" height="16" rx="8" fill="rgba(235,108,54,0.20)"/><text x="420" y="14" class="step-number focal-text">03</text><text x="420" y="29" class="step-label focal-text">TRANSFORM</text>
-        <rect x="516" y="6" width="32" height="16" rx="8" fill="rgba(45,49,66,0.12)"/><text x="532" y="14" class="step-number">04</text><text x="532" y="29" class="step-label">ANALYZE</text>
-        <rect x="628" y="6" width="32" height="16" rx="8" fill="rgba(45,49,66,0.12)"/><text x="644" y="14" class="step-number">05</text><text x="644" y="29" class="step-label">PUBLISH</text>
+        <rect x="180" y="6" width="32" height="16" rx="8" fill="rgba(35,47,62,0.12)"/><text x="196" y="14" class="step-number">01</text><text x="196" y="29" class="step-label">INGEST</text>
+        <rect x="292" y="6" width="32" height="16" rx="8" fill="rgba(35,47,62,0.12)"/><text x="308" y="14" class="step-number">02</text><text x="308" y="29" class="step-label">STORE</text>
+        <rect x="404" y="6" width="32" height="16" rx="8" fill="rgba(236,114,17,0.20)"/><text x="420" y="14" class="step-number focal-text">03</text><text x="420" y="29" class="step-label focal-text">TRANSFORM</text>
+        <rect x="516" y="6" width="32" height="16" rx="8" fill="rgba(35,47,62,0.12)"/><text x="532" y="14" class="step-number">04</text><text x="532" y="29" class="step-label">ANALYZE</text>
+        <rect x="628" y="6" width="32" height="16" rx="8" fill="rgba(35,47,62,0.12)"/><text x="644" y="14" class="step-number">05</text><text x="644" y="29" class="step-label">PUBLISH</text>
       </g>
 
       <g aria-label="Role lanes">
@@ -94,55 +101,60 @@
       </g>
 
       <!-- Connectors first. Cross-lane paths use r=8 orthogonal elbows. -->
-      <path d="M246 76 H258" fill="none" stroke="#4f5d75" marker-end="url(#arr-muted)"/>
-      <path d="M358 76 H412 Q420 76 420 84 V124" fill="none" stroke="#eb6c36" stroke-width="1.2" marker-end="url(#arr-accent)"/>
-      <path d="M470 156 H482" fill="none" stroke="#4f5d75" marker-end="url(#arr-muted)"/>
-      <path d="M582 156 H636 Q644 156 644 164 V204" fill="none" stroke="#2e5aa8" marker-end="url(#arr-link)"/>
-      <rect x="368" y="56" width="48" height="12" rx="2" fill="#f5f5f5"/>
-      <text x="392" y="65" fill="#eb6c36" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.06em">RAW TABLE</text>
+      <path d="M246 76 H258" fill="none" stroke="#545b64" marker-end="url(#arr-muted)"/>
+      <path d="M358 76 H412 Q420 76 420 84 V124" fill="none" stroke="#ec7211" stroke-width="1.2" marker-end="url(#arr-accent)"/>
+      <path d="M470 156 H482" fill="none" stroke="#545b64" marker-end="url(#arr-muted)"/>
+      <path d="M582 156 H636 Q644 156 644 164 V204" fill="none" stroke="#0972d3" marker-end="url(#arr-link)"/>
+      <rect x="368" y="56" width="48" height="12" rx="2" fill="#ffffff"/>
+      <text x="392" y="65" fill="#232f3e" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">RAW ZONE</text>
 
       <!-- Data Engineer: Capture Events -->
-      <rect x="146" y="44" width="100" height="64" rx="6" fill="#f5f5f5" stroke="rgba(45,49,66,0.25)"/>
-      <rect x="150" y="48" width="18" height="10" rx="3" fill="rgba(45,49,66,0.12)"/><text x="159" y="53" class="role-text">ENG</text>
-      <text x="196" y="67" class="node-title">Capture Events</text><text x="196" y="79" class="node-sub">shop events → batch</text><text x="196" y="91" class="node-tool">NiFi ingest</text>
+      <rect x="146" y="44" width="100" height="64" rx="6" fill="#ffffff" stroke="rgba(35,47,62,0.25)"/>
+      <rect x="150" y="48" width="18" height="10" rx="3" fill="rgba(35,47,62,0.12)"/><text x="159" y="53" class="role-text">ENG</text>
+      <g transform="translate(226,48) scale(0.25)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g fill="#8C4FFF"> <rect x="0" y="0" width="64" height="64"></rect> </g> <g transform="translate(11.000000, 10.000000)" fill="#FFFFFF"> <path d="M33,39.001 L34,39.001 L34,38.001 L33,38.001 L33,39.001 Z M36,37.001 L36,40.001 C36,40.553 35.553,41.001 35,41.001 L32,41.001 C31.448,41.001 31,40.553 31,40.001 L31,37.001 C31,36.449 31.448,36.001 32,36.001 L35,36.001 C35.553,36.001 36,36.449 36,37.001 L36,37.001 Z M31,34.001 L34,34.001 L34,32.001 L31,32.001 L31,34.001 Z M37,31.001 L38,31.001 L38,30.001 L37,30.001 L37,31.001 Z M41,34.501 C41,33.145 40.633,31.874 40,30.775 L40,32.001 C40,32.553 39.553,33.001 39,33.001 L36,33.001 C35.448,33.001 35,32.553 35,32.001 L35,29.001 C35,28.449 35.448,28.001 36,28.001 L37.226,28.001 C36.127,27.369 34.857,27.001 33.5,27.001 C32.144,27.001 30.873,27.369 29.775,28.001 L34,28.001 L34,30.001 L27.514,30.001 C27.06,30.604 26.696,31.276 26.438,32.001 L30,32.001 L30,34.001 L26.026,34.001 C26.015,34.167 26,34.332 26,34.501 C26,35.015 26.053,35.516 26.152,36.001 L29,36.001 L29,38.001 L26.872,38.001 C27.059,38.353 27.276,38.685 27.514,39.001 L29,39.001 L29,40.487 C30.255,41.433 31.811,42.001 33.5,42.001 C34.857,42.001 36.127,41.633 37.226,41.001 L37,41.001 L37,39.001 L39.487,39.001 C39.725,38.685 39.942,38.353 40.128,38.001 L37,38.001 L37,36.001 L40.849,36.001 C40.948,35.516 41,35.015 41,34.501 L41,34.501 Z M43,34.501 C43,39.739 38.739,44.001 33.5,44.001 C28.262,44.001 24,39.739 24,34.501 C24,29.263 28.262,25.001 33.5,25.001 C38.739,25.001 43,29.263 43,34.501 L43,34.501 Z M26.646,25.601 C8.695,27.162 5,31.688 5,38 L7,38 C7,33.8 8.412,29.579 24.467,27.825 C25.088,26.986 25.821,26.238 26.646,25.601 L26.646,25.601 Z M10,43.876 L10,44 L12,44 L12,43.876 C11.999,39.591 12.006,35.169 22.402,32.742 C22.521,31.99 22.713,31.264 22.973,30.569 C10.006,33.284 9.999,39.146 10,43.876 L10,43.876 Z M2,13 L0,13 C0,16.614 2.747,20.285 19.012,22 C2.747,23.715 0,27.386 0,31 L2,31 C2,25.617 15.412,23 43,23 L43,21 C15.412,21 2,18.383 2,13 L2,13 Z M7,6 L5,6 C5,14.233 11.218,19 43,19 L43,17 C9.78,17 7,11.566 7,6 L7,6 Z M43,13 L43,15 C28.551,15 19.209,13.443 14.441,10.241 C9.998,7.257 9.999,3.302 9.99997,0.124 L9.99997,0 L12,0 L12,0.124 C11.999,3.244 11.999,6.191 15.556,8.58 C19.985,11.554 28.961,13 43,13 L43,13 Z"></path> </g> </g></g>
+      <text x="196" y="67" class="node-title">Capture</text><text x="196" y="79" class="node-sub">shop events → stream</text><text x="196" y="91" class="node-tool">Kinesis Streams</text>
       <rect x="150" y="98" width="16" height="8" rx="3" fill="#7c8f6f"/><text x="158" y="104" class="chip-text">LS</text>
       <rect x="226" y="98" width="16" height="8" rx="3" fill="#5e7a9b"/><text x="234" y="104" class="chip-text">DB</text>
 
       <!-- Data Engineer: Land Records -->
-      <rect x="258" y="44" width="100" height="64" rx="6" fill="#f5f5f5" stroke="rgba(45,49,66,0.25)"/>
-      <rect x="262" y="48" width="18" height="10" rx="3" fill="rgba(45,49,66,0.12)"/><text x="271" y="53" class="role-text">ENG</text>
-      <text x="308" y="67" class="node-title">Land Records</text><text x="308" y="79" class="node-sub">events · orders</text><text x="308" y="91" class="node-tool">Object storage</text>
+      <rect x="258" y="44" width="100" height="64" rx="6" fill="#ffffff" stroke="rgba(35,47,62,0.25)"/>
+      <rect x="262" y="48" width="18" height="10" rx="3" fill="rgba(35,47,62,0.12)"/><text x="271" y="53" class="role-text">ENG</text>
+      <g transform="translate(338,48) scale(0.25)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g fill="#7AA116"> <rect x="0" y="0" width="64" height="64"></rect> </g> <g transform="translate(10.999800, 10.000200)" fill="#FFFFFF"> <path d="M36.759,23.948 L36.993,22.131 C39.166,23.385 39.842,24.121 40.037,24.424 C39.713,24.485 38.832,24.509 36.759,23.948 L36.759,23.948 Z M19.5,11 C9.125,11 2.382,8.488 2,6.696 L2,6.511 C2.349,5.392 8.14,2 19.5,2 C30.84,2 36.632,5.381 37,6.505 L37,6.616 C36.724,8.446 29.961,11 19.5,11 L19.5,11 Z M34.818,23.362 C30.053,21.797 23.912,18.979 21.594,17.888 C21.535,16.786 20.628,15.906 19.512,15.906 C18.358,15.906 17.418,16.845 17.418,18 C17.418,19.154 18.358,20.094 19.512,20.094 C19.969,20.094 20.389,19.942 20.733,19.693 C23.132,20.822 29.619,23.798 34.558,25.38 L32.837,38.724 C32.583,40.352 27.919,42 19.497,42 C11.072,42 6.405,40.352 6.155,38.751 L2.435,9.814 C5.945,11.915 12.749,13 19.5,13 C26.25,13 33.054,11.915 36.565,9.815 L34.818,23.362 Z M39,6.5 C39,3.431 30.661,0 19.5,0 C8.339,0 -3.55271368e-15,3.431 -3.55271368e-15,6.5 L-3.55271368e-15,7.043 L4.174,39.033 C4.875,43.516 15.123,44 19.497,44 C23.869,44 34.113,43.516 34.818,39.007 L36.501,25.947 C37.778,26.279 38.812,26.456 39.616,26.455 C40.606,26.455 41.273,26.203 41.697,25.697 C42.047,25.281 42.185,24.756 42.085,24.221 C41.857,23 40.403,21.712 37.37,20.044 L37.27,19.989 L39,7.044 L39,6.5 Z"></path> </g> </g></g>
+      <text x="308" y="67" class="node-title">Land Raw</text><text x="308" y="79" class="node-sub">events · orders</text><text x="308" y="91" class="node-tool">S3 raw zone</text>
       <rect x="262" y="98" width="16" height="8" rx="3" fill="#5e7a9b"/><text x="270" y="104" class="chip-text">DB</text>
       <rect x="338" y="98" width="16" height="8" rx="3" fill="#5e7a9b"/><text x="346" y="104" class="chip-text">DB</text>
 
       <!-- Data Scientist: Clean and Model (focal) -->
-      <rect x="370" y="124" width="100" height="64" rx="6" fill="rgba(235,108,54,0.07)" stroke="#eb6c36" stroke-width="1.2"/>
-      <rect x="374" y="128" width="18" height="10" rx="3" fill="rgba(235,108,54,0.20)"/><text x="383" y="133" class="role-text focal-text">SCI</text>
-      <text x="420" y="147" class="node-title">Clean &amp; Model</text><text x="420" y="159" class="node-sub">raw → trusted table</text><text x="420" y="171" class="node-tool">Trino · notebooks</text>
+      <rect x="370" y="124" width="100" height="64" rx="6" fill="rgba(236,114,17,0.07)" stroke="#ec7211" stroke-width="1.2"/>
+      <rect x="374" y="128" width="18" height="10" rx="3" fill="rgba(236,114,17,0.20)"/><text x="383" y="133" class="role-text focal-text">SCI</text>
+      <g transform="translate(450,128) scale(0.25)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g fill="#8C4FFF"> <rect x="0" y="0" width="64" height="64"></rect> </g> <path d="M26.9908253,18.0427729 L27.9896785,18.0427729 L27.9896785,17.0374263 L26.9908253,17.0374263 L26.9908253,18.0427729 Z M24.993119,19.0481195 L24.993119,16.0320797 C24.993119,15.4771284 25.4396064,15.0267331 25.9919722,15.0267331 L28.9885317,15.0267331 C29.5408975,15.0267331 29.9873849,15.4771284 29.9873849,16.0320797 L29.9873849,19.0481195 C29.9873849,19.6030709 29.5408975,20.0534662 28.9885317,20.0534662 L25.9919722,20.0534662 C25.4396064,20.0534662 24.993119,19.6030709 24.993119,19.0481195 L24.993119,19.0481195 Z M32.9839444,13.0160398 L33.9827975,13.0160398 L33.9827975,12.0106932 L32.9839444,12.0106932 L32.9839444,13.0160398 Z M30.986238,14.0213865 L30.986238,11.0053466 C30.986238,10.4503953 31.4327254,10 31.9850912,10 L34.9816507,10 C35.5340165,10 35.9805039,10.4503953 35.9805039,11.0053466 L35.9805039,14.0213865 C35.9805039,14.5763378 35.5340165,15.0267331 34.9816507,15.0267331 L31.9850912,15.0267331 C31.4327254,15.0267331 30.986238,14.5763378 30.986238,14.0213865 L30.986238,14.0213865 Z M34.9816507,21.0588128 L35.9805039,21.0588128 L35.9805039,20.0534662 L34.9816507,20.0534662 L34.9816507,21.0588128 Z M33.9827975,18.0427729 L36.979357,18.0427729 C37.5317228,18.0427729 37.9782102,18.4931682 37.9782102,19.0481195 L37.9782102,22.0641594 C37.9782102,22.6191107 37.5317228,23.069506 36.979357,23.069506 L33.9827975,23.069506 C33.4304317,23.069506 32.9839444,22.6191107 32.9839444,22.0641594 L32.9839444,19.0481195 C32.9839444,18.4931682 33.4304317,18.0427729 33.9827975,18.0427729 L33.9827975,18.0427729 Z M23.6206948,26.4786364 C23.2820835,26.4243477 22.9774333,26.3680483 22.6807739,26.3107435 L30.8184307,38.5970845 C30.9273057,38.7619613 30.986238,38.9569986 30.986238,39.1550519 L30.986238,41.438194 C32.0330361,41.7237125 33.0099145,41.7277339 33.9827975,41.4532742 L33.9827975,39.1550519 C33.9827975,38.9559932 34.0417299,38.760956 34.1516037,38.5960791 L42.3152307,26.3097382 C42.0145759,26.3670429 41.7059302,26.4243477 41.3643224,26.4786364 C38.9191299,26.8667002 35.6838445,27.0888818 32.4845178,27.0888818 C29.2871888,27.0888818 26.0558988,26.8667002 23.6206948,26.4786364 L23.6206948,26.4786364 Z M19.5094151,25.1485628 C19.1678073,24.8439428 19,24.4960929 19,24.0818901 C19,22.7970571 21.1115756,21.2437966 31.1720247,21.1342138 L31.1930006,23.144907 C26.5613185,23.1951743 23.4299138,23.6576338 21.8936776,24.0728419 C23.6556546,24.5503816 27.4103437,25.0781885 32.4845178,25.0781885 C37.2979912,25.0781885 40.9278236,24.6046703 42.8016722,24.1492483 C41.9746217,23.9572271 40.7460323,23.7360508 39.0040324,23.521912 L39.2467537,21.526299 C45.4915837,22.2943838 46,23.1378696 46,24.0818901 C46,24.4950875 45.8311938,24.8429374 45.4905849,25.1465521 L35.9805039,39.4606772 L35.9805039,42.1710917 C35.9805039,42.5812731 35.7327883,42.9512407 35.3542229,43.1040534 C34.4262883,43.4790477 33.4933595,43.6670475 32.5414524,43.6670475 C31.5975362,43.6670475 30.6356406,43.483069 29.6417817,43.1141068 C29.2502312,42.9683316 28.9885317,42.5923319 28.9885317,42.1710917 L28.9885317,39.4596719 L19.5094151,25.1485628 Z M37.8963042,47.8050542 C38.054123,48.1740164 37.9792091,48.6012887 37.7065221,48.8938445 L33.2116829,53.6853265 C33.0219008,53.8863958 32.7592024,54 32.4845178,54 C32.2098332,54 31.9471348,53.8863958 31.7573527,53.6853265 L27.2625134,48.8938445 C26.9898265,48.6012887 26.9149125,48.1740164 27.0727313,47.8050542 C27.2305501,47.4360919 27.5911361,47.1978248 27.9896785,47.1978248 L29.9873849,47.1978248 L29.9873849,45.1871316 L31.9850912,45.1871316 L31.9850912,48.2031714 C31.9850912,48.7581227 31.5386038,49.208518 30.986238,49.208518 L30.306019,49.208518 L32.4845178,51.5308687 L34.6630165,49.208518 L33.9827975,49.208518 C33.4304317,49.208518 32.9839444,48.7581227 32.9839444,48.2031714 L32.9839444,45.1871316 L34.9816507,45.1871316 L34.9816507,47.1978248 L36.979357,47.1978248 C37.3778994,47.1978248 37.7384854,47.4360919 37.8963042,47.8050542 L37.8963042,47.8050542 Z" fill="#FFFFFF"></path> </g></g>
+      <text x="420" y="147" class="node-title">Transform</text><text x="420" y="159" class="node-sub">raw → trusted table</text><text x="420" y="171" class="node-tool">AWS Glue ETL</text>
       <rect x="374" y="178" width="16" height="8" rx="3" fill="#5e7a9b"/><text x="382" y="184" class="chip-text">DB</text>
       <rect x="450" y="178" width="16" height="8" rx="3" fill="#b8915a"/><text x="458" y="184" class="chip-text">TB</text>
 
       <!-- Data Scientist: Curate Metrics -->
-      <rect x="482" y="124" width="100" height="64" rx="6" fill="#f5f5f5" stroke="rgba(45,49,66,0.25)"/>
-      <rect x="486" y="128" width="18" height="10" rx="3" fill="rgba(45,49,66,0.12)"/><text x="495" y="133" class="role-text">SCI</text>
-      <text x="532" y="147" class="node-title">Curate Metrics</text><text x="532" y="159" class="node-sub">conversion · revenue</text><text x="532" y="171" class="node-tool">Trino SQL</text>
+      <rect x="482" y="124" width="100" height="64" rx="6" fill="#ffffff" stroke="rgba(35,47,62,0.25)"/>
+      <rect x="486" y="128" width="18" height="10" rx="3" fill="rgba(35,47,62,0.12)"/><text x="495" y="133" class="role-text">SCI</text>
+      <g transform="translate(562,128) scale(0.25)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g fill="#8C4FFF"> <rect x="0" y="0" width="64" height="64"></rect> </g> <path d="M30.6919231,23.1561559 C33.6551407,23.1561559 35.5337621,23.7464926 36.1138949,24.1516646 C35.5337621,24.5568366 33.6551407,25.1471732 30.6919231,25.1471732 C27.7287055,25.1471732 25.8500841,24.5568366 25.2699512,24.1516646 C25.8500841,23.7464926 27.7287055,23.1561559 30.6919231,23.1561559 L30.6919231,23.1561559 Z M29.9624691,28.6672918 C29.9624691,28.3208547 30.2479954,28.0401213 30.597084,28.0401213 C30.6999945,28.0401213 30.7928158,28.0699866 30.8785745,28.1117979 L30.3166024,29.2217901 C30.1097724,29.1182572 29.9624691,28.9111914 29.9624691,28.6672918 L29.9624691,28.6672918 Z M34.7689957,35.2237116 C34.4047732,35.496481 33.2364361,36.0977682 31.1963864,36.0977682 C28.7386411,36.0977682 27.0870281,35.617933 26.6279665,35.320276 L25.4505491,26.4174422 C26.924591,26.9261472 28.8849354,27.1381905 30.6919231,27.1381905 C32.4989107,27.1381905 34.4592552,26.9261472 35.9332971,26.4174422 L35.4974407,29.7185489 C34.4199071,29.3143724 33.1304988,28.7608696 31.8844744,28.174515 C31.6816801,27.6648146 31.1832704,27.3024494 30.597084,27.3024494 C29.8343354,27.3024494 29.2148545,27.9146872 29.2148545,28.6672918 C29.2148545,29.4198963 29.8343354,30.0311386 30.597084,30.0311386 C30.7373248,30.0311386 30.871512,30.0042599 30.9986368,29.965435 C32.7864548,30.8205769 34.1757468,31.4029495 35.2260395,31.7643191 L34.7689957,35.2237116 Z M23.1340535,24.2800852 L24.640381,35.6826411 C24.7725504,38.0210909 30.5335216,38.0887855 31.1963864,38.0887855 C34.3472644,38.0887855 36.5790101,36.8702829 36.7364027,35.7284345 L37.1924375,32.2770061 C37.3942229,32.3038848 37.5778475,32.321804 37.7332222,32.321804 C38.5433903,32.321804 38.768381,31.9823355 38.9429253,31.7185257 C39.1174696,31.4547159 39.1689248,31.1321711 39.0882107,30.8086308 C38.9409074,30.2163032 38.2064088,29.499537 37.6242581,29.0107422 L38.2497927,24.2800852 L38.2437391,24.2790897 C38.2467659,24.2362828 38.258873,24.1964625 38.258873,24.1516646 C38.258873,21.9476085 34.1828093,21.1651387 30.6919231,21.1651387 C27.2010369,21.1651387 23.1249732,21.9476085 23.1249732,24.1516646 C23.1249732,24.1964625 23.1370803,24.2362828 23.1401071,24.2790897 L23.1340535,24.2800852 Z M30.4669324,17.0785757 C37.4214639,17.0785757 43.0785156,22.6603926 43.0785156,29.5224337 C43.0785156,36.3834792 37.4214639,41.9662916 30.4669324,41.9662916 C23.5134099,41.9662916 17.8553493,36.3834792 17.8553493,29.5224337 C17.8553493,22.6603926 23.5134099,17.0785757 30.4669324,17.0785757 L30.4669324,17.0785757 Z M12.02678,33.1112423 L12.02678,35.1022596 L16.9765741,35.1022596 C19.1941949,40.2988147 24.4053011,43.9573089 30.4669324,43.9573089 C38.5333011,43.9573089 45.0963689,37.4815252 45.0963689,29.5224337 C45.0963689,21.5623466 38.5333011,15.0875585 30.4669324,15.0875585 C23.9462395,15.0875585 18.4122768,19.3204612 16.5296196,25.1471732 L12.02678,25.1471732 L12.02678,27.1381905 L16.0544152,27.1381905 C15.9444422,27.7892531 15.8758352,28.4522619 15.8576745,29.1292078 L9,29.1292078 L9,31.120225 L15.932335,31.120225 C16.0090135,31.8011529 16.1452186,32.4621707 16.3147183,33.1112423 L12.02678,33.1112423 Z M52.3424802,51.3788258 C51.5222228,52.1881743 50.1006452,52.1941473 49.2813967,51.3857943 L41.9434731,44.14546 C43.0986942,43.2624439 44.1510047,42.2569801 45.068119,41.1370329 L52.3515605,48.3584526 C52.7591669,48.7606381 52.9831486,49.2972172 52.9821431,49.8676437 C52.9811308,50.4390656 52.7541223,50.9746493 52.3424802,51.3788258 L52.3424802,51.3788258 Z M53.7802007,46.9517989 L46.2606703,39.4954392 C48.136265,36.6124462 49.2390218,33.194865 49.2390218,29.5224337 C49.2390218,19.3085151 40.817511,11 30.4669324,11 C23.155241,11 16.4579858,15.2378803 13.4029559,21.7962912 L15.2361757,22.6275409 C17.9622955,16.7729546 23.9411948,12.9910173 30.4669324,12.9910173 C39.7056738,12.9910173 47.2211685,20.4065611 47.2211685,29.5224337 C47.2211685,38.6373107 39.7056738,46.0528546 30.4669324,46.0528546 C24.4143814,46.0528546 18.8128206,42.814465 15.8465763,37.5999907 L14.0870082,38.5745937 C17.4094037,44.4152429 23.6859364,48.0438718 30.4669324,48.0438718 C34.0566935,48.0438718 37.4012853,47.0274575 40.2555389,45.296268 L47.8557833,52.794439 C48.6437551,53.5719313 49.6910209,54 50.804876,54 C51.9237756,54 52.977095,53.5689448 53.7660757,52.788466 C54.559092,52.0119693 54.9979751,50.9756448 55,49.8706302 C55.0020108,48.7676066 54.5681724,47.7302866 53.7802007,46.9517989 L53.7802007,46.9517989 Z" fill="#FFFFFF"></path> </g></g>
+      <text x="532" y="147" class="node-title">Curate KPIs</text><text x="532" y="159" class="node-sub">conversion · revenue</text><text x="532" y="171" class="node-tool">Amazon Athena</text>
       <rect x="486" y="178" width="16" height="8" rx="3" fill="#b8915a"/><text x="494" y="184" class="chip-text">TB</text>
       <rect x="562" y="178" width="16" height="8" rx="3" fill="#b8915a"/><text x="570" y="184" class="chip-text">TB</text>
 
       <!-- Analyst: Publish Dashboard -->
-      <rect x="594" y="204" width="100" height="64" rx="6" fill="#f5f5f5" stroke="rgba(45,49,66,0.25)"/>
-      <rect x="598" y="208" width="18" height="10" rx="3" fill="rgba(45,49,66,0.12)"/><text x="607" y="213" class="role-text">ANL</text>
-      <text x="644" y="227" class="node-title">Publish Dashboard</text><text x="644" y="239" class="node-sub">metrics → decisions</text><text x="644" y="251" class="node-tool">BI workspace</text>
+      <rect x="594" y="204" width="100" height="64" rx="6" fill="#ffffff" stroke="rgba(35,47,62,0.25)"/>
+      <rect x="598" y="208" width="18" height="10" rx="3" fill="rgba(35,47,62,0.12)"/><text x="607" y="213" class="role-text">ANL</text>
+      <g transform="translate(674,208) scale(0.25)" aria-hidden="true"><g clip-path="url(#clip0_177_21683)"> <rect width="64" height="64" fill="#DD344C"/> <path d="M48.998 19.8897L34.001 11.2339C32.7666 10.5225 31.2334 10.5215 29.999 11.2339L15.002 19.8897C13.7676 20.6021 13 21.9302 13 23.3565V40.6666C13 42.0918 13.7676 43.4205 15.002 44.1334L29.999 52.7891C30.6162 53.1451 31.3076 53.3233 32 53.3233C32.6914 53.3233 33.3838 53.1451 34.001 52.7891L48.9981 44.1334C50.2324 43.4205 51 42.0919 51 40.6666V23.3565C51 21.9302 50.2324 20.6021 48.998 19.8897ZM16.0019 21.6221L30.999 12.9664C31.3076 12.7881 31.6543 12.6988 32 12.6988C32.3457 12.6988 32.6924 12.7881 33.001 12.9664L47.998 21.6221C48.6162 21.9786 49 22.6431 49 23.3565V26.3474L32.9687 35.3472V26.9678C32.9687 26.6129 32.7803 26.2843 32.4736 26.1051C32.168 25.9254 31.7871 25.9215 31.4795 26.0958L15 35.3471V23.3565C15 22.6431 15.3838 21.9786 16.0019 21.6221ZM47.998 42.4009L33.001 51.0567C32.3838 51.4131 31.6162 51.4131 30.999 51.0567L16.002 42.4009C15.3838 42.0445 15 41.3799 15 40.6665V37.6405L30.9688 28.6758V37.0552C30.9688 37.4102 31.1572 37.7388 31.4639 37.918C31.6191 38.0093 31.794 38.0552 31.9688 38.0552C32.1377 38.0552 32.3066 38.0127 32.458 37.9273L49 28.6408V40.6665C49 41.3799 48.6162 42.0445 47.998 42.4009Z" fill="white"/> </g> <defs> <clipPath> <rect width="64" height="64" fill="white"/> </clipPath> </defs></g>
+      <text x="644" y="227" class="node-title">Dashboard</text><text x="644" y="239" class="node-sub">metrics → decisions</text><text x="644" y="251" class="node-tool">Amazon Quick</text>
       <rect x="598" y="258" width="16" height="8" rx="3" fill="#b8915a"/><text x="606" y="264" class="chip-text">TB</text>
       <rect x="674" y="258" width="16" height="8" rx="3" fill="#9c6b50"/><text x="682" y="264" class="chip-text">FL</text>
 
       <!-- Legend: steps -->
       <text x="164" y="293" class="legend-label">STEPS</text>
-      <rect x="180" y="284" width="24" height="12" rx="6" fill="rgba(45,49,66,0.12)"/><text x="192" y="292" class="step-number">01</text><text x="212" y="293" class="legend-text">Ingest</text>
-      <rect x="272" y="284" width="24" height="12" rx="6" fill="rgba(45,49,66,0.12)"/><text x="284" y="292" class="step-number">02</text><text x="304" y="293" class="legend-text">Store</text>
-      <rect x="360" y="284" width="24" height="12" rx="6" fill="rgba(235,108,54,0.20)"/><text x="372" y="292" class="step-number focal-text">03</text><text x="392" y="293" class="legend-text">Transform</text>
-      <rect x="468" y="284" width="24" height="12" rx="6" fill="rgba(45,49,66,0.12)"/><text x="480" y="292" class="step-number">04</text><text x="500" y="293" class="legend-text">Analyze</text>
-      <rect x="568" y="284" width="24" height="12" rx="6" fill="rgba(45,49,66,0.12)"/><text x="580" y="292" class="step-number">05</text><text x="600" y="293" class="legend-text">Publish</text>
+      <rect x="180" y="284" width="24" height="12" rx="6" fill="rgba(35,47,62,0.12)"/><text x="192" y="292" class="step-number">01</text><text x="212" y="293" class="legend-text">Ingest</text>
+      <rect x="272" y="284" width="24" height="12" rx="6" fill="rgba(35,47,62,0.12)"/><text x="284" y="292" class="step-number">02</text><text x="304" y="293" class="legend-text">Store</text>
+      <rect x="360" y="284" width="24" height="12" rx="6" fill="rgba(236,114,17,0.20)"/><text x="372" y="292" class="step-number focal-text">03</text><text x="392" y="293" class="legend-text">Transform</text>
+      <rect x="468" y="284" width="24" height="12" rx="6" fill="rgba(35,47,62,0.12)"/><text x="480" y="292" class="step-number">04</text><text x="500" y="293" class="legend-text">Analyze</text>
+      <rect x="568" y="284" width="24" height="12" rx="6" fill="rgba(35,47,62,0.12)"/><text x="580" y="292" class="step-number">05</text><text x="600" y="293" class="legend-text">Publish</text>
 
       <!-- Legend: data types -->
       <text x="164" y="314" class="legend-label">DATA TYPE</text>
@@ -154,9 +166,9 @@
 
       <!-- Legend: flow -->
       <text x="164" y="336" class="legend-label">FLOW</text>
-      <line x1="180" y1="333" x2="204" y2="333" stroke="#4f5d75" marker-end="url(#arr-muted)"/><text x="212" y="336" class="legend-text">Standard handoff</text>
-      <line x1="324" y1="333" x2="348" y2="333" stroke="#eb6c36" stroke-width="1.2" marker-end="url(#arr-accent)"/><text x="356" y="336" class="legend-text">Focal handoff</text>
-      <line x1="460" y1="333" x2="484" y2="333" stroke="#2e5aa8" marker-end="url(#arr-link)"/><text x="492" y="336" class="legend-text">Published output</text>
+      <line x1="180" y1="333" x2="204" y2="333" stroke="#545b64" marker-end="url(#arr-muted)"/><text x="212" y="336" class="legend-text">Standard handoff</text>
+      <line x1="324" y1="333" x2="348" y2="333" stroke="#ec7211" stroke-width="1.2" marker-end="url(#arr-accent)"/><text x="356" y="336" class="legend-text">Focal handoff</text>
+      <line x1="460" y1="333" x2="484" y2="333" stroke="#0972d3" marker-end="url(#arr-link)"/><text x="492" y="336" class="legend-text">Published output</text>
     </svg>
     </div>
 
@@ -164,11 +176,11 @@
       <article class="card">
         <p class="card-eyebrow">THE HANDOFF</p>
         <div class="card-header"><span class="card-dot coral"></span><h2>Raw becomes analysis-ready</h2></div>
-        <p>The focal handoff marks the moment stored records become a trusted table owned by data science.</p>
+        <p>The focal handoff marks the moment raw S3 objects become a trusted Glue table owned by data science.</p>
       </article>
       <article class="card">
         <div class="card-header"><span class="card-dot ink"></span><h2>Roles stay explicit</h2></div>
-        <ul><li>Data Engineer ingests and lands</li><li>Data Scientist transforms and models</li><li>Analyst publishes the dashboard</li></ul>
+        <ul><li>Data Engineer streams and lands in S3</li><li>Data Scientist transforms with Glue</li><li>Analyst publishes the Quick dashboard</li></ul>
       </article>
       <article class="card">
         <div class="card-header"><span class="card-dot muted"></span><h2>Payloads explain change</h2></div>
@@ -177,7 +189,7 @@
     </section>
 
     <footer class="footer">
-      <span>commerce analytics · data flow</span>
+      <span>commerce analytics on aws · data flow</span>
       <span>example · schematic skill</span>
     </footer>
   </main>

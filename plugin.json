@@ -1,8 +1,8 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "aws-diagram-design",
-  "version": "1.2.0",
-  "description": "AWS-branded editorial diagrams as standalone HTML/SVG/PNG — Amazon Ember typography, squid ink + smile orange skin, official AWS Architecture Icons bundled. 27 visual types, draw.io and Mermaid import.",
+  "version": "1.3.0",
+  "description": "AWS-branded editorial diagrams as standalone HTML/SVG/PNG — Amazon Ember typography, squid ink + smile orange skin, official AWS Architecture Icons bundled. 45 visual types, draw.io and Mermaid import.",
   "author": {
     "name": "Sangbeom"
   },

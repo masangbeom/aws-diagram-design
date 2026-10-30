@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout on ECS Fargate · Deployment</title>
+  <style>
+  @font-face { font-family: 'Amazon Ember'; font-weight: 400; font-style: normal; src: local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_Rg.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 400; font-style: italic; src: local('Amazon Ember Italic'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_RgIt.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 600; font-style: normal; src: local('Amazon Ember Medium'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_SBd.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 700; font-style: normal; src: local('Amazon Ember Bold'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_Bd.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember Mono'; font-weight: 400; font-style: normal; src: local('Amazon Ember Mono'), url('fonts/woff2/AmazonEmberMono_W_Rg.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember Mono'; font-weight: 700; font-style: normal; src: local('Amazon Ember Mono Bold'), local('Amazon Ember Mono'), url('fonts/woff2/AmazonEmberMono_W_Bd.woff2') format('woff2'); }
+</style>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --color-paper:   #161e2d;
+      --color-ink:     #ffffff;
+      --color-muted:   #b6bec9;
+      --color-accent:  #ff9900;
+      --font-sans:     'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --font-serif:    'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --font-mono:     'Amazon Ember Mono', ui-monospace, monospace;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--color-paper);
+      color: var(--color-ink);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 2rem;
+    }
+
+    .frame { max-width: 1200px; width: 100%; }
+
+    .eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(1.5rem, 2.4vw + 0.75rem, 2rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      color: var(--color-ink);
+      margin-bottom: 1.5rem;
+    }
+
+    svg { width: 100%; min-width: 880px; display: block; }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <p class="eyebrow">Deployment · AWS Diagram Design</p>
+    <h1>Checkout on ECS Fargate, production</h1>
+
+    <svg viewBox="0 0 1040 416" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="deployment-dark-title deployment-dark-desc">
+      <title id="deployment-dark-title">Checkout on ECS Fargate, production</title>
+      <desc id="deployment-dark-desc">Deployment diagram placing the checkout service across a CloudFront edge zone, a production us-east-1 zone running an Application Load Balancer and three ECS Fargate tasks, and a data zone with an RDS for PostgreSQL Multi-AZ primary replicating to its standby.</desc>
+      <defs>
+        <pattern id="dots" width="22" height="22" patternUnits="userSpaceOnUse">
+          <circle cx="1" cy="1" r="0.9" fill="rgba(255,255,255,0.10)"/>
+        </pattern>
+        <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#b6bec9"/></marker>
+        <marker id="arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#ff9900"/></marker>
+        <marker id="arrow-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#539fe5"/></marker>
+      </defs>
+
+      <rect width="100%" height="100%" fill="#161e2d"/>
+      <rect width="100%" height="100%" fill="url(#dots)" opacity="0.55"/>
+
+      <!-- Zones (drawn first, before arrows and nodes) -->
+      <rect x="40" y="40" width="208" height="280" rx="8" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.10)" stroke-width="0.8" stroke-dasharray="4,4"/>
+      <rect x="56" y="44" width="48" height="12" fill="#161e2d"/>
+      <text x="80" y="53" fill="rgba(255,255,255,0.35)" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.14em">EDGE</text>
+
+      <rect x="280" y="40" width="280" height="280" rx="8" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.10)" stroke-width="0.8" stroke-dasharray="4,4"/>
+      <rect x="296" y="44" width="140" height="12" fill="#161e2d"/>
+      <text x="366" y="53" fill="rgba(255,255,255,0.35)" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.14em">PROD / US-EAST-1</text>
+
+      <rect x="600" y="40" width="240" height="280" rx="8" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.10)" stroke-width="0.8" stroke-dasharray="4,4"/>
+      <rect x="616" y="44" width="40" height="12" fill="#161e2d"/>
+      <text x="636" y="53" fill="rgba(255,255,255,0.35)" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.14em">DATA</text>
+
+      <!-- Network paths (behind nodes) -->
+      <path d="M 224,196 H 288 Q 296,196 296,188 V 128 Q 296,120 304,120" fill="none" stroke="#539fe5" stroke-width="1.2" marker-end="url(#arrow-link)"/>
+      <line x1="420" y1="164" x2="420" y2="196" stroke="#b6bec9" stroke-width="1.2" marker-end="url(#arrow)"/>
+      <path d="M 536,252 H 572 Q 580,252 580,244 V 128 Q 580,120 588,120 H 624" fill="none" stroke="#539fe5" stroke-width="1.2" marker-end="url(#arrow-link)"/>
+      <line x1="720" y1="164" x2="720" y2="212" stroke="#ff9900" stroke-width="1" stroke-dasharray="5,4" marker-end="url(#arrow-accent)"/>
+
+      <!-- Path labels -->
+      <rect x="224" y="176" width="64" height="12" rx="2" fill="#161e2d"/>
+      <text x="256" y="185" fill="#539fe5" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">HTTPS:443</text>
+
+      <rect x="428" y="174" width="64" height="12" rx="2" fill="#161e2d"/>
+      <text x="460" y="183" fill="#b6bec9" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">HTTP:8080</text>
+
+      <rect x="588" y="180" width="64" height="12" rx="2" fill="#161e2d"/>
+      <text x="620" y="189" fill="#539fe5" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">TLS:5432</text>
+
+      <rect x="728" y="182" width="72" height="12" rx="2" fill="#161e2d"/>
+      <text x="764" y="191" fill="#ff9900" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">SYNC REPL</text>
+
+      <!-- Node: CloudFront distribution -->
+      <rect x="64" y="156" width="160" height="84" rx="6" fill="#161e2d"/>
+      <rect x="64" y="156" width="160" height="84" rx="6" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.30)" stroke-width="1"/>
+      <g transform="translate(76,180) scale(0.375)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g fill="#8C4FFF"> <rect x="0" y="0" width="64" height="64"></rect> </g> <path d="M41.5,43.5 C40.397,43.5 39.5,42.603 39.5,41.5 C39.5,40.397 40.397,39.5 41.5,39.5 C42.603,39.5 43.5,40.397 43.5,41.5 C43.5,42.603 42.603,43.5 41.5,43.5 L41.5,43.5 Z M41.5,37.5 C39.294,37.5 37.5,39.294 37.5,41.5 C37.5,43.706 39.294,45.5 41.5,45.5 C43.706,45.5 45.5,43.706 45.5,41.5 C45.5,39.294 43.706,37.5 41.5,37.5 L41.5,37.5 Z M22.5,32.5 C21.397,32.5 20.5,31.603 20.5,30.5 C20.5,29.397 21.397,28.5 22.5,28.5 C23.603,28.5 24.5,29.397 24.5,30.5 C24.5,31.603 23.603,32.5 22.5,32.5 L22.5,32.5 Z M22.5,26.5 C20.294,26.5 18.5,28.294 18.5,30.5 C18.5,32.706 20.294,34.5 22.5,34.5 C24.706,34.5 26.5,32.706 26.5,30.5 C26.5,28.294 24.706,26.5 22.5,26.5 L22.5,26.5 Z M45.389,47.124 C45.168,46.607 44.936,46.094 44.685,45.591 L42.896,46.486 C43.17,47.035 43.42,47.599 43.656,48.165 C42.82,48.762 41.943,49.288 41.028,49.74 C41.384,48.865 41.694,47.975 41.974,47.012 L40.054,46.454 C39.564,48.134 38.985,49.581 38.184,51.133 C36.357,51.698 34.452,52 32.5,52 C29.465,52 26.567,51.314 23.871,49.976 C22.503,46.615 21.838,43.534 21.838,40.559 C21.838,39.267 22.063,38.196 22.322,36.956 C22.386,36.652 22.45,36.343 22.514,36.024 L20.551,35.638 C20.49,35.949 20.427,36.25 20.365,36.545 C20.094,37.838 19.838,39.06 19.838,40.559 C19.838,43.074 20.274,45.644 21.154,48.354 C16.072,44.724 13,38.854 13,32.5 C13,32.389 13.01,32.273 13.012,32.161 C14.642,31.799 16.123,31.614 17.854,31.571 L17.804,29.572 C16.169,29.612 14.694,29.779 13.163,30.084 C14.081,22.683 19.212,16.394 26.323,14.019 C27.873,14.818 29.02,15.524 30.135,16.37 L31.344,14.776 C30.646,14.248 29.934,13.771 29.146,13.299 C30.244,13.108 31.363,13 32.5,13 C35.032,13 37.532,13.494 39.849,14.439 C39.342,14.593 38.82,14.763 38.243,14.971 L38.923,16.852 C40.316,16.349 41.408,16.04 42.571,15.821 C48.399,19.341 52,25.667 52,32.5 C52,38.156 49.605,43.416 45.389,47.124 L45.389,47.124 Z M43.008,13.749 C39.826,11.95 36.192,11 32.5,11 C30.392,11 28.324,11.301 26.357,11.895 C17.723,14.464 11.568,22.23 11.045,31.196 C11.01,31.625 11,32.062 11,32.5 C11,40.444 15.352,47.707 22.354,51.455 C25.459,53.12 28.968,54 32.5,54 C34.892,54 37.229,53.61 39.437,52.843 C41.684,52.086 43.773,50.963 45.646,49.507 C50.955,45.399 54,39.2 54,32.5 C54,24.732 49.787,17.546 43.008,13.749 L43.008,13.749 Z M38.384,37.411 L37.003,38.858 C34.022,36.015 31.047,34.146 27.637,32.975 L28.287,31.083 C31.979,32.351 35.188,34.362 38.384,37.411 L38.384,37.411 Z M38.444,22.364 C41.282,26.692 42.88,31.444 43.193,36.488 L41.197,36.612 C40.905,31.919 39.417,27.495 36.772,23.46 L38.444,22.364 Z M26.451,26.797 L24.773,25.708 C26.316,23.332 27.639,21.758 29.336,20.278 L30.65,21.786 C29.103,23.135 27.886,24.587 26.451,26.797 L26.451,26.797 Z M34.5,16.5 C35.603,16.5 36.5,17.397 36.5,18.5 C36.5,19.603 35.603,20.5 34.5,20.5 C33.397,20.5 32.5,19.603 32.5,18.5 C32.5,17.397 33.397,16.5 34.5,16.5 L34.5,16.5 Z M34.5,22.5 C36.706,22.5 38.5,20.706 38.5,18.5 C38.5,16.294 36.706,14.5 34.5,14.5 C32.294,14.5 30.5,16.294 30.5,18.5 C30.5,20.706 32.294,22.5 34.5,22.5 L34.5,22.5 Z" fill="#FFFFFF"></path> </g></g>
+      <text x="108" y="196" fill="#ffffff" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">CloudFront</text>
+      <rect x="72" y="208" width="144" height="24" rx="4" fill="rgba(255,255,255,0.05)" stroke="#b6bec9" stroke-width="0.8"/>
+      <text x="80" y="224" fill="#ffffff" font-size="12" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">cache-policy</text>
+      <text x="208" y="224" fill="#b6bec9" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="end">v3</text>
+
+      <!-- Node: Application Load Balancer -->
+      <rect x="304" y="80" width="232" height="84" rx="6" fill="#161e2d"/>
+      <rect x="304" y="80" width="232" height="84" rx="6" fill="#232f3e" stroke="#ffffff" stroke-width="1"/>
+      <g transform="translate(316,104) scale(0.375)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g fill="#8C4FFF"> <rect x="0" y="0" width="64" height="64"></rect> </g> <path d="M23.5,42 C17.71,42 13,37.29 13,31.5 C13,25.71 17.71,21 23.5,21 C29.29,21 34,25.71 34,31.5 C34,37.29 29.29,42 23.5,42 M48,48 C48,49.654 46.654,51 45,51 C43.346,51 42,49.654 42,48 C42,46.346 43.346,45 45,45 C46.654,45 48,46.346 48,48 M45,13 C46.654,13 48,14.346 48,16 C48,17.654 46.654,19 45,19 C43.346,19 42,17.654 42,16 C42,14.346 43.346,13 45,13 M48,29 C49.654,29 51,30.346 51,32 C51,33.654 49.654,35 48,35 C46.346,35 45,33.654 45,32 C45,30.346 46.346,29 48,29 M35.901,33 L43.102,33 C43.565,35.279 45.586,37 48,37 C50.757,37 53,34.757 53,32 C53,29.243 50.757,27 48,27 C45.586,27 43.565,28.721 43.102,31 L35.975,31 C35.916,29.541 35.614,28.146 35.096,26.856 L42.799,20.467 C43.466,20.797 44.206,21 45,21 C47.757,21 50,18.757 50,16 C50,13.243 47.757,11 45,11 C42.243,11 40,13.243 40,16 C40,17.224 40.459,18.331 41.191,19.201 L34.172,25.024 C31.977,21.42 28.021,19 23.5,19 C16.607,19 11,24.607 11,31.5 C11,38.393 16.607,44 23.5,44 C27.743,44 31.493,41.871 33.754,38.629 L41.191,44.799 C40.459,45.669 40,46.776 40,48 C40,50.757 42.243,53 45,53 C47.757,53 50,50.757 50,48 C50,45.243 47.757,43 45,43 C44.206,43 43.466,43.203 42.799,43.533 L34.77,36.873 C35.344,35.673 35.736,34.373 35.901,33" fill="#FFFFFF"></path> </g></g>
+      <text x="348" y="120" fill="#ffffff" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">alb-checkout</text>
+      <rect x="312" y="132" width="216" height="24" rx="4" fill="rgba(255,255,255,0.05)" stroke="#b6bec9" stroke-width="0.8"/>
+      <text x="320" y="148" fill="#ffffff" font-size="12" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">listener :443</text>
+      <text x="520" y="148" fill="#b6bec9" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="end">TLS 1.3</text>
+
+      <!-- Node: ECS service on Fargate (tasks x3) -->
+      <rect x="304" y="196" width="232" height="116" rx="6" fill="#161e2d"/>
+      <rect x="304" y="196" width="232" height="116" rx="6" fill="#232f3e" stroke="#ffffff" stroke-width="1"/>
+      <g transform="translate(316,220) scale(0.375)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g fill="#ED7100"> <rect x="0" y="0" width="64" height="64"></rect> </g> <path d="M42.4670854,46.382 L42.4670854,42.618 L44.4605025,41.618 L44.4605025,45.382 L42.4670854,46.382 Z M38.4802513,41.618 L40.4736684,42.618 L40.4736684,46.382 L38.4802513,45.382 L38.4802513,41.618 Z M33.4967085,51.382 L33.4967085,47.618 L35.4901256,46.618 L35.4901256,50.382 L33.4967085,51.382 Z M29.5098744,46.618 L31.5032915,47.618 L31.5032915,51.382 L29.5098744,50.382 L29.5098744,46.618 Z M24.5263316,46.382 L24.5263316,42.618 L26.5197487,41.618 L26.5197487,45.382 L24.5263316,46.382 Z M20.5394975,41.618 L22.5329146,42.618 L22.5329146,46.382 L20.5394975,45.382 L20.5394975,41.618 Z M23.5296231,39.118 L25.287817,40 L23.5296231,40.882 L21.7714292,40 L23.5296231,39.118 Z M32.5,44.118 L34.2581939,45 L32.5,45.882 L30.7418061,45 L32.5,44.118 Z M41.4703769,39.118 L43.2285708,40 L41.4703769,40.882 L39.712183,40 L41.4703769,39.118 Z M45.9027398,39.106 L41.9159056,37.106 C41.6358305,36.965 41.3049233,36.965 41.0248482,37.106 L37.038014,39.106 C36.7001298,39.275 36.4868342,39.621 36.4868342,40 L36.4868342,43.882 L32.9455287,42.106 C32.6654536,41.965 32.3345464,41.965 32.0544713,42.106 L28.5131658,43.882 L28.5131658,40 C28.5131658,39.621 28.2998702,39.275 27.961986,39.106 L23.9751518,37.106 C23.6950767,36.965 23.3641695,36.965 23.0840944,37.106 L19.0972602,39.106 C18.759376,39.275 18.5460804,39.621 18.5460804,40 L18.5460804,46 C18.5460804,46.379 18.759376,46.725 19.0972602,46.895 L23.0840944,48.895 C23.2236336,48.965 23.3771267,49 23.5296231,49 C23.6821195,49 23.8356126,48.965 23.9751518,48.895 L27.5164573,47.118 L27.5164573,51 C27.5164573,51.379 27.7297529,51.725 28.0676371,51.895 L32.0544713,53.895 C32.1940105,53.965 32.3475036,54 32.5,54 C32.6524964,54 32.8059895,53.965 32.9455287,53.895 L36.9323629,51.895 C37.2702471,51.725 37.4835427,51.379 37.4835427,51 L37.4835427,47.118 L41.0248482,48.895 C41.1643874,48.965 41.3178805,49 41.4703769,49 C41.6228733,49 41.7763664,48.965 41.9159056,48.895 L45.9027398,46.895 C46.240624,46.725 46.4539196,46.379 46.4539196,46 L46.4539196,40 C46.4539196,39.621 46.240624,39.275 45.9027398,39.106 L45.9027398,39.106 Z M54,28.09 C54,33.193 42.9225812,35.946 32.5,35.946 C22.0774188,35.946 11,33.193 11,28.09 C11,25.629 13.6801493,23.474 18.5470771,22.023 L19.115201,23.94 C15.3386723,25.066 12.9934171,26.656 12.9934171,28.09 C12.9934171,30.854 21.3358676,33.946 32.5,33.946 C43.6641324,33.946 52.0065829,30.854 52.0065829,28.09 C52.0065829,26.656 49.6613277,25.066 45.884799,23.94 L46.4529229,22.023 C51.3198507,23.474 54,25.629 54,28.09 L54,28.09 Z M32.5,12.064 L40.5474248,15 L32.5,17.936 L24.4525752,15 L32.5,12.064 Z M41.3677159,28.648 C39.8118539,29.348 37.2134347,30.164 33.4967085,30.293 L33.4967085,19.701 L42.4670854,16.428 L42.4670854,26.913 C42.4670854,27.667 42.0355106,28.348 41.3677159,28.648 L41.3677159,28.648 Z M22.5329146,26.913 L22.5329146,16.428 L31.5032915,19.701 L31.5032915,30.293 C27.7865653,30.164 25.1881461,29.348 23.6322841,28.648 C22.9644894,28.348 22.5329146,27.667 22.5329146,26.913 L22.5329146,26.913 Z M22.8159798,30.473 C24.6868017,31.315 27.8852394,32.319 32.5,32.319 C37.1147606,32.319 40.3131983,31.315 42.1840202,30.473 C43.5674517,29.851 44.4605025,28.454 44.4605025,26.913 L44.4605025,15 C44.4605025,14.58 44.1983682,14.204 43.8046683,14.06 L32.8408743,10.06 C32.6206017,9.98 32.3793983,9.98 32.1591257,10.06 L21.1953317,14.06 C20.8016318,14.204 20.5394975,14.58 20.5394975,15 L20.5394975,26.913 C20.5394975,28.454 21.4325483,29.851 22.8159798,30.473 L22.8159798,30.473 Z" fill="#FFFFFF"></path> </g></g>
+      <rect x="500" y="204" width="28" height="12" rx="2" fill="transparent" stroke="rgba(255,255,255,0.40)" stroke-width="0.8"/>
+      <text x="514" y="213" fill="#ffffff" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">x3</text>
+      <text x="348" y="236" fill="#ffffff" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">checkout-svc</text>
+      <rect x="312" y="248" width="216" height="24" rx="4" fill="rgba(255,255,255,0.05)" stroke="#b6bec9" stroke-width="0.8"/>
+      <text x="320" y="264" fill="#ffffff" font-size="12" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">checkout-api</text>
+      <text x="520" y="264" fill="#b6bec9" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="end">v2.4.1</text>
+      <rect x="312" y="280" width="216" height="24" rx="4" fill="rgba(255,255,255,0.05)" stroke="#b6bec9" stroke-width="0.8"/>
+      <text x="320" y="296" fill="#ffffff" font-size="12" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">adot-collector</text>
+      <text x="520" y="296" fill="#b6bec9" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="end">v0.40</text>
+
+      <!-- Node: rds-primary, AZ a (focal) -->
+      <rect x="624" y="80" width="192" height="84" rx="6" fill="#161e2d"/>
+      <rect x="624" y="80" width="192" height="84" rx="6" fill="rgba(255,153,0,0.08)" stroke="#ff9900" stroke-width="1"/>
+      <g transform="translate(636,104) scale(0.375)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g fill="#C925D1"> <rect x="0" y="0" width="64" height="64"></rect> </g> <path d="M54,11 L54,19 L52,19 L52,13.414 L45.707,19.707 L44.293,18.293 L50.586,12 L45.125,12 L45.125,10 L53,10 C53.553,10 54,10.448 54,11 L54,11 Z M12,18.875 L10,18.875 L10,11 C10,10.448 10.447,10 11,10 L19,10 L19,12 L13.414,12 L19.707,18.293 L18.293,19.707 L12,13.414 L12,18.875 Z M19.707,45.707 L13.414,52 L18.875,52 L18.875,54 L11,54 C10.447,54 10,53.552 10,53 L10,45 L12,45 L12,50.586 L18.293,44.293 L19.707,45.707 Z M51.5,31.781 C51.5,29.352 48.634,26.932 43.833,25.307 L44.474,23.413 C50.21,25.354 53.5,28.404 53.5,31.781 C53.5,35.158 50.21,38.208 44.474,40.15 L43.833,38.255 C48.634,36.631 51.5,34.21 51.5,31.781 L51.5,31.781 Z M12.543,31.781 C12.543,34.105 15.224,36.46 19.715,38.081 L19.035,39.961 C13.639,38.014 10.543,35.033 10.543,31.781 C10.543,28.53 13.639,25.548 19.035,23.601 L19.715,25.482 C15.224,27.103 12.543,29.458 12.543,31.781 L12.543,31.781 Z M52,45.125 L54,45.125 L54,53 C54,53.552 53.553,54 53,54 L45,54 L45,52 L50.586,52 L44.293,45.707 L45.707,44.293 L52,50.586 L52,45.125 Z M32.022,31.402 C26.999,31.402 24.126,30.059 24,29.483 L24,26.257 C26.159,27.266 29.609,27.593 32,27.593 C34.391,27.593 37.841,27.266 40,26.257 L40,29.483 C39.894,30.057 37.051,31.402 32.022,31.402 L32.022,31.402 Z M32.022,37.13 C26.999,37.13 24.126,35.786 24,35.21 L24,31.956 C25.953,32.937 29.055,33.402 32.022,33.402 C34.973,33.402 38.055,32.938 40,31.96 L40,35.21 C39.894,35.785 37.052,37.13 32.022,37.13 L32.022,37.13 Z M32,42.268 C26.95,42.268 24.104,40.917 24,40.346 L24,37.683 C25.953,38.665 29.055,39.13 32.022,39.13 C34.973,39.13 38.055,38.666 40,37.687 L40,40.342 C39.896,40.917 37.05,42.268 32,42.268 L32,42.268 Z M32,22.193 C36.971,22.193 39.642,23.37 39.982,23.894 C39.642,24.417 36.971,25.593 32,25.593 C26.909,25.593 24.233,24.361 24,23.949 L24,23.93 C24.233,23.426 26.909,22.193 32,22.193 L32,22.193 Z M32,20.193 C28.286,20.193 22,20.973 22,23.894 L22,40.346 C22,43.041 27.184,44.268 32,44.268 C36.816,44.268 42,43.041 42,40.346 L42,23.894 C42,20.973 35.714,20.193 32,20.193 L32,20.193 Z" fill="#FFFFFF"></path> </g></g>
+      <text x="668" y="120" fill="#ffffff" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">rds-primary</text>
+      <rect x="632" y="132" width="176" height="24" rx="4" fill="rgba(255,255,255,0.05)" stroke="#b6bec9" stroke-width="0.8"/>
+      <text x="640" y="148" fill="#ffffff" font-size="12" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">postgres</text>
+      <text x="800" y="148" fill="#b6bec9" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="end">16.4 · az-a</text>
+
+      <!-- Node: rds-standby, AZ b -->
+      <rect x="624" y="212" width="192" height="84" rx="6" fill="#161e2d"/>
+      <rect x="624" y="212" width="192" height="84" rx="6" fill="rgba(255,255,255,0.05)" stroke="#b6bec9" stroke-width="1"/>
+      <g transform="translate(636,236) scale(0.375)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g fill="#C925D1"> <rect x="0" y="0" width="64" height="64"></rect> </g> <path d="M54,11 L54,19 L52,19 L52,13.414 L45.707,19.707 L44.293,18.293 L50.586,12 L45.125,12 L45.125,10 L53,10 C53.553,10 54,10.448 54,11 L54,11 Z M12,18.875 L10,18.875 L10,11 C10,10.448 10.447,10 11,10 L19,10 L19,12 L13.414,12 L19.707,18.293 L18.293,19.707 L12,13.414 L12,18.875 Z M19.707,45.707 L13.414,52 L18.875,52 L18.875,54 L11,54 C10.447,54 10,53.552 10,53 L10,45 L12,45 L12,50.586 L18.293,44.293 L19.707,45.707 Z M51.5,31.781 C51.5,29.352 48.634,26.932 43.833,25.307 L44.474,23.413 C50.21,25.354 53.5,28.404 53.5,31.781 C53.5,35.158 50.21,38.208 44.474,40.15 L43.833,38.255 C48.634,36.631 51.5,34.21 51.5,31.781 L51.5,31.781 Z M12.543,31.781 C12.543,34.105 15.224,36.46 19.715,38.081 L19.035,39.961 C13.639,38.014 10.543,35.033 10.543,31.781 C10.543,28.53 13.639,25.548 19.035,23.601 L19.715,25.482 C15.224,27.103 12.543,29.458 12.543,31.781 L12.543,31.781 Z M52,45.125 L54,45.125 L54,53 C54,53.552 53.553,54 53,54 L45,54 L45,52 L50.586,52 L44.293,45.707 L45.707,44.293 L52,50.586 L52,45.125 Z M32.022,31.402 C26.999,31.402 24.126,30.059 24,29.483 L24,26.257 C26.159,27.266 29.609,27.593 32,27.593 C34.391,27.593 37.841,27.266 40,26.257 L40,29.483 C39.894,30.057 37.051,31.402 32.022,31.402 L32.022,31.402 Z M32.022,37.13 C26.999,37.13 24.126,35.786 24,35.21 L24,31.956 C25.953,32.937 29.055,33.402 32.022,33.402 C34.973,33.402 38.055,32.938 40,31.96 L40,35.21 C39.894,35.785 37.052,37.13 32.022,37.13 L32.022,37.13 Z M32,42.268 C26.95,42.268 24.104,40.917 24,40.346 L24,37.683 C25.953,38.665 29.055,39.13 32.022,39.13 C34.973,39.13 38.055,38.666 40,37.687 L40,40.342 C39.896,40.917 37.05,42.268 32,42.268 L32,42.268 Z M32,22.193 C36.971,22.193 39.642,23.37 39.982,23.894 C39.642,24.417 36.971,25.593 32,25.593 C26.909,25.593 24.233,24.361 24,23.949 L24,23.93 C24.233,23.426 26.909,22.193 32,22.193 L32,22.193 Z M32,20.193 C28.286,20.193 22,20.973 22,23.894 L22,40.346 C22,43.041 27.184,44.268 32,44.268 C36.816,44.268 42,43.041 42,40.346 L42,23.894 C42,20.973 35.714,20.193 32,20.193 L32,20.193 Z" fill="#FFFFFF"></path> </g></g>
+      <text x="668" y="252" fill="#ffffff" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">rds-standby</text>
+      <rect x="632" y="264" width="176" height="24" rx="4" fill="rgba(255,255,255,0.05)" stroke="#b6bec9" stroke-width="0.8"/>
+      <text x="640" y="280" fill="#ffffff" font-size="12" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">postgres</text>
+      <text x="800" y="280" fill="#b6bec9" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="end">16.4 · az-b</text>
+
+      <!-- Legend strip -->
+      <line x1="40" y1="340" x2="1000" y2="340" stroke="rgba(255,255,255,0.10)" stroke-width="0.8"/>
+      <text x="40" y="356" fill="#b6bec9" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.18em">LEGEND</text>
+
+      <rect x="40" y="372" width="14" height="10" rx="2" fill="rgba(255,153,0,0.08)" stroke="#ff9900" stroke-width="1"/>
+      <text x="60" y="380" fill="#b6bec9" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Focal / primary</text>
+
+      <rect x="180" y="372" width="14" height="10" rx="2" fill="#232f3e" stroke="#ffffff" stroke-width="1"/>
+      <text x="200" y="380" fill="#b6bec9" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Compute / LB</text>
+
+      <rect x="320" y="372" width="14" height="10" rx="2" fill="rgba(255,255,255,0.05)" stroke="#b6bec9" stroke-width="1"/>
+      <text x="340" y="380" fill="#b6bec9" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Store / standby</text>
+
+      <rect x="460" y="372" width="14" height="10" rx="2" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.30)" stroke-width="1"/>
+      <text x="480" y="380" fill="#b6bec9" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Edge / CDN</text>
+
+      <line x1="600" y1="376" x2="628" y2="376" stroke="#539fe5" stroke-width="1.2" marker-end="url(#arrow-link)"/>
+      <text x="636" y="380" fill="#b6bec9" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Cross-zone</text>
+
+      <line x1="740" y1="376" x2="768" y2="376" stroke="#ff9900" stroke-width="1" stroke-dasharray="5,4" marker-end="url(#arrow-accent)"/>
+      <text x="776" y="380" fill="#b6bec9" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Replication</text>
+
+      <line x1="880" y1="376" x2="908" y2="376" stroke="#b6bec9" stroke-width="1.2" marker-end="url(#arrow)"/>
+      <text x="916" y="380" fill="#b6bec9" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">In-zone call</text>
+    </svg>
+  </div>
+</body>
+</html>

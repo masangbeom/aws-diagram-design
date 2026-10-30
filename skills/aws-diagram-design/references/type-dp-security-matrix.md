@@ -291,7 +291,7 @@ Before emitting SVG, verify **every** item:
 
 ## 9. Examples
 
-- `assets/example-dp-security-matrix.html` — minimal light (NatStat canonical: 4 roles × 8 components, focal at Data Consumers × Trino aggregated). Gallery default.
+- `assets/example-dp-security-matrix.html` — minimal light (IAM roles × AWS data services with Lake Formation-style grants). Gallery default.
 - `assets/example-dp-security-matrix-dark.html` — same, dark skin.
 - `assets/example-dp-security-matrix-full.html` — same, editorial-card frame with subtitle + summary cards.
 

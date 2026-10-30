@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Three-tier app on AWS · Three layers, one product</title>
+  <style>
+  @font-face { font-family: 'Amazon Ember'; font-weight: 400; font-style: normal; src: local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_Rg.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 400; font-style: italic; src: local('Amazon Ember Italic'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_RgIt.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 600; font-style: normal; src: local('Amazon Ember Medium'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_SBd.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 700; font-style: normal; src: local('Amazon Ember Bold'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_Bd.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember Mono'; font-weight: 400; font-style: normal; src: local('Amazon Ember Mono'), url('fonts/woff2/AmazonEmberMono_W_Rg.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember Mono'; font-weight: 700; font-style: normal; src: local('Amazon Ember Mono Bold'), local('Amazon Ember Mono'), url('fonts/woff2/AmazonEmberMono_W_Bd.woff2') format('woff2'); }
+</style>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --color-paper:   #ffffff;
+      --color-ink:     #232f3e;
+      --color-muted:   #545b64;
+      --color-accent:  #ec7211;
+      --font-sans:     'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --font-serif:    'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --font-mono:     'Amazon Ember Mono', ui-monospace, monospace;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--color-paper);
+      color: var(--color-ink);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 2rem;
+    }
+
+    .frame { max-width: 1200px; width: 100%; }
+    .diagram-container { width: 100%; overflow-x: auto; }
+
+    .eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(1.5rem, 2.4vw + 0.75rem, 2rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      color: var(--color-ink);
+      margin-bottom: 1.5rem;
+    }
+
+    svg { width: 100%; min-width: 1000px; display: block; }
+    @media print {
+      .diagram-container { overflow-x: visible; }
+      svg { min-width: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <p class="eyebrow">Exploded axonometric · AWS Diagram Design</p>
+    <h1>Three-tier app on AWS · Three layers, one product</h1>
+
+    <div class="diagram-container">
+      <svg viewBox="0 0 1000 556" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="exploded-title exploded-desc">
+        <title id="exploded-title">Three-tier app on AWS · Three layers, one product</title>
+        <desc id="exploded-desc">Exploded view of a three-tier application on AWS: the data tier (Amazon Aurora, Amazon S3) at the base, the app tier (Amazon ECS on AWS Fargate, AWS Lambda, Amazon SQS) in the middle, and the web tier (Amazon CloudFront) on top, with the app tier as the focal layer.</desc>
+        <rect width="100%" height="100%" fill="#ffffff"/>
+        <g data-exploded data-origin="344 284" data-gap="100">
+        <line data-role="trace" x1="151.03" y1="368" x2="151.03" y2="152" stroke="rgba(35,47,62,0.30)" stroke-width="0.8" stroke-dasharray="4,3"/><line data-role="trace" x1="536.97" y1="368" x2="536.97" y2="152" stroke="rgba(35,47,62,0.30)" stroke-width="0.8" stroke-dasharray="4,3"/>
+        <g data-part="data" data-name="Data tier" data-rect="0 0 200 200 12" data-z="0" data-t="16" data-level="0"><path data-role="silhouette" d="M 151.03 368 A 16.97 8.49 0 0 1 156 362 L 332 274 A 16.97 8.49 0 0 1 356 274 L 532 362 A 16.97 8.49 0 0 1 536.97 368 L 536.97 384 A 16.97 8.49 0 0 1 532 390 L 356 478 A 16.97 8.49 0 0 1 332 478 L 156 390 A 16.97 8.49 0 0 1 151.03 384 Z" fill="#ffffff"/><path d="M 151.03 368 A 16.97 8.49 0 0 0 156 374 L 332 462 A 16.97 8.49 0 0 0 344 464.49 L 344 480.49 A 16.97 8.49 0 0 1 332 478 L 156 390 A 16.97 8.49 0 0 1 151.03 384 Z" fill="rgba(35,47,62,0.07)"/><path d="M 344 464.49 A 16.97 8.49 0 0 0 356 462 L 532 374 A 16.97 8.49 0 0 0 536.97 368 L 536.97 384 A 16.97 8.49 0 0 1 532 390 L 356 478 A 16.97 8.49 0 0 1 344 480.49 Z" fill="rgba(35,47,62,0.15)"/><path d="M 151.03 368 A 16.97 8.49 0 0 0 156 374 L 332 462 A 16.97 8.49 0 0 0 356 462 L 532 374 A 16.97 8.49 0 0 0 536.97 368" fill="none" stroke="rgba(35,47,62,0.55)" stroke-width="0.8"/><path d="M 151.03 368 A 16.97 8.49 0 0 1 156 362 L 332 274 A 16.97 8.49 0 0 1 356 274 L 532 362 A 16.97 8.49 0 0 1 536.97 368 L 536.97 384 A 16.97 8.49 0 0 1 532 390 L 356 478 A 16.97 8.49 0 0 1 332 478 L 156 390 A 16.97 8.49 0 0 1 151.03 384 Z" fill="none" stroke="#232f3e" stroke-width="1.2" stroke-linejoin="round"/><g data-role="label"><line data-role="leader" x1="542.97" y1="376" x2="588.97" y2="376" stroke="rgba(35,47,62,0.40)" stroke-width="0.8"/><circle cx="536.97" cy="376" r="2" fill="#232f3e"/><text data-role="name" x="600.97" y="375" fill="#232f3e" font-size="16" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Data tier</text><text x="600.97" y="391" fill="#545b64" font-size="10" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.08em">aurora, amazon s3</text></g></g>
+        <g data-part="logic" data-name="App tier" data-rect="0 0 200 200 12" data-z="116" data-t="16" data-level="1" data-focal><path data-role="silhouette" d="M 151.03 252 A 16.97 8.49 0 0 1 156 246 L 332 158 A 16.97 8.49 0 0 1 356 158 L 532 246 A 16.97 8.49 0 0 1 536.97 252 L 536.97 268 A 16.97 8.49 0 0 1 532 274 L 356 362 A 16.97 8.49 0 0 1 332 362 L 156 274 A 16.97 8.49 0 0 1 151.03 268 Z" fill="#ffffff"/><path d="M 356 346 A 16.97 8.49 0 0 1 332 346 L 156 258 A 16.97 8.49 0 0 1 156 246 L 332 158 A 16.97 8.49 0 0 1 356 158 L 532 246 A 16.97 8.49 0 0 1 532 258 Z" fill="rgba(236,114,17,0.10)"/><path d="M 151.03 252 A 16.97 8.49 0 0 0 156 258 L 332 346 A 16.97 8.49 0 0 0 344 348.49 L 344 364.49 A 16.97 8.49 0 0 1 332 362 L 156 274 A 16.97 8.49 0 0 1 151.03 268 Z" fill="rgba(236,114,17,0.20)"/><path d="M 344 348.49 A 16.97 8.49 0 0 0 356 346 L 532 258 A 16.97 8.49 0 0 0 536.97 252 L 536.97 268 A 16.97 8.49 0 0 1 532 274 L 356 362 A 16.97 8.49 0 0 1 344 364.49 Z" fill="rgba(236,114,17,0.32)"/><path d="M 151.03 252 A 16.97 8.49 0 0 0 156 258 L 332 346 A 16.97 8.49 0 0 0 356 346 L 532 258 A 16.97 8.49 0 0 0 536.97 252" fill="none" stroke="rgba(236,114,17,0.70)" stroke-width="0.8"/><path d="M 151.03 252 A 16.97 8.49 0 0 1 156 246 L 332 158 A 16.97 8.49 0 0 1 356 158 L 532 246 A 16.97 8.49 0 0 1 536.97 252 L 536.97 268 A 16.97 8.49 0 0 1 532 274 L 356 362 A 16.97 8.49 0 0 1 332 362 L 156 274 A 16.97 8.49 0 0 1 151.03 268 Z" fill="none" stroke="#ec7211" stroke-width="1.2" stroke-linejoin="round"/><g data-role="label"><line data-role="leader" x1="542.97" y1="260" x2="588.97" y2="260" stroke="rgba(236,114,17,0.60)" stroke-width="0.8"/><circle cx="536.97" cy="260" r="2" fill="#ec7211"/><text data-role="name" x="600.97" y="259" fill="#232f3e" font-size="16" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">App tier</text><text x="600.97" y="275" fill="#232f3e" font-size="10" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.08em">ecs fargate, lambda, sqs</text></g></g>
+        <g data-part="interface" data-name="Web tier" data-rect="0 0 200 200 12" data-z="232" data-t="16" data-level="2"><path data-role="silhouette" d="M 151.03 136 A 16.97 8.49 0 0 1 156 130 L 332 42 A 16.97 8.49 0 0 1 356 42 L 532 130 A 16.97 8.49 0 0 1 536.97 136 L 536.97 152 A 16.97 8.49 0 0 1 532 158 L 356 246 A 16.97 8.49 0 0 1 332 246 L 156 158 A 16.97 8.49 0 0 1 151.03 152 Z" fill="#ffffff"/><path d="M 151.03 136 A 16.97 8.49 0 0 0 156 142 L 332 230 A 16.97 8.49 0 0 0 344 232.49 L 344 248.49 A 16.97 8.49 0 0 1 332 246 L 156 158 A 16.97 8.49 0 0 1 151.03 152 Z" fill="rgba(35,47,62,0.07)"/><path d="M 344 232.49 A 16.97 8.49 0 0 0 356 230 L 532 142 A 16.97 8.49 0 0 0 536.97 136 L 536.97 152 A 16.97 8.49 0 0 1 532 158 L 356 246 A 16.97 8.49 0 0 1 344 248.49 Z" fill="rgba(35,47,62,0.15)"/><path d="M 151.03 136 A 16.97 8.49 0 0 0 156 142 L 332 230 A 16.97 8.49 0 0 0 356 230 L 532 142 A 16.97 8.49 0 0 0 536.97 136" fill="none" stroke="rgba(35,47,62,0.55)" stroke-width="0.8"/><path d="M 151.03 136 A 16.97 8.49 0 0 1 156 130 L 332 42 A 16.97 8.49 0 0 1 356 42 L 532 130 A 16.97 8.49 0 0 1 536.97 136 L 536.97 152 A 16.97 8.49 0 0 1 532 158 L 356 246 A 16.97 8.49 0 0 1 332 246 L 156 158 A 16.97 8.49 0 0 1 151.03 152 Z" fill="none" stroke="#232f3e" stroke-width="1.2" stroke-linejoin="round"/><g data-role="label"><line data-role="leader" x1="542.97" y1="144" x2="588.97" y2="144" stroke="rgba(35,47,62,0.40)" stroke-width="0.8"/><circle cx="536.97" cy="144" r="2" fill="#232f3e"/><text data-role="name" x="600.97" y="143" fill="#232f3e" font-size="16" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Web tier</text><text x="600.97" y="159" fill="#545b64" font-size="10" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.08em">cloudfront, s3 static site</text></g></g>
+        </g>
+        <text x="152" y="528" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.18em">FOCAL LAYER</text>
+        <text x="256" y="528" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-style="italic">The app tier is where the product decisions live; the data and web tiers are swappable.</text>
+      </svg>
+    </div>
+  </div>
+</body>
+</html>

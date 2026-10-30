@@ -16,7 +16,7 @@
           .role-text { fill: #232F3E; font-size: 6px; font-weight: 600; }
           .node-title { fill: #232F3E; font: 600 9px 'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif; text-anchor: middle; }
           .node-sub { fill: #545B64; font: 400 6.5px 'Amazon Ember Mono', ui-monospace, monospace; text-anchor: middle; }
-          .node-tool { fill: #7D8998; font: 400 6.5px 'Amazon Ember Mono', ui-monospace, monospace; text-anchor: middle; }
+          .node-tool { fill: #687078; font: 400 6.5px 'Amazon Ember Mono', ui-monospace, monospace; text-anchor: middle; }
           .chip-text { fill: #fff; font-size: 5px; font-weight: 700; }
           .focal-text { fill: #EC7211; }
           .gov-text { fill: #b85450; }
@@ -67,7 +67,7 @@
       <!-- Focal cross-role handoff: ETL -> Warehouse -->
       <path d="M470 156 H524 Q532 156 532 164 V204" fill="none" stroke="#EC7211" stroke-width="1.2" marker-end="url(#arr-accent)"/>
       <rect x="474" y="136" width="48" height="12" rx="2" fill="#ffffff"/>
-      <text x="498" y="145" fill="#EC7211" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">PARQUET</text>
+      <text x="498" y="145" fill="#232F3E" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">PARQUET</text>
       <!-- Warehouse -> curated views -->
       <path d="M582 236 H594" fill="none" stroke="#545B64" marker-end="url(#arr-muted)"/>
       <!-- Published output, same-step vertical -->
