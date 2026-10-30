@@ -1,14 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg viewBox="0 0 728 456" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="aws-pipeline-flow-title aws-pipeline-flow-desc">
+<svg viewBox="0 0 728 456" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="aws-pipeline-flow-title aws-pipeline-flow-desc" id="data-pipeline-flow-root">
       <title id="aws-pipeline-flow-title">Role-scoped AWS data pipeline flow</title>
       <desc id="aws-pipeline-flow-desc">A data admin governs the lake with Lake Formation and grants access through IAM, data engineers ingest events through Kinesis and DMS into an S3 data lake and transform them with Glue, an analytics engineer loads a Redshift warehouse and curates views, and consumers read Quick Suite dashboards.</desc>
       <defs>
+      <style>@font-face { font-family: 'Amazon Ember'; font-weight: 400; font-style: normal;
+      src: local('Amazon Ember'), url('../../skills/aws-diagram-design/assets/fonts/woff2/AmazonEmber_W_Rg.woff2') format('woff2'); }
+      @font-face { font-family: 'Amazon Ember'; font-weight: 600; font-style: normal;
+      src: local('Amazon Ember Medium'), local('Amazon Ember'), url('../../skills/aws-diagram-design/assets/fonts/woff2/AmazonEmber_W_SBd.woff2') format('woff2'); }
+      @font-face { font-family: 'Amazon Ember'; font-weight: 700; font-style: normal;
+      src: local('Amazon Ember Bold'), local('Amazon Ember'), url('../../skills/aws-diagram-design/assets/fonts/woff2/AmazonEmber_W_Bd.woff2') format('woff2'); }
+      @font-face { font-family: 'Amazon Ember Mono'; font-weight: 400; font-style: normal;
+      src: local('Amazon Ember Mono'), url('../../skills/aws-diagram-design/assets/fonts/woff2/AmazonEmberMono_W_Rg.woff2') format('woff2'); }
+      @font-face { font-family: 'Amazon Ember Mono'; font-weight: 700; font-style: normal;
+      src: local('Amazon Ember Mono Bold'), local('Amazon Ember Mono'), url('../../skills/aws-diagram-design/assets/fonts/woff2/AmazonEmberMono_W_Bd.woff2') format('woff2'); }
+      #data-pipeline-flow-root { --paper: #ffffff; --ink: #232F3E; --muted: #545B64; --soft: #687078;
+      --accent: #EC7211; --link: #0972D3;
+      --sans: 'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --mono: 'Amazon Ember Mono', ui-monospace, monospace; }
+      #data-pipeline-flow-root { color: var(--ink); font-family: var(--sans); }
+      #data-pipeline-flow-root .step-number, #data-pipeline-flow-root .step-label, #data-pipeline-flow-root .lane-label, #data-pipeline-flow-root .role-text, #data-pipeline-flow-root .chip-text, #data-pipeline-flow-root .legend-label { font-family: 'Amazon Ember Mono', ui-monospace, monospace; text-anchor: middle; }
+      #data-pipeline-flow-root .step-number { fill: #232F3E; font-size: 7px; font-weight: 600; }
+      #data-pipeline-flow-root .step-label { fill: #545B64; font-size: 7px; font-weight: 500; letter-spacing: 0.12em; }
+      #data-pipeline-flow-root .lane-label { fill: #545B64; font-size: 8px; font-weight: 500; letter-spacing: 0.14em; }
+      #data-pipeline-flow-root .role-text { fill: #232F3E; font-size: 6px; font-weight: 600; }
+      #data-pipeline-flow-root .node-title { fill: #232F3E; font: 600 9px 'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif; text-anchor: middle; }
+      #data-pipeline-flow-root .node-sub { fill: #545B64; font: 400 6.5px 'Amazon Ember Mono', ui-monospace, monospace; text-anchor: middle; }
+      #data-pipeline-flow-root .node-tool { fill: #687078; font: 400 6.5px 'Amazon Ember Mono', ui-monospace, monospace; text-anchor: middle; }
+      #data-pipeline-flow-root .chip-text { fill: #fff; font-size: 5px; font-weight: 700; }
+      #data-pipeline-flow-root .focal-text { fill: #232F3E; font-weight: 700; }
+      #data-pipeline-flow-root .gov-text { fill: #b85450; }
+      #data-pipeline-flow-root .legend-label { fill: #545B64; font-size: 7px; font-weight: 500; letter-spacing: 0.12em; text-anchor: end; }
+      #data-pipeline-flow-root .legend-text { fill: #545B64; font: 400 7px 'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif; }</style>
         <style>
-          @font-face { font-family: 'Amazon Ember'; font-weight: 400; font-style: normal; src: local('Amazon Ember'), url('../../skills/aws-diagram-design/assets/fonts/woff2/AmazonEmber_W_Rg.woff2') format('woff2'); }
-          @font-face { font-family: 'Amazon Ember'; font-weight: 600; font-style: normal; src: local('Amazon Ember Medium'), local('Amazon Ember'), url('../../skills/aws-diagram-design/assets/fonts/woff2/AmazonEmber_W_SBd.woff2') format('woff2'); }
-          @font-face { font-family: 'Amazon Ember'; font-weight: 700; font-style: normal; src: local('Amazon Ember Bold'), local('Amazon Ember'), url('../../skills/aws-diagram-design/assets/fonts/woff2/AmazonEmber_W_Bd.woff2') format('woff2'); }
-          @font-face { font-family: 'Amazon Ember Mono'; font-weight: 400; font-style: normal; src: local('Amazon Ember Mono'), url('../../skills/aws-diagram-design/assets/fonts/woff2/AmazonEmberMono_W_Rg.woff2') format('woff2'); }
-          @font-face { font-family: 'Amazon Ember Mono'; font-weight: 700; font-style: normal; src: local('Amazon Ember Mono Bold'), local('Amazon Ember Mono'), url('../../skills/aws-diagram-design/assets/fonts/woff2/AmazonEmberMono_W_Bd.woff2') format('woff2'); }
           .step-number, .step-label, .lane-label, .role-text, .chip-text, .legend-label { font-family: 'Amazon Ember Mono', ui-monospace, monospace; text-anchor: middle; }
           .step-number { fill: #232F3E; font-size: 7px; font-weight: 600; }
           .step-label { fill: #545B64; font-size: 7px; font-weight: 500; letter-spacing: 0.12em; }
@@ -18,35 +41,35 @@
           .node-sub { fill: #545B64; font: 400 6.5px 'Amazon Ember Mono', ui-monospace, monospace; text-anchor: middle; }
           .node-tool { fill: #687078; font: 400 6.5px 'Amazon Ember Mono', ui-monospace, monospace; text-anchor: middle; }
           .chip-text { fill: #fff; font-size: 5px; font-weight: 700; }
-          .focal-text { fill: #EC7211; }
+          .focal-text { fill: #232F3E; font-weight: 700; }
           .gov-text { fill: #b85450; }
           .legend-label { fill: #545B64; font-size: 7px; font-weight: 500; letter-spacing: 0.12em; text-anchor: end; }
           .legend-text { fill: #545B64; font: 400 7px 'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif; }
         </style>
-        <pattern id="dots" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="11" cy="11" r="0.8" fill="rgba(35,47,62,0.10)"/></pattern>
-        <marker id="arr-muted" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 Z" fill="#545B64"/></marker>
-        <marker id="arr-accent" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 Z" fill="#EC7211"/></marker>
-        <marker id="arr-link" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 Z" fill="#0972D3"/></marker>
+        <pattern id="data-pipeline-flow-dots" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="11" cy="11" r="0.8" fill="#232f3e" fill-opacity="0.10"/></pattern>
+        <marker id="data-pipeline-flow-arr-muted" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 Z" fill="#545B64"/></marker>
+        <marker id="data-pipeline-flow-arr-accent" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 Z" fill="#EC7211"/></marker>
+        <marker id="data-pipeline-flow-arr-link" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 Z" fill="#0972D3"/></marker>
       </defs>
       <rect width="728" height="456" fill="#ffffff"/>
-      <rect width="728" height="456" fill="url(#dots)"/>
-      <rect x="0" y="36" width="728" height="80" fill="rgba(35,47,62,0.018)"/>
-      <rect x="0" y="196" width="728" height="80" fill="rgba(35,47,62,0.018)"/>
+      <rect width="728" height="456" fill="url(#data-pipeline-flow-dots)"/>
+      <rect x="0" y="36" width="728" height="80" fill="#232f3e" fill-opacity="0.018"/>
+      <rect x="0" y="196" width="728" height="80" fill="#232f3e" fill-opacity="0.018"/>
 
       <!-- Header and lane structure -->
-      <line x1="0" y1="36" x2="728" y2="36" stroke="rgba(35,47,62,0.12)" stroke-width="0.8"/>
-      <line x1="0" y1="116" x2="728" y2="116" stroke="rgba(35,47,62,0.12)" stroke-width="0.8"/>
-      <line x1="0" y1="196" x2="728" y2="196" stroke="rgba(35,47,62,0.12)" stroke-width="0.8"/>
-      <line x1="0" y1="276" x2="728" y2="276" stroke="rgba(35,47,62,0.12)" stroke-width="0.8"/>
-      <line x1="0" y1="356" x2="728" y2="356" stroke="rgba(35,47,62,0.12)" stroke-width="0.8"/>
-      <line x1="140" y1="36" x2="140" y2="356" stroke="rgba(35,47,62,0.12)" stroke-width="0.8"/>
+      <line x1="0" y1="36" x2="728" y2="36" stroke="#232f3e" stroke-width="0.8" stroke-opacity="0.12"/>
+      <line x1="0" y1="116" x2="728" y2="116" stroke="#232f3e" stroke-width="0.8" stroke-opacity="0.12"/>
+      <line x1="0" y1="196" x2="728" y2="196" stroke="#232f3e" stroke-width="0.8" stroke-opacity="0.12"/>
+      <line x1="0" y1="276" x2="728" y2="276" stroke="#232f3e" stroke-width="0.8" stroke-opacity="0.12"/>
+      <line x1="0" y1="356" x2="728" y2="356" stroke="#232f3e" stroke-width="0.8" stroke-opacity="0.12"/>
+      <line x1="140" y1="36" x2="140" y2="356" stroke="#232f3e" stroke-width="0.8" stroke-opacity="0.12"/>
 
       <g aria-label="Pipeline steps">
-        <rect x="180" y="6" width="32" height="16" rx="8" fill="rgba(35,47,62,0.12)"/><text x="196" y="14" class="step-number">01</text><text x="196" y="29" class="step-label">INGEST</text>
-        <rect x="292" y="6" width="32" height="16" rx="8" fill="rgba(35,47,62,0.12)"/><text x="308" y="14" class="step-number">02</text><text x="308" y="29" class="step-label">STORE</text>
-        <rect x="404" y="6" width="32" height="16" rx="8" fill="rgba(35,47,62,0.12)"/><text x="420" y="14" class="step-number">03</text><text x="420" y="29" class="step-label">TRANSFORM</text>
-        <rect x="516" y="6" width="32" height="16" rx="8" fill="rgba(236,114,17,0.20)"/><text x="532" y="14" class="step-number focal-text">04</text><text x="532" y="29" class="step-label focal-text">WAREHOUSE</text>
-        <rect x="628" y="6" width="32" height="16" rx="8" fill="rgba(35,47,62,0.12)"/><text x="644" y="14" class="step-number">05</text><text x="644" y="29" class="step-label">SERVE</text>
+        <rect x="180" y="6" width="32" height="16" rx="8" fill="#232f3e" fill-opacity="0.12"/><text x="196" y="14" class="step-number">01</text><text x="196" y="29" class="step-label">INGEST</text>
+        <rect x="292" y="6" width="32" height="16" rx="8" fill="#232f3e" fill-opacity="0.12"/><text x="308" y="14" class="step-number">02</text><text x="308" y="29" class="step-label">STORE</text>
+        <rect x="404" y="6" width="32" height="16" rx="8" fill="#232f3e" fill-opacity="0.12"/><text x="420" y="14" class="step-number">03</text><text x="420" y="29" class="step-label">TRANSFORM</text>
+        <rect x="516" y="6" width="32" height="16" rx="8" fill="#ec7211" fill-opacity="0.20"/><text x="532" y="14" class="step-number focal-text">04</text><text x="532" y="29" class="step-label focal-text">WAREHOUSE</text>
+        <rect x="628" y="6" width="32" height="16" rx="8" fill="#232f3e" fill-opacity="0.12"/><text x="644" y="14" class="step-number">05</text><text x="644" y="29" class="step-label">SERVE</text>
       </g>
 
       <g aria-label="Role lanes">
@@ -58,24 +81,24 @@
 
       <!-- Connectors first (z-order: before all node rects) -->
       <!-- ADM: governance chain and same-step triggers into the engineer lane -->
-      <path d="M246 76 H258" fill="none" stroke="#545B64" marker-end="url(#arr-muted)"/>
-      <path d="M196 108 V124" fill="none" stroke="#545B64" stroke-dasharray="4,3" marker-end="url(#arr-muted)"/>
-      <path d="M308 108 V124" fill="none" stroke="#545B64" stroke-dasharray="4,3" marker-end="url(#arr-muted)"/>
+      <path d="M246 76 H258" fill="none" stroke="#545B64" marker-end="url(#data-pipeline-flow-arr-muted)"/>
+      <path d="M196 108 V124" fill="none" stroke="#545B64" stroke-dasharray="4,3" marker-end="url(#data-pipeline-flow-arr-muted)"/>
+      <path d="M308 108 V124" fill="none" stroke="#545B64" stroke-dasharray="4,3" marker-end="url(#data-pipeline-flow-arr-muted)"/>
       <!-- ENG lane hand-offs -->
-      <path d="M246 156 H258" fill="none" stroke="#545B64" marker-end="url(#arr-muted)"/>
-      <path d="M358 156 H370" fill="none" stroke="#545B64" marker-end="url(#arr-muted)"/>
+      <path d="M246 156 H258" fill="none" stroke="#545B64" marker-end="url(#data-pipeline-flow-arr-muted)"/>
+      <path d="M358 156 H370" fill="none" stroke="#545B64" marker-end="url(#data-pipeline-flow-arr-muted)"/>
       <!-- Focal cross-role handoff: ETL -> Warehouse -->
-      <path d="M470 156 H524 Q532 156 532 164 V204" fill="none" stroke="#EC7211" stroke-width="1.2" marker-end="url(#arr-accent)"/>
+      <path d="M470 156 H524 Q532 156 532 164 V204" fill="none" stroke="#EC7211" stroke-width="1.2" marker-end="url(#data-pipeline-flow-arr-accent)"/>
       <rect x="474" y="136" width="48" height="12" rx="2" fill="#ffffff"/>
       <text x="498" y="145" fill="#232F3E" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">PARQUET</text>
       <!-- Warehouse -> curated views -->
-      <path d="M582 236 H594" fill="none" stroke="#545B64" marker-end="url(#arr-muted)"/>
+      <path d="M582 236 H594" fill="none" stroke="#545B64" marker-end="url(#data-pipeline-flow-arr-muted)"/>
       <!-- Published output, same-step vertical -->
-      <path d="M644 268 V284" fill="none" stroke="#0972D3" marker-end="url(#arr-link)"/>
+      <path d="M644 268 V284" fill="none" stroke="#0972D3" marker-end="url(#data-pipeline-flow-arr-link)"/>
 
       <!-- Data Admin: Governance (Lake Formation, governance color) -->
-      <rect x="146" y="44" width="100" height="64" rx="6" fill="rgba(184,84,80,0.06)" stroke="rgba(184,84,80,0.35)" stroke-width="1"/>
-      <rect x="150" y="48" width="18" height="10" rx="3" fill="rgba(184,84,80,0.18)"/><text x="159" y="53" class="role-text gov-text">ADM</text>
+      <rect x="146" y="44" width="100" height="64" rx="6" fill="#b85450" stroke="#b85450" stroke-width="1" fill-opacity="0.06" stroke-opacity="0.35"/>
+      <rect x="150" y="48" width="18" height="10" rx="3" fill="#b85450" fill-opacity="0.18"/><text x="159" y="53" class="role-text gov-text">ADM</text>
       <g transform="translate(226,48) scale(0.25)" aria-hidden="true">
         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
           <g fill="#8C4FFF"><rect x="0" y="0" width="64" height="64"></rect></g>
@@ -85,8 +108,8 @@
       <text x="196" y="67" class="node-title gov-text">Governance</text><text x="196" y="79" class="node-sub">catalog · audit</text><text x="196" y="91" class="node-tool">Lake Formation</text>
 
       <!-- Data Admin: Lake Access (IAM, governance color) -->
-      <rect x="258" y="44" width="100" height="64" rx="6" fill="rgba(184,84,80,0.06)" stroke="rgba(184,84,80,0.35)" stroke-width="1"/>
-      <rect x="262" y="48" width="18" height="10" rx="3" fill="rgba(184,84,80,0.18)"/><text x="271" y="53" class="role-text gov-text">ADM</text>
+      <rect x="258" y="44" width="100" height="64" rx="6" fill="#b85450" stroke="#b85450" stroke-width="1" fill-opacity="0.06" stroke-opacity="0.35"/>
+      <rect x="262" y="48" width="18" height="10" rx="3" fill="#b85450" fill-opacity="0.18"/><text x="271" y="53" class="role-text gov-text">ADM</text>
       <g transform="translate(338,48) scale(0.25)" aria-hidden="true">
         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
           <g fill="#DD344C"><rect x="0" y="0" width="64" height="64"></rect></g>
@@ -95,22 +118,17 @@
       </g>
       <text x="308" y="67" class="node-title gov-text">Lake Access</text><text x="308" y="79" class="node-sub">role · location</text><text x="308" y="91" class="node-tool">IAM · LF grants</text>
 
-      <!-- Data Engineer: Stream Ingest (Kinesis) -->
-      <rect x="146" y="124" width="100" height="64" rx="6" fill="#ffffff" stroke="rgba(35,47,62,0.25)"/>
-      <rect x="150" y="128" width="18" height="10" rx="3" fill="rgba(35,47,62,0.12)"/><text x="159" y="133" class="role-text">ENG</text>
-      <g transform="translate(226,128) scale(0.25)" aria-hidden="true">
-        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-          <g fill="#8C4FFF"><rect x="0" y="0" width="64" height="64"></rect></g>
-          <path d="M16,48 L18,48 C18,42.434 20.779,37 54,37 L54,35 C38.449,35 28.121,36.219 22.427,38.728 C16.764,41.223 16,44.815 16,48 M20.99997,53.876 L20.99997,54 L23,54 L23,53.876 C22.999,50.756 22.999,47.809 26.556,45.42 C30.984,42.446 39.961,41 54,41 L54,39 C39.552,39 30.21,40.557 25.44,43.76 C20.998,46.743 20.999,50.698 20.99997,53.876 M13,23 L11,23 C11,26.614 13.747,30.285 30.012,32 C13.747,33.715 11,37.386 11,41 L13,41 C13,35.617 26.411,33 54,33 L54,31 C26.411,31 13,28.383 13,23 M18,16 L16,16 C16,24.233 22.218,29 54,29 L54,27 C20.779,27 18,21.566 18,16 M54,23 L54,25 C39.552,25 30.21,23.443 25.44,20.24 C20.998,17.257 20.999,13.302 20.99997,10.124 L20.99997,10 L23,10 L23,10.124 C22.999,13.244 22.999,16.191 26.556,18.58 C30.984,21.554 39.961,23 54,23" fill="#FFFFFF"></path>
-        </g>
-      </g>
-      <text x="196" y="147" class="node-title">Stream Ingest</text><text x="196" y="159" class="node-sub">events · CDC</text><text x="196" y="171" class="node-tool">Kinesis · DMS</text>
+      <!-- Data Engineer: Stream Ingest (Amazon Data Firehose · DMS) -->
+      <rect x="146" y="124" width="100" height="64" rx="6" fill="#ffffff" stroke="#232f3e" stroke-opacity="0.25"/>
+      <rect x="150" y="128" width="18" height="10" rx="3" fill="#232f3e" fill-opacity="0.12"/><text x="159" y="133" class="role-text">ENG</text>
+      <g transform="translate(226,128) scale(0.25)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g fill="#8C4FFF"> <rect x="0" y="0" width="64" height="64"></rect> </g> <g transform="translate(11.000000, 12.000000)" fill="#FFFFFF"> <path d="M32.0641793,22 C35.3301793,22 39.0891793,22.755 42.3791793,24.072 L41.6371793,25.928 C38.5741793,24.703 35.0851793,24 32.0641793,24 L32.0641793,22 Z M41.4251793,22.812 C40.2451793,21.965 35.2581793,21 32.0641793,21 L32.0641793,19 C35.4271793,19 40.2831793,17.952 41.4521793,17.169 L42.5651793,18.831 C41.9371793,19.251 40.8231793,19.648 39.5051793,19.986 C40.8211793,20.32 41.9481793,20.726 42.5911793,21.188 L41.4251793,22.812 Z M42.3661793,15.934 C40.3491793,16.706 36.3301793,18 32.0641793,18 L32.0641793,16 C34.9451793,16 38.4391793,15.295 41.6511793,14.066 L42.3661793,15.934 Z M28.0081793,22.198 L21.0081793,23.753 L21.0081793,16.247 L28.0081793,17.802 L28.0081793,22.198 Z M19.0081793,26 L17.0081793,26 L17.0081793,14 L19.0081793,14 L19.0081793,15 L19.0081793,25 L19.0081793,26 Z M29.2251793,16.024 L21.0081793,14.198 L21.0081793,13 C21.0081793,12.448 20.5611793,12 20.0081793,12 L16.0081793,12 C15.4791793,12 15.0571793,12.415 15.0221793,12.935 C3.51817933,12.065 2.00817933,7.724 2.00817933,4 L2.00817933,0 L0.00817932921,0 L0.00817932921,4 C0.00817932921,12.674 8.30817933,14.468 15.0081793,14.938 L15.0081793,15.935 C8.91917933,15.574 4.31917933,13.699 1.49517933,12.126 L0.522179329,13.874 C3.54917933,15.559 8.48717933,17.572 15.0081793,17.938 L15.0081793,18.955 C10.2391793,18.767 5.19017933,18.069 1.26317933,17.033 L0.753179329,18.967 C2.24517933,19.36 3.90017933,19.703 5.63017933,19.994 C3.92417933,20.286 2.27617933,20.631 0.753179329,21.033 L1.26317933,22.967 C5.33117933,21.894 10.2841793,21.206 15.0081793,21.036 L15.0081793,22.062 C8.53817933,22.426 3.58117933,24.438 0.525179329,26.125 L1.49217933,27.875 C4.34417933,26.301 8.96717933,24.425 15.0081793,24.065 L15.0081793,25.068 C1.99117933,26.09 0.00817932921,32.94 0.00817932921,37 L0.00617932921,37.304 C-0.00582067079,39.729 0.00117932921,39.989 0.0141793292,40.107 L2.00517933,39.926 C1.99817933,39.778 1.99917933,38.899 2.00617933,37.315 L2.00817933,37 C2.00817933,29.775 8.85317933,27.583 15.0231793,27.072 C15.0621793,27.589 15.4811793,28 16.0081793,28 L20.0081793,28 C20.5611793,28 21.0081793,27.552 21.0081793,27 L21.0081793,25.802 L29.2251793,23.976 C29.6831793,23.875 30.0081793,23.469 30.0081793,23 L30.0081793,17 C30.0081793,16.531 29.6831793,16.125 29.2251793,16.024 L29.2251793,16.024 Z"></path> </g> </g></g>
+      <text x="196" y="147" class="node-title">Stream Ingest</text><text x="196" y="159" class="node-sub">events · CDC</text><text x="196" y="171" class="node-tool">Firehose · DMS</text>
       <rect x="150" y="178" width="16" height="8" rx="3" fill="#4a7c59"/><text x="158" y="184" class="chip-text">LS</text>
       <rect x="226" y="178" width="16" height="8" rx="3" fill="#5e7a9b"/><text x="234" y="184" class="chip-text">DB</text>
 
       <!-- Data Engineer: Raw Landing (S3) -->
-      <rect x="258" y="124" width="100" height="64" rx="6" fill="#ffffff" stroke="rgba(35,47,62,0.25)"/>
-      <rect x="262" y="128" width="18" height="10" rx="3" fill="rgba(35,47,62,0.12)"/><text x="271" y="133" class="role-text">ENG</text>
+      <rect x="258" y="124" width="100" height="64" rx="6" fill="#ffffff" stroke="#232f3e" stroke-opacity="0.25"/>
+      <rect x="262" y="128" width="18" height="10" rx="3" fill="#232f3e" fill-opacity="0.12"/><text x="271" y="133" class="role-text">ENG</text>
       <g transform="translate(338,128) scale(0.25)" aria-hidden="true">
         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
           <g fill="#7AA116"><rect x="0" y="0" width="64" height="64"></rect></g>
@@ -124,8 +142,8 @@
       <rect x="338" y="178" width="16" height="8" rx="3" fill="#5e7a9b"/><text x="346" y="184" class="chip-text">DB</text>
 
       <!-- Data Engineer: ETL & Catalog (Glue) -->
-      <rect x="370" y="124" width="100" height="64" rx="6" fill="#ffffff" stroke="rgba(35,47,62,0.25)"/>
-      <rect x="374" y="128" width="18" height="10" rx="3" fill="rgba(35,47,62,0.12)"/><text x="383" y="133" class="role-text">ENG</text>
+      <rect x="370" y="124" width="100" height="64" rx="6" fill="#ffffff" stroke="#232f3e" stroke-opacity="0.25"/>
+      <rect x="374" y="128" width="18" height="10" rx="3" fill="#232f3e" fill-opacity="0.12"/><text x="383" y="133" class="role-text">ENG</text>
       <g transform="translate(450,128) scale(0.25)" aria-hidden="true">
         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
           <g fill="#8C4FFF"><rect x="0" y="0" width="64" height="64"></rect></g>
@@ -137,8 +155,8 @@
       <rect x="450" y="178" width="16" height="8" rx="3" fill="#b8915a"/><text x="458" y="184" class="chip-text">TB</text>
 
       <!-- Analytics Engineer: Warehouse (Redshift, focal) -->
-      <rect x="482" y="204" width="100" height="64" rx="6" fill="rgba(236,114,17,0.07)" stroke="#EC7211" stroke-width="1.2"/>
-      <rect x="486" y="208" width="18" height="10" rx="3" fill="rgba(236,114,17,0.20)"/><text x="495" y="213" class="role-text focal-text">ANE</text>
+      <rect x="482" y="204" width="100" height="64" rx="6" fill="#ec7211" stroke="#EC7211" stroke-width="1.2" fill-opacity="0.07"/>
+      <rect x="486" y="208" width="18" height="10" rx="3" fill="#ec7211" fill-opacity="0.20"/><text x="495" y="213" class="role-text focal-text">ANE</text>
       <g transform="translate(562,208) scale(0.25)" aria-hidden="true">
         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
           <g fill="#8C4FFF"><rect x="0" y="0" width="64" height="64"></rect></g>
@@ -150,8 +168,8 @@
       <rect x="562" y="258" width="16" height="8" rx="3" fill="#b8915a"/><text x="570" y="264" class="chip-text">TB</text>
 
       <!-- Analytics Engineer: Curated Views (Athena) -->
-      <rect x="594" y="204" width="100" height="64" rx="6" fill="#ffffff" stroke="rgba(35,47,62,0.25)"/>
-      <rect x="598" y="208" width="18" height="10" rx="3" fill="rgba(35,47,62,0.12)"/><text x="607" y="213" class="role-text">ANE</text>
+      <rect x="594" y="204" width="100" height="64" rx="6" fill="#ffffff" stroke="#232f3e" stroke-opacity="0.25"/>
+      <rect x="598" y="208" width="18" height="10" rx="3" fill="#232f3e" fill-opacity="0.12"/><text x="607" y="213" class="role-text">ANE</text>
       <g transform="translate(674,208) scale(0.25)" aria-hidden="true">
         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
           <g fill="#8C4FFF"><rect x="0" y="0" width="64" height="64"></rect></g>
@@ -163,23 +181,23 @@
       <rect x="674" y="258" width="16" height="8" rx="3" fill="#b8915a"/><text x="682" y="264" class="chip-text">TB</text>
 
       <!-- Data Consumer: BI Dashboards (Quick Suite) -->
-      <rect x="594" y="284" width="100" height="64" rx="6" fill="#ffffff" stroke="rgba(35,47,62,0.25)"/>
-      <rect x="598" y="288" width="18" height="10" rx="3" fill="rgba(35,47,62,0.12)"/><text x="607" y="293" class="role-text">CON</text>
+      <rect x="594" y="284" width="100" height="64" rx="6" fill="#ffffff" stroke="#232f3e" stroke-opacity="0.25"/>
+      <rect x="598" y="288" width="18" height="10" rx="3" fill="#232f3e" fill-opacity="0.12"/><text x="607" y="293" class="role-text">CON</text>
       <g transform="translate(674,288) scale(0.25)" aria-hidden="true">
         <rect width="64" height="64" fill="#DD344C"/>
         <path d="M48.998 19.8897L34.001 11.2339C32.7666 10.5225 31.2334 10.5215 29.999 11.2339L15.002 19.8897C13.7676 20.6021 13 21.9302 13 23.3565V40.6666C13 42.0918 13.7676 43.4205 15.002 44.1334L29.999 52.7891C30.6162 53.1451 31.3076 53.3233 32 53.3233C32.6914 53.3233 33.3838 53.1451 34.001 52.7891L48.9981 44.1334C50.2324 43.4205 51 42.0919 51 40.6666V23.3565C51 21.9302 50.2324 20.6021 48.998 19.8897ZM16.0019 21.6221L30.999 12.9664C31.3076 12.7881 31.6543 12.6988 32 12.6988C32.3457 12.6988 32.6924 12.7881 33.001 12.9664L47.998 21.6221C48.6162 21.9786 49 22.6431 49 23.3565V26.3474L32.9687 35.3472V26.9678C32.9687 26.6129 32.7803 26.2843 32.4736 26.1051C32.168 25.9254 31.7871 25.9215 31.4795 26.0958L15 35.3471V23.3565C15 22.6431 15.3838 21.9786 16.0019 21.6221ZM47.998 42.4009L33.001 51.0567C32.3838 51.4131 31.6162 51.4131 30.999 51.0567L16.002 42.4009C15.3838 42.0445 15 41.3799 15 40.6665V37.6405L30.9688 28.6758V37.0552C30.9688 37.4102 31.1572 37.7388 31.4639 37.918C31.6191 38.0093 31.794 38.0552 31.9688 38.0552C32.1377 38.0552 32.3066 38.0127 32.458 37.9273L49 28.6408V40.6665C49 41.3799 48.6162 42.0445 47.998 42.4009Z" fill="white"/>
       </g>
-      <text x="644" y="307" class="node-title">BI Dashboards</text><text x="644" y="319" class="node-sub">insights · alerts</text><text x="644" y="331" class="node-tool">Quick Suite</text>
+      <text x="644" y="307" class="node-title">BI Dashboards</text><text x="644" y="319" class="node-sub">insights · alerts</text><text x="644" y="331" class="node-tool">Quick Sight</text>
       <rect x="598" y="338" width="16" height="8" rx="3" fill="#b8915a"/><text x="606" y="344" class="chip-text">TB</text>
       <rect x="674" y="338" width="16" height="8" rx="3" fill="#9c6b50"/><text x="682" y="344" class="chip-text">FL</text>
 
       <!-- Legend: steps -->
       <text x="164" y="373" class="legend-label">STEPS</text>
-      <rect x="180" y="364" width="24" height="12" rx="6" fill="rgba(35,47,62,0.12)"/><text x="192" y="372" class="step-number">01</text><text x="212" y="373" class="legend-text">Ingest</text>
-      <rect x="268" y="364" width="24" height="12" rx="6" fill="rgba(35,47,62,0.12)"/><text x="280" y="372" class="step-number">02</text><text x="300" y="373" class="legend-text">Store</text>
-      <rect x="352" y="364" width="24" height="12" rx="6" fill="rgba(35,47,62,0.12)"/><text x="364" y="372" class="step-number">03</text><text x="384" y="373" class="legend-text">Transform</text>
-      <rect x="460" y="364" width="24" height="12" rx="6" fill="rgba(236,114,17,0.20)"/><text x="472" y="372" class="step-number focal-text">04</text><text x="492" y="373" class="legend-text">Warehouse</text>
-      <rect x="568" y="364" width="24" height="12" rx="6" fill="rgba(35,47,62,0.12)"/><text x="580" y="372" class="step-number">05</text><text x="600" y="373" class="legend-text">Serve</text>
+      <rect x="180" y="364" width="24" height="12" rx="6" fill="#232f3e" fill-opacity="0.12"/><text x="192" y="372" class="step-number">01</text><text x="212" y="373" class="legend-text">Ingest</text>
+      <rect x="268" y="364" width="24" height="12" rx="6" fill="#232f3e" fill-opacity="0.12"/><text x="280" y="372" class="step-number">02</text><text x="300" y="373" class="legend-text">Store</text>
+      <rect x="352" y="364" width="24" height="12" rx="6" fill="#232f3e" fill-opacity="0.12"/><text x="364" y="372" class="step-number">03</text><text x="384" y="373" class="legend-text">Transform</text>
+      <rect x="460" y="364" width="24" height="12" rx="6" fill="#ec7211" fill-opacity="0.20"/><text x="472" y="372" class="step-number focal-text">04</text><text x="492" y="373" class="legend-text">Warehouse</text>
+      <rect x="568" y="364" width="24" height="12" rx="6" fill="#232f3e" fill-opacity="0.12"/><text x="580" y="372" class="step-number">05</text><text x="600" y="373" class="legend-text">Serve</text>
 
       <!-- Legend: data types -->
       <text x="164" y="394" class="legend-label">DATA TYPE</text>
@@ -191,13 +209,13 @@
 
       <!-- Legend: concern colors -->
       <text x="164" y="415" class="legend-label">CONCERN</text>
-      <rect x="180" y="406" width="16" height="8" rx="3" fill="rgba(184,84,80,0.18)" stroke="rgba(184,84,80,0.35)" stroke-width="1"/><text x="202" y="415" class="legend-text">Governance · Lake Formation / IAM</text>
-      <rect x="356" y="406" width="16" height="8" rx="3" fill="rgba(236,114,17,0.20)" stroke="#EC7211" stroke-width="1"/><text x="378" y="415" class="legend-text">Focal</text>
+      <rect x="180" y="406" width="16" height="8" rx="3" fill="#b85450" stroke="#b85450" stroke-width="1" fill-opacity="0.18" stroke-opacity="0.35"/><text x="202" y="415" class="legend-text">Governance · Lake Formation / IAM</text>
+      <rect x="356" y="406" width="16" height="8" rx="3" fill="#ec7211" stroke="#EC7211" stroke-width="1" fill-opacity="0.20"/><text x="378" y="415" class="legend-text">Focal</text>
 
       <!-- Legend: flow -->
       <text x="164" y="436" class="legend-label">FLOW</text>
-      <line x1="180" y1="433" x2="204" y2="433" stroke="#545B64" marker-end="url(#arr-muted)"/><text x="212" y="436" class="legend-text">Standard handoff</text>
-      <line x1="296" y1="433" x2="320" y2="433" stroke="#545B64" stroke-dasharray="4,3" marker-end="url(#arr-muted)"/><text x="328" y="436" class="legend-text">Governance trigger</text>
-      <line x1="424" y1="433" x2="448" y2="433" stroke="#EC7211" stroke-width="1.2" marker-end="url(#arr-accent)"/><text x="456" y="436" class="legend-text">Focal handoff</text>
-      <line x1="528" y1="433" x2="552" y2="433" stroke="#0972D3" marker-end="url(#arr-link)"/><text x="560" y="436" class="legend-text">Published output</text>
+      <line x1="180" y1="433" x2="204" y2="433" stroke="#545B64" marker-end="url(#data-pipeline-flow-arr-muted)"/><text x="212" y="436" class="legend-text">Standard handoff</text>
+      <line x1="296" y1="433" x2="320" y2="433" stroke="#545B64" stroke-dasharray="4,3" marker-end="url(#data-pipeline-flow-arr-muted)"/><text x="328" y="436" class="legend-text">Governance trigger</text>
+      <line x1="424" y1="433" x2="448" y2="433" stroke="#EC7211" stroke-width="1.2" marker-end="url(#data-pipeline-flow-arr-accent)"/><text x="456" y="436" class="legend-text">Focal handoff</text>
+      <line x1="528" y1="433" x2="552" y2="433" stroke="#0972D3" marker-end="url(#data-pipeline-flow-arr-link)"/><text x="560" y="436" class="legend-text">Published output</text>
     </svg>

@@ -1,6 +1,6 @@
 # AWS Diagram Design Skill(aws-diagram-design)
 
-**한국어** | [English](README.en.md)
+**한국어** | [English](README.en.md) · [갤러리](https://masangbeom.github.io/aws-diagram-design/)
 
 **말로 설명하면, AWS 다이어그램을 작성합니다.**
 
@@ -32,43 +32,47 @@ AWS 서비스를 명명하는 노드에는 다이어그램 타입에 관계없�
 
 ## 미리보기
 
-아래는 모두 이 스킬로 생성한 결과물입니다. 원본 HTML은 [docs/samples/](docs/samples/)에 있습니다.
+아래는 모두 이 스킬로 생성한 결과물입니다. 원본 HTML·SVG·PNG는 [docs/samples/](docs/samples/)에 있습니다.
 
 ### Serverless Web Application
 
-가장 흔한 시작점. CloudFront가 S3 정적 자산과 API Gateway → Lambda → DynamoDB 동적 경로를 분기합니다. ([HTML](docs/samples/serverless-web-app.html))
+가장 흔한 시작점. CloudFront가 S3 정적 자산과 API Gateway → Lambda → DynamoDB 동적 경로를 분기합니다. ([HTML](docs/samples/serverless-web-app.html) · [SVG](docs/samples/serverless-web-app.svg))
 
-![Serverless Web Application 아키텍처 다이어그램](docs/samples/serverless-web-app.svg)
+![Serverless Web Application 아키텍처 다이어그램](docs/samples/serverless-web-app.png)
 
 ### VPC Three-Tier Web Service
 
-퍼블릭 서브넷의 ALB → 프라이빗 서브넷의 ECS on Fargate → 데이터 서브넷의 RDS/ElastiCache. 서브넷 경계 색상과 배지가 공식 규약 그대로입니다. ([HTML](docs/samples/vpc-three-tier.html))
+us-east-1의 가용 영역 두 개(1a/1b)마다 퍼블릭·앱·데이터 서브넷을 두는 정석 구조입니다. 두 AZ에 걸친 인터넷용 ALB가 각 AZ의 ECS on Fargate 태스크로 트래픽을 보내고, RDS for PostgreSQL Multi-AZ(primary 1a · standby 1b)와 ElastiCache(Valkey) 복제 그룹이 두 데이터 서브넷에 걸쳐 그려집니다. AWS Cloud ⊃ Region ⊃ VPC ⊃ AZ ⊃ 서브넷 경계와 배지는 공식 규약을 그대로 따릅니다. ([HTML](docs/samples/vpc-three-tier.html) · [SVG](docs/samples/vpc-three-tier.svg))
 
-![VPC Three-Tier Web Service 아키텍처 다이어그램](docs/samples/vpc-three-tier.svg)
+![VPC Three-Tier Web Service 아키텍처 다이어그램](docs/samples/vpc-three-tier.png)
 
 ### Event-Driven Data Pipeline
 
-Kinesis → Lambda → S3 데이터 레이크 스트리밍 수집과, Glue 카탈로그를 거쳐 Athena가 S3를 직접 스캔하는 분석 경로. 교차하는 커넥터는 bridge/hop으로 처리됩니다. ([HTML](docs/samples/event-driven-pipeline.html))
+Kinesis Data Streams → AWS Lambda → Amazon S3 데이터 레이크 스트리밍 수집과, Glue Data Catalog를 거쳐 Amazon Athena가 S3를 직접 스캔하는 분석 경로. 교차하는 커넥터는 bridge/hop으로 처리됩니다. ([HTML](docs/samples/event-driven-pipeline.html) · [SVG](docs/samples/event-driven-pipeline.svg))
 
-![Event-Driven Data Pipeline 아키텍처 다이어그램](docs/samples/event-driven-pipeline.svg)
+![Event-Driven Data Pipeline 아키텍처 다이어그램](docs/samples/event-driven-pipeline.png)
 
 ### Multi-Region Network Backbone
 
-멀티 계정/멀티 리전 네트워크의 전형적인 모양. 리전별 Network account의 Transit Gateway가 AWS Cloud WAN 코어로 피어링되고, 온프레미스는 Direct Connect(BGP) + Site-to-Site VPN 백업으로 연결됩니다. ([HTML](docs/samples/multi-region-network.html))
+멀티 계정/멀티 리전 네트워크의 전형적인 모양. 리전별 Network account의 AWS Transit Gateway가 AWS Cloud WAN 코어로 피어링되고, 온프레미스는 AWS Direct Connect(BGP) + Site-to-Site VPN 백업으로 연결됩니다. ([HTML](docs/samples/multi-region-network.html) · [SVG](docs/samples/multi-region-network.svg))
 
-![Multi-Region Network Backbone 아키텍처 다이어그램](docs/samples/multi-region-network.svg)
+![Multi-Region Network Backbone 아키텍처 다이어그램](docs/samples/multi-region-network.png)
 
 ### AWS Data Pipeline Flow
 
-"누가 어느 단계에서 무엇을 하는가"를 보여주는 역할 스코프 데이터 플로. Data Admin이 Lake Formation 카탈로그 거버넌스와 IAM 접근 권한을 점선 트리거로 내려주고, 그 아래에서 Kinesis/DMS 수집 → S3 레이크 → Glue ETL → Redshift DW(포컬 핸드오프) → Quick Suite 대시보드로 이어집니다. 각 노드의 공식 서비스 아이콘과 하단 칩이 페이로드 타입 변환(스트림→데이터셋→테이블→리포트)을 추적합니다. ([HTML](docs/samples/data-pipeline-flow.html))
+"누가 어느 단계에서 무엇을 하는가"를 보여주는 역할 스코프 데이터 플로. Data Admin이 Lake Formation 카탈로그 거버넌스와 IAM 접근 권한을 점선 트리거로 내려주고, 그 아래에서 Firehose/DMS 수집 → S3 레이크 → Glue ETL → Redshift DW(포컬 핸드오프) → Quick Sight 대시보드로 이어집니다. 각 노드의 공식 서비스 아이콘과 하단 칩이 페이로드 타입 변환(스트림→데이터셋→테이블→리포트)을 추적합니다. ([HTML](docs/samples/data-pipeline-flow.html) · [SVG](docs/samples/data-pipeline-flow.svg))
 
-![AWS Data Pipeline Flow 다이어그램](docs/samples/data-pipeline-flow.svg)
+![AWS Data Pipeline Flow 다이어그램](docs/samples/data-pipeline-flow.png)
 
-> GitHub은 이미지 렌더링 시 외부 폰트를 차단하므로 위 SVG는 시스템 폰트로 보입니다. Amazon Ember 폰트 그대로 보려면 HTML 원본을 브라우저에서 여세요.
+> 위 이미지는 Amazon Ember로 렌더링한 PNG입니다. SVG는 단독 파일로 내보낸 것이지만 GitHub 이미지 뷰어가 외부 폰트를 막아 시스템 폰트로 보이므로, 원래 모습 그대로 보려면 HTML을 브라우저에서 여세요.
 
 ### 전체 갤러리
 
 45개 타입 전부의 예제 201개(라이트 / 다크 / 에디토리얼 풀 페이지, 일부 애니메이션)가 모두 AWS 시나리오로 들어 있습니다. 예를 들면 EC2 → Fargate 마이그레이션 before/after, Cognito 토큰 갱신 시퀀스, Step Functions 배치 작업 상태, S3 데이터 레이크, AWS 비용 워터폴·트리맵, Organizations OU 트리 같은 것들입니다. 스킬은 이 예제들을 타입별 기준 렌더로 참고합니다.
+
+**온라인 갤러리: [masangbeom.github.io/aws-diagram-design/](https://masangbeom.github.io/aws-diagram-design/)** (GitHub Pages, `main`에 머지할 때마다 자동 배포)
+
+로컬에서 보려면:
 
 ```bash
 python3 -m http.server 8765 --directory skills/aws-diagram-design/assets
@@ -145,6 +149,7 @@ Amazon Ember는 [Amazon 공식 배포본](https://developer.amazon.com/en-US/ale
 ```
 aws-diagram-design/
 ├── .claude-plugin/                 # Claude Code 플러그인 매니페스트 + 마켓플레이스 카탈로그
+├── .github/workflows/pages.yml     # 갤러리를 GitHub Pages로 배포
 ├── plugin.json                     # Agent Plugins 매니페스트 (Kiro Power용)
 ├── commands/                       # 슬래시 커맨드 3종 (import-drawio / import-mermaid / export-diagram)
 ├── skills/aws-diagram-design/      # 정본 스킬 (모든 환경 공용)
