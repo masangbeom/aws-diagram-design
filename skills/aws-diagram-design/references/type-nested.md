@@ -10,6 +10,11 @@
 - Optional file-icon glyph (folded-corner rect) inside each level hints at scope content.
 - Italic `callout`-role asides (see `references/primitive-annotation.md`) — 1–2 max.
 
+## On AWS
+
+- The canonical AWS nesting is policy and network scope: Organization → OU → account → Region → VPC → subnet. Use it to show what an SCP, permission boundary, or network ACL covers. Badge each level with its official group icon where one exists (AWS account, Region, VPC, subnet) and label it with its identifier.
+- Keep it to the levels the policy actually crosses; an SCP story rarely needs subnets.
+
 ## Anti-patterns
 - More than 6 levels (information disappears inward).
 - Irregular padding between levels — unaligned nesting looks accidental.

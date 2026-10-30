@@ -15,11 +15,11 @@
 ## Layout conventions
 
 - **Orientation:** stages as equal columns (left → right in narrative order), layers as labeled rows (top → bottom). No connector arrows in this version — that is swimlane territory.
-- **ViewBox:** `0 0 1280 720` for the minimal examples. Full editorial keeps the same SVG and adds cards.
+- **ViewBox:** `0 0 1280 H`, with H trimmed to the legend (the worked example uses 520). Full editorial keeps the same SVG and adds cards.
 - **Left margin:** 96px for layer labels. `eyebrow` role at 8px, uppercase, horizontal, `text-anchor="end"` at x=88. **Never** `writing-mode: vertical`.
 - **Stage grid:** 4–6 columns. The worked example is 5 × 208px with 16px gutters (`col_x = 96 + i·224`). Each header carries `data-stage` on a rect at the column origin; every cell in that column uses the same `x`.
 - **Layer order, top to bottom:**
-  1. Physical evidence (optional) — 48px
+  1. Physical evidence (optional) — 48px, with an 8px gap above the customer row
   2. Customer actions (required) — 64px
   3. Line of interaction (hairline)
   4. Frontstage actions — onstage staff or the visible product (required) — 64px
@@ -76,6 +76,10 @@ No `transform`, geometry `style`, or `<style>` rules that move marks.
         text-anchor="middle">dunning-job · 4h</text>
 </g>
 ```
+
+## On AWS
+
+- Frontstage is what the customer touches (the console, a Service Catalog form, a support case); backstage is the automation behind it (Control Tower Account Factory, Step Functions, Lambda); support systems are the AWS services it depends on (CloudFormation, IAM Identity Center, Organizations). Icons go on support cells only.
 
 ## Anti-patterns
 

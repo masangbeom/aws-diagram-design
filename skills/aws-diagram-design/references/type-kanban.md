@@ -32,6 +32,10 @@ When a column's card count `n` exceeds its stated `limit`, the WIP chip's stroke
 - Max 2 accent elements (the over-limit chip counts as one; a blocked card counts as one).
 - Over budget on a single column → aggregate the backlog into one count card (`+14 more`) rather than listing every item.
 
+## On AWS
+
+- Migration and platform boards: cards named for the workload or the change (`Oracle → Aurora cutover`), with the AWS service icon on cards that are about one service. A card blocked by AWS-side work (quota increase, support case, Direct Connect provisioning) names that dependency on the card.
+
 ## Anti-patterns
 
 - **Drawing arrows between cards.** A board shows state, not flow — if the flow itself needs to be visible, use swimlane or process instead.

@@ -30,6 +30,10 @@
 
 Duration in pixels: `(end_week - start_week) × pitch`. Pitch = timeline_width / total_weeks.
 
+## On AWS
+
+- AWS migration plans: group rows by MAP phase (Assess, Mobilize, Migrate), with discovery (Application Discovery Service, Migration Evaluator), landing zone (Control Tower), replication (AWS DMS), rehost waves (AWS MGN), and hypercare. A 16px icon at the end of the label column identifies the tool row; gates (cutover review) stay text-only.
+
 ## Anti-patterns
 
 - More than 12 tasks (splits into sub-plans or collapses into phase-level view).

@@ -108,6 +108,14 @@ If you exceed, split: overview (happy path) + detail (failure / refresh path).
       fill="{ink @ 0.06}" stroke="{muted}" stroke-width="0.8"/>
 ```
 
+## On AWS
+
+- **Actors are services**, each header carrying its service icon ([primitive-aws-icons.md](primitive-aws-icons.md) § Compact nodes): `CloudFront`, `API Gateway`, `Lambda`, `DynamoDB`. A human or external IdP keeps the generic actor.
+- **Invocation semantics decide the arrow.** Synchronous calls (API Gateway → Lambda, Lambda → DynamoDB) get a return message. Asynchronous ones (Lambda async invoke, `PutEvents` to EventBridge, `SendMessage` to SQS, SNS `Publish`) return only the acknowledgement (`202`, `MessageId`), and the consumer's later processing starts a new message from the queue or bus lifeline.
+- Show AWS failure modes as fragments when they are the point: `alt [429 Throttling]` with a retry loop and exponential backoff, `opt [cold start]`, `alt [token expired]` with a Cognito refresh.
+- Auth on the arrow label, not as a separate actor: `SigV4`, `Bearer JWT · Cognito`, `IAM role`.
+- A Step Functions workflow is a state machine, not a sequence; draw its definition with [type-state.md](type-state.md) and use a sequence only for the calls one execution makes.
+
 ## Anti-patterns
 - Message arrow pointing *upward* (reverses time — never).
 - Activation bars that never close.

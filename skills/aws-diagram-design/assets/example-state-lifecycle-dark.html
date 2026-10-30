@@ -38,7 +38,7 @@
     <h1>Step Functions batch job lifecycle</h1>
     <svg viewBox="0 0 1000 520" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="state-lifecycle-dark-title state-lifecycle-dark-desc">
       <title id="state-lifecycle-dark-title">Step Functions batch job lifecycle</title>
-      <desc id="state-lifecycle-dark-desc">A dark lifecycle phase map for an AWS Step Functions batch job with Submitted, Validating, Scheduled, Running, and Succeeded on the primary rail; Approval and Task Retry in a recovery band; and Cancelled and Failed terminal outcomes.</desc>
+      <desc id="state-lifecycle-dark-desc">A dark lifecycle phase map for an AWS Step Functions batch job with Submitted, Validating, Scheduled, Running, and Succeeded on the primary rail; Approval and Task Retry in a recovery band; and Aborted and Failed terminal outcomes.</desc>
       <defs>
         <pattern id="lifecycle-dark-dots" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="0.9" fill="rgba(255,255,255,0.10)"/></pattern>
         <marker id="lifecycle-dark-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#b6bec9"/></marker>
@@ -56,10 +56,10 @@
       <path class="flow" d="M449 140 V176 H499 V220" marker-end="url(#lifecycle-dark-arrow)"/>
       <line class="flow" x1="574" y1="256" x2="604" y2="256" marker-end="url(#lifecycle-dark-arrow)"/>
       <line class="flow accent" x1="754" y1="256" x2="800" y2="256" marker-end="url(#lifecycle-dark-arrow-accent)"/>
-      <path class="flow retry" d="M649 220 V176 H639 V140" marker-end="url(#lifecycle-dark-arrow)"/>
-      <path class="flow retry" d="M719 140 V188 H709 V220" marker-end="url(#lifecycle-dark-arrow)"/>
+      <path class="flow retry" d="M644 220 V140" marker-end="url(#lifecycle-dark-arrow)"/>
+      <path class="flow retry" d="M714 140 V220" marker-end="url(#lifecycle-dark-arrow)"/>
       <path class="flow" d="M499 292 V416" marker-end="url(#lifecycle-dark-arrow)"/>
-      <path class="flow" d="M604 104 H584 V380 H749 V416" marker-end="url(#lifecycle-dark-arrow)"/>
+      <path class="flow" d="M754 104 H964 V452 H824" marker-end="url(#lifecycle-dark-arrow)"/>
 
       <g font-family="'Amazon Ember Mono', ui-monospace, monospace" font-size="7" text-anchor="middle" letter-spacing="0.08em" fill="#b6bec9">
         <rect class="mask" x="27" y="238" width="32" height="12" rx="2"/><text x="43" y="247">NEW</text>
@@ -68,10 +68,10 @@
         <rect class="mask" x="448" y="158" width="56" height="12" rx="2"/><text x="476" y="167">APPROVE</text>
         <rect class="mask" x="575" y="238" width="28" height="12" rx="2"/><text x="589" y="247">START</text>
         <rect class="mask" x="760" y="238" width="34" height="12" rx="2"/><text x="777" y="247" fill="#ff9900">SUCCEED</text>
-        <rect class="mask" x="620" y="158" width="46" height="12" rx="2"/><text x="643" y="167">ERROR</text>
-        <rect class="mask" x="700" y="180" width="42" height="12" rx="2"/><text x="721" y="189">RETRY</text>
+        <rect class="mask" x="621" y="158" width="46" height="12" rx="2"/><text x="644" y="167">ERROR</text>
+        <rect class="mask" x="693" y="180" width="42" height="12" rx="2"/><text x="714" y="189">RETRY</text>
         <rect class="mask" x="474" y="350" width="52" height="12" rx="2"/><text x="500" y="359">CANCEL</text>
-        <rect class="mask" x="588" y="362" width="66" height="12" rx="2"/><text x="621" y="371">EXHAUSTED</text>
+        <rect class="mask" x="860" y="446" width="66" height="12" rx="2"/><text x="893" y="455">EXHAUSTED</text>
       </g>
       <circle cx="34" cy="256" r="6" fill="#ffffff"/>
 
@@ -89,7 +89,7 @@
       <g text-anchor="middle">
         <g><rect class="support" x="334" y="68" width="150" height="72" rx="8"/><rect x="344" y="78" width="34" height="12" rx="2" fill="none" stroke="rgba(182,190,201,0.50)"/><text x="361" y="87" fill="#b6bec9" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace">WAIT</text><text x="409" y="111" fill="#ffffff" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Approval</text><text x="409" y="126" fill="#b6bec9" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace">task token wait</text></g>
         <g><rect class="support" x="604" y="68" width="150" height="72" rx="8"/><rect x="614" y="78" width="52" height="12" rx="2" fill="none" stroke="rgba(182,190,201,0.50)"/><text x="640" y="87" fill="#b6bec9" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace">RECOVERY</text><text x="679" y="111" fill="#ffffff" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Task Retry</text><text x="679" y="126" fill="#b6bec9" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace">attempt 1 of 3</text></g>
-        <g><rect class="terminal" x="424" y="416" width="150" height="72" rx="8"/><rect x="434" y="426" width="54" height="12" rx="2" fill="none" stroke="rgba(182,190,201,0.50)"/><text x="461" y="435" fill="#b6bec9" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace">TERMINAL</text><text x="499" y="459" fill="#ffffff" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Cancelled</text><text x="499" y="474" fill="#b6bec9" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace">StopExecution</text></g>
+        <g><rect class="terminal" x="424" y="416" width="150" height="72" rx="8"/><rect x="434" y="426" width="54" height="12" rx="2" fill="none" stroke="rgba(182,190,201,0.50)"/><text x="461" y="435" fill="#b6bec9" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace">TERMINAL</text><text x="499" y="459" fill="#ffffff" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Aborted</text><text x="499" y="474" fill="#b6bec9" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace">StopExecution</text></g>
         <g><rect class="terminal failed" x="674" y="416" width="150" height="72" rx="8"/><rect x="684" y="426" width="54" height="12" rx="2" fill="none" stroke="rgba(182,190,201,0.50)"/><text x="711" y="435" fill="#b6bec9" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace">TERMINAL</text><text x="749" y="459" fill="#ffffff" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Failed</text><text x="749" y="474" fill="#b6bec9" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace">retries exhausted</text></g>
       </g>
     </svg>

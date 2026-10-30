@@ -16,6 +16,11 @@
 - Orient along the dominant flow direction (left→right or top→down); rearrange before crossing transitions.
 - Coral on the state the reader should notice — typically the error state, or "happy completion".
 
+## On AWS
+
+- **AWS Step Functions** definitions are state machines: Task, Choice, Wait, Parallel, Map, Succeed, Fail states as boxes, `Next` as transitions, and `Retry` / `Catch` as labeled transitions (`Retry · States.TaskFailed · ×3`, `Catch · States.ALL`). Name Task states after the work and put the integration in the sublabel (`Lambda · validate`, `ECS RunTask`, `.waitForTaskToken`).
+- Execution status lifecycles use the console's values: `RUNNING`, `SUCCEEDED`, `FAILED`, `TIMED_OUT`, `ABORTED`. Resource lifecycles likewise (EC2 `pending → running → stopping → stopped → terminated`; Image Builder images; CloudFormation stack `CREATE_IN_PROGRESS → CREATE_COMPLETE`).
+
 ## Anti-patterns
 - More transitions than states × 2 → likely two state machines.
 - "From any state" transitions drawn from every state — use a single annotation (`* → Error on timeout`) instead.

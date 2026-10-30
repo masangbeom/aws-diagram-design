@@ -35,18 +35,20 @@
     .card li { margin-bottom: 0.3rem; padding-left: 0.875rem; position: relative; }
     .card li::before { content: '—'; position: absolute; left: 0; color: rgba(35,47,62,0.25); font-size: 0.75rem; }
     .footer { margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid rgba(35,47,62,0.10); font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.06em; color: var(--color-soft); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
-  </style>
+  
+    code { font-family: 'Amazon Ember Mono', ui-monospace, monospace; font-size: 0.92em; }
+</style>
 </head>
 <body>
   <div class="container">
     <div class="header">
       <p class="header-eyebrow">ER · AWS Diagram Design</p>
       <h1>E-commerce orders · Aurora data model</h1>
-      <p class="subtitle">The four entities behind an e-commerce order service on Amazon Aurora PostgreSQL. Order is the aggregate root — everything else exists to describe or fulfil it. `#` marks primary keys, `→` marks foreign keys.</p>
+      <p class="subtitle">The four entities behind an e-commerce order service on Amazon Aurora PostgreSQL. Order is the aggregate root — everything else exists to describe or fulfill it. <code>#</code> marks primary keys, <code>→</code> marks foreign keys.</p>
     </div>
 
     <div class="diagram-container">
-      <svg viewBox="0 0 1000 480" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="er-full-title er-full-desc">
+      <svg viewBox="0 0 1000 520" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="er-full-title er-full-desc">
         <title id="er-full-title">E-commerce orders · Aurora data model</title>
         <desc id="er-full-desc">Entity-relationship diagram for an e-commerce order service on Amazon Aurora PostgreSQL: Cognito-identified customers place orders, and order lines join each order to its products.</desc>
         <defs>
@@ -63,9 +65,9 @@
         <!-- 1. Customer — Order (1:N "places") -->
         <line x1="260" y1="240" x2="400" y2="240" stroke="#545b64" stroke-width="1" />
         <!-- 2. Order — OrderLine (1:N) -->
-        <path d="M 640,320 H 702 Q 710,320 710,328 H 780" fill="none" stroke="#545b64" stroke-width="1"/>
+        <path d="M 640,340 H 780" fill="none" stroke="#545b64" stroke-width="1"/>
         <!-- 3. Product — OrderLine (1:N, vertical) -->
-        <line x1="880" y1="248" x2="880" y2="280" stroke="#545b64" stroke-width="1" />
+        <line x1="880" y1="248" x2="880" y2="296" stroke="#545b64" stroke-width="1" />
 
         <!-- Cardinality labels -->
         <rect x="266" y="232" width="12" height="12" rx="2" fill="#ffffff"/>
@@ -74,24 +76,24 @@
         <rect x="378" y="232" width="16" height="12" rx="2" fill="#ffffff"/>
         <text x="386" y="242" fill="#545b64" font-size="10" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" font-weight="600">N</text>
 
-        <rect x="646" y="316" width="12" height="12" rx="2" fill="#ffffff"/>
-        <text x="652" y="326" fill="#545b64" font-size="10" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" font-weight="600">1</text>
+        <rect x="646" y="336" width="12" height="12" rx="2" fill="#ffffff"/>
+        <text x="652" y="346" fill="#545b64" font-size="10" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" font-weight="600">1</text>
 
-        <rect x="760" y="324" width="16" height="12" rx="2" fill="#ffffff"/>
-        <text x="768" y="334" fill="#545b64" font-size="10" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" font-weight="600">N</text>
+        <rect x="760" y="336" width="16" height="12" rx="2" fill="#ffffff"/>
+        <text x="768" y="346" fill="#545b64" font-size="10" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" font-weight="600">N</text>
 
         <rect x="872" y="252" width="16" height="12" rx="2" fill="#ffffff"/>
         <text x="880" y="262" fill="#545b64" font-size="10" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" font-weight="600">1</text>
 
-        <rect x="872" y="268" width="16" height="12" rx="2" fill="#ffffff"/>
-        <text x="880" y="278" fill="#545b64" font-size="10" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" font-weight="600">N</text>
+        <rect x="872" y="280" width="16" height="12" rx="2" fill="#ffffff"/>
+        <text x="880" y="290" fill="#545b64" font-size="10" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" font-weight="600">N</text>
 
         <!-- Relationship labels -->
         <rect x="304" y="220" width="56" height="14" rx="2" fill="#ffffff"/>
         <text x="332" y="230" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.12em">PLACES</text>
 
-        <rect x="688" y="300" width="56" height="14" rx="2" fill="#ffffff"/>
-        <text x="716" y="310" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.12em">CONTAINS</text>
+        <rect x="688" y="320" width="56" height="14" rx="2" fill="#ffffff"/>
+        <text x="716" y="330" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.12em">CONTAINS</text>
 
         <!-- Entity: Customer -->
         <rect x="60" y="160" width="200" height="160" rx="6" fill="#ffffff" stroke="#232f3e" stroke-width="1"/>
@@ -152,38 +154,42 @@
         <text x="940" y="240" fill="#545b64" font-size="10" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="end">bigint</text>
 
         <!-- Entity: OrderLine (join) -->
-        <rect x="780" y="280" width="200" height="96" rx="6" fill="rgba(35,47,62,0.04)" stroke="#545b64" stroke-width="1" stroke-dasharray="4,3"/>
-        <rect x="780" y="280" width="200" height="40" rx="6" fill="rgba(35,47,62,0.06)" stroke="none"/>
-        <rect x="780" y="312" width="200" height="8" fill="rgba(35,47,62,0.06)"/>
-        <line x1="780" y1="320" x2="980" y2="320" stroke="rgba(35,47,62,0.22)" stroke-width="1"/>
-        <text x="796" y="296" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.14em">JOIN</text>
-        <text x="796" y="312" fill="#232f3e" font-size="14" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">OrderLine</text>
-        <text x="796" y="340" fill="#232f3e" font-size="10" font-family="'Amazon Ember Mono', ui-monospace, monospace">→ order_id</text>
-        <text x="940" y="340" fill="#545b64" font-size="10" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="end">uuid</text>
-        <text x="796" y="360" fill="#232f3e" font-size="10" font-family="'Amazon Ember Mono', ui-monospace, monospace">→ product_id</text>
-        <text x="940" y="360" fill="#545b64" font-size="10" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="end">uuid</text>
+        <rect x="780" y="296" width="200" height="136" rx="6" fill="rgba(35,47,62,0.04)" stroke="#545b64" stroke-width="1" stroke-dasharray="4,3"/>
+        <rect x="780" y="296" width="200" height="40" rx="6" fill="rgba(35,47,62,0.06)" stroke="none"/>
+        <rect x="780" y="328" width="200" height="8" fill="rgba(35,47,62,0.06)"/>
+        <line x1="780" y1="336" x2="980" y2="336" stroke="rgba(35,47,62,0.22)" stroke-width="1"/>
+        <text x="796" y="312" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.14em">JOIN</text>
+        <text x="796" y="328" fill="#232f3e" font-size="14" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">OrderLine</text>
+        <text x="796" y="356" fill="#232f3e" font-size="10" font-family="'Amazon Ember Mono', ui-monospace, monospace">→ order_id</text>
+        <text x="940" y="356" fill="#545b64" font-size="10" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="end">uuid</text>
+        <text x="796" y="376" fill="#232f3e" font-size="10" font-family="'Amazon Ember Mono', ui-monospace, monospace">→ product_id</text>
+        <text x="940" y="376" fill="#545b64" font-size="10" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="end">uuid</text>
+        <text x="796" y="396" fill="#232f3e" font-size="10" font-family="'Amazon Ember Mono', ui-monospace, monospace">quantity</text>
+        <text x="940" y="396" fill="#545b64" font-size="10" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="end">integer</text>
+        <text x="796" y="416" fill="#232f3e" font-size="10" font-family="'Amazon Ember Mono', ui-monospace, monospace">unit_price_cents</text>
+        <text x="940" y="416" fill="#545b64" font-size="10" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="end">bigint</text>
 
         <!-- Legend -->
-        <line x1="40" y1="404" x2="960" y2="404" stroke="rgba(35,47,62,0.10)" stroke-width="0.8"/>
-        <text x="40" y="420" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.18em">LEGEND</text>
+        <line x1="40" y1="444" x2="960" y2="444" stroke="rgba(35,47,62,0.10)" stroke-width="0.8"/>
+        <text x="40" y="460" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.18em">LEGEND</text>
 
-        <rect x="40" y="436" width="14" height="10" rx="2" fill="rgba(236,114,17,0.04)" stroke="#ec7211" stroke-width="1"/>
-        <text x="60" y="444" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Aggregate root</text>
+        <rect x="40" y="476" width="14" height="10" rx="2" fill="rgba(236,114,17,0.04)" stroke="#ec7211" stroke-width="1"/>
+        <text x="60" y="484" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Aggregate root</text>
 
-        <rect x="180" y="436" width="14" height="10" rx="2" fill="#ffffff" stroke="#232f3e" stroke-width="1"/>
-        <text x="200" y="444" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Entity</text>
+        <rect x="180" y="476" width="14" height="10" rx="2" fill="#ffffff" stroke="#232f3e" stroke-width="1"/>
+        <text x="200" y="484" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Entity</text>
 
-        <rect x="268" y="436" width="14" height="10" rx="2" fill="rgba(35,47,62,0.04)" stroke="#545b64" stroke-width="1" stroke-dasharray="3,2"/>
-        <text x="288" y="444" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Join table</text>
+        <rect x="268" y="476" width="14" height="10" rx="2" fill="rgba(35,47,62,0.04)" stroke="#545b64" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="288" y="484" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Join table</text>
 
-        <text x="372" y="444" fill="#232f3e" font-size="10" font-family="'Amazon Ember Mono', ui-monospace, monospace" font-weight="600">#</text>
-        <text x="388" y="444" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Primary key</text>
+        <text x="372" y="484" fill="#232f3e" font-size="10" font-family="'Amazon Ember Mono', ui-monospace, monospace" font-weight="600">#</text>
+        <text x="388" y="484" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Primary key</text>
 
-        <text x="476" y="444" fill="#232f3e" font-size="10" font-family="'Amazon Ember Mono', ui-monospace, monospace" font-weight="600">→</text>
-        <text x="492" y="444" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Foreign key</text>
+        <text x="476" y="484" fill="#232f3e" font-size="10" font-family="'Amazon Ember Mono', ui-monospace, monospace" font-weight="600">→</text>
+        <text x="492" y="484" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Foreign key</text>
 
-        <text x="584" y="444" fill="#545b64" font-size="10" font-family="'Amazon Ember Mono', ui-monospace, monospace" font-weight="600">1 / N</text>
-        <text x="616" y="444" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Cardinality</text>
+        <text x="584" y="484" fill="#545b64" font-size="10" font-family="'Amazon Ember Mono', ui-monospace, monospace" font-weight="600">1 / N</text>
+        <text x="616" y="484" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Cardinality</text>
       </svg>
     </div>
 
@@ -195,7 +201,7 @@
       </div>
       <div class="card">
         <div class="card-header"><span class="card-dot ink"></span><h3>Many-to-many via a join</h3></div>
-        <ul><li>Products aren't embedded on Order</li><li>OrderLine is a pure join — no metadata</li><li>Dashed border signals it's not a primary entity</li></ul>
+        <ul><li>Products aren't embedded on Order</li><li>OrderLine carries quantity and the price paid</li><li>Dashed border signals it's not a primary entity</li></ul>
       </div>
       <div class="card">
         <div class="card-header"><span class="card-dot muted"></span><h3>Cardinality over arrows</h3></div>
@@ -205,7 +211,7 @@
 
     <div class="footer">
       <span>E-commerce orders · Aurora ER model</span>
-      <span>example · schematic skill</span>
+      <span>example · aws diagram design</span>
     </div>
   </div>
 </body>

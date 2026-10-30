@@ -27,6 +27,11 @@
 
 Over budget: collapse a leaf cluster into one aggregate node labelled with its count (e.g. `+6 leaves`), and say so in a caption — don't silently drop nodes.
 
+## On AWS
+
+- AWS CDK apps and CloudFormation stacks are dependency graphs: stacks or constructs as nodes, cross-stack references (`Fn::ImportValue`, CDK exported values) as edges. The stack everything imports from (usually the network or shared-key stack) is the fan-in focal node.
+- A cycle between stacks is a real deployment error in CloudFormation; when you draw one, label it as the problem, not as normal topology.
+
 ## Anti-patterns
 
 - Drawing a dependency graph when the data is actually a tree (single parent everywhere, no cycles) — use Tree instead.

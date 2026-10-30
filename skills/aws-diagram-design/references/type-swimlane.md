@@ -11,6 +11,11 @@
 - Handoffs (arrows crossing lane boundaries) are the most important edges — consider coral on the handoff that introduces the most coupling or latency.
 - Don't force equal step count per lane; a lane with one step is fine.
 
+## On AWS
+
+- Lanes are the parties that own the step: teams, AWS accounts, or an AWS-managed actor (`AWS Support`, `Pipeline`). Don't make one lane per service; a service is a step in its owner's lane, with its icon.
+- Common AWS swimlanes: a CodePipeline release with manual approval, an incident through AWS Support, an account-vending request through Control Tower.
+
 ## Anti-patterns
 - Lanes without labels.
 - A step drawn across two lanes (pick one owner).

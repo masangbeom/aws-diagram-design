@@ -62,10 +62,10 @@
 </head>
 <body>
   <div class="frame">
-    <p class="eyebrow">Sequence · Amazon Cognito · Special</p>
+    <p class="eyebrow">Sequence · Amazon Cognito</p>
     <h1>API Gateway call with Cognito refresh</h1>
 
-    <svg viewBox="0 0 960 720" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="sequence-oauth-dark-title sequence-oauth-dark-desc">
+    <svg viewBox="0 0 960 688" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="sequence-oauth-dark-title sequence-oauth-dark-desc">
       <title id="sequence-oauth-dark-title">API Gateway call with Cognito refresh</title>
       <desc id="sequence-oauth-dark-desc">A web client calls Amazon API Gateway with a Cognito access token. An ALT fragment shows either a valid 200 response from the JWT authorizer or a 401 path that refreshes the token at the Amazon Cognito OAuth2 endpoint and retries.</desc>
       <defs>
@@ -82,20 +82,17 @@
         <marker id="arrow-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
           <polygon points="0 0, 8 3, 0 6" fill="#539fe5"/>
         </marker>
-        <marker id="arrow-open" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
-          <polyline points="0 0, 8 3, 0 6" fill="none" stroke="#b6bec9" stroke-width="1.2"/>
-        </marker>
       </defs>
 
       <rect width="100%" height="100%" fill="#161e2d"/>
       <rect width="100%" height="100%" fill="url(#dots)" opacity="0.55"/>
 
-      <line x1="160" y1="128" x2="160" y2="624" stroke="rgba(255,255,255,0.22)" stroke-width="1" stroke-dasharray="3,3"/>
-      <line x1="480" y1="128" x2="480" y2="624" stroke="rgba(255,255,255,0.22)" stroke-width="1" stroke-dasharray="3,3"/>
-      <line x1="800" y1="128" x2="800" y2="624" stroke="rgba(255,255,255,0.22)" stroke-width="1" stroke-dasharray="3,3"/>
+      <line x1="160" y1="128" x2="160" y2="592" stroke="rgba(255,255,255,0.22)" stroke-width="1" stroke-dasharray="3,3"/>
+      <line x1="480" y1="128" x2="480" y2="592" stroke="rgba(255,255,255,0.22)" stroke-width="1" stroke-dasharray="3,3"/>
+      <line x1="800" y1="128" x2="800" y2="592" stroke="rgba(255,255,255,0.22)" stroke-width="1" stroke-dasharray="3,3"/>
 
-      <!-- First API activation brackets M1 call through M2 success return -->
-      <rect x="476" y="180" width="8" height="104" fill="rgba(255,255,255,0.06)" stroke="#b6bec9" stroke-width="0.8"/>
+      <!-- First API activation brackets M1 call through the M2 / M3 ALT returns -->
+      <rect x="476" y="180" width="8" height="192" fill="rgba(255,255,255,0.06)" stroke="#b6bec9" stroke-width="0.8"/>
       <rect x="156" y="360" width="8" height="200" fill="rgba(255,255,255,0.06)" stroke="#b6bec9" stroke-width="0.8"/>
       <rect x="796" y="400" width="8" height="64" fill="rgba(255,255,255,0.06)" stroke="#b6bec9" stroke-width="0.8"/>
       <rect x="476" y="496" width="8" height="64" fill="rgba(255,255,255,0.06)" stroke="#b6bec9" stroke-width="0.8"/>
@@ -143,9 +140,6 @@
       <rect x="256" y="528" width="88" height="12" rx="2" fill="#161e2d"/>
       <text x="300" y="538" fill="#b6bec9" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">200 · BODY</text>
 
-      <line x1="164" y1="600" x2="796" y2="600" stroke="#b6bec9" stroke-width="1.2" stroke-dasharray="5,4" marker-end="url(#arrow-open)"/>
-      <rect x="424" y="584" width="96" height="12" rx="2" fill="#161e2d"/>
-      <text x="472" y="594" fill="#b6bec9" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">AUDIT · ASYNC</text>
 
       <rect x="88" y="72" width="144" height="56" rx="6" fill="#161e2d"/>
       <rect x="88" y="72" width="144" height="56" rx="6" fill="rgba(182,190,201,0.10)" stroke="#8d99a8" stroke-width="1"/>
@@ -166,27 +160,25 @@
       <text x="800" y="104" fill="#ffffff" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Amazon Cognito</text>
       <text x="800" y="119" fill="#b6bec9" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">user pool · token</text>
 
-      <line x1="56" y1="648" x2="904" y2="648" stroke="rgba(255,255,255,0.12)" stroke-width="0.8"/>
-      <text x="56" y="664" fill="#b6bec9" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.18em">LEGEND</text>
+      <line x1="56" y1="616" x2="904" y2="616" stroke="rgba(255,255,255,0.12)" stroke-width="0.8"/>
+      <text x="56" y="632" fill="#b6bec9" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.18em">LEGEND</text>
 
-      <rect x="56" y="680" width="14" height="10" rx="2" fill="rgba(255,153,0,0.10)" stroke="#ff9900" stroke-width="1"/>
-      <text x="76" y="688" fill="#b6bec9" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Focal / success</text>
+      <rect x="56" y="648" width="14" height="10" rx="2" fill="rgba(255,153,0,0.10)" stroke="#ff9900" stroke-width="1"/>
+      <text x="76" y="656" fill="#b6bec9" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Focal / success</text>
 
-      <rect x="200" y="676" width="28" height="18" rx="2" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.22)" stroke-width="1"/>
-      <text x="208" y="688" fill="#b6bec9" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace">ALT</text>
-      <text x="236" y="688" fill="#b6bec9" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Fragment</text>
+      <rect x="200" y="644" width="28" height="18" rx="2" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.22)" stroke-width="1"/>
+      <text x="208" y="656" fill="#b6bec9" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace">ALT</text>
+      <text x="236" y="656" fill="#b6bec9" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Fragment</text>
 
-      <line x1="320" y1="684" x2="348" y2="684" stroke="#539fe5" stroke-width="1.2" marker-end="url(#arrow-link)"/>
-      <text x="356" y="688" fill="#b6bec9" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">HTTP call</text>
+      <line x1="320" y1="652" x2="348" y2="652" stroke="#539fe5" stroke-width="1.2" marker-end="url(#arrow-link)"/>
+      <text x="356" y="656" fill="#b6bec9" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">HTTP call</text>
 
-      <line x1="448" y1="684" x2="476" y2="684" stroke="#b6bec9" stroke-width="1.2" stroke-dasharray="5,4" marker-end="url(#arrow)"/>
-      <text x="484" y="688" fill="#b6bec9" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Return</text>
+      <line x1="448" y1="652" x2="476" y2="652" stroke="#b6bec9" stroke-width="1.2" stroke-dasharray="5,4" marker-end="url(#arrow)"/>
+      <text x="484" y="656" fill="#b6bec9" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Return</text>
 
-      <line x1="560" y1="684" x2="588" y2="684" stroke="#b6bec9" stroke-width="1.2" stroke-dasharray="5,4" marker-end="url(#arrow-open)"/>
-      <text x="596" y="688" fill="#b6bec9" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Async open</text>
 
-      <line x1="696" y1="684" x2="724" y2="684" stroke="#ff9900" stroke-width="1.4" marker-end="url(#arrow-accent)"/>
-      <text x="732" y="688" fill="#b6bec9" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Headline</text>
+      <line x1="560" y1="652" x2="588" y2="652" stroke="#ff9900" stroke-width="1.4" marker-end="url(#arrow-accent)"/>
+      <text x="596" y="656" fill="#b6bec9" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Headline</text>
     </svg>
   </div>
 </body>

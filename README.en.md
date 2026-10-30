@@ -126,7 +126,7 @@ aws-diagram-design/
 │   ├── SKILL.md                    #   design system + routing for the 45 types
 │   ├── references/                 #   58 specs (style-guide, type-*, primitive-aws-icons, …)
 │   ├── assets/                     #   templates & examples, aws-icons/ 812 SVGs, fonts/ Amazon Ember
-│   └── scripts/                    #   self-checks (self_check, verify-geometry), drawio/mermaid extractors, SVG/PNG exporters (export_svg, export_png)
+│   └── scripts/                    #   self-checks (self_check, verify-geometry), drawio/mermaid extractors, SVG/PNG exporters (export_svg, export_png), AWS icon inliner (aws_icon)
 ├── scripts/                        # repo-level verification scripts + test fixtures
 ├── docs/                           # per-environment guides + samples/ example diagrams
 └── install.sh                      # claude-code · kiro · fonts installers

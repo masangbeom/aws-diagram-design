@@ -374,3 +374,18 @@ Above 4 lanes or 6 steps: split into two diagrams (e.g., ingestion pipeline / an
 - `assets/example-data-flow.html` — minimal light (the platform, 4-role × 5-step: Admin, Engineers, Scientists, Consumers). Gallery default.
 - `assets/example-data-flow-dark.html` — same, dark skin.
 - `assets/example-data-flow-full.html` — same, editorial-card frame.
+
+## On AWS
+
+Stage vocabulary for AWS data pipelines; one icon per cell from the stage's primary service ([primitive-aws-icons.md](primitive-aws-icons.md) § Compact nodes):
+
+| Stage | AWS services |
+|---|---|
+| Ingest | Kinesis Data Streams, Amazon Data Firehose, Amazon MSK, AWS DMS (CDC), Amazon AppFlow, AWS Transfer Family |
+| Land | Amazon S3 raw zone (`s3://…/raw/`) |
+| Catalog and govern | AWS Glue Data Catalog, AWS Lake Formation |
+| Transform | AWS Glue (Spark), Amazon EMR, Athena CTAS, Amazon Redshift |
+| Serve | Amazon Athena, Amazon Redshift, Amazon Quick Sight, Amazon SageMaker AI, Amazon OpenSearch Service |
+
+- Roles map to AWS personas and their IAM roles (Data Admin, Data Engineer, Analyst, Consumer); put the role name in the lane label, not on every cell.
+- Payload chips name the format as it is stored: `JSON`, `Parquet`, `Iceberg`, `CSV`.

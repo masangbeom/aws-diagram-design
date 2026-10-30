@@ -65,7 +65,7 @@
     <p class="eyebrow">Venn · AWS Diagram Design</p>
     <h1>AWS app stack · Serverless × Containers × Managed data</h1>
 
-    <svg viewBox="0 0 1000 500" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="venn-dark-title venn-dark-desc">
+    <svg viewBox="0 0 1000 520" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="venn-dark-title venn-dark-desc">
       <title id="venn-dark-title">AWS app stack · Serverless × Containers × Managed data</title>
       <desc id="venn-dark-desc">Venn diagram showing serverless, container, and managed-database traits of an AWS application stack intersecting at a fully managed stack such as Amazon ECS on AWS Fargate with Aurora Serverless v2.</desc>
         <defs>
@@ -91,7 +91,7 @@
         <!-- Managed data — bottom-right, soft -->
         <circle cx="572" cy="320" r="140" fill="rgba(142,140,131,0.05)" stroke="#8d99a8" stroke-width="1"/>
 
-        <!-- Coral focal tint on the all-three intersection -->
+        <!-- Orange focal tint on the all-three intersection -->
         <g clip-path="url(#clip-center)">
           <g clip-path="url(#clip-center-2)">
             <circle cx="572" cy="320" r="140" fill="rgba(255,153,0,0.14)"/>
@@ -109,11 +109,11 @@
         <text x="848" y="416" fill="#b6bec9" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="end" letter-spacing="0.14em">AWS RUNS THE DB</text>
 
         <!-- Pairwise intersection labels -->
-        <text x="360" y="232" fill="#b6bec9" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Fargate</text>
-        <text x="360" y="248" fill="#b6bec9" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">self-run database</text>
+        <text x="420" y="200" fill="#b6bec9" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Fargate</text>
+        <text x="420" y="216" fill="#b6bec9" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">self-run database</text>
 
-        <text x="640" y="232" fill="#b6bec9" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Lambda</text>
-        <text x="640" y="248" fill="#b6bec9" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">zip, not images</text>
+        <text x="580" y="200" fill="#b6bec9" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Lambda</text>
+        <text x="580" y="216" fill="#b6bec9" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">no portable images</text>
 
         <text x="500" y="368" fill="#b6bec9" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">EKS on EC2</text>
         <text x="500" y="384" fill="#b6bec9" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">nodes to patch</text>
@@ -123,16 +123,16 @@
         <text x="500" y="276" fill="#b6bec9" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.14em">FARGATE + AURORA</text>
 
         <!-- Legend strip -->
-        <line x1="40" y1="456" x2="960" y2="456" stroke="rgba(255,255,255,0.10)" stroke-width="0.8"/>
-        <text x="40" y="472" fill="#b6bec9" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.18em">LEGEND</text>
+        <line x1="40" y1="472" x2="960" y2="472" stroke="rgba(255,255,255,0.10)" stroke-width="0.8"/>
+        <text x="40" y="488" fill="#b6bec9" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.18em">LEGEND</text>
 
-        <circle cx="52" cy="488" r="6" fill="none" stroke="#ff9900" stroke-width="1.2"/>
-        <text x="68" y="492" fill="#b6bec9" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">All three — fully managed</text>
+        <circle cx="52" cy="504" r="6" fill="none" stroke="#ff9900" stroke-width="1.2"/>
+        <text x="68" y="508" fill="#b6bec9" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">All three — fully managed</text>
 
-        <circle cx="192" cy="488" r="6" fill="none" stroke="#b6bec9" stroke-width="1"/>
-        <text x="208" y="492" fill="#b6bec9" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Two of three — partial</text>
+        <circle cx="192" cy="504" r="6" fill="none" stroke="#b6bec9" stroke-width="1"/>
+        <text x="208" y="508" fill="#b6bec9" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Two of three — partial</text>
 
-        <text x="380" y="492" fill="#b6bec9" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-style="italic">Coral marks the fully managed intersection. The others name what is still on you.</text>
+        <text x="380" y="508" fill="#b6bec9" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-style="italic">Orange marks the fully managed intersection. The others name what is still on you.</text>
       </svg>
   </div>
 </body>

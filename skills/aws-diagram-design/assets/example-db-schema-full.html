@@ -35,14 +35,16 @@
     .card li { margin-bottom: 0.3rem; padding-left: 0.875rem; position: relative; }
     .card li::before { content: '—'; position: absolute; left: 0; color: rgba(35,47,62,0.25); font-size: 0.75rem; }
     .footer { margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid rgba(35,47,62,0.10); font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.06em; color: var(--color-soft); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
-  </style>
+  
+    code { font-family: 'Amazon Ember Mono', ui-monospace, monospace; font-size: 0.92em; }
+</style>
 </head>
 <body>
   <div class="container">
     <div class="header">
       <p class="header-eyebrow">Database schema · AWS Diagram Design</p>
       <h1>Aurora PostgreSQL · commerce schema</h1>
-      <p class="subtitle">The physical schema behind checkout on Amazon Aurora PostgreSQL: five tables, real SQL types, and foreign keys that anchor column to column, not box to box. Customers carry their Cognito user ID; invoices point at PDFs in Amazon S3. The dashed group marks the non-default `billing` schema.</p>
+      <p class="subtitle">The physical schema behind checkout on Amazon Aurora PostgreSQL: five tables, real SQL types, and foreign keys that anchor column to column, not box to box. Customers carry their Cognito user ID; invoices point at PDFs in Amazon S3. The dashed group marks the non-default <code>billing</code> schema.</p>
     </div>
 
     <div class="diagram-container">
@@ -291,15 +293,15 @@
       <div class="card">
         <p class="eyebrow">THE DESTRUCTIVE EDGE</p>
         <div class="card-header"><span class="card-dot coral"></span><h3>Deleting an order cascades</h3></div>
-        <p>`order_items.order_id` is the one `ON DELETE CASCADE` in this schema — remove an order and its line items go with it. Every other foreign key is `RESTRICT`.</p>
+        <p><code>order_items.order_id</code> is the one <code>ON DELETE CASCADE</code> in this schema — remove an order and its line items go with it. Every other foreign key is <code>RESTRICT</code>.</p>
       </div>
       <div class="card">
         <div class="card-header"><span class="card-dot ink"></span><h3>Column to column, not box to box</h3></div>
-        <ul><li>Every FK anchors to a specific row on both ends</li><li>Fixed 24px row height keeps anchors predictable</li><li>The `ON DELETE` label is the point of the edge</li></ul>
+        <ul><li>Every FK anchors to a specific row on both ends</li><li>Fixed 24px row height keeps anchors predictable</li><li>The <code>ON DELETE</code> label is the point of the edge</li></ul>
       </div>
       <div class="card">
         <div class="card-header"><span class="card-dot muted"></span><h3>Scoped to the subsystem</h3></div>
-        <p>`products` truncates to a `+ 3 more columns` row rather than dumping every column. This is checkout, not a `\d+` of the whole Aurora cluster.</p>
+        <p><code>products</code> truncates to a <code>+ 3 more columns</code> row rather than dumping every column. This is checkout, not a <code>\d+</code> of the whole Aurora cluster.</p>
       </div>
     </div>
 

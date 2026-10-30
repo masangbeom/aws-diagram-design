@@ -31,6 +31,12 @@ If a schema has no destructive FK, it has no focal element. Leave it unaccented 
 
 Max 5 tables, max 8 column rows shown per table, max 6 FK edges, max 2 accent elements. Over budget → show the subsystem, not the database, and say so in a caption.
 
+## On AWS
+
+- Relational tables on Amazon RDS / Aurora use the engine's own types (`uuid`, `timestamptz`, `jsonb` for PostgreSQL).
+- For Amazon DynamoDB, draw the table with `PK` and `SK` as the key columns, item types as row groups, and each GSI as its own key pair (`GSI1PK`, `GSI1SK`); label the capacity mode in the sublabel (`on-demand`). Foreign-key arrows don't exist in DynamoDB; show the access pattern instead.
+- External pointers to S3 objects are plain columns (`receipt_s3_key text`), not relationships.
+
 ## Anti-patterns
 
 - Drawing every column of every table — a schema diagram is an argument about a subsystem, not a `\d+` dump.

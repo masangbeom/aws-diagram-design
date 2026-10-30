@@ -41,13 +41,13 @@
   <div class="container">
     <div class="header">
       <p class="header-eyebrow">Heatmap · AWS Diagram Design</p>
-      <h1>The week payments went dark</h1>
+      <h1>The sprint payments went dark</h1>
       <p class="subtitle">AWS CodeBuild build failure rate (%) by service and sprint, six sprints. payments spiked to 47% in S4 — a deploy regression that slipped through the CodePipeline gate — and had recovered to 4% by S6. billing carries the highest structural rate; notifications is the quietest service throughout.</p>
     </div>
 
     <div class="diagram-container">
       <svg viewBox="0 0 1000 500" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="heatmap-full-title heatmap-full-desc">
-        <title id="heatmap-full-title">The week payments went dark</title>
+        <title id="heatmap-full-title">The sprint payments went dark</title>
         <desc id="heatmap-full-desc">Heatmap of AWS CodeBuild failure rate by service and sprint; payments service spiked to 47% in sprint 4 due to a deploy regression, recovered to 4% by sprint 6; billing carries the highest baseline failure rate at 9% in sprint 3.</desc>
         <defs>
           <pattern id="dots" width="22" height="22" patternUnits="userSpaceOnUse">
@@ -210,10 +210,6 @@
         <rect data-row="notifications" data-col="S6" data-value="1" x="760" y="304" width="116" height="56" fill="rgba(35,47,62,0.07)"/>
         <text x="818" y="336" fill="#232f3e" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">1%</text>
 
-        <!-- Annotation: callout for focal column -->
-        <line x1="520" y1="364" x2="636" y2="364" stroke="#ec7211" stroke-width="1" stroke-dasharray="3,2"/>
-        <text x="578" y="375" fill="#232f3e" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.06em" text-anchor="middle">DEPLOY REGRESSION</text>
-
         <!-- Annotation: callout for billing row high baseline -->
         <line x1="880" y1="244" x2="880" y2="300" stroke="rgba(35,47,62,0.30)" stroke-width="1" stroke-dasharray="3,2"/>
         <text x="884" y="272" fill="#545b64" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.04em">HIGH BASELINE</text>
@@ -269,8 +265,8 @@
     </div>
 
     <div class="footer">
-      <span>Heatmap · AWS Diagram Design</span>
       <span>Illustrative CodeBuild failure rates · not a measured account</span>
+      <span>example · aws diagram design</span>
     </div>
   </div>
 </body>

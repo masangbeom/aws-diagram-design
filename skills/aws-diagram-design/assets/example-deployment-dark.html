@@ -67,7 +67,7 @@
 
     <svg viewBox="0 0 1040 416" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="deployment-dark-title deployment-dark-desc">
       <title id="deployment-dark-title">Checkout on ECS Fargate, production</title>
-      <desc id="deployment-dark-desc">Deployment diagram placing the checkout service across a CloudFront edge zone, a production us-east-1 zone running an Application Load Balancer and three ECS Fargate tasks, and a data zone with an RDS for PostgreSQL Multi-AZ primary replicating to its standby.</desc>
+      <desc id="deployment-dark-desc">Deployment diagram placing the checkout service across a CloudFront edge zone, an app-subnet zone of the us-east-1 production VPC running an Application Load Balancer and three ECS Fargate tasks, and a DB-subnet zone of the same VPC with an RDS for PostgreSQL Multi-AZ primary replicating to its standby.</desc>
       <defs>
         <pattern id="dots" width="22" height="22" patternUnits="userSpaceOnUse">
           <circle cx="1" cy="1" r="0.9" fill="rgba(255,255,255,0.10)"/>
@@ -82,16 +82,16 @@
 
       <!-- Zones (drawn first, before arrows and nodes) -->
       <rect x="40" y="40" width="208" height="280" rx="8" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.10)" stroke-width="0.8" stroke-dasharray="4,4"/>
-      <rect x="56" y="44" width="48" height="12" fill="#161e2d"/>
-      <text x="80" y="53" fill="rgba(255,255,255,0.35)" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.14em">EDGE</text>
+      <rect x="56" y="44" width="80" height="12" fill="#161e2d"/>
+      <text x="96" y="53" fill="#b6bec9" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.14em">EDGE · GLOBAL</text>
 
       <rect x="280" y="40" width="280" height="280" rx="8" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.10)" stroke-width="0.8" stroke-dasharray="4,4"/>
-      <rect x="296" y="44" width="140" height="12" fill="#161e2d"/>
-      <text x="366" y="53" fill="rgba(255,255,255,0.35)" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.14em">PROD / US-EAST-1</text>
+      <rect x="296" y="44" width="160" height="12" fill="#161e2d"/>
+      <text x="376" y="53" fill="#b6bec9" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.14em">US-EAST-1 VPC · APP SUBNETS</text>
 
       <rect x="600" y="40" width="240" height="280" rx="8" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.10)" stroke-width="0.8" stroke-dasharray="4,4"/>
-      <rect x="616" y="44" width="40" height="12" fill="#161e2d"/>
-      <text x="636" y="53" fill="rgba(255,255,255,0.35)" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.14em">DATA</text>
+      <rect x="616" y="44" width="152" height="12" fill="#161e2d"/>
+      <text x="692" y="53" fill="#b6bec9" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.14em">US-EAST-1 VPC · DB SUBNETS</text>
 
       <!-- Network paths (behind nodes) -->
       <path d="M 224,196 H 288 Q 296,196 296,188 V 128 Q 296,120 304,120" fill="none" stroke="#539fe5" stroke-width="1.2" marker-end="url(#arrow-link)"/>
@@ -179,7 +179,7 @@
       <text x="480" y="380" fill="#b6bec9" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Edge / CDN</text>
 
       <line x1="600" y1="376" x2="628" y2="376" stroke="#539fe5" stroke-width="1.2" marker-end="url(#arrow-link)"/>
-      <text x="636" y="380" fill="#b6bec9" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Cross-zone</text>
+      <text x="636" y="380" fill="#b6bec9" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Cross-boundary call</text>
 
       <line x1="740" y1="376" x2="768" y2="376" stroke="#ff9900" stroke-width="1" stroke-dasharray="5,4" marker-end="url(#arrow-accent)"/>
       <text x="776" y="380" fill="#b6bec9" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Replication</text>

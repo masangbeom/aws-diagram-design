@@ -28,6 +28,20 @@ Three nesting levels, outermost to innermost — reuses the containment grammar 
 
 Over budget → split into one deployment diagram per environment.
 
+## On AWS
+
+| Deployment primitive | AWS construct |
+|---|---|
+| Zone | Region, Availability Zone, public / private subnet (official containers, [primitive-aws-icons.md](primitive-aws-icons.md) § Group containers) |
+| Host | EC2 instance (instance type in sublabel), EKS managed node group. **Fargate has no host**: draw the ECS service or task set and put `Fargate · 3 tasks · 1 vCPU / 2 GB` in the sublabel |
+| Artifact | Container image in Amazon ECR (`orders:1.42 · arm64`), Lambda zip or image, AMI ID |
+| Replica | Tasks or instances spread across AZs; RDS / Aurora primary and standby or readers in **different** AZs |
+| Port | Listener and target ports (`ALB :443 → :8080`); security groups as dashed red containers or port chips |
+
+- Spread replicas across AZ columns the way the service actually schedules them. An Auto Scaling group or ECS service that is Multi-AZ shows a member in each AZ.
+- The load balancer spans the AZs in the public subnets; targets sit in private subnets.
+- Managed regional services (S3, DynamoDB, Secrets Manager) stay outside the VPC and are reached through labeled VPC endpoints ([primitive-aws-icons.md](primitive-aws-icons.md) § Placement).
+
 ## Anti-patterns
 
 - Redrawing the logical architecture with hostnames bolted on. If no placement decision is visible (which host, which zone, how many replicas), use `type-architecture.md` instead.

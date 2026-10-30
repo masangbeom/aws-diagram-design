@@ -100,6 +100,46 @@ Provider-neutral metadata (no vendor prefix):
 
 `scripts/verify-architecture-containment.py` checks unique IDs, resolving innermost parents, geometric containment, `<rect>` bounds, the admin-band vs traffic-box shapes (with `stroke-dasharray` resolved as rendered, so `none` or all-zero dashes count as solid), PaaS placement, endpoint targets, sibling axes, declared peerings, and the moved-geometry rule above. Files without `data-grammar="architecture-containment"` are skipped.
 
+## On AWS
+
+When the system runs on AWS, the conventions below replace the generic zone and node treatment above. Load [primitive-aws-icons.md](primitive-aws-icons.md) with this file; it owns the icon markup, the container colors, naming, and the inside/outside-the-VPC placement table.
+
+**Nodes.** Every node that names an AWS service is an icon node: a 24px service icon on the left, the system name, and a mono sublabel with the configuration that matters (`Aurora PostgreSQL · Multi-AZ`, `Fargate · 3 tasks`, `Lambda · python3.13`). Name the service officially on first mention, short after. On-premises and third-party nodes keep the generic node with no AWS icon.
+
+**Zones are AWS group containers.** Use the official containers instead of the faint generic zone: colored border, top-left badge, label with its identifier. Nest in this order and draw only the levels the story needs:
+
+`AWS Cloud ⊃ AWS account ⊃ Region ⊃ VPC ⊃ Availability Zone ⊃ public / private subnet ⊃ security group / Auto Scaling group`
+
+- Labels carry identity: `VPC · 10.0.0.0/16`, `Private subnet · 10.0.2.0/24`, `us-east-1a`, `Prod account · 111122223333`.
+- Availability Zones are side-by-side columns; subnets stack inside each AZ in the same order (public above private above data) so tiers read across. Two AZs is the default; draw a third only when the story is about AZ count.
+- A Multi-AZ resource (ALB, RDS/Aurora, Auto Scaling group) spans the AZ columns. Don't park it in one AZ while the sublabel says Multi-AZ.
+- Regional and global services sit outside the VPC (and global ones outside the Region), reached through a labeled VPC endpoint, NAT gateway, or public endpoint. This is the Containment rule below applied to AWS: account and Organization are administrative bands; VPC and subnets are traffic scopes; S3, DynamoDB, SQS, and other managed services are `managed` nodes outside every traffic scope.
+- Container borders are identity colors, not accents. The 1–2 focal elements still come from `accent` on a node or connector. The flat-zone cap counts sibling containers at one level (two AZs plus a shared-services VPC is three); nesting depth follows the Containment budget.
+
+**Connectors** name the path when it is part of the point: `HTTPS :443`, `gRPC`, `VPC endpoint`, `PrivateLink`, `VPC peering`, `TGW attachment`, `Direct Connect · BGP`, `Site-to-Site VPN`. A queue, topic, or stream (SQS, SNS, EventBridge, Kinesis) is a node, not a dashed arrow. IAM permissions are not connectors; put the role in a sublabel or a callout.
+
+**Shapes that recur, and where they belong:**
+
+| AWS story | Type |
+|---|---|
+| Serverless web: CloudFront → S3 / API Gateway → Lambda → DynamoDB | Architecture |
+| Three-tier VPC: ALB → ECS or EC2 → RDS across two AZs | Architecture with containers |
+| Hub-and-spoke network: Transit Gateway or Cloud WAN, Direct Connect, VPN | Architecture |
+| Multi-account landing zone: Organizations, OUs, accounts, SCPs | Tree (structure) or Nested (policy inheritance) |
+| Migration or re-architecture before/after | [Architecture delta](type-architecture-delta.md) |
+| Where tasks, replicas, and ports physically run | [Deployment](type-deployment.md) |
+| Event or analytics pipeline over time | [Data flow](type-data-flow.md) / [Process](type-process.md) |
+
+**AWS anti-patterns:**
+- A regional managed service drawn inside a subnet (the S3 bucket in the private subnet).
+- Multi-AZ in the sublabel, one AZ in the drawing.
+- A NAT gateway or internet-facing ALB in a private subnet.
+- Every service in the account on the page. Draw what the flow touches.
+- Region or AZ containers without identifiers, or a CIDR overlap between peered VPCs.
+- Generic monochrome "cloud" marks or category icons where the service is known.
+
+The repository's [`docs/samples/`](../../../docs/samples/) (serverless web app, VPC three-tier, multi-region network) and `assets/example-architecture-containment.html` are worked AWS references.
+
 ## Anti-patterns
 - Every box in coral ("this is important too") — hierarchy collapses.
 - Bidirectional arrow when one direction is obvious from context.

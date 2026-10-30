@@ -84,7 +84,7 @@
       <text x="336" y="120" fill="#687078" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.14em">APPLICATION TIER</text>
 
       <rect x="320" y="368" width="560" height="112" rx="8" fill="none" stroke="rgba(35,47,62,0.12)" stroke-width="1"/>
-      <text x="336" y="392" fill="#687078" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.14em">DATA</text>
+      <text x="336" y="384" fill="#687078" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.14em">DATA</text>
 
       <!-- Connectors (drawn before boxes) -->
       <!-- Web App -> API Gateway -->
@@ -99,8 +99,8 @@
       <path d="M680,280 V320 A8,8 0 0 1 672,328 H432 A8,8 0 0 0 424,336 V392" fill="none" stroke="#545b64" stroke-width="1.2" marker-end="url(#arrow)"/>
       <!-- Orders Lambda -> S3 (async) -->
       <path d="M760,280 V344 A8,8 0 0 1 752,352 H616 A8,8 0 0 0 608,360 V392" fill="none" stroke="#545b64" stroke-width="1.2" stroke-dasharray="5,4" marker-end="url(#arrow)"/>
-      <!-- Cognito -> ElastiCache (async) -->
-      <path d="M840,156 H848 A8,8 0 0 1 856,164 V392" fill="none" stroke="#545b64" stroke-width="1.2" stroke-dasharray="5,4" marker-end="url(#arrow)"/>
+      <!-- Orders Lambda -> ElastiCache -->
+      <path d="M840,252 H848 A8,8 0 0 1 856,260 V392" fill="none" stroke="#545b64" stroke-width="1.2" marker-end="url(#arrow)"/>
 
       <!-- Arrow labels -->
       <rect x="228" y="144" width="44" height="12" rx="2" fill="#ffffff"/>
@@ -115,14 +115,14 @@
       <rect x="568" y="212" width="44" height="12" rx="2" fill="#ffffff"/>
       <text x="590" y="221" fill="#687078" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">INVOKE</text>
 
-      <rect x="536" y="308" width="32" height="12" rx="2" fill="#ffffff"/>
-      <text x="552" y="317" fill="#687078" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">SQL</text>
+      <rect x="536" y="334" width="32" height="12" rx="2" fill="#ffffff"/>
+      <text x="552" y="343" fill="#687078" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">SQL</text>
 
       <rect x="768" y="326" width="56" height="12" rx="2" fill="#ffffff"/>
       <text x="796" y="335" fill="#687078" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">ARCHIVE</text>
 
-      <rect x="792" y="196" width="56" height="12" rx="2" fill="#ffffff"/>
-      <text x="820" y="205" fill="#687078" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">CACHE</text>
+      <rect x="864" y="336" width="44" height="12" rx="2" fill="#ffffff"/>
+      <text x="886" y="345" fill="#687078" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">CACHE</text>
 
       <!-- Nodes: Edge -->
       <rect x="60" y="136" width="160" height="56" rx="6" fill="#ffffff"/>

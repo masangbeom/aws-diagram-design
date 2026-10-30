@@ -405,3 +405,9 @@ When this gets unwieldy:
 - `assets/example-dp-integration.html` — minimal light (AppFlow/DMS/Kinesis sources → S3 + Athena core → Quick Suite/SageMaker AI/API Gateway consumers; footers IAM Identity Center and CloudWatch). Gallery default.
 - `assets/example-dp-integration-dark.html` — same, dark skin.
 - `assets/example-dp-integration-full.html` — same, editorial-card frame.
+
+## On AWS
+
+- **Sources** (left): on-premises or SaaS systems reached through AWS DMS, Amazon AppFlow, Kinesis, or Transfer Family. **Core** (center zone): the AWS data platform: Amazon S3 lake with the Glue Data Catalog and Lake Formation, Athena, Redshift, EMR, Glue. **Consumers** (right): Amazon Quick Sight, SageMaker AI, API Gateway or AppSync data APIs, partner accounts through AWS Data Exchange or Lake Formation sharing.
+- Footer bars carry the cross-cutting AWS services: IAM Identity Center or IAM for identity, CloudWatch and CloudTrail for observability, KMS for encryption.
+- The orchestration bar is Amazon MWAA, Step Functions, or EventBridge Scheduler.

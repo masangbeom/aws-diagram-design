@@ -106,10 +106,7 @@ The silhouette verifier accepts signed decimal and scientific-notation coordinat
 - `assets/example-exploded.html`: three-tier app on AWS, minimal light
 - `assets/example-exploded-dark.html`: three-tier app on AWS, minimal dark
 - `assets/example-exploded-full.html`: three-tier app on AWS, full editorial
-- `assets/example-exploded-phone.html`, `-dark`, `-full`: AWS Snowball Edge teardown with a rugged case, a compute board and storage module on one level, and an E Ink shipping-label display
 - `assets/example-exploded-unboxing.html`, `-dark`, `-full`: an AWS IoT Greengrass edge gateway unboxed: a telescoping lid, the gateway and cable on one level, an insert, and a box
 - `assets/example-exploded-ai-stack.html`, `-dark`, `-full`: a Bedrock agent stack: AgentCore Identity, AgentCore Gateway tools, Knowledge Bases on S3 Vectors as small cards on one layer, AgentCore Runtime around the model, and the interface
-- `assets/example-exploded-keyboard.html`, `-dark`, `-full`: a top-loading storage sled with a sled tray, backplane, drive cage, a grid of hard drives, and a grid of drive latches
-- `assets/example-exploded-phone-animated.html`: the Snowball Edge assembled, then exploded once
 - `assets/example-exploded-unboxing-animated.html`: the gateway box closed, then unpacked once
-- `assets/example-exploded-ai-stack-animated.html`, `assets/example-exploded-keyboard-animated.html`: the agent stack and the storage sled assembled, then exploded once
+- `assets/example-exploded-ai-stack-animated.html`: the agent stack assembled, then exploded once

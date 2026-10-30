@@ -33,10 +33,10 @@
 <body>
   <div class="frame">
     <p class="eyebrow">Heatmap · AWS Diagram Design</p>
-    <h1>The week payments went dark</h1>
+    <h1>The sprint payments went dark</h1>
 
     <svg viewBox="0 0 1000 500" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="heatmap-dark-title heatmap-dark-desc">
-      <title id="heatmap-dark-title">The week payments went dark</title>
+      <title id="heatmap-dark-title">The sprint payments went dark</title>
       <desc id="heatmap-dark-desc">Heatmap of AWS CodeBuild failure rate by service and sprint; payments service spiked to 47% in sprint 4 due to a deploy regression, recovered to 4% by sprint 6; billing carries the highest baseline failure rate at 9% in sprint 3.</desc>
       <defs>
         <pattern id="dots" width="22" height="22" patternUnits="userSpaceOnUse">
@@ -86,7 +86,7 @@
 
       <rect x="400" y="64" width="116" height="56" fill="#161e2d"/>
       <rect data-row="auth" data-col="S3" data-value="6" x="400" y="64" width="116" height="56" fill="rgba(255,255,255,0.43)"/>
-      <text x="458" y="96" fill="#161e2d" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">6%</text>
+      <text x="458" y="96" fill="#ffffff" font-weight="600" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">6%</text>
 
       <rect x="520" y="64" width="116" height="56" fill="#161e2d"/>
       <rect data-row="auth" data-col="S4" data-value="3" x="520" y="64" width="116" height="56" fill="rgba(255,255,255,0.22)"/>
@@ -121,7 +121,7 @@
 
       <rect x="640" y="124" width="116" height="56" fill="#161e2d"/>
       <rect data-row="payments" data-col="S5" data-value="6" x="640" y="124" width="116" height="56" fill="rgba(255,255,255,0.43)"/>
-      <text x="698" y="156" fill="#161e2d" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">6%</text>
+      <text x="698" y="156" fill="#ffffff" font-weight="600" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">6%</text>
 
       <rect x="760" y="124" width="116" height="56" fill="#161e2d"/>
       <rect data-row="payments" data-col="S6" data-value="4" x="760" y="124" width="116" height="56" fill="rgba(255,255,255,0.29)"/>
@@ -159,15 +159,15 @@
 
       <rect x="280" y="244" width="116" height="56" fill="#161e2d"/>
       <rect data-row="billing" data-col="S2" data-value="7" x="280" y="244" width="116" height="56" fill="rgba(255,255,255,0.51)"/>
-      <text x="338" y="276" fill="#161e2d" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">7%</text>
+      <text x="338" y="276" fill="#0b0f17" font-weight="600" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">7%</text>
 
       <rect x="400" y="244" width="116" height="56" fill="#161e2d"/>
       <rect data-row="billing" data-col="S3" data-value="9" x="400" y="244" width="116" height="56" fill="rgba(255,255,255,0.65)"/>
-      <text x="458" y="276" fill="#161e2d" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">9%</text>
+      <text x="458" y="276" fill="#0b0f17" font-weight="600" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">9%</text>
 
       <rect x="520" y="244" width="116" height="56" fill="#161e2d"/>
       <rect data-row="billing" data-col="S4" data-value="6" x="520" y="244" width="116" height="56" fill="rgba(255,255,255,0.43)"/>
-      <text x="578" y="276" fill="#161e2d" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">6%</text>
+      <text x="578" y="276" fill="#ffffff" font-weight="600" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">6%</text>
 
       <rect x="640" y="244" width="116" height="56" fill="#161e2d"/>
       <rect data-row="billing" data-col="S5" data-value="4" x="640" y="244" width="116" height="56" fill="rgba(255,255,255,0.29)"/>
@@ -201,6 +201,10 @@
       <rect x="760" y="304" width="116" height="56" fill="#161e2d"/>
       <rect data-row="notifications" data-col="S6" data-value="1" x="760" y="304" width="116" height="56" fill="rgba(255,255,255,0.07)"/>
       <text x="818" y="336" fill="#ffffff" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">1%</text>
+
+      <!-- Annotation: callout for billing row high baseline -->
+      <line x1="880" y1="244" x2="880" y2="300" stroke="rgba(255,255,255,0.30)" stroke-width="1" stroke-dasharray="3,2"/>
+      <text x="884" y="272" fill="#b6bec9" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.04em">HIGH BASELINE</text>
 
       <!-- Legend -->
       <line x1="40" y1="382" x2="960" y2="382" stroke="rgba(255,255,255,0.10)" stroke-width="0.8"/>

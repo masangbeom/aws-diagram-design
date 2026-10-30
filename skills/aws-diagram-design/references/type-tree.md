@@ -11,6 +11,11 @@
 - Coral on **one** node: root OR critical leaf. Not both.
 - Draw connectors before nodes.
 
+## On AWS
+
+- **AWS Organizations** is a tree: the organization root, OUs (`Security`, `Infrastructure`, `Workloads`), and accounts as leaves (`log-archive`, `audit`, `prod-commerce`). Put the Organizations icon on the root only; OUs and accounts are text nodes with the account ID suffix in the sublabel.
+- Attached SCPs belong in a sublabel or callout; if inheritance of policies is the story, use [type-nested.md](type-nested.md) instead.
+
 ## Anti-patterns
 - Tree 5+ levels deep on a single page (illegible — split).
 - Nodes of wildly varying widths — pick 2 widths max.

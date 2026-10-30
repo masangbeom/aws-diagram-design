@@ -9,6 +9,10 @@
 - Major milestones: `accent` circle (`r=6`) + bold `node-name`-role label.
 - Time scale must be honest: if intervals are non-equal, space the circles non-equally. Don't fake linear spacing for aesthetics. Break the axis visibly if a region is too dense.
 
+## On AWS
+
+- AWS migration programs read well on a timeline: Assess → Mobilize → Migrate and Modernize (the MAP phases), landing-zone go-live, migration waves (AWS MGN), database cutovers (AWS DMS). Event labels name the tool in the sublabel; milestones that are AWS launches or cutovers may carry the service icon.
+
 ## Anti-patterns
 - Equal-spacing events that aren't equally spaced in time.
 - Missing axis labels ("what unit is this?").

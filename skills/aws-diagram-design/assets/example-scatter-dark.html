@@ -14,7 +14,7 @@
 </style>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root { --color-paper:#ffffff; --color-ink:#161e2d; --color-muted:#545b64; --color-accent:#ec7211; --font-sans:'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif; --font-serif:'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif; --font-mono:'Amazon Ember Mono', ui-monospace, monospace; }
+    :root { --color-paper:#161e2d; --color-ink:#ffffff; --color-muted:#b6bec9; --color-accent:#ff9900; --font-sans:'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif; --font-serif:'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif; --font-mono:'Amazon Ember Mono', ui-monospace, monospace; }
     body { font-family: var(--font-sans); background: var(--color-paper); color: var(--color-ink); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 3rem 2rem; }
     .frame { max-width: 1200px; width: 100%; }
     .eyebrow { font-family: var(--font-mono); font-size: 0.66rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--color-muted); margin-bottom: 0.5rem; }
@@ -38,12 +38,12 @@
         </pattern>
       </defs>
 
-      <rect width="100%" height="100%" fill="#ffffff"/>
+      <rect width="100%" height="100%" fill="#161e2d"/>
       <rect width="100%" height="100%" fill="url(#dots)" opacity="0.55"/>
 
       <!-- Axis labels -->
       <text transform="rotate(-90 24 230)" x="24" y="230" fill="#b6bec9" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.14em" text-anchor="middle">COST PER 1M REQUESTS ($)</text>
-      <text x="520" y="492" fill="#b6bec9" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.14em" text-anchor="middle">THROUGHPUT, K RPS</text>
+      <text x="520" y="456" fill="#b6bec9" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.14em" text-anchor="middle">THROUGHPUT, K RPS</text>
 
       <!-- Gridlines -->
       <!-- Horizontal (constant lead time) -->
@@ -83,48 +83,48 @@
       <!-- (freq, lt) → (x=80+44*f, y=420-380*lt/24) -->
       <!-- (2,20)→(168,103), (4,18)→(256,135), (4,16)→(256,167), (6,14)→(344,198) -->
       <!-- (8,12)→(432,230), (8,10)→(432,262), (10,8)→(520,293), (12,6)→(608,325) -->
-      <!-- (12,10)→(608,262), (16,4)→(784,357), (18,3)→(872,372) FOCAL, (20,2)→(960,388) -->
+      <!-- (12,10)→(608,262), (16,4)→(784,357), (18,3)→(872,372), (20,2)→(960,388) FOCAL -->
 
-      <circle cx="168" cy="103" r="5" fill="#ffffff"/>
+      <circle cx="168" cy="103" r="5" fill="#161e2d"/>
       <circle cx="168" cy="103" r="5" fill="rgba(182,190,201,0.20)" stroke="#b6bec9" stroke-width="1"/>
 
-      <circle cx="256" cy="135" r="5" fill="#ffffff"/>
+      <circle cx="256" cy="135" r="5" fill="#161e2d"/>
       <circle cx="256" cy="135" r="5" fill="rgba(182,190,201,0.20)" stroke="#b6bec9" stroke-width="1"/>
 
-      <circle cx="256" cy="167" r="5" fill="#ffffff"/>
+      <circle cx="256" cy="167" r="5" fill="#161e2d"/>
       <circle cx="256" cy="167" r="5" fill="rgba(182,190,201,0.20)" stroke="#b6bec9" stroke-width="1"/>
 
-      <circle cx="344" cy="198" r="5" fill="#ffffff"/>
+      <circle cx="344" cy="198" r="5" fill="#161e2d"/>
       <circle cx="344" cy="198" r="5" fill="rgba(182,190,201,0.20)" stroke="#b6bec9" stroke-width="1"/>
 
-      <circle cx="432" cy="230" r="5" fill="#ffffff"/>
+      <circle cx="432" cy="230" r="5" fill="#161e2d"/>
       <circle cx="432" cy="230" r="5" fill="rgba(182,190,201,0.20)" stroke="#b6bec9" stroke-width="1"/>
 
-      <circle cx="432" cy="262" r="5" fill="#ffffff"/>
+      <circle cx="432" cy="262" r="5" fill="#161e2d"/>
       <circle cx="432" cy="262" r="5" fill="rgba(182,190,201,0.20)" stroke="#b6bec9" stroke-width="1"/>
 
-      <circle cx="520" cy="293" r="5" fill="#ffffff"/>
+      <circle cx="520" cy="293" r="5" fill="#161e2d"/>
       <circle cx="520" cy="293" r="5" fill="rgba(182,190,201,0.20)" stroke="#b6bec9" stroke-width="1"/>
 
-      <circle cx="608" cy="325" r="5" fill="#ffffff"/>
+      <circle cx="608" cy="325" r="5" fill="#161e2d"/>
       <circle cx="608" cy="325" r="5" fill="rgba(182,190,201,0.20)" stroke="#b6bec9" stroke-width="1"/>
 
-      <circle cx="608" cy="262" r="5" fill="#ffffff"/>
+      <circle cx="608" cy="262" r="5" fill="#161e2d"/>
       <circle cx="608" cy="262" r="5" fill="rgba(182,190,201,0.20)" stroke="#b6bec9" stroke-width="1"/>
 
-      <circle cx="784" cy="357" r="5" fill="#ffffff"/>
+      <circle cx="784" cy="357" r="5" fill="#161e2d"/>
       <circle cx="784" cy="357" r="5" fill="rgba(182,190,201,0.20)" stroke="#b6bec9" stroke-width="1"/>
 
-      <circle cx="960" cy="388" r="5" fill="#ffffff"/>
-      <circle cx="960" cy="388" r="5" fill="rgba(182,190,201,0.20)" stroke="#b6bec9" stroke-width="1"/>
+      <circle cx="872" cy="372" r="5" fill="#161e2d"/>
+      <circle cx="872" cy="372" r="5" fill="rgba(182,190,201,0.20)" stroke="#b6bec9" stroke-width="1"/>
 
-      <!-- FOCAL: Platform team (18,3) → (872,372) -->
-      <circle cx="872" cy="372" r="6" fill="#ffffff"/>
-      <circle cx="872" cy="372" r="6" fill="rgba(255,153,0,0.18)" stroke="#ff9900" stroke-width="1.2"/>
+      <!-- FOCAL: Checkout (20,2) → (960,388) -->
+      <circle cx="960" cy="388" r="6" fill="#161e2d"/>
+      <circle cx="960" cy="388" r="6" fill="rgba(255,153,0,0.18)" stroke="#ff9900" stroke-width="1.2"/>
 
       <!-- Focal label -->
-      <rect x="798" y="348" width="64" height="12" rx="2" fill="#ffffff"/>
-      <text x="830" y="357" fill="#ff9900" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">CHECKOUT</text>
+      <rect x="896" y="398" width="64" height="12" rx="2" fill="#161e2d"/>
+      <text x="928" y="407" fill="#ff9900" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">CHECKOUT</text>
 
       <!-- Quadrant guides (optional) -->
       <text x="88"  y="56"  fill="rgba(255,255,255,0.22)" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace">HIGH UNIT COST</text>

@@ -201,14 +201,14 @@
         <h1>SQS Fan-in &amp; Lambda Bottleneck</h1>
       </div>
       <p class="lede">
-        Four producers converge on an Amazon SQS queue with a 5-message backlog budget before a concurrency-capped AWS Lambda worker pool drains it.
+        Four producers converge on an Amazon SQS queue. A CloudWatch alarm fires at 5 visible messages, a concurrency-capped AWS Lambda worker pool drains the backlog, and messages that keep failing move to a dead-letter queue.
       </p>
     </header>
 
     <div class="diagram-wrap">
       <svg role="img" aria-labelledby="queue-animated-title queue-animated-desc" viewBox="0 0 1160 620" xmlns="http://www.w3.org/2000/svg" data-motion-primitive="fan-in-queue">
         <title id="queue-animated-title">SQS fan-in queue and Lambda worker bottleneck</title>
-        <desc id="queue-animated-desc">Interactive step-by-step demonstration of four producers fanning in to an Amazon SQS queue, overflow shed to a dead-letter queue, and an AWS Lambda worker pool with reserved concurrency writing to Amazon DynamoDB.</desc>
+        <desc id="queue-animated-desc">Interactive step-by-step demonstration of four producers fanning in to an Amazon SQS queue with a CloudWatch backlog alarm, a dead-letter queue that receives messages after maxReceiveCount failed receives, and an AWS Lambda worker pool with reserved concurrency writing to Amazon DynamoDB.</desc>
         <rect width="1160" height="620" fill="#ffffff"/>
         <defs>
           <marker id="arrow-ink" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
@@ -253,7 +253,7 @@
         <rect x="340" y="150" width="370" height="320" rx="8" fill="#f2f3f3" stroke="rgba(35,47,62,0.12)" stroke-width="1" />
         <g transform="translate(686,154) scale(0.25)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g fill="#E7157B"> <rect x="0" y="0" width="64" height="64"></rect> </g> <path d="M23.8465384,35.5138695 L25.8460385,32.5644909 C26.0709823,32.2326117 26.071982,31.7999835 25.848038,31.4681044 L23.8485379,28.492057 L22.1829543,29.5835048 L23.1427143,31.0127583 L20.0164959,31.0127583 L20.0164959,32.9882295 L23.1517121,32.9882295 L22.1849538,34.4145197 L23.8465384,35.5138695 Z M41.8430392,35.511894 L43.8425394,32.5476994 C44.0664834,32.2158202 44.0664834,31.7841798 43.8425394,31.4523006 L41.8430392,28.4900815 L40.1794551,29.5854803 L41.1432142,31.013746 L38.011997,31.013746 L38.011997,32.9892172 L41.1422144,32.9892172 L40.1794551,34.4164952 L41.8430392,35.511894 Z M28.4943764,32.0004939 C28.4943764,33.4850605 28.2624344,34.895547 27.8265434,36.1539221 C29.1372157,35.7183307 30.575856,35.5000412 32.0154961,35.5000412 C33.4541365,35.5000412 34.8937766,35.7183307 36.2034491,36.1539221 C35.7685579,34.895547 35.5356161,33.4850605 35.5356161,32.0004939 C35.5356161,30.516915 35.7685579,29.1064285 36.2034491,27.8480533 C33.5831042,28.7202239 30.447888,28.7202239 27.8265434,27.8480533 C28.2624344,29.1064285 28.4943764,30.516915 28.4943764,32.0004939 L28.4943764,32.0004939 Z M24.3034241,39.6198864 C24.1084729,39.427278 24.0104974,39.1744176 24.0104974,38.9215573 C24.0104974,38.668697 24.1084729,38.4158367 24.3034241,38.2232282 C25.676081,36.8670672 26.4948763,34.5409499 26.4948763,32.0004939 C26.4948763,29.4610256 25.676081,27.1349082 24.3034241,25.7787472 C24.1084729,25.5861388 24.0104974,25.3332785 24.0104974,25.0804181 C24.0104974,24.8275578 24.1084729,24.5746975 24.3034241,24.3820891 C24.6943264,23.9958844 25.3261685,23.9958844 25.7170707,24.3820891 C28.6593352,27.288995 35.3706573,27.288995 38.3139215,24.3820891 C38.703824,23.9958844 39.3366658,23.9958844 39.7275681,24.3820891 C39.9225194,24.5746975 40.0204949,24.8275578 40.0204949,25.0804181 C40.0204949,25.3332785 39.9225194,25.5861388 39.7275681,25.7787472 C38.3549113,27.1349082 37.5351162,29.4610256 37.5351162,32.0004939 C37.5351162,34.5409499 38.3549113,36.8670672 39.7275681,38.2232282 C39.9225194,38.4158367 40.0204949,38.668697 40.0204949,38.9215573 C40.0204949,39.1744176 39.9225194,39.427278 39.7275681,39.6198864 C39.5316171,39.8134826 39.2766808,39.9092929 39.0207448,39.9092929 C38.7648088,39.9092929 38.5088728,39.8134826 38.3139215,39.6198864 C35.3706573,36.7129805 28.6593352,36.7129805 25.7170707,39.6198864 C25.3261685,40.006091 24.6943264,40.006091 24.3034241,39.6198864 L24.3034241,39.6198864 Z M51.2726818,30.2630669 C50.8017996,29.7968557 50.1749563,29.5410322 49.5091227,29.5410322 C48.8432892,29.5410322 48.2164459,29.7968557 47.7455636,30.2630669 C47.2746813,30.7282904 47.0147463,31.3466129 47.0147463,32.0044448 C47.0147463,32.6632645 47.2746813,33.281587 47.7455636,33.7468104 C48.7183204,34.7078772 50.299925,34.7078772 51.2726818,33.7468104 C52.2444389,32.7867314 52.2444389,31.2231459 51.2726818,30.2630669 L51.2726818,30.2630669 Z M52.6863284,35.1434686 C51.8105474,36.008725 50.6588353,36.4423409 49.5091227,36.4423409 C48.3594101,36.4423409 47.2076981,36.008725 46.331917,35.1434686 C45.4831292,34.3058688 45.0152462,33.1907153 45.0152462,32.0044448 C45.0152462,30.8191621 45.4831292,29.7040086 46.331917,28.865421 C47.1807048,28.0268335 48.3094226,27.565561 49.5091227,27.565561 C50.7088228,27.565561 51.8375406,28.0268335 52.6863284,28.8664088 C54.4378905,30.5959338 54.4378905,33.4129558 52.6863284,35.1434686 L52.6863284,35.1434686 Z M16.2544364,30.2798584 C15.7845539,29.8146349 15.1577106,29.5588114 14.491877,29.5588114 C13.8250437,29.5588114 13.1992002,29.8146349 12.7273182,30.2798584 C11.7555611,31.2409252 11.7555611,32.8035229 12.7273182,33.7645897 C13.6690827,34.6940489 15.3126718,34.6950366 16.2544364,33.7645897 C17.2261935,32.8035229 17.2261935,31.2409252 16.2544364,30.2798584 L16.2544364,30.2798584 Z M17.668083,35.1612478 C16.8202949,35.9998354 15.6915771,36.4611079 14.491877,36.4611079 C13.2901775,36.4611079 12.1624594,35.9998354 11.3136716,35.1612478 C9.56210947,33.430735 9.56210947,30.6147008 11.3136716,28.8832003 C12.1624594,28.0446127 13.2901775,27.5833402 14.491877,27.5833402 C15.6915771,27.5833402 16.8202949,28.0446127 17.668083,28.8832003 C19.4196451,30.6147008 19.4196451,33.430735 17.668083,35.1612478 L17.668083,35.1612478 Z M43.4306423,43.3357478 C37.1022244,49.589102 26.8037991,49.589102 20.4753812,43.3357478 C18.8407898,41.7217878 17.824044,40.0614042 16.9622594,37.603918 L15.0727318,38.2508848 C16.0404899,41.0125936 17.1972007,42.8912668 19.0617346,44.732406 C22.615846,48.2447938 27.2836791,50 31.9525119,50 C36.6213447,50 41.2901775,48.2447938 44.8442889,44.732406 C46.8327918,42.7677998 48.0634841,40.8278871 48.9552612,38.2469339 L47.0637341,37.607869 C46.275931,39.8855873 45.1902024,41.5983208 43.4306423,43.3357478 L43.4306423,43.3357478 Z M16.9612597,26.3990452 L15.0737316,25.7501029 C16.0334916,23.0219771 17.2271932,21.0830521 19.0667333,19.2656186 C26.171957,12.2447938 37.7340665,12.2447938 44.8392902,19.2656186 C46.7818045,21.1847889 48.0504874,23.1849535 48.9532617,25.7501029 L47.0657336,26.3990452 C46.255936,24.0986089 45.1672082,22.3829122 43.4256436,20.6622767 C37.0992252,14.4128735 26.8067983,14.4128735 20.4803799,20.6622767 C18.8467883,22.2762367 17.8270432,23.9385958 16.9612597,26.3990452 L16.9612597,26.3990452 Z" fill="#FFFFFF"></path> </g></g>
         <text x="360" y="182" fill="#232f3e" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="14" font-weight="600">Amazon SQS Order Queue</text>
-        <text x="360" y="200" fill="#545b64" font-family="'Amazon Ember Mono', ui-monospace, monospace" font-size="11">Backlog budget: 5 msgs (FIFO)</text>
+        <text x="360" y="200" fill="#545b64" font-family="'Amazon Ember Mono', ui-monospace, monospace" font-size="11">CloudWatch alarm: visible msgs ≥ 5</text>
 
         <!-- STEP 1: Ingress Traffic Arrives (Slots 1 & 2 + Initial 2/5 Queue Depth Badge) -->
         <g data-motion-item data-step="1" aria-label="Step 1: ECS checkout and API Gateway send steady traffic (7 msg/sec total) into SQS slots 1 and 2">
@@ -271,14 +271,14 @@
 
           <!-- Single Unified Queue Status Badge for Step 1 (DEPTH 2/5 - Spans full height of 5 slots) -->
           <g class="queue-depth-step1">
-            <rect x="635" y="216" width="60" height="212" rx="4" fill="#ffffff" stroke="rgba(35,47,62,0.12)" stroke-width="1" />
+            <rect x="635" y="216" width="60" height="212" rx="4" fill="#ffffff" stroke="rgba(35,47,62,0.55)" stroke-width="1" />
             <text x="665" y="300" text-anchor="middle" fill="#545b64" font-family="'Amazon Ember Mono', ui-monospace, monospace" font-size="10">DEPTH</text>
             <text x="665" y="330" text-anchor="middle" fill="#232f3e" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="22" font-weight="600">2/5</text>
           </g>
         </g>
 
-        <!-- STEP 2: Ingress Spike Fills Queue (Slots 3, 4, 5 + Updated 5/5 Full Warn Queue Depth Badge) -->
-        <g data-motion-item data-step="2" aria-label="Step 2: EventBridge and ERP traffic spike (20 msg/sec total) fills the SQS backlog to 5/5">
+        <!-- STEP 2: Ingress Spike Trips Backlog Alarm (Slots 3, 4, 5 + Updated 5/5 Alarm Queue Depth Badge) -->
+        <g data-motion-item data-step="2" aria-label="Step 2: EventBridge and ERP traffic spike (20 msg/sec total) pushes visible messages to 5 and trips the CloudWatch backlog alarm">
           <!-- Ingress Flow Arrows 3 & 4 -->
           <path d="M 260 332 H 340" fill="none" stroke="#ec7211" stroke-width="2" marker-end="url(#arrow-accent)" />
           <path d="M 260 432 H 292 Q 300 432 300 424 V 374 Q 300 366 308 366 H 340" fill="none" stroke="#ec7211" stroke-width="2" marker-end="url(#arrow-accent)" />
@@ -288,34 +288,34 @@
           <text x="372" y="327" fill="#232f3e" font-family="'Amazon Ember Mono', ui-monospace, monospace" font-size="10.5">Slot 3: msg_evb_9920 [PaymentEvent]</text>
 
           <!-- Queue Slot 4 -->
-          <rect x="360" y="348" width="265" height="36" rx="4" fill="rgba(236,114,17,0.08)" stroke="#ec7211" stroke-width="1.5" />
+          <rect x="360" y="348" width="265" height="36" rx="4" fill="rgba(236,114,17,0.18)" stroke="#ec7211" stroke-width="1.5" />
           <text x="372" y="371" fill="#232f3e" font-family="'Amazon Ember Mono', ui-monospace, monospace" font-size="10.5" font-weight="600">Slot 4: msg_erp_1044 [BATCH]</text>
 
           <!-- Queue Slot 5 -->
-          <rect x="360" y="392" width="265" height="36" rx="4" fill="rgba(236,114,17,0.08)" stroke="#ec7211" stroke-width="1.5" />
-          <text x="372" y="415" fill="#232f3e" font-family="'Amazon Ember Mono', ui-monospace, monospace" font-size="10.5" font-weight="600">Slot 5: msg_erp_1045 [FULL]</text>
+          <rect x="360" y="392" width="265" height="36" rx="4" fill="rgba(236,114,17,0.18)" stroke="#ec7211" stroke-width="1.5" />
+          <text x="372" y="415" fill="#232f3e" font-family="'Amazon Ember Mono', ui-monospace, monospace" font-size="10.5" font-weight="600">Slot 5: msg_erp_1045 [BATCH]</text>
 
-          <!-- Single Unified Queue Status Badge for Step 2+ (FULL 5/5 WARN - Replaces 2/5 badge seamlessly) -->
-          <rect x="635" y="216" width="60" height="212" rx="4" fill="rgba(236,114,17,0.08)" stroke="#ec7211" stroke-width="1.5" />
-          <text x="665" y="290" text-anchor="middle" fill="#232f3e" font-family="'Amazon Ember Mono', ui-monospace, monospace" font-size="10" font-weight="600">FULL</text>
+          <!-- Single Unified Queue Status Badge for Step 2+ (VISIBLE 5/5 ALARM - Replaces 2/5 badge seamlessly) -->
+          <rect x="635" y="216" width="60" height="212" rx="4" fill="rgba(236,114,17,0.18)" stroke="#ec7211" stroke-width="1.5" />
+          <text x="665" y="290" text-anchor="middle" fill="#232f3e" font-family="'Amazon Ember Mono', ui-monospace, monospace" font-size="10" font-weight="600">VISIBLE</text>
           <text x="665" y="325" text-anchor="middle" fill="#ec7211" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="24" font-weight="600">5/5</text>
-          <text x="665" y="355" text-anchor="middle" fill="#232f3e" font-family="'Amazon Ember Mono', ui-monospace, monospace" font-size="9.5" font-weight="600">WARN</text>
+          <text x="665" y="355" text-anchor="middle" fill="#232f3e" font-family="'Amazon Ember Mono', ui-monospace, monospace" font-size="9.5" font-weight="600">ALARM</text>
         </g>
 
-        <!-- STEP 3: Rate Limiter Diverts Excess Traffic (429 Dropped Sink) -->
-        <g data-motion-item data-step="3" aria-label="Step 3: Overflow activates, shedding excess 19 msg/sec to the SQS dead-letter queue">
-          <!-- Overflow Diverter Connector -->
+        <!-- STEP 3: Redrive Policy Moves Repeatedly Failed Messages to the DLQ -->
+        <g data-motion-item data-step="3" aria-label="Step 3: A redrive policy moves any message that fails 3 receives (maxReceiveCount) to the SQS dead-letter queue">
+          <!-- Redrive Connector -->
           <path d="M 525 150 V 100 Q 525 92 533 92 H 760" fill="none" stroke="#ec7211" stroke-width="2" stroke-dasharray="4 4" marker-end="url(#arrow-accent)" />
           
-          <!-- 429 Dropped Traffic Sink Node (Expanded to width 350px) -->
+          <!-- Dead-Letter Queue Node (Expanded to width 350px) -->
           <rect x="760" y="50" width="350" height="85" rx="6" fill="rgba(236,114,17,0.08)" stroke="#ec7211" stroke-width="1.5" />
           <g transform="translate(1086,54) scale(0.25)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g fill="#E7157B"> <rect x="0" y="0" width="64" height="64"></rect> </g> <path d="M23.8465384,35.5138695 L25.8460385,32.5644909 C26.0709823,32.2326117 26.071982,31.7999835 25.848038,31.4681044 L23.8485379,28.492057 L22.1829543,29.5835048 L23.1427143,31.0127583 L20.0164959,31.0127583 L20.0164959,32.9882295 L23.1517121,32.9882295 L22.1849538,34.4145197 L23.8465384,35.5138695 Z M41.8430392,35.511894 L43.8425394,32.5476994 C44.0664834,32.2158202 44.0664834,31.7841798 43.8425394,31.4523006 L41.8430392,28.4900815 L40.1794551,29.5854803 L41.1432142,31.013746 L38.011997,31.013746 L38.011997,32.9892172 L41.1422144,32.9892172 L40.1794551,34.4164952 L41.8430392,35.511894 Z M28.4943764,32.0004939 C28.4943764,33.4850605 28.2624344,34.895547 27.8265434,36.1539221 C29.1372157,35.7183307 30.575856,35.5000412 32.0154961,35.5000412 C33.4541365,35.5000412 34.8937766,35.7183307 36.2034491,36.1539221 C35.7685579,34.895547 35.5356161,33.4850605 35.5356161,32.0004939 C35.5356161,30.516915 35.7685579,29.1064285 36.2034491,27.8480533 C33.5831042,28.7202239 30.447888,28.7202239 27.8265434,27.8480533 C28.2624344,29.1064285 28.4943764,30.516915 28.4943764,32.0004939 L28.4943764,32.0004939 Z M24.3034241,39.6198864 C24.1084729,39.427278 24.0104974,39.1744176 24.0104974,38.9215573 C24.0104974,38.668697 24.1084729,38.4158367 24.3034241,38.2232282 C25.676081,36.8670672 26.4948763,34.5409499 26.4948763,32.0004939 C26.4948763,29.4610256 25.676081,27.1349082 24.3034241,25.7787472 C24.1084729,25.5861388 24.0104974,25.3332785 24.0104974,25.0804181 C24.0104974,24.8275578 24.1084729,24.5746975 24.3034241,24.3820891 C24.6943264,23.9958844 25.3261685,23.9958844 25.7170707,24.3820891 C28.6593352,27.288995 35.3706573,27.288995 38.3139215,24.3820891 C38.703824,23.9958844 39.3366658,23.9958844 39.7275681,24.3820891 C39.9225194,24.5746975 40.0204949,24.8275578 40.0204949,25.0804181 C40.0204949,25.3332785 39.9225194,25.5861388 39.7275681,25.7787472 C38.3549113,27.1349082 37.5351162,29.4610256 37.5351162,32.0004939 C37.5351162,34.5409499 38.3549113,36.8670672 39.7275681,38.2232282 C39.9225194,38.4158367 40.0204949,38.668697 40.0204949,38.9215573 C40.0204949,39.1744176 39.9225194,39.427278 39.7275681,39.6198864 C39.5316171,39.8134826 39.2766808,39.9092929 39.0207448,39.9092929 C38.7648088,39.9092929 38.5088728,39.8134826 38.3139215,39.6198864 C35.3706573,36.7129805 28.6593352,36.7129805 25.7170707,39.6198864 C25.3261685,40.006091 24.6943264,40.006091 24.3034241,39.6198864 L24.3034241,39.6198864 Z M51.2726818,30.2630669 C50.8017996,29.7968557 50.1749563,29.5410322 49.5091227,29.5410322 C48.8432892,29.5410322 48.2164459,29.7968557 47.7455636,30.2630669 C47.2746813,30.7282904 47.0147463,31.3466129 47.0147463,32.0044448 C47.0147463,32.6632645 47.2746813,33.281587 47.7455636,33.7468104 C48.7183204,34.7078772 50.299925,34.7078772 51.2726818,33.7468104 C52.2444389,32.7867314 52.2444389,31.2231459 51.2726818,30.2630669 L51.2726818,30.2630669 Z M52.6863284,35.1434686 C51.8105474,36.008725 50.6588353,36.4423409 49.5091227,36.4423409 C48.3594101,36.4423409 47.2076981,36.008725 46.331917,35.1434686 C45.4831292,34.3058688 45.0152462,33.1907153 45.0152462,32.0044448 C45.0152462,30.8191621 45.4831292,29.7040086 46.331917,28.865421 C47.1807048,28.0268335 48.3094226,27.565561 49.5091227,27.565561 C50.7088228,27.565561 51.8375406,28.0268335 52.6863284,28.8664088 C54.4378905,30.5959338 54.4378905,33.4129558 52.6863284,35.1434686 L52.6863284,35.1434686 Z M16.2544364,30.2798584 C15.7845539,29.8146349 15.1577106,29.5588114 14.491877,29.5588114 C13.8250437,29.5588114 13.1992002,29.8146349 12.7273182,30.2798584 C11.7555611,31.2409252 11.7555611,32.8035229 12.7273182,33.7645897 C13.6690827,34.6940489 15.3126718,34.6950366 16.2544364,33.7645897 C17.2261935,32.8035229 17.2261935,31.2409252 16.2544364,30.2798584 L16.2544364,30.2798584 Z M17.668083,35.1612478 C16.8202949,35.9998354 15.6915771,36.4611079 14.491877,36.4611079 C13.2901775,36.4611079 12.1624594,35.9998354 11.3136716,35.1612478 C9.56210947,33.430735 9.56210947,30.6147008 11.3136716,28.8832003 C12.1624594,28.0446127 13.2901775,27.5833402 14.491877,27.5833402 C15.6915771,27.5833402 16.8202949,28.0446127 17.668083,28.8832003 C19.4196451,30.6147008 19.4196451,33.430735 17.668083,35.1612478 L17.668083,35.1612478 Z M43.4306423,43.3357478 C37.1022244,49.589102 26.8037991,49.589102 20.4753812,43.3357478 C18.8407898,41.7217878 17.824044,40.0614042 16.9622594,37.603918 L15.0727318,38.2508848 C16.0404899,41.0125936 17.1972007,42.8912668 19.0617346,44.732406 C22.615846,48.2447938 27.2836791,50 31.9525119,50 C36.6213447,50 41.2901775,48.2447938 44.8442889,44.732406 C46.8327918,42.7677998 48.0634841,40.8278871 48.9552612,38.2469339 L47.0637341,37.607869 C46.275931,39.8855873 45.1902024,41.5983208 43.4306423,43.3357478 L43.4306423,43.3357478 Z M16.9612597,26.3990452 L15.0737316,25.7501029 C16.0334916,23.0219771 17.2271932,21.0830521 19.0667333,19.2656186 C26.171957,12.2447938 37.7340665,12.2447938 44.8392902,19.2656186 C46.7818045,21.1847889 48.0504874,23.1849535 48.9532617,25.7501029 L47.0657336,26.3990452 C46.255936,24.0986089 45.1672082,22.3829122 43.4256436,20.6622767 C37.0992252,14.4128735 26.8067983,14.4128735 20.4803799,20.6622767 C18.8467883,22.2762367 17.8270432,23.9385958 16.9612597,26.3990452 L16.9612597,26.3990452 Z" fill="#FFFFFF"></path> </g></g>
-          <text x="780" y="82" fill="#232f3e" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="14" font-weight="600">Overflow → SQS Dead-Letter Queue</text>
-          <text x="780" y="104" fill="#545b64" font-family="'Amazon Ember Mono', ui-monospace, monospace" font-size="11">Status: Parked for redrive (19 msg/sec shed)</text>
+          <text x="780" y="82" fill="#232f3e" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="14" font-weight="600">Order DLQ · Amazon SQS</text>
+          <text x="780" y="104" fill="#545b64" font-family="'Amazon Ember Mono', ui-monospace, monospace" font-size="11">Receives after maxReceiveCount = 3 fails</text>
         </g>
 
         <!-- STEP 4: Worker Service Processing & Downstream Output -->
-        <g data-motion-item data-step="4" aria-label="Step 4: Lambda worker pool drains the queue at 8 msg/sec max and writes to DynamoDB">
+        <g data-motion-item data-step="4" aria-label="Step 4: Lambda worker pool, capped at 8 concurrent executions, drains about 8 msg/sec and writes to DynamoDB">
           <!-- Worker Processing Connector -->
           <path d="M 710 280 H 760" fill="none" stroke="#232f3e" stroke-width="2" marker-end="url(#arrow-ink)" />
 
@@ -323,9 +323,10 @@
           <rect x="760" y="215" width="350" height="130" rx="6" fill="#ffffff" stroke="#232f3e" stroke-width="1.5" />
           <g transform="translate(1086,219) scale(0.25)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g fill="#ED7100"> <rect x="0" y="0" width="64" height="64"></rect> </g> <path d="M22.6794094,52 L13.5740701,52 L23.8376189,30.41 L28.3997494,39.861 L22.6794094,52 Z M24.7269406,27.667 C24.5606285,27.321 24.2120702,27.103 23.8306478,27.103 L23.8276601,27.103 C23.4452418,27.104 23.0966835,27.325 22.9323632,27.672 L11.0973143,52.569 C10.9499239,52.879 10.9708374,53.243 11.1540795,53.534 C11.3353298,53.824 11.6540117,54 11.9955989,54 L23.309802,54 C23.695208,54 24.0447622,53.777 24.2100784,53.428 L30.4044577,40.284 C30.5329264,40.01 30.5319305,39.692 30.3994783,39.42 L24.7269406,27.667 Z M51.0082382,52 L41.985557,52 L26.9547262,19.578 C26.7914017,19.226 26.4388599,19 26.0524581,19 L20.1279625,19 L20.1349337,12 L31.8146251,12 L46.7747483,44.42 C46.9380728,44.774 47.2906147,45 47.6790082,45 L51.0082382,45 L51.0082382,52 Z M52.0041191,43 L48.3143803,43 L33.354257,10.58 C33.1909326,10.226 32.8383907,10 32.450993,10 L19.1400486,10 C18.5913182,10 18.1451636,10.447 18.1441677,10.999 L18.1362006,19.999 C18.1362006,20.265 18.2407681,20.519 18.4269979,20.707 C18.6142235,20.895 18.8671772,21 19.1310857,21 L25.4170861,21 L40.4479168,53.422 C40.6112413,53.774 40.9627873,54 41.350185,54 L52.0041191,54 C52.5548412,54 53,53.552 53,53 L53,44 C53,43.448 52.5548412,43 52.0041191,43 L52.0041191,43 Z" fill="#FFFFFF"></path> </g></g>
           <text x="780" y="246" fill="#232f3e" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="14" font-weight="600">Lambda Worker Pool</text>
-          <text x="780" y="268" fill="#545b64" font-family="'Amazon Ember Mono', ui-monospace, monospace" font-size="11">Function: order-worker</text>
-          <text x="780" y="290" fill="#545b64" font-family="'Amazon Ember Mono', ui-monospace, monospace" font-size="11">Reserved concurrency: 8 msg/sec</text>
-          <text x="780" y="312" fill="#232f3e" font-family="'Amazon Ember Mono', ui-monospace, monospace" font-size="11" font-weight="600">Status: PROCESSING [FIFO]</text>
+          <text x="780" y="266" fill="#545b64" font-family="'Amazon Ember Mono', ui-monospace, monospace" font-size="11">Function: order-worker</text>
+          <text x="780" y="284" fill="#545b64" font-family="'Amazon Ember Mono', ui-monospace, monospace" font-size="11">Reserved concurrency: 8</text>
+          <text x="780" y="302" fill="#545b64" font-family="'Amazon Ember Mono', ui-monospace, monospace" font-size="11">Throughput: ≈8 msg/sec at 1 s each</text>
+          <text x="780" y="322" fill="#232f3e" font-family="'Amazon Ember Mono', ui-monospace, monospace" font-size="11" font-weight="600">Status: PROCESSING [FIFO]</text>
 
           <!-- 200 OK Downstream Connector -->
           <path d="M 935 345 L 935 410" fill="none" stroke="#232f3e" stroke-width="2" marker-end="url(#arrow-ink)" />
@@ -338,10 +339,10 @@
         </g>
 
         <!-- STEP 5: Equilibrium State & Performance Metrics Summary -->
-        <g data-motion-item data-step="5" aria-label="Step 5: System reaches controlled equilibrium, protecting the Lambda pool while excess messages wait in the DLQ">
+        <g data-motion-item data-step="5" aria-label="Step 5: The Lambda pool stays within its concurrency cap while the backlog waits in SQS and repeatedly failing messages sit in the DLQ">
           <rect x="340" y="490" width="370" height="64" rx="6" fill="#ffffff" stroke="#232f3e" stroke-width="1.5" />
           <text x="360" y="516" fill="#232f3e" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="13" font-weight="600">System State: Controlled Equilibrium</text>
-          <text x="360" y="536" fill="#545b64" font-family="'Amazon Ember Mono', ui-monospace, monospace" font-size="11">Lambda Protected · DLQ Absorbing Overflow</text>
+          <text x="360" y="536" fill="#545b64" font-family="'Amazon Ember Mono', ui-monospace, monospace" font-size="11">Lambda capped · backlog waits in SQS</text>
         </g>
 
         <!-- Precision SVG Legend Footer (Exact visual mini-arrows and mini-rects) -->
@@ -354,24 +355,24 @@
           <line x1="165" y1="584" x2="190" y2="584" stroke="#ec7211" stroke-width="2" marker-end="url(#arrow-accent)" />
           <text x="198" y="588" fill="#232f3e" font-family="'Amazon Ember Mono', ui-monospace, monospace" font-size="9.5">High Ingress</text>
 
-          <!-- Flow Line 3: 429 Backpressure -->
+          <!-- Flow Line 3: DLQ Redrive -->
           <line x1="285" y1="584" x2="310" y2="584" stroke="#ec7211" stroke-width="2" stroke-dasharray="3 3" marker-end="url(#arrow-accent)" />
-          <text x="318" y="588" fill="#232f3e" font-family="'Amazon Ember Mono', ui-monospace, monospace" font-size="9.5">DLQ Overflow</text>
+          <text x="318" y="588" fill="#232f3e" font-family="'Amazon Ember Mono', ui-monospace, monospace" font-size="9.5">DLQ Redrive</text>
 
           <!-- Box 1: Normal Slot -->
           <rect x="430" y="577" width="16" height="12" rx="2" fill="#ffffff" stroke="#232f3e" stroke-width="1.5" />
           <text x="452" y="588" fill="#232f3e" font-family="'Amazon Ember Mono', ui-monospace, monospace" font-size="9.5">Normal Slot</text>
 
-          <!-- Box 2: Capacity Warn Slot -->
+          <!-- Box 2: Spike Slot -->
           <rect x="540" y="577" width="16" height="12" rx="2" fill="#ffffff" stroke="#ec7211" stroke-width="1.5" />
-          <text x="562" y="588" fill="#232f3e" font-family="'Amazon Ember Mono', ui-monospace, monospace" font-size="9.5">Capacity Warn</text>
+          <text x="562" y="588" fill="#232f3e" font-family="'Amazon Ember Mono', ui-monospace, monospace" font-size="9.5">Spike Message</text>
 
-          <!-- Box 3: Overflown 429 Slot -->
-          <rect x="660" y="577" width="16" height="12" rx="2" fill="rgba(236,114,17,0.08)" stroke="#ec7211" stroke-width="1.5" />
-          <text x="682" y="588" fill="#232f3e" font-family="'Amazon Ember Mono', ui-monospace, monospace" font-size="9.5">Overflow (DLQ)</text>
+          <!-- Box 3: Alarm-State Slot -->
+          <rect x="660" y="577" width="16" height="12" rx="2" fill="rgba(236,114,17,0.18)" stroke="#ec7211" stroke-width="1.5" />
+          <text x="682" y="588" fill="#232f3e" font-family="'Amazon Ember Mono', ui-monospace, monospace" font-size="9.5">Alarm State</text>
 
           <!-- Box 4: Depth / Full Counter Badge -->
-          <rect x="790" y="577" width="16" height="12" rx="2" fill="#ffffff" stroke="rgba(35,47,62,0.25)" stroke-width="1" />
+          <rect x="790" y="577" width="16" height="12" rx="2" fill="#ffffff" stroke="rgba(35,47,62,0.55)" stroke-width="1" />
           <text x="812" y="588" fill="#232f3e" font-family="'Amazon Ember Mono', ui-monospace, monospace" font-size="9.5">Queue Depth Badge</text>
         </g>
       </svg>

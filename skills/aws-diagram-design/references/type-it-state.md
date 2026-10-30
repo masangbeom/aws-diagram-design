@@ -466,3 +466,7 @@ dark: false
 When the source row matches the destination row's y range (e.g., Survey at y=108 with Shared Drive at y=80–148), prefer **side-edge** entry — a single horizontal path with a fully visible arrow. When the source row is offset, detour through the destination's nearest zone background to enter a side edge rather than approaching a top/bottom edge from the wrong side.
 
 When footer bars are added (`N_footer > 0`), `viewBox_h` grows according to the canvas formula in §2 to accommodate the footer rows and custom colors.
+
+## On AWS
+
+- The current-state landscape is usually the *before* of an AWS migration. On-premises components carry no AWS icons; a component already on AWS does. Put each component's AWS target (`→ Aurora via DMS`, `→ EC2 via MGN`) in the `-full` summary cards or a callout, and pair the figure with an [Architecture delta](type-architecture-delta.md) or Architecture diagram of the target.

@@ -66,7 +66,7 @@ FOCAL_PATH = ('<path data-ridge="order-lambda" data-baseline="320" '
 PRIVATE_AMPLITUDE_D = ('d="M320,320 L350,316.4 L380,298.4 L410,258.8 L440,244.4 '
                        'L470,269.6 L500,291.2 L530,298.4 L560,294.8 L590,287.6 '
                        'L620,294.8 L650,305.6 L680,320 Z"')
-REPORT_RULE = ('<line data-ridge="athena-export" data-role="baseline" x1="320" y1="376" '
+REPORT_RULE = ('<line data-ridge="bedrock-embed" data-role="baseline" x1="320" y1="376" '
                'x2="680" y2="376" stroke="rgba(35,47,62,0.25)" stroke-width="1"/>')
 
 

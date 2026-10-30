@@ -14,6 +14,11 @@
 - Direction indicator on the LEFT margin (outside the stack): small up/down arrow + `eyebrow`-role label (`abstraction ↑`, `packets ↓`).
 - Coral on **one** focal layer (stroke + subtle tint fill) — the bottleneck, the pay-rent layer, the one under discussion.
 
+## On AWS
+
+- AWS stacks that read well as layers: the shared responsibility model (customer: data, IAM, OS, network config / AWS: hardware, Regions, managed services), a generative AI stack (applications → Amazon Bedrock AgentCore → Bedrock and knowledge bases → foundation models → Trainium / Inferentia / GPUs), or compute abstraction (Lambda → Fargate → ECS/EKS on EC2 → Nitro).
+- One icon per layer at most, on the layer's defining service.
+
 ## Anti-patterns
 - Layers that aren't actually hierarchical (use swimlane or architecture).
 - Skipped numbering (missing L4 between L3 and L5 without explanation).

@@ -123,6 +123,16 @@ The verifier enforces the declared structure, differential semantics, grid/bound
 
 It is **not** a browser renderer or a proof of the source system. Authors remain responsible for honest signatures, labels matching those signatures, readable shape/dash treatments, and an accurate migration story. Exotic CSS cascade/variable effects, clipping and occlusion, connector crossings, intermediate segment clearance, ledger placement, and screen-reader quality still require the normal skin, accessibility, geometry, and rendered-layout gates plus desktop/mobile visual review. Keep semantic geometry in the SVG attributes instead of making CSS part of the data model.
 
+## On AWS
+
+The usual AWS deltas are migrations and re-architecture: EC2 monolith → ECS on Fargate or Lambda; self-managed database → Amazon RDS or Aurora; cron host → EventBridge Scheduler; polling → SQS or EventBridge; on-premises → AWS (MGN rehost, DMS replatform).
+
+- Both panels use the AWS group containers and icon nodes from [type-architecture.md § On AWS](type-architecture.md#on-aws); keep the containers identical across panels so only the change reads.
+- A version or mode change of the same service (API Gateway REST → HTTP API, gp2 → gp3, x86 → Graviton) is **changed**, not removed-plus-added: identity survives.
+- Name the migration mechanism in the ledger row (`AWS DMS · CDC`, `AWS MGN · wave 1`, `blue/green via CodeDeploy`), not on the topology.
+- The delta grammar allows no transform except the two panel translations, so inline icons with `scripts/aws_icon.py <icon> X Y 16 --bake`, which writes them in plain canvas coordinates.
+- Managed-service placement rules ([primitive-aws-icons.md](primitive-aws-icons.md) § Placement) apply in both panels. A delta that moves a database out of a subnet into a managed service is the story; draw it honestly.
+
 ## Anti-patterns
 
 - Two independently arranged snapshots that manufacture apparent movement.
@@ -136,8 +146,8 @@ It is **not** a browser renderer or a proof of the source system. Authors remain
 
 ## Examples
 
-- `assets/example-architecture-delta.html` — minimal light order-fulfilment migration; all five change kinds.
+- `assets/example-architecture-delta.html` — minimal light order-fulfillment migration; all five change kinds.
 - `assets/example-architecture-delta-dark.html` — minimal dark, identical IDs, signatures, topology, and coordinates.
 - `assets/example-architecture-delta-full.html` — full editorial treatment of the same migration.
 
-The example retains the storefront and order store, changes the order API to enqueue work, removes the legacy dispatcher, adds a durable order queue, moves the fulfilment worker, and rewires order submission. Stable relationships follow the worker's new location while preserving their IDs and endpoint semantics.
+The example retains the storefront and order store, changes the order API to enqueue work, removes the legacy dispatcher, adds a durable order queue, moves the fulfillment worker, and rewires order submission. Stable relationships follow the worker's new location while preserving their IDs and endpoint semantics.

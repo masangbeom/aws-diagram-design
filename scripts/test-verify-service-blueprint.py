@@ -303,12 +303,12 @@ def main() -> int:
         # Japanese labels omit spaces: two <text> lines for one data-name must
         # pass (issue #438). Scope the no-whitespace join to one cell only.
         welcome_rect = (
-            '<rect x="96" y="80" width="208" height="48" rx="4" fill="#ffffff" '
+            '<rect x="96" y="72" width="208" height="48" rx="4" fill="#ffffff" '
             'stroke="#232f3e" stroke-width="1" data-stage="request" '
             'data-name="Service Catalog form"/>'
         )
         welcome_text = (
-            '<text x="200" y="108" fill="#232f3e" font-size="12" '
+            '<text x="200" y="100" fill="#232f3e" font-size="12" '
             'font-family="\'Amazon Ember\', \'Helvetica Neue\', Helvetica, Arial, sans-serif" text-anchor="middle">Service Catalog form</text>'
         )
         if welcome_rect not in source or welcome_text not in source:
@@ -382,7 +382,7 @@ def main() -> int:
             # still report 歓迎メール as missing. Pin this so a regression to a
             # global whitespace strip is caught.
             product_ui_text = (
-                '<text x="424" y="108" fill="#232f3e" font-size="12" '
+                '<text x="424" y="100" fill="#232f3e" font-size="12" '
                 'font-family="\'Amazon Ember\', \'Helvetica Neue\', Helvetica, Arial, sans-serif" text-anchor="middle">Approval email</text>'
             )
             if product_ui_text not in source:
@@ -427,8 +427,8 @@ def main() -> int:
         # Single-quoted attributes are valid SVG; a cell written that way
         # must still be checked. Evidence cells are not in the census, so a
         # skipped one could sit below the line without any finding.
-        retry = '<rect x="96" y="80" width="208" height="48" rx="4" fill="#ffffff" stroke="#232f3e" stroke-width="1" data-stage="request" data-name="Service Catalog form"/>'
-        moved = retry.replace('y="80"', 'y="400"').replace('"', "'")
+        retry = '<rect x="96" y="72" width="208" height="48" rx="4" fill="#ffffff" stroke="#232f3e" stroke-width="1" data-stage="request" data-name="Service Catalog form"/>'
+        moved = retry.replace('y="72"', 'y="400"').replace('"', "'")
         if retry not in source:
             failures.append("could not build the single-quoted-cell fixture (anchor missing)")
         else:

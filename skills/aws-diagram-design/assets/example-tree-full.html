@@ -42,7 +42,7 @@
     <div class="header">
       <p class="header-eyebrow">Tree · AWS Diagram Design</p>
       <h1>AWS Organizations OU hierarchy</h1>
-      <p class="subtitle">Three tiers, one root. Every member account in the AWS organization descends through exactly one organizational unit, so service control policies inherit predictably. Orthogonal connectors, one coral accent, nothing else.</p>
+      <p class="subtitle">Three tiers, one root. Every member account in the AWS organization descends through exactly one organizational unit, so service control policies inherit predictably. Orthogonal connectors, one orange accent, nothing else.</p>
     </div>
 
     <div class="diagram-container">
@@ -70,15 +70,15 @@
         <path d="M 500 168 L 780 168 L 780 208" fill="none" stroke="#545b64" stroke-width="1"/>
 
         <!-- Security → accounts -->
-        <path d="M 220 256 L 220 296 L 140 296 L 140 336" fill="none" stroke="#545b64" stroke-width="1"/>
+        <path d="M 220 260 L 220 296 L 140 296 L 140 336" fill="none" stroke="#545b64" stroke-width="1"/>
         <path d="M 220 296 L 300 296 L 300 336" fill="none" stroke="#545b64" stroke-width="1"/>
 
         <!-- Infrastructure → accounts -->
-        <path d="M 500 256 L 500 296 L 480 296 L 480 336" fill="none" stroke="#545b64" stroke-width="1"/>
+        <path d="M 500 260 L 500 296 L 480 296 L 480 336" fill="none" stroke="#545b64" stroke-width="1"/>
         <path d="M 500 296 L 660 296 L 660 336" fill="none" stroke="#545b64" stroke-width="1"/>
 
         <!-- Workloads → single account -->
-        <path d="M 780 256 L 780 296 L 840 296 L 840 336" fill="none" stroke="#545b64" stroke-width="1"/>
+        <path d="M 780 260 L 780 296 L 840 296 L 840 336" fill="none" stroke="#545b64" stroke-width="1"/>
 
         <!-- Root node: Organization root (coral focal) -->
         <rect x="420" y="80" width="160" height="48" rx="6" fill="#ffffff"/>
@@ -87,56 +87,56 @@
         <text x="500" y="118" fill="#232f3e" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Organization root</text>
 
         <!-- Tier 1: Security -->
-        <rect x="140" y="208" width="160" height="48" rx="6" fill="#ffffff"/>
-        <rect x="140" y="208" width="160" height="48" rx="6" fill="#ffffff" stroke="#232f3e" stroke-width="1"/>
+        <rect x="140" y="208" width="160" height="52" rx="6" fill="#ffffff"/>
+        <rect x="140" y="208" width="160" height="52" rx="6" fill="#ffffff" stroke="#232f3e" stroke-width="1"/>
         <rect x="148" y="216" width="28" height="12" rx="2" fill="transparent" stroke="rgba(35,47,62,0.40)" stroke-width="0.8"/>
         <text x="162" y="225" fill="#232f3e" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">OU</text>
         <text x="220" y="240" fill="#232f3e" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Security</text>
         <text x="220" y="252" fill="#545b64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">log archive · audit</text>
 
         <!-- Tier 1: Infrastructure -->
-        <rect x="420" y="208" width="160" height="48" rx="6" fill="#ffffff"/>
-        <rect x="420" y="208" width="160" height="48" rx="6" fill="#ffffff" stroke="#232f3e" stroke-width="1"/>
+        <rect x="420" y="208" width="160" height="52" rx="6" fill="#ffffff"/>
+        <rect x="420" y="208" width="160" height="52" rx="6" fill="#ffffff" stroke="#232f3e" stroke-width="1"/>
         <rect x="428" y="216" width="28" height="12" rx="2" fill="transparent" stroke="rgba(35,47,62,0.40)" stroke-width="0.8"/>
         <text x="442" y="225" fill="#232f3e" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">OU</text>
         <text x="500" y="240" fill="#232f3e" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Infrastructure</text>
         <text x="500" y="252" fill="#545b64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">network · shared svcs</text>
 
         <!-- Tier 1: Workloads -->
-        <rect x="700" y="208" width="160" height="48" rx="6" fill="#ffffff"/>
-        <rect x="700" y="208" width="160" height="48" rx="6" fill="#ffffff" stroke="#232f3e" stroke-width="1"/>
+        <rect x="700" y="208" width="160" height="52" rx="6" fill="#ffffff"/>
+        <rect x="700" y="208" width="160" height="52" rx="6" fill="#ffffff" stroke="#232f3e" stroke-width="1"/>
         <rect x="708" y="216" width="28" height="12" rx="2" fill="transparent" stroke="rgba(35,47,62,0.40)" stroke-width="0.8"/>
         <text x="722" y="225" fill="#232f3e" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">OU</text>
         <text x="780" y="240" fill="#232f3e" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Workloads</text>
         <text x="780" y="252" fill="#545b64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">prod · SCP guardrails</text>
 
         <!-- Tier 2: log-archive -->
-        <rect x="60" y="336" width="160" height="48" rx="6" fill="#ffffff"/>
-        <rect x="60" y="336" width="160" height="48" rx="6" fill="rgba(35,47,62,0.05)" stroke="#545b64" stroke-width="0.8"/>
+        <rect x="68" y="336" width="144" height="48" rx="6" fill="#ffffff"/>
+        <rect x="68" y="336" width="144" height="48" rx="6" fill="rgba(35,47,62,0.05)" stroke="#545b64" stroke-width="0.8"/>
         <text x="140" y="360" fill="#232f3e" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">log-archive</text>
         <text x="140" y="372" fill="#545b64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">CloudTrail · Config</text>
 
         <!-- Tier 2: audit -->
-        <rect x="220" y="336" width="160" height="48" rx="6" fill="#ffffff"/>
-        <rect x="220" y="336" width="160" height="48" rx="6" fill="rgba(35,47,62,0.05)" stroke="#545b64" stroke-width="0.8"/>
+        <rect x="228" y="336" width="144" height="48" rx="6" fill="#ffffff"/>
+        <rect x="228" y="336" width="144" height="48" rx="6" fill="rgba(35,47,62,0.05)" stroke="#545b64" stroke-width="0.8"/>
         <text x="300" y="360" fill="#232f3e" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">audit</text>
         <text x="300" y="372" fill="#545b64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">GuardDuty · Security Hub</text>
 
         <!-- Tier 2: network -->
-        <rect x="400" y="336" width="160" height="48" rx="6" fill="#ffffff"/>
-        <rect x="400" y="336" width="160" height="48" rx="6" fill="rgba(35,47,62,0.05)" stroke="#545b64" stroke-width="0.8"/>
+        <rect x="408" y="336" width="144" height="48" rx="6" fill="#ffffff"/>
+        <rect x="408" y="336" width="144" height="48" rx="6" fill="rgba(35,47,62,0.05)" stroke="#545b64" stroke-width="0.8"/>
         <text x="480" y="360" fill="#232f3e" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">network</text>
         <text x="480" y="372" fill="#545b64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">Transit Gateway · IPAM</text>
 
         <!-- Tier 2: shared-services -->
-        <rect x="580" y="336" width="160" height="48" rx="6" fill="#ffffff"/>
-        <rect x="580" y="336" width="160" height="48" rx="6" fill="rgba(35,47,62,0.05)" stroke="#545b64" stroke-width="0.8"/>
+        <rect x="588" y="336" width="144" height="48" rx="6" fill="#ffffff"/>
+        <rect x="588" y="336" width="144" height="48" rx="6" fill="rgba(35,47,62,0.05)" stroke="#545b64" stroke-width="0.8"/>
         <text x="660" y="360" fill="#232f3e" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">shared-services</text>
         <text x="660" y="372" fill="#545b64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">CodePipeline · AMIs</text>
 
         <!-- Tier 2: prod-commerce -->
-        <rect x="760" y="336" width="160" height="48" rx="6" fill="#ffffff"/>
-        <rect x="760" y="336" width="160" height="48" rx="6" fill="rgba(35,47,62,0.05)" stroke="#545b64" stroke-width="0.8"/>
+        <rect x="768" y="336" width="144" height="48" rx="6" fill="#ffffff"/>
+        <rect x="768" y="336" width="144" height="48" rx="6" fill="rgba(35,47,62,0.05)" stroke="#545b64" stroke-width="0.8"/>
         <text x="840" y="360" fill="#232f3e" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">prod-commerce</text>
         <text x="840" y="372" fill="#545b64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">ECS · Aurora · S3</text>
 
@@ -153,15 +153,15 @@
         <rect x="340" y="444" width="14" height="10" rx="2" fill="rgba(35,47,62,0.05)" stroke="#545b64" stroke-width="0.8"/>
         <text x="360" y="452" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Member account</text>
 
-        <text x="500" y="452" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-style="italic">Orthogonal connectors only. Coral marks the root — SCPs attached there apply to every branch.</text>
+        <text x="500" y="452" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-style="italic">Orthogonal connectors only. Orange marks the root — SCPs attached there apply to every branch.</text>
       </svg>
     </div>
 
     <div class="cards">
       <div class="card">
         <p class="eyebrow">THE HEADLINE</p>
-        <div class="card-header"><span class="card-dot coral"></span><h3>One root, one coral dot</h3></div>
-        <p>An organization is a promise: every account has exactly one parent OU. Coral lives on the root because the management account and its SCPs govern everything below — the rest is a descent.</p>
+        <div class="card-header"><span class="card-dot coral"></span><h3>One root, one orange dot</h3></div>
+        <p>An organization is a promise: every account has exactly one parent OU. Orange lives on the root because SCPs attached at the root apply to every member account below (never to the management account itself) — the rest is a descent.</p>
       </div>
       <div class="card">
         <div class="card-header"><span class="card-dot ink"></span><h3>Connectors are orthogonal</h3></div>
@@ -175,7 +175,7 @@
 
     <div class="footer">
       <span>aws organizations ou hierarchy</span>
-      <span>example · schematic skill</span>
+      <span>example · aws diagram design</span>
     </div>
   </div>
 </body>

@@ -58,6 +58,10 @@ The tick itself is a 32px horizontal line from `(tick_x, tick_y)` to `(tick_x - 
 | Max sub-causes total | 18 |
 | Max accent elements | 2 (root-cause bone+tag, effect box) |
 
+## On AWS
+
+- AWS incident fishbones group causes by the layer that failed: Deploy (CodeDeploy, task definitions), Data (RDS / Aurora, DynamoDB throttling), Compute (ECS, Lambda concurrency), Network (ALB, security groups, NAT), Observability (missing CloudWatch alarms), People and process. Put the affected service's icon on the effect box only.
+
 ## Anti-patterns
 
 - **More than 5 bones on the default canvas.** The 6th tag clips the viewBox. Widen `HEAD` and the viewBox width together and deliberately, or split by subsystem into two fishbones.

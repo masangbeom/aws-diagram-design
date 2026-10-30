@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Order fulfilment on AWS · Architecture delta</title>
+  <title>Order fulfillment on AWS · Architecture delta</title>
   <style>
   @font-face { font-family: 'Amazon Ember'; font-weight: 400; font-style: normal; src: local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_Rg.woff2') format('woff2'); }
   @font-face { font-family: 'Amazon Ember'; font-weight: 400; font-style: italic; src: local('Amazon Ember Italic'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_RgIt.woff2') format('woff2'); }
@@ -39,12 +39,12 @@
 <body>
   <main class="frame">
     <p class="eyebrow">Architecture delta · AWS Diagram Design</p>
-    <h1>Order fulfilment on AWS, before and after</h1>
+    <h1>Order fulfillment on AWS, before and after</h1>
 
     <div class="diagram-container" role="region" aria-label="Before, changes, and after architecture comparison; scroll horizontally on narrow screens" tabindex="0">
       <svg viewBox="0 0 1200 680" xmlns="http://www.w3.org/2000/svg" data-diagram="architecture-delta" role="img" aria-labelledby="architecture-delta-title architecture-delta-desc">
-        <title id="architecture-delta-title">Order fulfilment on AWS, before and after</title>
-        <desc id="architecture-delta-desc">An Amazon SQS queue replaces the legacy EC2 dispatcher, the API Gateway Orders API changes from v1 to v2, the ECS fulfilment worker moves without changing implementation, and the CloudFront storefront and Aurora database stay unchanged, with seven component and relationship changes listed between both snapshots.</desc>
+        <title id="architecture-delta-title">Order fulfillment on AWS, before and after</title>
+        <desc id="architecture-delta-desc">An Amazon SQS queue replaces the legacy EC2 dispatcher, the API Gateway Orders API changes from v1 to v2, the ECS fulfillment worker moves without changing implementation, and the CloudFront storefront and Aurora database stay unchanged, with seven component and relationship changes listed between both snapshots.</desc>
         <defs>
           <marker id="architecture-delta-arrow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto" markerUnits="userSpaceOnUse"><polygon points="0 0, 8 3, 0 6" fill="#545b64"/></marker>
         </defs>
@@ -54,7 +54,7 @@
         <text x="424" y="28" fill="#232f3e" font-size="14" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="600">Changes</text>
         <text x="424" y="52" fill="#545b64" font-size="10" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" >Four components · three relationships</text>
         <text x="840" y="28" fill="#232f3e" font-size="14" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="600">After</text>
-        <text x="840" y="52" fill="#545b64" font-size="10" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" >Amazon SQS fulfilment · v2</text>
+        <text x="840" y="52" fill="#545b64" font-size="10" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" >Amazon SQS fulfillment · v2</text>
         <path d="M 392 8 V 576 M 808 8 V 576" stroke="rgba(35,47,62,0.12)" stroke-width="1"/>
         <g data-snapshot="before" transform="translate(24 96)" data-grid="336 480 4">
 <!-- Relationships precede components; endpoints meet the declared bounds. -->
@@ -92,12 +92,12 @@
 <text x="108" y="228" fill="#232f3e" font-size="12" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="600">Legacy dispatcher</text>
 <text x="108" y="245" fill="#545b64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" >EC2 · dispatcher:v1</text>
 </g>
-<g data-kind="component" data-object-id="worker" data-status="moved" data-signature="fulfilment:v1">
+<g data-kind="component" data-object-id="worker" data-status="moved" data-signature="fulfillment:v1">
 <rect data-role="bounds" x="8" y="304" width="144" height="64" rx="6" fill="#ffffff" stroke="#545b64" stroke-width="1.2" stroke-dasharray="1 4" stroke-linecap="round"/>
 <g aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g fill="#ED7100"> <rect x="132" y="308" width="16" height="16"></rect> </g> <path d="M144.5 317.096 L143 316.346 L143 314.25 C143 314.159 142.951 314.076 142.871 314.032 L140.75 312.853 L140.75 311.187 L144.5 313.393 L144.5 317.096 Z M144.877 313.035 L140.627 310.535 C140.55 310.489 140.454 310.489 140.376 310.533 C140.298 310.578 140.25 310.66 140.25 310.75 L140.25 313 C140.25 313.091 140.299 313.175 140.379 313.219 L142.5 314.397 L142.5 316.5 C142.5 316.595 142.553 316.681 142.638 316.724 L144.638 317.724 C144.673 317.741 144.712 317.75 144.75 317.75 C144.796 317.75 144.841 317.738 144.881 317.713 C144.955 317.667 145 317.587 145 317.5 L145 313.25 C145 313.162 144.953 313.08 144.877 313.035 L144.877 313.035 Z M140 320.957 L135.75 318.36 L135.75 313.389 L139.25 311.201 L139.25 312.862 L137.368 314.038 C137.294 314.084 137.25 314.164 137.25 314.25 L137.25 317.5 C137.25 317.588 137.296 317.669 137.371 317.714 L139.871 319.214 C139.947 319.26 140.042 319.262 140.12 319.22 L142.747 317.787 L144.009 318.507 L140 320.957 Z M144.624 318.283 L142.874 317.283 C142.798 317.24 142.706 317.239 142.63 317.281 L140.006 318.712 L137.75 317.359 L137.75 314.389 L139.632 313.212 C139.706 313.166 139.75 313.086 139.75 313 L139.75 310.75 C139.75 310.659 139.701 310.576 139.621 310.531 C139.542 310.487 139.445 310.49 139.368 310.538 L135.368 313.038 C135.294 313.084 135.25 313.164 135.25 313.25 L135.25 318.5 C135.25 318.587 135.296 318.668 135.37 318.714 L139.87 321.464 C139.91 321.488 139.955 321.5 140 321.5 C140.045 321.5 140.09 321.488 140.13 321.464 L144.63 318.714 C144.706 318.667 144.751 318.585 144.75 318.496 C144.749 318.408 144.701 318.327 144.624 318.283 L144.624 318.283 Z" fill="#FFFFFF"></path> </g></g>
 <text x="20" y="319" fill="#545b64" font-size="7.5" font-family="'Amazon Ember Mono', ui-monospace, monospace" >↔ worker · MOVED</text>
-<text x="20" y="340" fill="#232f3e" font-size="12" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="600">Fulfilment worker</text>
-<text x="20" y="357" fill="#545b64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" >ECS · fulfilment:v1</text>
+<text x="20" y="340" fill="#232f3e" font-size="12" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="600">Fulfillment worker</text>
+<text x="20" y="357" fill="#545b64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" >ECS · fulfillment:v1</text>
 </g>
 <g data-kind="component" data-object-id="db" data-status="unchanged" data-signature="orders:postgres">
 <rect data-role="bounds" x="96" y="416" width="144" height="64" rx="6" fill="#ffffff" stroke="#545b64" stroke-width="1.2"/>
@@ -119,7 +119,7 @@
 <text x="456" y="228" data-change="ADDED" data-target="queue" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.06em">ADDED · queue<tspan x="456" y="251" fill="#232f3e" font-size="12" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" letter-spacing="0">Introduce Amazon SQS queue</tspan></text>
 <path d="M 456 268 H 776" stroke="rgba(35,47,62,0.12)" stroke-width="0.8"/>
 <text x="424" y="290" fill="#545b64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" >04</text>
-<text x="456" y="288" data-change="MOVED" data-target="worker" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.06em">MOVED · worker<tspan x="456" y="311" fill="#232f3e" font-size="12" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" letter-spacing="0">Fulfilment worker: left → right</tspan></text>
+<text x="456" y="288" data-change="MOVED" data-target="worker" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.06em">MOVED · worker<tspan x="456" y="311" fill="#232f3e" font-size="12" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" letter-spacing="0">Fulfillment worker: left → right</tspan></text>
 <path d="M 456 328 H 776" stroke="rgba(35,47,62,0.12)" stroke-width="0.8"/>
 <text x="424" y="350" fill="#545b64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" >05</text>
 <text x="456" y="348" data-change="REWIRED" data-target="r2" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.06em">REWIRED · r2<tspan x="456" y="371" fill="#232f3e" font-size="12" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" letter-spacing="0">Orders API: dispatcher → SQS</tspan></text>
@@ -168,12 +168,12 @@
 <text x="108" y="228" fill="#232f3e" font-size="12" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="600">Order queue</text>
 <text x="108" y="245" fill="#545b64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" >SQS · at-least-once</text>
 </g>
-<g data-kind="component" data-object-id="worker" data-status="moved" data-signature="fulfilment:v1">
+<g data-kind="component" data-object-id="worker" data-status="moved" data-signature="fulfillment:v1">
 <rect data-role="bounds" x="184" y="304" width="144" height="64" rx="6" fill="#ffffff" stroke="#545b64" stroke-width="1.2" stroke-dasharray="1 4" stroke-linecap="round"/>
 <g aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g fill="#ED7100"> <rect x="308" y="308" width="16" height="16"></rect> </g> <path d="M320.5 317.096 L319 316.346 L319 314.25 C319 314.159 318.951 314.076 318.871 314.032 L316.75 312.853 L316.75 311.187 L320.5 313.393 L320.5 317.096 Z M320.877 313.035 L316.627 310.535 C316.55 310.489 316.454 310.489 316.376 310.533 C316.298 310.578 316.25 310.66 316.25 310.75 L316.25 313 C316.25 313.091 316.299 313.175 316.379 313.219 L318.5 314.397 L318.5 316.5 C318.5 316.595 318.553 316.681 318.638 316.724 L320.638 317.724 C320.673 317.741 320.712 317.75 320.75 317.75 C320.796 317.75 320.841 317.738 320.881 317.713 C320.955 317.667 321 317.587 321 317.5 L321 313.25 C321 313.162 320.953 313.08 320.877 313.035 L320.877 313.035 Z M316 320.957 L311.75 318.36 L311.75 313.389 L315.25 311.201 L315.25 312.862 L313.368 314.038 C313.295 314.084 313.25 314.164 313.25 314.25 L313.25 317.5 C313.25 317.588 313.296 317.669 313.371 317.714 L315.871 319.214 C315.947 319.26 316.042 319.262 316.12 319.22 L318.747 317.787 L320.009 318.507 L316 320.957 Z M320.624 318.283 L318.874 317.283 C318.798 317.24 318.706 317.239 318.63 317.281 L316.006 318.712 L313.75 317.359 L313.75 314.389 L315.632 313.212 C315.705 313.166 315.75 313.086 315.75 313 L315.75 310.75 C315.75 310.659 315.701 310.576 315.621 310.531 C315.542 310.487 315.445 310.49 315.368 310.538 L311.368 313.038 C311.295 313.084 311.25 313.164 311.25 313.25 L311.25 318.5 C311.25 318.587 311.296 318.668 311.37 318.714 L315.87 321.464 C315.91 321.488 315.955 321.5 316 321.5 C316.045 321.5 316.09 321.488 316.13 321.464 L320.63 318.714 C320.706 318.667 320.751 318.585 320.75 318.496 C320.749 318.408 320.701 318.327 320.624 318.283 L320.624 318.283 Z" fill="#FFFFFF"></path> </g></g>
 <text x="196" y="319" fill="#545b64" font-size="7.5" font-family="'Amazon Ember Mono', ui-monospace, monospace" >↔ worker · MOVED</text>
-<text x="196" y="340" fill="#232f3e" font-size="12" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="600">Fulfilment worker</text>
-<text x="196" y="357" fill="#545b64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" >ECS · fulfilment:v1</text>
+<text x="196" y="340" fill="#232f3e" font-size="12" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="600">Fulfillment worker</text>
+<text x="196" y="357" fill="#545b64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" >ECS · fulfillment:v1</text>
 </g>
 <g data-kind="component" data-object-id="db" data-status="unchanged" data-signature="orders:postgres">
 <rect data-role="bounds" x="96" y="416" width="144" height="64" rx="6" fill="#ffffff" stroke="#545b64" stroke-width="1.2"/>

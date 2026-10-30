@@ -42,7 +42,7 @@
     <div class="header">
       <p class="header-eyebrow">State machine · EC2 Image Builder</p>
       <h1>Golden AMI lifecycle</h1>
-      <p class="subtitle">The four states a golden AMI passes through from build to deprecation, with the failed-test loop made explicit. Available is the state the platform team optimizes for — hence coral.</p>
+      <p class="subtitle">The four states a golden AMI passes through from build to deprecation, with the failed-test loop made explicit. Available is the state the platform team optimizes for — hence orange.</p>
     </div>
 
     <div class="diagram-container">
@@ -70,13 +70,13 @@
         <!-- Published → Archived (down) -->
         <line x1="640" y1="240" x2="640" y2="300" stroke="#545b64" stroke-width="1.2" marker-end="url(#arrow)"/>
         <!-- Archived → End (down) -->
-        <line x1="640" y1="400" x2="640" y2="432" stroke="#545b64" stroke-width="1.2" marker-end="url(#arrow)"/>
+        <line x1="640" y1="400" x2="640" y2="428" stroke="#545b64" stroke-width="1.2" marker-end="url(#arrow)"/>
         <!-- In Review → Draft (curved back up-and-left) -->
         <path d="M 420 160 C 420 96, 200 96, 200 160" fill="none" stroke="#545b64" stroke-width="1.2" stroke-dasharray="5,4" marker-end="url(#arrow)"/>
 
         <!-- Transition labels -->
-        <rect x="172" y="184" width="48" height="12" rx="2" fill="#ffffff"/>
-        <text x="196" y="194" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">CREATE</text>
+        <rect x="70" y="184" width="48" height="12" rx="2" fill="#ffffff"/>
+        <text x="94" y="194" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">CREATE</text>
 
         <rect x="288" y="184" width="48" height="12" rx="2" fill="#ffffff"/>
         <text x="312" y="194" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">BUILT</text>
@@ -87,8 +87,8 @@
         <rect x="612" y="264" width="56" height="12" rx="2" fill="#ffffff"/>
         <text x="640" y="274" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">EXPIRE</text>
 
-        <rect x="620" y="416" width="40" height="12" rx="2" fill="#ffffff"/>
-        <text x="640" y="426" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">DELETE</text>
+        <rect x="648" y="404" width="40" height="12" rx="2" fill="#ffffff"/>
+        <text x="668" y="414" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">DELETE</text>
 
         <!-- Reject label on curved path -->
         <rect x="276" y="92" width="80" height="12" rx="2" fill="#ffffff"/>
@@ -146,13 +146,13 @@
       </div>
       <div class="card">
         <div class="card-header"><span class="card-dot muted"></span><h3>Deprecation keeps launches</h3></div>
-        <p>A deprecated AMI drops out of DescribeImages, but Auto Scaling groups that pin its ID keep launching. Only Delete deregisters the image and its snapshots.</p>
+        <p>A deprecated AMI drops out of DescribeImages for the accounts it is shared with (the owner still sees it), but Auto Scaling groups that pin its ID keep launching. Only Delete deregisters the image and its snapshots.</p>
       </div>
     </div>
 
     <div class="footer">
       <span>golden ami lifecycle · state machine</span>
-      <span>example · schematic skill</span>
+      <span>example · aws diagram design</span>
     </div>
   </div>
 </body>

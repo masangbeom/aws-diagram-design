@@ -141,6 +141,28 @@ Rules of thumb:
 
 **Always load the chosen `references/type-*.md` before drawing.** When routed above, also load `semantic-patterns.md`; when animation is chosen, load `animation.md`.
 
+### AWS diagrams
+
+Most requests here are AWS systems. For any diagram that names AWS services:
+
+1. Load [`references/primitive-aws-icons.md`](references/primitive-aws-icons.md) alongside the type reference. It owns icons, container colors, service naming, and the inside/outside-the-VPC placement table.
+2. Read the type reference's **On AWS** section. It maps that type's primitives to AWS constructs (containers, services, lifecycles) and lists AWS-specific anti-patterns.
+3. Inline icons with `python3 <skill-dir>/scripts/aws_icon.py find <service>` and `aws_icon.py <icon> X Y 24`; never hand-copy or recolor SVG.
+
+| Typical ask | Type |
+|---|---|
+| "구성도", "아키텍처", a system on AWS, VPC / subnet / account layout | Architecture (On AWS) |
+| Migration or re-architecture, before vs after | Architecture delta |
+| Where tasks, instances, replicas, and ports run across AZs | Deployment |
+| Request path through services, with retries, auth, or async | Sequence |
+| Step Functions workflow, resource or execution lifecycle | State machine |
+| Data lake / analytics pipeline | Data flow, Medallion, or DP integration |
+| AWS Organizations, OUs, accounts, SCP scope | Tree or Nested |
+| CDK / CloudFormation stack dependencies | Dependency graph |
+| AWS cost, utilization, or CloudWatch metrics | the matching chart (bar, line, waterfall, treemap, heatmap, Sankey) |
+
+**AWS data in charts:** state the basis on the chart. Cost: unblended or amortized, monthly, currency, with or without credits and Savings Plans. CloudWatch metrics: the statistic and period (`p99 · 5 min`), Region, and unit.
+
 ### Confirm before drawing
 
 Before rendering, state the plan in one short message: the chosen visual type (and semantic pattern, if routed), the size preset, and anything the complexity budget (§7) will force out. If the user is reachable, let them redirect before you draw; if not, proceed and note the assumptions beside the deliverable. Skip the pause only when the request already pins type, size, and content exactly.
@@ -237,7 +259,7 @@ Universal building blocks. Type-specialized primitives (lifeline, activation bar
 
 - Editorial callouts → [primitive-annotation.md](references/primitive-annotation.md)
 - Hand-drawn variant → [primitive-sketchy.md](references/primitive-sketchy.md)
-- **Official AWS Architecture Icons** (EC2, Lambda, S3, … + VPC/subnet/account zone conventions) → [primitive-aws-icons.md](references/primitive-aws-icons.md). **Use these whenever a diagram names specific AWS services — in every visual type, not just Architecture.** Data-flow cells, process steps, high-level components, sequence actors, swimlane steps, medallion tiers, DP-integration nodes: any element whose subject is a named AWS service carries its official icon. Types with the standard 56px node use the icon-left pattern; compact node types (data-flow, and any node too small for icon-left) use the 16px corner slot defined in [primitive-aws-icons.md § Compact nodes](references/primitive-aws-icons.md). Gallery: [`assets/aws-icons.html`](assets/aws-icons.html); index: [`assets/aws-icons/INDEX.md`](assets/aws-icons/INDEX.md).
+- **Official AWS Architecture Icons** (EC2, Lambda, S3, … + VPC/subnet/account zone conventions) → [primitive-aws-icons.md](references/primitive-aws-icons.md). **Use these whenever a diagram names specific AWS services — in every visual type, not just Architecture.** Data-flow cells, process steps, high-level components, sequence actors, swimlane steps, medallion tiers, DP-integration nodes: any element whose subject is a named AWS service carries its official icon. Types with the standard 56px node use the icon-left pattern; compact node types (data-flow, and any node too small for icon-left) use the 16px corner slot defined in [primitive-aws-icons.md § Compact nodes](references/primitive-aws-icons.md). Gallery: [`assets/aws-icons.html`](assets/aws-icons.html); index: [`assets/aws-icons/INDEX.md`](assets/aws-icons/INDEX.md); inline with `scripts/aws_icon.py`.
 - Generic monochrome icon set (laptop, server, DB, K8s, Docker, …) → [primitive-icons.md](references/primitive-icons.md). Browse the gallery at [`assets/icons.html`](assets/icons.html). For generic/non-AWS infrastructure.
 - Terminal / CLI-window variant → [primitive-terminal.md](references/primitive-terminal.md)
 - Optional explanatory motion → [animation.md](references/animation.md)
@@ -515,6 +537,7 @@ Run before producing any diagram.
 - [ ] **No label mask overlaps a node drawn after it? (Node fill would clip the text — §6 rule 6. Run `python3 <skill-dir>/scripts/verify-geometry.py <file>` — ships with the skill.)**
 - [ ] Every arrow label has an opaque `paper`-filled rect behind it (`#ffffff` in the AWS skin)?
 - [ ] Named AWS services use official icons from `assets/aws-icons/` — unmodified, uncolored, ≥16px ([primitive-aws-icons.md](references/primitive-aws-icons.md))?
+- [ ] AWS placement and names hold up to an AWS engineer? Regional services outside the VPC (reached through a labeled endpoint), Multi-AZ drawn across AZs, public/private subnets right, official service names with the correct `AWS` / `Amazon` prefix ([primitive-aws-icons.md § Placement](references/primitive-aws-icons.md#placement-inside-vs-outside-the-vpc))?
 - [ ] Legend is a horizontal bottom strip, not floating?
 - [ ] No vertical `writing-mode` text?
 - [ ] `viewBox` expanded for the legend strip (~60px)?

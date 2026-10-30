@@ -126,7 +126,7 @@ aws-diagram-design/
 │   ├── SKILL.md                    #   설계 시스템 + 45개 타입 라우팅
 │   ├── references/                 #   스펙 58개 (style-guide, type-*, primitive-aws-icons 등)
 │   ├── assets/                     #   템플릿·예제, aws-icons/ 812 SVG, fonts/ Amazon Ember
-│   └── scripts/                    #   자체 검증(self_check, verify-geometry), drawio/mermaid 추출기, SVG/PNG 내보내기(export_svg, export_png)
+│   └── scripts/                    #   자체 검증(self_check, verify-geometry), drawio/mermaid 추출기, SVG/PNG 내보내기(export_svg, export_png), AWS 아이콘 삽입(aws_icon)
 ├── scripts/                        # 저장소 수준 검증 스크립트 + 테스트 fixtures
 ├── docs/                           # 환경별 한글 가이드 + samples/ 예제 다이어그램
 └── install.sh                      # claude-code · kiro · fonts 설치

@@ -468,3 +468,8 @@ Before emitting SVG, verify **every** item. If any fails, fix it — don't ship.
 - `assets/example-datalake.html` — unclustered five-phase data stack (Sources → Ingest → Data Lake → Query → Consume), zone-based flow without a container-orchestrator boundary. The Amazon S3 lake is the focal node; vertical concerns are flattened into the horizontal chevron banner. Light skin.
 - `assets/example-datalake-dark.html` — same, dark skin.
 - `assets/example-datalake-full.html` — same, editorial-card frame.
+
+## On AWS
+
+- The cluster boundary is real: use an Amazon EKS (or ECS) boundary only for workloads that run on it. Managed services (MSK, S3, Athena, OpenSearch, Redshift) belong inside an `AWS Cloud` or Region boundary, not inside the cluster.
+- Chevron phases map cleanly to the AWS data stages in [type-data-flow.md § On AWS](type-data-flow.md#on-aws). Identity and orchestration bars are IAM Identity Center / IAM and Amazon MWAA / Step Functions.

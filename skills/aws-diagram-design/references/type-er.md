@@ -14,6 +14,11 @@
 - Group related entities close; lay out so most relationships are straight lines, not tangles.
 - Coral on the aggregate root or central entity of the model.
 
+## On AWS
+
+- ER fits relational models on Amazon RDS or Aurora. Name the engine in the title or a sublabel (`Aurora PostgreSQL`).
+- **Amazon DynamoDB single-table designs are not ER diagrams**: their shape is access patterns, not normalized entities. Draw them with [type-db-schema.md](type-db-schema.md) (PK / SK, GSIs as their own key columns) or as a table of access patterns.
+
 ## Anti-patterns
 - Drawing an arrow for every FK on a model with dozens — lay out by cluster instead.
 - Inconsistent cardinality notation between ends of the same relationship.

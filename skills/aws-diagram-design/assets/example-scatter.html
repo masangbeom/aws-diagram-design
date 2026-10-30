@@ -43,7 +43,7 @@
 
       <!-- Axis labels -->
       <text transform="rotate(-90 24 230)" x="24" y="230" fill="#545b64" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.14em" text-anchor="middle">COST PER 1M REQUESTS ($)</text>
-      <text x="520" y="492" fill="#545b64" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.14em" text-anchor="middle">THROUGHPUT, K RPS</text>
+      <text x="520" y="456" fill="#545b64" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.14em" text-anchor="middle">THROUGHPUT, K RPS</text>
 
       <!-- Gridlines -->
       <!-- Horizontal (constant lead time) -->
@@ -83,7 +83,7 @@
       <!-- (freq, lt) → (x=80+44*f, y=420-380*lt/24) -->
       <!-- (2,20)→(168,103), (4,18)→(256,135), (4,16)→(256,167), (6,14)→(344,198) -->
       <!-- (8,12)→(432,230), (8,10)→(432,262), (10,8)→(520,293), (12,6)→(608,325) -->
-      <!-- (12,10)→(608,262), (16,4)→(784,357), (18,3)→(872,372) FOCAL, (20,2)→(960,388) -->
+      <!-- (12,10)→(608,262), (16,4)→(784,357), (18,3)→(872,372), (20,2)→(960,388) FOCAL -->
 
       <circle cx="168" cy="103" r="5" fill="#ffffff"/>
       <circle cx="168" cy="103" r="5" fill="rgba(84,91,100,0.20)" stroke="#545b64" stroke-width="1"/>
@@ -115,16 +115,16 @@
       <circle cx="784" cy="357" r="5" fill="#ffffff"/>
       <circle cx="784" cy="357" r="5" fill="rgba(84,91,100,0.20)" stroke="#545b64" stroke-width="1"/>
 
-      <circle cx="960" cy="388" r="5" fill="#ffffff"/>
-      <circle cx="960" cy="388" r="5" fill="rgba(84,91,100,0.20)" stroke="#545b64" stroke-width="1"/>
+      <circle cx="872" cy="372" r="5" fill="#ffffff"/>
+      <circle cx="872" cy="372" r="5" fill="rgba(84,91,100,0.20)" stroke="#545b64" stroke-width="1"/>
 
-      <!-- FOCAL: Platform team (18,3) → (872,372) -->
-      <circle cx="872" cy="372" r="6" fill="#ffffff"/>
-      <circle cx="872" cy="372" r="6" fill="rgba(236,114,17,0.15)" stroke="#ec7211" stroke-width="1.2"/>
+      <!-- FOCAL: Checkout (20,2) → (960,388) -->
+      <circle cx="960" cy="388" r="6" fill="#ffffff"/>
+      <circle cx="960" cy="388" r="6" fill="rgba(236,114,17,0.15)" stroke="#ec7211" stroke-width="1.2"/>
 
       <!-- Focal label -->
-      <rect x="798" y="348" width="64" height="12" rx="2" fill="#ffffff"/>
-      <text x="830" y="357" fill="#232f3e" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">CHECKOUT</text>
+      <rect x="896" y="398" width="64" height="12" rx="2" fill="#ffffff"/>
+      <text x="928" y="407" fill="#232f3e" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">CHECKOUT</text>
 
       <!-- Quadrant guides (optional) -->
       <text x="88"  y="56"  fill="rgba(35,47,62,0.25)" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace">HIGH UNIT COST</text>

@@ -488,3 +488,8 @@ Everything else — viewBox sizing, chip positions, legend layout, dark-mode tok
 - `assets/example-process.html` — minimal light (quarterly survey: 11 steps, 6 divisions, data-type chips). Gallery default.
 - `assets/example-process-dark.html` — same, dark skin.
 - `assets/example-process-full.html` — same, editorial-card frame.
+
+## On AWS
+
+- Steps that a service performs carry that service's icon; steps a person performs carry none. Keep the actor lanes as teams or accounts (`Product`, `Platform`, `Data Eng`), not as services, so the process stays readable.
+- Pipeline steps use the same stage vocabulary as [type-data-flow.md § On AWS](type-data-flow.md#on-aws); orchestration triggers come from EventBridge, Step Functions, or Amazon MWAA and use the `trigger` edge.

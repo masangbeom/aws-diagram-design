@@ -42,7 +42,7 @@
     <div class="header">
       <p class="header-eyebrow">Slopegraph · AWS Diagram Design</p>
       <h1>One service went the other way</h1>
-      <p class="subtitle">p95 API response time per backend before and after an ElastiCache for Redis read-through layer, both axes on one 100-to-550ms scale. Four backends got faster. Personalize got 81% slower, and being the only line going up it crosses three of them.</p>
+      <p class="subtitle">p95 API response time per backend before and after an Amazon ElastiCache for Valkey read-through layer, both axes on one 100-to-550ms scale. Four backends got faster. Personalize got 81% slower, and being the only line going up it crosses three of them.</p>
     </div>
     <div class="diagram-container">
       <svg viewBox="0 0 1000 500" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="slopegraph-full-title slopegraph-full-desc">
@@ -144,7 +144,7 @@
       </div>
       <div class="card">
         <div class="card-header"><span class="card-dot ink-light"></span><h3>Cognito barely moved because it had nothing to win</h3></div>
-        <p>154ms to 121ms, down 33. Nearly flat, and low on the axis — a shallow slope down here means a service that was already fast, while the same shallow slope near the top would mean a cache that did not work.</p>
+        <p>154ms to 121ms, down 33. The cache only holds Cognito user-profile lookups (AdminGetUser), which were already fast. Nearly flat, and low on the axis — a shallow slope down here means a service that was already fast, while the same shallow slope near the top would mean a cache that did not work.</p>
       </div>
     </div>
     <div class="footer">

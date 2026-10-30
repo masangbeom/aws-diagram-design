@@ -48,6 +48,10 @@ Max 7 classes, max 8 relationships, max 5 members per compartment (overflow beco
 
 Seven is the ceiling rather than the target. Three compartments per box makes a class diagram dense fast, so treat 4–5 classes as the normal size; the shipped example uses all seven only because it doubles as the legend for the full relationship vocabulary.
 
+## On AWS
+
+- AWS CDK construct models are the natural AWS use: L2 constructs (`Bucket`, `Table`, `Function`) realize `IResource`; L3 patterns compose them; aspects depend on interfaces. Put the service icon only on classes that are a specific AWS resource.
+
 ## Anti-patterns
 
 - Getters and setters listed as operations — they're noise; show behavior that matters.

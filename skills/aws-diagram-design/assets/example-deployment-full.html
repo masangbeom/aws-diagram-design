@@ -44,7 +44,9 @@
     .card li { margin-bottom: 0.3rem; padding-left: 0.875rem; position: relative; }
     .card li::before { content: '—'; position: absolute; left: 0; color: rgba(35,47,62,0.25); font-size: 0.75rem; }
     .footer { margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid rgba(35,47,62,0.10); font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.06em; color: var(--color-soft); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
-  </style>
+  
+    code { font-family: 'Amazon Ember Mono', ui-monospace, monospace; font-size: 0.92em; }
+</style>
 </head>
 <body>
   <div class="container">
@@ -57,7 +59,7 @@
     <div class="diagram-container">
       <svg viewBox="0 0 1040 416" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="deployment-full-title deployment-full-desc">
         <title id="deployment-full-title">Checkout on ECS Fargate, production</title>
-        <desc id="deployment-full-desc">Deployment diagram placing the checkout service across a CloudFront edge zone, a production us-east-1 zone running an Application Load Balancer and three ECS Fargate tasks, and a data zone with an RDS for PostgreSQL Multi-AZ primary replicating to its standby.</desc>
+        <desc id="deployment-full-desc">Deployment diagram placing the checkout service across a CloudFront edge zone, an app-subnet zone of the us-east-1 production VPC running an Application Load Balancer and three ECS Fargate tasks, and a DB-subnet zone of the same VPC with an RDS for PostgreSQL Multi-AZ primary replicating to its standby.</desc>
         <defs>
           <pattern id="dots" width="22" height="22" patternUnits="userSpaceOnUse">
             <circle cx="1" cy="1" r="0.9" fill="rgba(35,47,62,0.10)"/>
@@ -72,16 +74,16 @@
 
         <!-- Zones (drawn first, before arrows and nodes) -->
         <rect x="40" y="40" width="208" height="280" rx="8" fill="rgba(35,47,62,0.02)" stroke="rgba(35,47,62,0.20)" stroke-width="0.8" stroke-dasharray="4,4"/>
-        <rect x="56" y="44" width="48" height="12" fill="#ffffff"/>
-        <text x="80" y="53" fill="rgba(35,47,62,0.40)" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.14em">EDGE</text>
+        <rect x="56" y="44" width="80" height="12" fill="#ffffff"/>
+        <text x="96" y="53" fill="#545b64" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.14em">EDGE · GLOBAL</text>
 
         <rect x="280" y="40" width="280" height="280" rx="8" fill="rgba(35,47,62,0.02)" stroke="rgba(35,47,62,0.20)" stroke-width="0.8" stroke-dasharray="4,4"/>
-        <rect x="296" y="44" width="140" height="12" fill="#ffffff"/>
-        <text x="366" y="53" fill="rgba(35,47,62,0.40)" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.14em">PROD / US-EAST-1</text>
+        <rect x="296" y="44" width="160" height="12" fill="#ffffff"/>
+        <text x="376" y="53" fill="#545b64" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.14em">US-EAST-1 VPC · APP SUBNETS</text>
 
         <rect x="600" y="40" width="240" height="280" rx="8" fill="rgba(35,47,62,0.02)" stroke="rgba(35,47,62,0.20)" stroke-width="0.8" stroke-dasharray="4,4"/>
-        <rect x="616" y="44" width="40" height="12" fill="#ffffff"/>
-        <text x="636" y="53" fill="rgba(35,47,62,0.40)" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.14em">DATA</text>
+        <rect x="616" y="44" width="152" height="12" fill="#ffffff"/>
+        <text x="692" y="53" fill="#545b64" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.14em">US-EAST-1 VPC · DB SUBNETS</text>
 
         <!-- Network paths (behind nodes) -->
         <path d="M 224,196 H 288 Q 296,196 296,188 V 128 Q 296,120 304,120" fill="none" stroke="#0972d3" stroke-width="1.2" marker-end="url(#arrow-link)"/>
@@ -169,7 +171,7 @@
         <text x="480" y="380" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Edge / CDN</text>
 
         <line x1="600" y1="376" x2="628" y2="376" stroke="#0972d3" stroke-width="1.2" marker-end="url(#arrow-link)"/>
-        <text x="636" y="380" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Cross-zone</text>
+        <text x="636" y="380" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Cross-boundary call</text>
 
         <line x1="740" y1="376" x2="768" y2="376" stroke="#ec7211" stroke-width="1" stroke-dasharray="5,4" marker-end="url(#arrow-accent)"/>
         <text x="776" y="380" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Replication</text>
@@ -183,15 +185,15 @@
       <div class="card">
         <p class="eyebrow">THE HEADLINE</p>
         <div class="card-header"><span class="card-dot coral"></span><h3>One writer, one standby</h3></div>
-        <p>Every write lands on `rds-primary` in us-east-1a. RDS Multi-AZ replicates it synchronously to us-east-1b and fails over automatically, but the standby serves no reads and failover still takes a minute or two.</p>
+        <p>Every write lands on <code>rds-primary</code> in us-east-1a. RDS Multi-AZ replicates it synchronously to us-east-1b and fails over automatically, but the standby serves no reads and failover still takes a minute or two.</p>
       </div>
       <div class="card">
         <div class="card-header"><span class="card-dot ink"></span><h3>Three tasks behind one ALB</h3></div>
-        <ul><li>`checkout-api` runs as 3 Fargate tasks</li><li>`adot-collector` ships traces from the same task</li><li>The ALB target group spreads requests across all three</li></ul>
+        <ul><li><code>checkout-api</code> runs as 3 Fargate tasks</li><li><code>adot-collector</code> ships traces from the same task</li><li>The ALB target group spreads requests across all three</li></ul>
       </div>
       <div class="card">
         <div class="card-header"><span class="card-dot muted"></span><h3>CloudFront absorbs static reads</h3></div>
-        <p>CloudFront edge locations serve cached responses directly; only cache misses and writes reach the ALB in the production zone.</p>
+        <p>CloudFront edge locations serve cached responses directly; only cache misses and writes reach the ALB in the production VPC.</p>
       </div>
     </div>
 
