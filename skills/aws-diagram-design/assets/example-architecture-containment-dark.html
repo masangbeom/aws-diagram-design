@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DynamoDB is not in the subnet · Architecture</title>
+  <style>
+  @font-face { font-family: 'Amazon Ember'; font-weight: 400; font-style: normal; src: local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_Rg.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 400; font-style: italic; src: local('Amazon Ember Italic'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_RgIt.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 600; font-style: normal; src: local('Amazon Ember Medium'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_SBd.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 700; font-style: normal; src: local('Amazon Ember Bold'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_Bd.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember Mono'; font-weight: 400; font-style: normal; src: local('Amazon Ember Mono'), url('fonts/woff2/AmazonEmberMono_W_Rg.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember Mono'; font-weight: 700; font-style: normal; src: local('Amazon Ember Mono Bold'), local('Amazon Ember Mono'), url('fonts/woff2/AmazonEmberMono_W_Bd.woff2') format('woff2'); }
+</style>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --color-paper:   #161e2d;
+      --color-ink:     #ffffff;
+      --color-muted:   #b6bec9;
+      --color-accent:  #ff9900;
+      --font-sans:     'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --font-serif:    'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --font-mono:     'Amazon Ember Mono', ui-monospace, monospace;
+    }
+    body {
+      font-family: var(--font-sans);
+      background: var(--color-paper);
+      color: var(--color-ink);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 2rem;
+    }
+    .frame { max-width: 1200px; width: 100%; }
+    .diagram-container { width: 100%; overflow-x: auto; }
+    .eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+      margin-bottom: 0.5rem;
+    }
+    h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(1.5rem, 2.4vw + 0.75rem, 2rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      color: var(--color-ink);
+      margin-bottom: 1.5rem;
+    }
+    svg { width: 100%; min-width: 1000px; display: block; }
+    @media print {
+      .diagram-container { overflow-x: visible; }
+      svg { min-width: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <p class="eyebrow">Architecture · containment</p>
+    <h1>DynamoDB is not in the subnet</h1>
+    <div class="diagram-container">
+      <svg viewBox="0 0 1000 704" xmlns="http://www.w3.org/2000/svg" role="img"
+           aria-labelledby="architecture-containment-dark-title architecture-containment-dark-desc"
+           data-grammar="architecture-containment">
+        <title id="architecture-containment-dark-title">DynamoDB is not in the subnet</title>
+        <desc id="architecture-containment-dark-desc">An AWS account and Region band hold two peered VPCs; interface VPC endpoints sit inside a subnet while the DynamoDB table and Secrets Manager they reach sit outside every VPC boundary.</desc>
+        <defs>
+          <pattern id="dots" width="22" height="22" patternUnits="userSpaceOnUse">
+            <circle cx="1" cy="1" r="0.9" fill="rgba(255,255,255,0.10)"/>
+          </pattern>
+          <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#b6bec9"/></marker>
+          <marker id="arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#ff9900"/></marker>
+          <marker id="arrow-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#539fe5"/></marker>
+        </defs>
+
+        <rect width="100%" height="100%" fill="#161e2d"/>
+        <rect width="100%" height="100%" fill="url(#dots)" opacity="0.55"/>
+
+        <!-- Scopes, outer first. Admin = band (rx=4, dashed). Traffic = box (rx=8, solid). -->
+        <rect data-role="bounds" data-scope-id="subscription" data-scope-kind="admin"
+              x="40" y="24" width="920" height="600" rx="4"
+              fill="rgba(255,255,255,0.015)" stroke="rgba(255,255,255,0.22)" stroke-width="0.8" stroke-dasharray="4,4"/>
+        <rect x="56" y="28" width="108" height="12" rx="2" fill="#161e2d"/>
+        <text x="110" y="37" fill="#8d99a8" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace"
+              text-anchor="middle" letter-spacing="0.14em">AWS ACCOUNT</text>
+
+        <rect data-role="bounds" data-scope-id="rg" data-scope-kind="admin" data-parent="subscription"
+              x="56" y="56" width="888" height="552" rx="4"
+              fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.28)" stroke-width="0.8" stroke-dasharray="4,4"/>
+        <rect x="72" y="60" width="116" height="12" rx="2" fill="#161e2d"/>
+        <text x="130" y="69" fill="#8d99a8" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace"
+              text-anchor="middle" letter-spacing="0.14em">REGION · US-EAST-1</text>
+
+        <rect data-role="bounds" data-scope-id="vnet-hub" data-scope-kind="traffic" data-parent="rg"
+              x="80" y="168" width="400" height="400" rx="8"
+              fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.20)" stroke-width="0.8"/>
+        <rect x="96" y="172" width="64" height="12" rx="2" fill="#161e2d"/>
+        <text x="128" y="181" fill="#8d99a8" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace"
+              text-anchor="middle" letter-spacing="0.14em">VPC-APP</text>
+
+        <rect data-role="bounds" data-scope-id="vnet-spoke" data-scope-kind="traffic" data-parent="rg"
+              x="520" y="168" width="400" height="400" rx="8"
+              fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.20)" stroke-width="0.8"/>
+        <rect x="536" y="172" width="80" height="12" rx="2" fill="#161e2d"/>
+        <text x="576" y="181" fill="#8d99a8" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace"
+              text-anchor="middle" letter-spacing="0.14em">VPC-SHARED</text>
+
+        <rect data-role="bounds" data-scope-id="snet-app" data-scope-kind="traffic" data-parent="vnet-hub"
+              x="104" y="208" width="352" height="336" rx="8"
+              fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.28)" stroke-width="0.8"/>
+        <rect x="120" y="212" width="64" height="12" rx="2" fill="#161e2d"/>
+        <text x="152" y="221" fill="#8d99a8" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace"
+              text-anchor="middle" letter-spacing="0.14em">SUBNET-APP</text>
+
+        <rect data-role="bounds" data-scope-id="snet-pe" data-scope-kind="traffic" data-parent="vnet-spoke"
+              x="544" y="208" width="352" height="336" rx="8"
+              fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.28)" stroke-width="0.8"/>
+        <rect x="560" y="212" width="56" height="12" rx="2" fill="#161e2d"/>
+        <text x="588" y="221" fill="#8d99a8" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace"
+              text-anchor="middle" letter-spacing="0.14em">SUBNET-EP</text>
+
+        <!-- Paths behind nodes -->
+        <line data-peering="hub-spoke" data-from="vnet-hub" data-to="vnet-spoke"
+              x1="480" y1="196" x2="520" y2="196"
+              stroke="#b6bec9" stroke-width="1.2" stroke-dasharray="4,3"/>
+        <path d="M 360,376 H 496 Q 504,376 504,368 V 320 Q 504,312 512,312 H 564"
+              fill="none" stroke="#ff9900" stroke-width="1.4" marker-end="url(#arrow-accent)"/>
+        <path d="M 636,280 V 160 Q 636,152 628,152 H 168 Q 160,152 160,144"
+              fill="none" stroke="#539fe5" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrow-link)"/>
+        <path d="M 804,280 V 120 Q 804,112 796,112 H 424"
+              fill="none" stroke="#539fe5" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrow-link)"/>
+
+        <!-- Labels -->
+        <rect x="468" y="176" width="64" height="12" rx="2" fill="#161e2d"/>
+        <text x="500" y="185" fill="#b6bec9" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">PEERING</text>
+        <rect x="400" y="356" width="72" height="12" rx="2" fill="#161e2d"/>
+        <text x="436" y="365" fill="#ff9900" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">HTTPS:443</text>
+        <rect x="648" y="200" width="56" height="12" rx="2" fill="#161e2d"/>
+        <text x="676" y="209" fill="#539fe5" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">PRIVATE</text>
+        <rect x="816" y="200" width="56" height="12" rx="2" fill="#161e2d"/>
+        <text x="844" y="209" fill="#539fe5" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">PRIVATE</text>
+
+        <!-- Regional managed services — inside the Region, outside every VPC -->
+        <g data-node-id="sql" data-kind="managed" data-parent="rg">
+          <rect data-role="bounds" x="80" y="80" width="160" height="64" rx="6" fill="#161e2d"/>
+          <rect x="80" y="80" width="160" height="64" rx="6" fill="rgba(255,255,255,0.05)" stroke="#b6bec9" stroke-width="1"/>
+          <g transform="translate(92,108) scale(0.375)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g fill="#C925D1"> <rect x="0" y="0" width="64" height="64"></rect> </g> <path d="M46.5858287,25.2492763 L43.0008475,25.2492763 C42.6728493,25.2492763 42.3658509,25.086523 42.1788519,24.8145936 C41.9918528,24.5416533 41.9488531,24.1939071 42.0648525,23.8835638 L44.5578394,17.162156 L35.6448862,17.162156 L31.5539077,26.2601663 L36.0008843,26.2601663 C36.3218827,26.2601663 36.6238811,26.4158434 36.8128801,26.6806966 C36.9998791,26.943528 37.0518788,27.2821762 36.9488794,27.5904976 L33.2888986,38.6910812 L46.5858287,25.2492763 Z M49.7068123,24.9530855 L31.7079069,43.1491063 C31.5159079,43.3442081 31.2589093,43.4452971 31.0009106,43.4452971 C30.8189116,43.4452971 30.6379125,43.3957635 30.4759134,43.2946744 C30.0809155,43.0480173 29.9049164,42.5597574 30.0529156,42.1149658 L34.6128916,28.2819464 L30.0009159,28.2819464 C29.6609177,28.2819464 29.3449193,28.1070624 29.1599203,27.8189588 C28.9769213,27.5288333 28.9499214,27.1659238 29.0909207,26.8525479 L34.0908944,15.7327574 C34.2528935,15.3718697 34.6078917,15.1403759 35.0008896,15.1403759 L46.0008318,15.1403759 C46.32883,15.1403759 46.6358284,15.3031292 46.8228274,15.5750586 C47.0098265,15.8479989 47.0528262,16.1957451 46.9378268,16.5060883 L44.44384,23.2274962 L48.999816,23.2274962 C49.4038139,23.2274962 49.769812,23.4741534 49.9238111,23.8512154 C50.0788103,24.2292882 49.9928108,24.663971 49.7068123,24.9530855 L49.7068123,24.9530855 Z M41.0008581,44.2196388 C38.2908723,46.1059597 33.3138985,47.1016863 28.5329236,47.1016863 C23.7169489,47.1016863 18.6959753,46.0928181 15.9999895,44.1781923 L16.0009895,47.9943023 C16.0009895,49.6582273 20.7689644,51.9782199 28.5329236,51.9782199 C36.0278842,51.9782199 41.0008581,49.2761108 41.0008581,47.4888572 L41.0008581,44.2196388 Z M43.0648472,40.9504204 C43.0648472,41.1374351 43.0328474,41.3173735 43.0008475,41.4963011 L43.0008475,47.4888572 C43.0008475,51.0795387 36.5108817,54 28.5329236,54 C21.6299599,54 14.6619965,52.1106465 14.0599997,48.4997473 L14.001,48.4997473 L14,43.4452971 L14,30.3037265 L14,16.1512659 L14.001,16.1512659 C14.001,12.1552176 21.4879606,10 28.5329236,10 C32.4739029,10 36.262883,10.6398934 38.9298689,11.755916 L38.163873,13.6240408 C35.7318858,12.6050636 32.2209042,12.0217801 28.5329236,12.0217801 C20.7689644,12.0217801 16.0009895,14.4266875 16.0009895,16.1512659 C16.0009895,17.8758443 20.7689644,20.2807517 28.5329236,20.2807517 C28.7279226,20.2807517 28.9319215,20.2817626 29.1289205,20.2736755 L29.2069201,22.2934338 C28.9819212,22.3025318 28.7579224,22.3025318 28.5329236,22.3025318 C23.7159489,22.3025318 18.6959753,21.2936636 15.9999895,19.3790378 L15.9999895,23.7369848 L16.0009895,23.7369848 L16.0009895,23.7541699 C16.0059895,24.2838763 16.4899869,24.8974866 17.3649823,25.4736939 C19.3469719,26.7615678 22.9149531,27.642053 26.9039322,27.8250241 L26.8129326,29.8447824 C22.6869543,29.6547351 19.0629734,28.7762717 16.7269857,27.4287552 C16.4169873,27.7269678 16.0009895,28.4851353 16.0009895,28.8955567 C16.0009895,30.6201351 20.7689644,33.0250425 28.5329236,33.0250425 C29.2709197,33.0250425 29.9979159,32.9997703 30.6949122,32.9502366 L30.8359115,34.9669623 C30.0919154,35.0205394 29.3169195,35.0468226 28.5329236,35.0468226 C23.7159489,35.0468226 18.6959753,34.0379543 15.9999895,32.1233286 L15.9999895,35.7928594 L16.0009895,35.7928594 C16.0059895,36.339751 16.4899869,36.9533612 17.3649823,37.5295685 C19.6329704,39.0044571 23.9139479,39.9233562 28.5329236,39.9233562 L28.8629219,39.9233562 L28.8629219,41.9451362 L28.5329236,41.9451362 C23.7549487,41.9451362 18.6729754,40.9372789 16.0009895,39.4017369 C15.6789912,39.6999495 16.0009895,40.4126269 16.0009895,40.9504204 C16.0009895,42.6749989 20.7689644,45.0799063 28.5329236,45.0799063 C36.2978828,45.0799063 41.0648577,42.6749989 41.0648577,40.9504204 C41.0648577,40.3408537 40.4658609,39.7757662 39.9728635,39.4118458 C39.5638656,39.658503 39.113868,39.8950512 38.6008707,40.1113817 L37.8328747,38.2442678 C38.3638719,38.0208611 38.8228695,37.7812802 39.1968675,37.5326012 C40.2978617,36.798695 41.0008581,35.7544456 41.0008581,35.3581767 L43.0008475,35.3581767 C43.0008475,36.2983045 42.3798508,37.3051509 41.583855,38.1330699 C42.7758487,39.1732757 43.0648472,40.2114598 43.0648472,40.9504204 L43.0648472,40.9504204 Z M17.1419835,48.3885494 C17.9329793,48.796949 18.8579745,49.1608694 19.893969,49.4691908 L20.457966,47.5292928 C19.5419709,47.2573634 18.7319751,46.9399439 18.0519787,46.5881542 L17.1419835,48.3885494 Z M19.893969,37.3385103 L20.457966,35.3996232 C19.5419709,35.1266829 18.7319751,34.8102743 18.0519787,34.4584846 L17.1419835,36.2578689 C17.9329793,36.6672793 18.8579745,37.0301889 19.893969,37.3385103 L19.893969,37.3385103 Z M17.1419835,24.1281992 L18.0519787,22.3278041 C18.7319751,22.6795938 19.5419709,22.9960024 20.457966,23.2689427 L19.893969,25.2088407 C18.8579745,24.9005192 17.9329793,24.5365988 17.1419835,24.1281992 L17.1419835,24.1281992 Z" fill="#FFFFFF"></path> </g></g>
+          <text x="124" y="116" fill="#ffffff" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">DynamoDB</text>
+          <text x="124" y="132" fill="#b6bec9" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace">orders table</text>
+        </g>
+        <g data-node-id="kv" data-kind="managed" data-parent="rg">
+          <rect data-role="bounds" x="264" y="80" width="160" height="64" rx="6" fill="#161e2d"/>
+          <rect x="264" y="80" width="160" height="64" rx="6" fill="rgba(255,255,255,0.05)" stroke="#b6bec9" stroke-width="1"/>
+          <g transform="translate(276,108) scale(0.375)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g fill="#DD344C"> <rect x="0" y="0" width="64" height="64"></rect> </g> <path d="M31.24,34.64 C31.24,35.059 31.581,35.4 32,35.4 C32.419,35.4 32.76,35.059 32.76,34.64 C32.76,34.221 32.419,33.88 32,33.88 C31.581,33.88 31.24,34.221 31.24,34.64 L31.24,34.64 Z M29.24,34.64 C29.24,33.118 30.478,31.88 32,31.88 C33.521,31.88 34.76,33.118 34.76,34.64 C34.76,35.808 34.027,36.804 33,37.205 L33,40 L31,40 L31,37.205 C29.972,36.803 29.24,35.808 29.24,34.64 L29.24,34.64 Z M39,31 L25,31 L25,41 L39,41 L39,39 L37,39 L37,37 L39,37 L39,35 L37,35 L37,33 L39,33 L39,31 Z M27,29 L36.999,29 L37,25 C37,24.135 36.424,23.141 35.457,22.341 C34.443,21.501 33.152,21 32.003,21 L32.001,21 C29.618,21 27.001,23.093 27,25 L27,29 Z M39,25 L38.999,29 L40,29 C40.553,29 41,29.448 41,30 L41,42 C41,42.552 40.553,43 40,43 L24,43 C23.447,43 23,42.552 23,42 L23,30 C23,29.448 23.447,29 24,29 L25,29 L25,25 C25.001,21.971 28.469,19 32.001,19 L32.003,19 C33.628,19 35.351,19.657 36.732,20.801 C38.174,21.994 39.001,23.525 39,25 L39,25 Z M15.489,43.95 L17.11,42.777 C15.029,39.902 13.859,36.538 13.676,33 L16,33 L16,31 L13.678,31 C13.871,27.483 15.04,24.14 17.11,21.281 L15.489,20.108 C13.172,23.311 11.873,27.058 11.678,31 L10,31 L10,33 L11.676,33 C11.861,36.962 13.16,40.731 15.489,43.95 L15.489,43.95 Z M42.747,46.918 C39.88,48.993 36.527,50.162 33,50.35 L33,48 L31,48 L31,50.35 C27.471,50.162 24.118,48.994 21.25,46.918 L20.078,48.538 C23.289,50.862 27.049,52.161 31,52.35 L31,54 L33,54 L33,52.35 C36.951,52.16 40.709,50.862 43.919,48.538 L42.747,46.918 Z M21.25,17.14 C24.118,15.064 27.471,13.895 31,13.707 L31,16 L33,16 L33,13.707 C36.527,13.896 39.88,15.065 42.747,17.14 L43.919,15.52 C40.709,13.196 36.951,11.897 33,11.707 L33,10 L31,10 L31,11.707 C27.048,11.897 23.289,13.196 20.078,15.52 L21.25,17.14 Z M52.319,31 C52.125,27.058 50.826,23.311 48.509,20.108 L46.887,21.281 C48.958,24.14 50.127,27.483 50.319,31 L48,31 L48,33 L50.322,33 C50.138,36.538 48.969,39.902 46.887,42.777 L48.509,43.95 C50.838,40.731 52.136,36.962 52.322,33 L54,33 L54,31 L52.319,31 Z M45.026,20.416 L51.185,14.256 L49.771,12.842 L43.612,19.002 L45.026,20.416 Z M18.971,43.642 L12.811,49.802 L14.225,51.216 L20.386,45.056 L18.971,43.642 Z M23.246,21.833 L11.586,10.173 L10.172,11.587 L21.832,23.247 L23.246,21.833 Z M43.303,41.89 L53.826,52.413 L52.412,53.827 L41.888,43.304 L43.303,41.89 Z" fill="#FFFFFF"></path> </g></g>
+          <text x="308" y="116" fill="#ffffff" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Secrets Manager</text>
+          <text x="308" y="132" fill="#b6bec9" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace">db credentials</text>
+        </g>
+
+        <!-- Compute inside the app subnet -->
+        <g data-node-id="app" data-kind="compute" data-parent="snet-app">
+          <rect data-role="bounds" x="200" y="344" width="160" height="64" rx="6" fill="#161e2d"/>
+          <rect x="200" y="344" width="160" height="64" rx="6" fill="rgba(255,153,0,0.08)" stroke="#ff9900" stroke-width="1"/>
+          <g transform="translate(212,372) scale(0.375)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g fill="#ED7100"> <rect x="0" y="0" width="64" height="64"></rect> </g> <path d="M42.4670854,46.382 L42.4670854,42.618 L44.4605025,41.618 L44.4605025,45.382 L42.4670854,46.382 Z M38.4802513,41.618 L40.4736684,42.618 L40.4736684,46.382 L38.4802513,45.382 L38.4802513,41.618 Z M33.4967085,51.382 L33.4967085,47.618 L35.4901256,46.618 L35.4901256,50.382 L33.4967085,51.382 Z M29.5098744,46.618 L31.5032915,47.618 L31.5032915,51.382 L29.5098744,50.382 L29.5098744,46.618 Z M24.5263316,46.382 L24.5263316,42.618 L26.5197487,41.618 L26.5197487,45.382 L24.5263316,46.382 Z M20.5394975,41.618 L22.5329146,42.618 L22.5329146,46.382 L20.5394975,45.382 L20.5394975,41.618 Z M23.5296231,39.118 L25.287817,40 L23.5296231,40.882 L21.7714292,40 L23.5296231,39.118 Z M32.5,44.118 L34.2581939,45 L32.5,45.882 L30.7418061,45 L32.5,44.118 Z M41.4703769,39.118 L43.2285708,40 L41.4703769,40.882 L39.712183,40 L41.4703769,39.118 Z M45.9027398,39.106 L41.9159056,37.106 C41.6358305,36.965 41.3049233,36.965 41.0248482,37.106 L37.038014,39.106 C36.7001298,39.275 36.4868342,39.621 36.4868342,40 L36.4868342,43.882 L32.9455287,42.106 C32.6654536,41.965 32.3345464,41.965 32.0544713,42.106 L28.5131658,43.882 L28.5131658,40 C28.5131658,39.621 28.2998702,39.275 27.961986,39.106 L23.9751518,37.106 C23.6950767,36.965 23.3641695,36.965 23.0840944,37.106 L19.0972602,39.106 C18.759376,39.275 18.5460804,39.621 18.5460804,40 L18.5460804,46 C18.5460804,46.379 18.759376,46.725 19.0972602,46.895 L23.0840944,48.895 C23.2236336,48.965 23.3771267,49 23.5296231,49 C23.6821195,49 23.8356126,48.965 23.9751518,48.895 L27.5164573,47.118 L27.5164573,51 C27.5164573,51.379 27.7297529,51.725 28.0676371,51.895 L32.0544713,53.895 C32.1940105,53.965 32.3475036,54 32.5,54 C32.6524964,54 32.8059895,53.965 32.9455287,53.895 L36.9323629,51.895 C37.2702471,51.725 37.4835427,51.379 37.4835427,51 L37.4835427,47.118 L41.0248482,48.895 C41.1643874,48.965 41.3178805,49 41.4703769,49 C41.6228733,49 41.7763664,48.965 41.9159056,48.895 L45.9027398,46.895 C46.240624,46.725 46.4539196,46.379 46.4539196,46 L46.4539196,40 C46.4539196,39.621 46.240624,39.275 45.9027398,39.106 L45.9027398,39.106 Z M54,28.09 C54,33.193 42.9225812,35.946 32.5,35.946 C22.0774188,35.946 11,33.193 11,28.09 C11,25.629 13.6801493,23.474 18.5470771,22.023 L19.115201,23.94 C15.3386723,25.066 12.9934171,26.656 12.9934171,28.09 C12.9934171,30.854 21.3358676,33.946 32.5,33.946 C43.6641324,33.946 52.0065829,30.854 52.0065829,28.09 C52.0065829,26.656 49.6613277,25.066 45.884799,23.94 L46.4529229,22.023 C51.3198507,23.474 54,25.629 54,28.09 L54,28.09 Z M32.5,12.064 L40.5474248,15 L32.5,17.936 L24.4525752,15 L32.5,12.064 Z M41.3677159,28.648 C39.8118539,29.348 37.2134347,30.164 33.4967085,30.293 L33.4967085,19.701 L42.4670854,16.428 L42.4670854,26.913 C42.4670854,27.667 42.0355106,28.348 41.3677159,28.648 L41.3677159,28.648 Z M22.5329146,26.913 L22.5329146,16.428 L31.5032915,19.701 L31.5032915,30.293 C27.7865653,30.164 25.1881461,29.348 23.6322841,28.648 C22.9644894,28.348 22.5329146,27.667 22.5329146,26.913 L22.5329146,26.913 Z M22.8159798,30.473 C24.6868017,31.315 27.8852394,32.319 32.5,32.319 C37.1147606,32.319 40.3131983,31.315 42.1840202,30.473 C43.5674517,29.851 44.4605025,28.454 44.4605025,26.913 L44.4605025,15 C44.4605025,14.58 44.1983682,14.204 43.8046683,14.06 L32.8408743,10.06 C32.6206017,9.98 32.3793983,9.98 32.1591257,10.06 L21.1953317,14.06 C20.8016318,14.204 20.5394975,14.58 20.5394975,15 L20.5394975,26.913 C20.5394975,28.454 21.4325483,29.851 22.8159798,30.473 L22.8159798,30.473 Z" fill="#FFFFFF"></path> </g></g>
+          <text x="244" y="380" fill="#ffffff" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Checkout API</text>
+          <text x="244" y="396" fill="#b6bec9" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace">ECS · Fargate</text>
+        </g>
+
+        <!-- Interface VPC endpoints inside the shared-services subnet -->
+        <g data-node-id="pe-sql" data-kind="endpoint" data-parent="snet-pe" data-target="sql">
+          <rect data-role="bounds" x="564" y="280" width="144" height="64" rx="6" fill="#161e2d"/>
+          <rect x="564" y="280" width="144" height="64" rx="6" fill="rgba(255,255,255,0.04)" stroke="#ffffff" stroke-width="1"/>
+          <g transform="translate(688,284) scale(0.3333)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <path d="M20.6197,27.6015 L22.0337,29.0155 L26.3967,24.6515 C26.7877,24.2605 26.7877,23.6275 26.3967,23.2375 L22.0337,18.8735 L20.6197,20.2885 L23.2757,22.9445 L6.4907,22.9445 L6.4907,24.9445 L23.2767,24.9445 L20.6197,27.6015 Z M43.8897,23.9445 C43.8897,12.9475 34.9417,3.9995 23.9447,3.9995 C12.9467,3.9995 3.9997,12.9475 3.9997,23.9445 C3.9997,34.9425 12.9467,43.8895 23.9447,43.8895 C34.9417,43.8895 43.8897,34.9425 43.8897,23.9445 L43.8897,23.9445 Z M45.8897,23.9445 C45.8897,36.0445 36.0457,45.8895 23.9447,45.8895 C11.8447,45.8895 1.9997,36.0445 1.9997,23.9445 C1.9997,11.8435 11.8447,1.9995 23.9447,1.9995 C36.0457,1.9995 45.8897,11.8435 45.8897,23.9445 L45.8897,23.9445 Z M15.9627,26.5625 L15.9627,27.0165 C15.9627,27.0765 15.9677,27.1355 15.9777,27.1945 C16.0417,27.5435 17.5967,35.7575 23.9447,35.7575 C30.2927,35.7575 31.8477,27.5435 31.9107,27.1945 C31.9217,27.1355 31.9267,27.0765 31.9267,27.0165 L31.9267,16.4655 C31.9267,16.0575 31.6787,15.6905 31.2997,15.5385 L24.3177,12.7275 C24.0797,12.6315 23.8097,12.6315 23.5717,12.7275 L16.5897,15.5385 C16.2107,15.6905 15.9627,16.0575 15.9627,16.4655 L15.9627,21.3265 L17.9627,21.3265 L17.9627,17.1415 L23.9447,14.7335 L29.9267,17.1415 L29.9267,26.9175 C29.7647,27.6895 28.3467,33.7575 23.9447,33.7575 C19.5427,33.7575 18.1247,27.6895 17.9627,26.9175 L17.9627,26.5625 L15.9627,26.5625 Z M35.4167,13.3245 L35.4167,26.6755 C35.4167,31.2075 33.0187,39.7805 23.9447,39.7805 C19.2227,39.7805 15.7337,37.3375 13.8537,32.7165 C12.8547,30.2675 12.5767,27.8485 12.5007,26.6245 L14.4967,26.4995 C14.5527,27.3865 14.7807,29.6945 15.7067,31.9615 C17.2767,35.8235 20.0487,37.7805 23.9447,37.7805 C33.2797,37.7805 33.4157,27.1275 33.4167,26.6745 L33.4167,13.9995 L23.9447,10.1865 L14.4727,13.9995 L14.4727,21.3265 L12.4727,21.3265 L12.4727,13.3245 C12.4727,12.9155 12.7207,12.5485 13.0987,12.3965 L23.5717,8.1805 C23.8097,8.0845 24.0797,8.0845 24.3177,8.1805 L34.7897,12.3965 C35.1687,12.5485 35.4167,12.9155 35.4167,13.3245 L35.4167,13.3245 Z" fill="#8C4FFF"></path> </g></g>
+          <text x="636" y="316" fill="#ffffff" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">VPCE · DynamoDB</text>
+          <text x="636" y="332" fill="#b6bec9" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">subnet-ep</text>
+        </g>
+        <g data-node-id="pe-kv" data-kind="endpoint" data-parent="snet-pe" data-target="kv">
+          <rect data-role="bounds" x="732" y="280" width="144" height="64" rx="6" fill="#161e2d"/>
+          <rect x="732" y="280" width="144" height="64" rx="6" fill="rgba(255,255,255,0.04)" stroke="#ffffff" stroke-width="1"/>
+          <g transform="translate(856,284) scale(0.3333)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <path d="M20.6197,27.6015 L22.0337,29.0155 L26.3967,24.6515 C26.7877,24.2605 26.7877,23.6275 26.3967,23.2375 L22.0337,18.8735 L20.6197,20.2885 L23.2757,22.9445 L6.4907,22.9445 L6.4907,24.9445 L23.2767,24.9445 L20.6197,27.6015 Z M43.8897,23.9445 C43.8897,12.9475 34.9417,3.9995 23.9447,3.9995 C12.9467,3.9995 3.9997,12.9475 3.9997,23.9445 C3.9997,34.9425 12.9467,43.8895 23.9447,43.8895 C34.9417,43.8895 43.8897,34.9425 43.8897,23.9445 L43.8897,23.9445 Z M45.8897,23.9445 C45.8897,36.0445 36.0457,45.8895 23.9447,45.8895 C11.8447,45.8895 1.9997,36.0445 1.9997,23.9445 C1.9997,11.8435 11.8447,1.9995 23.9447,1.9995 C36.0457,1.9995 45.8897,11.8435 45.8897,23.9445 L45.8897,23.9445 Z M15.9627,26.5625 L15.9627,27.0165 C15.9627,27.0765 15.9677,27.1355 15.9777,27.1945 C16.0417,27.5435 17.5967,35.7575 23.9447,35.7575 C30.2927,35.7575 31.8477,27.5435 31.9107,27.1945 C31.9217,27.1355 31.9267,27.0765 31.9267,27.0165 L31.9267,16.4655 C31.9267,16.0575 31.6787,15.6905 31.2997,15.5385 L24.3177,12.7275 C24.0797,12.6315 23.8097,12.6315 23.5717,12.7275 L16.5897,15.5385 C16.2107,15.6905 15.9627,16.0575 15.9627,16.4655 L15.9627,21.3265 L17.9627,21.3265 L17.9627,17.1415 L23.9447,14.7335 L29.9267,17.1415 L29.9267,26.9175 C29.7647,27.6895 28.3467,33.7575 23.9447,33.7575 C19.5427,33.7575 18.1247,27.6895 17.9627,26.9175 L17.9627,26.5625 L15.9627,26.5625 Z M35.4167,13.3245 L35.4167,26.6755 C35.4167,31.2075 33.0187,39.7805 23.9447,39.7805 C19.2227,39.7805 15.7337,37.3375 13.8537,32.7165 C12.8547,30.2675 12.5767,27.8485 12.5007,26.6245 L14.4967,26.4995 C14.5527,27.3865 14.7807,29.6945 15.7067,31.9615 C17.2767,35.8235 20.0487,37.7805 23.9447,37.7805 C33.2797,37.7805 33.4157,27.1275 33.4167,26.6745 L33.4167,13.9995 L23.9447,10.1865 L14.4727,13.9995 L14.4727,21.3265 L12.4727,21.3265 L12.4727,13.3245 C12.4727,12.9155 12.7207,12.5485 13.0987,12.3965 L23.5717,8.1805 C23.8097,8.0845 24.0797,8.0845 24.3177,8.1805 L34.7897,12.3965 C35.1687,12.5485 35.4167,12.9155 35.4167,13.3245 L35.4167,13.3245 Z" fill="#8C4FFF"></path> </g></g>
+          <text x="804" y="316" fill="#ffffff" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">VPCE · Secrets</text>
+          <text x="804" y="332" fill="#b6bec9" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">subnet-ep</text>
+        </g>
+
+        <!-- Legend -->
+        <line x1="80" y1="640" x2="920" y2="640" stroke="rgba(255,255,255,0.10)" stroke-width="0.8"/>
+        <text x="80" y="656" fill="#b6bec9" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.18em">LEGEND</text>
+        <rect x="80" y="664" width="28" height="10" rx="2" fill="rgba(255,255,255,0.015)" stroke="rgba(255,255,255,0.22)" stroke-width="0.8" stroke-dasharray="4,4"/>
+        <text x="116" y="672" fill="#b6bec9" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Account / Region</text>
+        <rect x="220" y="664" width="28" height="10" rx="2" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.20)" stroke-width="0.8"/>
+        <text x="256" y="672" fill="#b6bec9" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">VPC / subnet</text>
+        <rect x="360" y="664" width="14" height="10" rx="2" fill="rgba(255,255,255,0.05)" stroke="#b6bec9" stroke-width="1"/>
+        <text x="380" y="672" fill="#b6bec9" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Regional service</text>
+        <rect x="500" y="664" width="14" height="10" rx="2" fill="rgba(255,255,255,0.04)" stroke="#ffffff" stroke-width="1"/>
+        <text x="520" y="672" fill="#b6bec9" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">VPC endpoint</text>
+        <rect x="656" y="664" width="14" height="10" rx="2" fill="rgba(255,153,0,0.08)" stroke="#ff9900" stroke-width="1"/>
+        <text x="676" y="672" fill="#b6bec9" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Workload</text>
+      </svg>
+    </div>
+  </div>
+</body>
+</html>

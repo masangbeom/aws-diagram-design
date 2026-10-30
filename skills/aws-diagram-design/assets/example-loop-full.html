@@ -3,22 +3,29 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>The self-improving loop · Full</title>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+  <title>The CI/CD flywheel · Full</title>
+  <style>
+  @font-face { font-family: 'Amazon Ember'; font-weight: 400; font-style: normal; src: local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_Rg.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 400; font-style: italic; src: local('Amazon Ember Italic'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_RgIt.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 600; font-style: normal; src: local('Amazon Ember Medium'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_SBd.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 700; font-style: normal; src: local('Amazon Ember Bold'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_Bd.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember Mono'; font-weight: 400; font-style: normal; src: local('Amazon Ember Mono'), url('fonts/woff2/AmazonEmberMono_W_Rg.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember Mono'; font-weight: 700; font-style: normal; src: local('Amazon Ember Mono Bold'), local('Amazon Ember Mono'), url('fonts/woff2/AmazonEmberMono_W_Bd.woff2') format('woff2'); }
+</style>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --paper: #f5f5f5; --paper-2: #ececec; --ink: #2d3142; --muted: #4f5d75;
-      --soft: #7a8399; --rule: rgba(45,49,66,0.12); --accent: #eb6c36;
-      --accent-tint: rgba(235,108,54,0.08); --link: #2e5aa8;
-      --sans: 'Geist', system-ui, sans-serif; --serif: 'Instrument Serif', serif;
-      --mono: 'Geist Mono', ui-monospace, monospace;
+      --paper: #ffffff; --paper-2: #f2f3f3; --ink: #232f3e; --muted: #545b64;
+      --soft: #687078; --rule: rgba(35,47,62,0.12); --accent: #ec7211;
+      --accent-tint: rgba(236,114,17,0.08); --link: #0972d3;
+      --sans: 'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif; --serif: 'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --mono: 'Amazon Ember Mono', ui-monospace, monospace;
     }
     body { min-height: 100vh; padding: 3rem 2rem; background: var(--paper); color: var(--ink); font-family: var(--sans); }
     .container { width: 100%; max-width: 1200px; margin: 0 auto; }
     .header { margin-bottom: 2.5rem; }
     .eyebrow { margin-bottom: 0.5rem; color: var(--muted); font: 500 0.66rem var(--mono); letter-spacing: 0.18em; text-transform: uppercase; }
-    h1 { margin-bottom: 0.5rem; color: var(--ink); font: 400 clamp(1.5rem, 2.4vw + 0.75rem, 2rem)/1.15 var(--serif); letter-spacing: -0.02em; }
+    h1 { margin-bottom: 0.5rem; color: var(--ink); font: 700 clamp(1.5rem, 2.4vw + 0.75rem, 2rem)/1.15 var(--serif); letter-spacing: -0.02em; }
     .subtitle { max-width: 62ch; color: var(--muted); font-size: 1rem; line-height: 1.55; }
     .diagram-container { overflow-x: auto; padding: 1.5rem; background: var(--paper-2); border: 1px solid var(--rule); border-radius: 8px; }
     svg { display: block; width: 100%; min-width: 1040px; }
@@ -28,45 +35,45 @@
     .station.focal { fill: var(--accent-tint); stroke: var(--accent); stroke-width: 1.2; }
     .hub { fill: var(--ink); }
     .node-name { fill: var(--ink); font: 600 12px var(--sans); text-anchor: middle; }
-    .focal-name { fill: var(--accent); }
+    .focal-name { fill: #232f3e; }
     .sublabel { fill: var(--soft); font: 400 8px var(--mono); text-anchor: middle; }
     .hub-name { fill: var(--paper); font: 600 16px var(--sans); text-anchor: middle; }
     .hub-sub { fill: var(--paper); opacity: 0.72; font: 400 8px var(--mono); text-anchor: middle; }
     .arrow-label { fill: var(--soft); font: 400 8px var(--mono); letter-spacing: 0.06em; text-anchor: middle; }
     .cards { display: grid; grid-template-columns: 1.1fr 1fr 0.9fr; gap: 1rem; margin-top: 1.5rem; }
     .card { padding: 1.25rem; background: #fff; border: 1px solid var(--rule); border-radius: 6px; }
-    .card-eyebrow { margin-bottom: 0.5rem; color: var(--muted); font: 500 0.5rem var(--mono); letter-spacing: 0.18em; text-transform: uppercase; }
-    .card-header { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.875rem; padding-bottom: 0.875rem; border-bottom: 1px solid rgba(45,49,66,0.08); }
+    .card .card-eyebrow { margin-bottom: 0.5rem; color: var(--muted); font: 500 0.5rem var(--mono); letter-spacing: 0.18em; text-transform: uppercase; }
+    .card-header { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.875rem; padding-bottom: 0.875rem; border-bottom: 1px solid rgba(35,47,62,0.08); }
     .card-dot { width: 7px; height: 7px; flex: 0 0 auto; border-radius: 50%; }
     .card-dot.coral { background: var(--accent); } .card-dot.ink { background: var(--ink); } .card-dot.muted { background: var(--muted); }
     .card h2 { font-size: 0.875rem; font-weight: 600; }
     .card p, .card ul { color: var(--muted); font-size: 0.8125rem; line-height: 1.55; list-style: none; }
     .card li { position: relative; margin-bottom: 0.3rem; padding-left: 0.875rem; }
-    .card li::before { position: absolute; left: 0; color: rgba(45,49,66,0.25); content: '—'; }
-    .footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem; margin-top: 2rem; padding-top: 1.5rem; color: var(--soft); border-top: 1px solid rgba(45,49,66,0.10); font: 400 0.72rem var(--mono); letter-spacing: 0.06em; }
+    .card li::before { position: absolute; left: 0; color: rgba(35,47,62,0.25); content: '—'; }
+    .footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem; margin-top: 2rem; padding-top: 1.5rem; color: var(--soft); border-top: 1px solid rgba(35,47,62,0.10); font: 400 0.72rem var(--mono); letter-spacing: 0.06em; }
     @media (max-width: 820px) { .cards { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
   <main class="container">
     <header class="header">
-      <p class="eyebrow">Loop · Diagram Design</p>
-      <h1>The self-improving loop</h1>
-      <p class="subtitle">A company operating rhythm where work moves clockwise, every pass writes back to one shared record, and a human stays accountable for the decision.</p>
+      <p class="eyebrow">Loop · AWS CodePipeline</p>
+      <h1>The CI/CD flywheel</h1>
+      <p class="subtitle">A release rhythm on AWS CodePipeline where changes move clockwise, every stage shares one Amazon S3 artifact store, and a human stays accountable for the production approval.</p>
     </header>
 
     <div class="diagram-container">
       <svg viewBox="0 0 1040 680" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="loop-full-title loop-full-desc">
-        <title id="loop-full-title">The self-improving loop</title>
-        <desc id="loop-full-desc">Six stations flow clockwise from Capture through Learn and back to Capture. Each station writes shared state into one central memory hub, with Decide highlighted as the human approval gate.</desc>
+        <title id="loop-full-title">The CI/CD flywheel</title>
+        <desc id="loop-full-desc">Six AWS CodePipeline stations flow clockwise from Source through Build, Approve, Deploy, Observe, and Improve and back to Source. Source, Build, Observe, and Improve write into one central Amazon S3 artifact store and Deploy reads its release from it, with Approve highlighted as the human manual-approval gate.</desc>
         <defs>
-          <pattern id="dots" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="0.9" fill="rgba(45,49,66,0.10)"/></pattern>
-          <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#4f5d75"/></marker>
-          <marker id="arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#eb6c36"/></marker>
-          <marker id="arrow-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#2e5aa8"/></marker>
-          <marker id="arrow-soft" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#7a8399"/></marker>
+          <pattern id="dots" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="0.9" fill="rgba(35,47,62,0.10)"/></pattern>
+          <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#545b64"/></marker>
+          <marker id="arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#ec7211"/></marker>
+          <marker id="arrow-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#0972d3"/></marker>
+          <marker id="arrow-soft" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#687078"/></marker>
         </defs>
-        <rect width="1040" height="680" fill="#f5f5f5"/>
+        <rect width="1040" height="680" fill="#ffffff"/>
         <rect width="1040" height="680" fill="url(#dots)" opacity="0.55"/>
 
         <!-- Solid clockwise ring: six arcs on the same r=240 station circle. -->
@@ -77,38 +84,42 @@
         <path class="ring" d="M296.715 428 A240 240 0 0 1 296.278 253.118" marker-end="url(#arrow)"/>
         <path class="ring" d="M334.269 188 A240 240 0 0 1 438.870 114.129" marker-end="url(#arrow)"/>
 
-        <!-- Dashed write-backs: station inner edge to 6px before the hub stroke. -->
+        <!-- Dashed spokes: station inner edge to 6px before the hub stroke (Deploy reads, the rest write). -->
         <path class="spoke" d="M520 132 V280" marker-end="url(#arrow-soft)"/>
         <path class="spoke" d="M672 252 L616 284" marker-end="url(#arrow-soft)"/>
-        <path class="spoke" d="M672 428 L616 396" marker-end="url(#arrow-soft)"/>
-        <path class="spoke" d="M520 548 V400" marker-end="url(#arrow-soft)"/>
+        <path class="spoke" d="M520 392 V540" marker-end="url(#arrow-soft)"/>
         <path class="spoke" d="M368 428 L424 396" marker-end="url(#arrow-soft)"/>
         <path class="spoke" d="M368 252 L424 284" marker-end="url(#arrow-soft)"/>
 
         <!-- Curated spoke labels sit beside the line with an 8px visible gap. -->
-        <rect x="532" y="200" width="48" height="16" rx="4" fill="#f5f5f5"/>
-        <text x="556" y="212" class="arrow-label">SIGNALS</text>
-        <rect x="460" y="464" width="52" height="16" rx="4" fill="#f5f5f5"/>
-        <text x="486" y="476" class="arrow-label">OUTCOMES</text>
+        <rect x="532" y="200" width="48" height="16" rx="4" fill="#ffffff"/>
+        <text x="556" y="212" class="arrow-label">SOURCE</text>
+        <rect x="460" y="464" width="52" height="16" rx="4" fill="#ffffff"/>
+        <text x="486" y="476" class="arrow-label">RELEASES</text>
 
         <!-- Stations -->
         <rect class="station" x="440" y="68" width="160" height="64" rx="6"/>
-        <text x="520" y="96" class="node-name">Capture</text><text x="520" y="116" class="sublabel">signals in / intake</text>
+        <g transform="translate(576,76) scale(0.25)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g fill="#C925D1"> <rect x="0" y="0" width="64" height="64"></rect> </g> <path d="M23,25 L27,25 L27,23 L23,23 L23,25 Z M29.732,48.123 L27.883,47.364 L33.826,32.861 L35.678,33.62 L29.732,48.123 Z M36.361,43.66 L40.478,40.048 L36.365,36.482 L37.676,34.972 L42.654,39.289 C42.872,39.478 42.998,39.752 42.999006,40.041 C43,40.33 42.876,40.605 42.658,40.796 L37.68,45.164 L36.361,43.66 Z M20.577976,40.12 C20.576,39.831 20.699,39.555 20.916,39.364 L25.878,34.978 L27.202,36.476 L23.099,40.104 L27.176,43.62 L25.869,45.134 L20.925,40.871 C20.706,40.682 20.58,40.408 20.577976,40.12 L20.577976,40.12 Z M48.535,28 L15.465,28 C13.714,28 12.276,26.689 12.047,25 L21,25 L21,23 L12,23 L12,16.464 C12,14.554 13.555,13 15.465,13 L48.535,13 C50.445,13 52,14.554 52,16.464 L52,23 L29,23 L29,25 L51.953,25 C51.724,26.689 50.286,28 48.535,28 L48.535,28 Z M18,52 L45,52 L45,30 L18,30 L18,52 Z M48.535,11 L15.465,11 C12.451,11 10,13.451 10,16.464 L10,24.536 C10,27.549 12.451,30 15.465,30 L16,30 L16,53 C16,53.552 16.447,54 17,54 L46,54 C46.553,54 47,53.552 47,53 L47,30 L48.535,30 C51.549,30 54,27.549 54,24.536 L54,16.464 C54,13.451 51.549,11 48.535,11 L48.535,11 Z" fill="#FFFFFF"></path> </g></g>
+        <text x="520" y="96" class="node-name">Source</text><text x="520" y="116" class="sublabel">git push · trigger</text>
         <rect class="station" x="648" y="188" width="160" height="64" rx="6"/>
-        <text x="728" y="216" class="node-name">Research</text><text x="728" y="236" class="sublabel">evidence pulled</text>
+        <g transform="translate(784,196) scale(0.25)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g fill="#C925D1"> <rect x="0" y="0" width="64" height="64"></rect> </g> <path d="M50.5180223,18 L46.5574424,14.576 L42.8122625,18 L50.5180223,18 Z M44.2337037,14 L36.0365939,14 L40.4230105,17.485 L44.2337037,14 Z M40.5510593,27.325 L33.970938,30 L46.2308683,30 L40.5510593,27.325 Z M29.8525306,45 L49.7050612,45 L49.7050612,32 L29.8525306,32 L29.8525306,45 Z M37.8650119,18 L33.955056,14.894 L30.071901,18 L37.8650119,18 Z M27.4831311,17.517 L31.8804666,14 L23.0996923,14 L27.4831311,17.517 Z M24.8983316,18 L20.9903609,14.864 L17.0813977,18 L24.8983316,18 Z M22.9041449,20 L17.2680114,20 L22.9041449,24.835 L22.9041449,20 Z M22.9041449,29.227 L16.4570356,35 L22.9041449,40.773 L22.9041449,29.227 Z M22.9041449,45.227 L15.9557592,51.449 L15.9557592,52 L22.9041449,52 L22.9041449,45.227 Z M15.9557592,37.227 L15.9557592,48.773 L22.4028685,43 L15.9557592,37.227 Z M15.9557592,32.773 L22.3840086,27.016 L15.9557592,21.501 L15.9557592,32.773 Z M14.9631326,17.143 L18.8800369,14 L14.9631326,14 L14.9631326,17.143 Z M11.9852531,20 L12.9778796,20 L12.9778796,12 L11.9852531,12 L11.9852531,20 Z M53.9296797,19.371 C53.7788004,19.75 53.4135139,20 53.0075296,20 L40.7714224,20 L40.7714224,25.274 C40.8488473,25.29 40.9282574,25.294 41.0007191,25.329 L51.1175687,30.094 L51.1155835,30.1 C51.4530765,30.26 51.6903142,30.6 51.6903142,31 L51.6903142,46 C51.6903142,46.552 51.2456175,47 50.6976877,47 L28.8599041,47 C28.3109816,47 27.8672775,46.552 27.8672775,46 L27.8672775,31 C27.8672775,30.58 28.1243678,30.224 28.4896544,30.075 L28.4886617,30.073 L38.7861693,25.886 L38.7861693,20 L24.8893979,20 L24.8893979,53 C24.8893979,53.552 24.4447012,54 23.8967714,54 L14.9631326,54 C14.4142102,54 13.9705061,53.552 13.9705061,53 L13.9705061,22 L10.9926265,22 C10.4437041,22 10,21.552 10,21 L10,11 C10,10.448 10.4437041,10 10.9926265,10 L13.9705061,10 C14.518436,10 14.9631326,10.448 14.9631326,11 L14.9631326,12 L46.7271816,12 C46.981294,12 47.2254801,12.098 47.4101086,12.274 L53.6904567,18.274 C53.9852668,18.556 54.0795663,18.99 53.9296797,19.371 L53.9296797,19.371 Z M38.7147002,43.372 L42.6852063,33.372 L40.8418989,32.628 L36.8713928,42.628 L38.7147002,43.372 Z M43.7999259,39.793 L45.2034999,41.207 L48.1813794,38.207 C48.3729564,38.015 48.4781748,37.751 48.472219,37.479 C48.4672559,37.207 48.3511186,36.949 48.1525933,36.764 L44.9176234,33.764 L43.5726145,35.236 L46.0462398,37.53 L43.7999259,39.793 Z M32.6249365,38.207 C32.4333596,38.015 32.3281411,37.751 32.3340969,37.479 C32.3400527,37.207 32.4551973,36.949 32.6537226,36.764 L35.8886925,33.764 L37.2337014,35.236 L34.7600761,37.53 L37.00639,39.793 L35.6028161,41.207 L32.6249365,38.207 Z" fill="#FFFFFF"></path> </g></g>
+        <text x="728" y="216" class="node-name">Build</text><text x="728" y="236" class="sublabel">CodeBuild · tests</text>
         <rect class="station focal" x="648" y="428" width="160" height="64" rx="6"/>
-        <text x="728" y="456" class="node-name focal-name">Decide</text><text x="728" y="476" class="sublabel">human approves</text>
+        <text x="728" y="456" class="node-name focal-name">Approve</text><text x="728" y="476" class="sublabel">manual approval</text>
         <rect class="station" x="440" y="548" width="160" height="64" rx="6"/>
-        <text x="520" y="576" class="node-name">Act</text><text x="520" y="596" class="sublabel">work ships</text>
+        <g transform="translate(576,556) scale(0.25)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g fill="#C925D1"> <rect x="0" y="0" width="64" height="64"></rect> </g> <path d="M35.5075522,48.1501433 L38.4235925,45.9312321 L35.5075522,43.7123209 L36.6996191,42.0985673 L40.6764896,45.1243553 C40.9270325,45.3139713 41.0751709,45.6135244 41.0751709,45.9312321 C41.0751709,46.2489398 40.9270325,46.5474842 40.6764896,46.7381089 L36.6996191,49.7638968 L35.5075522,48.1501433 Z M24.5711583,46.7381089 C24.3206155,46.5474842 24.1734713,46.2489398 24.1734713,45.9312321 C24.1734713,45.6135244 24.3206155,45.3139713 24.5711583,45.1243553 L28.5480288,42.0985673 L29.7400958,43.7123209 L26.8250497,45.9312321 L29.7400958,48.1501433 L28.5480288,49.7638968 L24.5711583,46.7381089 Z M23.1792537,51.982808 L42.0693885,51.982808 L42.0693885,39.8796562 L23.1792537,39.8796562 L23.1792537,51.982808 Z M43.0636061,37.8624642 L22.185036,37.8624642 C21.6352337,37.8624642 21.1908184,38.3143152 21.1908184,38.8710602 L21.1908184,52.991404 C21.1908184,53.548149 21.6352337,54 22.185036,54 L43.0636061,54 C43.6124143,54 44.0578238,53.548149 44.0578238,52.991404 L44.0578238,38.8710602 C44.0578238,38.3143152 43.6124143,37.8624642 43.0636061,37.8624642 L43.0636061,37.8624642 Z M32.0854551,51.2636791 L30.1805342,50.684745 L33.163187,40.5987851 L35.068108,41.1777192 L32.0854551,51.2636791 Z M46.1844553,25.1057421 C43.7158129,25.1057421 41.6538055,25.9085845 40.2589182,27.2732149 C39.8980172,21.269043 38.5568176,15.4887794 36.3228106,12.3732264 C44.0687602,13.8054327 49.9664591,19.5423266 51.5751032,27.2177421 C50.1145975,25.8541203 48.2086823,25.1057421 46.1844553,25.1057421 L46.1844553,25.1057421 Z M38.046784,27.3539026 C36.5683824,25.9045501 34.6008257,25.1057421 32.5040207,25.1057421 C30.1377828,25.1057421 28.1543186,25.8168023 26.7703677,27.0593926 C27.3420428,18.0455702 30.0492974,12.0202178 32.5109803,12.017192 L32.5159514,12.017192 C35.0263509,12.022235 37.7853048,18.2846074 38.284402,27.5858797 L38.046784,27.3539026 Z M24.7401753,27.7250659 C24.6606379,27.6453868 24.5830889,27.5667163 24.5015631,27.4860287 L24.3663495,27.3539026 C22.8889421,25.9045501 20.9203912,25.1057421 18.8245805,25.1057421 C16.7655558,25.1057421 14.984912,25.6513926 13.6437124,26.6236791 C15.5446565,19.2710143 21.3091303,13.8044241 28.6931846,12.3893639 C26.4094667,15.5856046 25.0593192,21.5696046 24.7401753,27.7250659 L24.7401753,27.7250659 Z M54,31.1764814 C54,31.1442063 54,31.1129398 53.9990058,31.0816734 C53.7862432,19.0672779 44.5738227,10.0171461 32.5358357,10.0010086 C32.527882,10.0010086 32.5209224,10 32.5129687,10 L32.5089918,10 L32.5040207,10 C20.6976865,10 11.453451,19.0582006 11.001082,31.0615014 C10.9831861,31.4397249 11.1889891,31.781639 11.4922255,31.9732722 L11.4882486,31.9793238 L19.1278168,37.0243209 L20.2135025,35.333914 L13.1585342,30.6752092 C13.7600359,28.503702 15.9025749,27.1229341 18.8245805,27.1229341 C20.4024038,27.1229341 21.878817,27.7200229 22.9833928,28.8042636 L23.1196006,28.9373983 C24.1337026,29.9298567 24.6934471,31.661616 24.6984182,31.6918739 C24.7043835,31.7312092 24.7043835,31.771553 24.7133314,31.8048367 L25.7105317,35.5416848 L27.6283775,35.0141891 L26.6709459,31.429639 L26.6739286,31.3892951 C27.0169337,28.2434842 29.910107,27.1229341 32.5040207,27.1229341 C34.0818441,27.1229341 35.5592515,27.7200229 36.6638273,28.8042636 L36.9402198,29.0735587 C37.8111544,29.9177536 38.2118241,30.3080802 38.3361013,31.4397249 L37.370716,35.0111633 L39.289556,35.543702 L40.2947101,31.8199656 C40.303658,31.7866819 40.3116118,31.7513811 40.3185713,31.7170888 C40.3235424,31.6858223 40.3255308,31.6535473 40.3295077,31.6222808 C40.3295077,31.6172378 40.3324903,31.6132034 40.3324903,31.6091691 C40.5581777,28.2979484 43.6263333,27.1229341 46.1844553,27.1229341 C47.7563133,27.1229341 49.2307381,27.7200229 50.3353138,28.8042636 C51.1237284,29.5778567 51.6944093,30.173937 51.9111488,30.720596 L45.6247107,35.1604355 L46.7601073,36.8165501 L53.5734806,32.0045387 L53.5625442,31.9894097 C53.8210408,31.8068539 54,31.5183954 54,31.1764814 L54,31.1764814 Z" fill="#FFFFFF"></path> </g></g>
+        <text x="520" y="576" class="node-name">Deploy</text><text x="520" y="596" class="sublabel">CodeDeploy · canary</text>
         <rect class="station" x="232" y="428" width="160" height="64" rx="6"/>
-        <text x="312" y="456" class="node-name">Measure</text><text x="312" y="476" class="sublabel">outcomes logged</text>
+        <g transform="translate(368,436) scale(0.25)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g fill="#E7157B"> <rect x="0" y="0" width="64" height="64"></rect> </g> <path d="M42.184,39.3811216 C42.184,37.1282698 40.347,35.2954581 38.089,35.2954581 C35.831,35.2954581 33.995,37.1282698 33.995,39.3811216 C33.995,41.6339735 35.831,43.4667852 38.089,43.4667852 C40.347,43.4667852 42.184,41.6339735 42.184,39.3811216 L42.184,39.3811216 Z M44.184,39.3811216 C44.184,42.7344587 41.45,45.4622252 38.089,45.4622252 C34.729,45.4622252 31.995,42.7344587 31.995,39.3811216 C31.995,36.0277846 34.729,33.3000181 38.089,33.3000181 C41.45,33.3000181 44.184,36.0277846 44.184,39.3811216 L44.184,39.3811216 Z M50.743,49.6157337 L45.846,45.2157884 C45.524,45.6398194 45.17,46.0379097 44.785,46.4050706 L49.671,50.8030205 C49.997,51.0953525 50.505,51.0714072 50.802,50.744155 C51.096,50.4179006 51.07,49.9110588 50.743,49.6157337 L50.743,49.6157337 Z M38.089,47.091502 C42.351,47.091502 45.818,43.6324067 45.818,39.3811216 C45.818,35.1298366 42.351,31.6707413 38.089,31.6707413 C33.829,31.6707413 30.362,35.1298366 30.362,39.3811216 C30.362,43.6324067 33.829,47.091502 38.089,47.091502 L38.089,47.091502 Z M52.081,48.1341194 C53.227,49.1667597 53.319,50.9357173 52.288,52.0801021 C51.735,52.6897091 50.971,53 50.205,53 C49.538,53 48.868,52.7655358 48.333,52.2866302 L43.172,47.6412457 C41.691,48.5521641 39.954,49.0869421 38.089,49.0869421 C32.725,49.0869421 28.362,44.7328919 28.362,39.3811216 C28.362,34.0293514 32.725,29.6753012 38.089,29.6753012 C43.454,29.6753012 47.818,34.0293514 47.818,39.3811216 C47.818,40.8447769 47.482,42.2286146 46.897,43.4757646 L52.081,48.1341194 Z M17.697,23.5383254 C17.697,23.9394088 17.72,24.3384968 17.767,24.722619 C17.802,25.0059715 17.713,25.2913194 17.524,25.5048315 C17.375,25.6714508 17.177,25.7831954 16.961,25.8241019 C15.084,26.3079961 12,27.7716514 12,32.1566309 C12,35.4800363 13.836,37.3138458 15.377,38.2676661 C16.049,38.6897017 16.64,38.9052092 17.138,38.9101978 L26.127,38.9101978 L26.127,40.9056378 L17.127,40.9056378 C16.243,40.8966584 15.3,40.577388 14.317,39.9588015 C12.708,38.9640747 10,36.6214281 10,32.1566309 C10,26.8876715 13.526,24.8642953 15.71,24.117003 C15.702,23.924443 15.697,23.7308853 15.697,23.5383254 C15.697,19.1603299 18.673,14.6217015 22.621,12.9784566 C27.232,11.0508615 32.119,12.0066773 35.687,15.5336176 C36.734,16.5672555 37.604,17.8084192 38.285,19.2361566 C39.203,18.5507229 40.304,18.1745825 41.459,18.1745825 C43.874,18.1745825 46.587,19.9684831 47.122,23.8895228 C50.58,24.7216213 54,27.27778 54,32.2174919 C54,35.1078868 52.864,37.4565197 50.713,39.0089721 L49.541,37.3926656 C51.173,36.2143583 52,34.4733368 52,32.2174919 C52,27.2388689 47.811,25.9997007 46.01,25.6983892 C45.743,25.6534918 45.505,25.5018384 45.351,25.2793468 C45.208,25.071821 45.15,24.8184001 45.186,24.5709656 C44.931,21.5319104 43.141,20.1700225 41.459,20.1700225 C40.402,20.1700225 39.409,20.6858438 38.734,21.5857873 C38.514,21.8791169 38.156,22.0297727 37.786,21.9748981 C37.422,21.9210212 37.118,21.6715912 36.993,21.3263801 C36.359,19.5743837 35.446,18.1027466 34.281,16.9513777 C32.851,15.5396039 28.933,12.506535 23.391,14.81925 C20.198,16.1492108 17.697,19.9784603 17.697,23.5383254 L17.697,23.5383254 Z" fill="#FFFFFF"></path> </g></g>
+        <text x="312" y="456" class="node-name">Observe</text><text x="312" y="476" class="sublabel">CloudWatch alarms</text>
         <rect class="station" x="232" y="188" width="160" height="64" rx="6"/>
-        <text x="312" y="216" class="node-name">Learn</text><text x="312" y="236" class="sublabel">playbook updated</text>
+        <text x="312" y="216" class="node-name">Improve</text><text x="312" y="236" class="sublabel">runbook updated</text>
 
         <!-- The one shared-state hub. -->
         <rect class="hub" x="420" y="288" width="200" height="104" rx="8"/>
-        <text x="520" y="336" class="hub-name">Shared memory</text>
-        <text x="520" y="360" class="hub-sub">one record, every loop</text>
+        <g transform="translate(508,296) scale(0.375)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g fill="#7AA116"> <rect x="0" y="0" width="64" height="64"></rect> </g> <g transform="translate(10.999800, 10.000200)" fill="#FFFFFF"> <path d="M36.759,23.948 L36.993,22.131 C39.166,23.385 39.842,24.121 40.037,24.424 C39.713,24.485 38.832,24.509 36.759,23.948 L36.759,23.948 Z M19.5,11 C9.125,11 2.382,8.488 2,6.696 L2,6.511 C2.349,5.392 8.14,2 19.5,2 C30.84,2 36.632,5.381 37,6.505 L37,6.616 C36.724,8.446 29.961,11 19.5,11 L19.5,11 Z M34.818,23.362 C30.053,21.797 23.912,18.979 21.594,17.888 C21.535,16.786 20.628,15.906 19.512,15.906 C18.358,15.906 17.418,16.845 17.418,18 C17.418,19.154 18.358,20.094 19.512,20.094 C19.969,20.094 20.389,19.942 20.733,19.693 C23.132,20.822 29.619,23.798 34.558,25.38 L32.837,38.724 C32.583,40.352 27.919,42 19.497,42 C11.072,42 6.405,40.352 6.155,38.751 L2.435,9.814 C5.945,11.915 12.749,13 19.5,13 C26.25,13 33.054,11.915 36.565,9.815 L34.818,23.362 Z M39,6.5 C39,3.431 30.661,0 19.5,0 C8.339,0 -3.55271368e-15,3.431 -3.55271368e-15,6.5 L-3.55271368e-15,7.043 L4.174,39.033 C4.875,43.516 15.123,44 19.497,44 C23.869,44 34.113,43.516 34.818,39.007 L36.501,25.947 C37.778,26.279 38.812,26.456 39.616,26.455 C40.606,26.455 41.273,26.203 41.697,25.697 C42.047,25.281 42.185,24.756 42.085,24.221 C41.857,23 40.403,21.712 37.37,20.044 L37.27,19.989 L39,7.044 L39,6.5 Z"></path> </g> </g></g>
+        <text x="520" y="336" class="hub-name">Artifact store</text>
+        <text x="520" y="360" class="hub-sub">S3 · every run kept</text>
       </svg>
     </div>
 
@@ -116,21 +127,21 @@
       <article class="card">
         <p class="card-eyebrow">THE LOOP SIGNAL</p>
         <div class="card-header"><span class="card-dot coral"></span><h2>The dashed lines are the product</h2></div>
-        <p>Shipping work matters once. Writing the result back makes the next pass faster, safer, and better informed.</p>
+        <p>Shipping a release matters once. Writing artifacts, test reports, and alarm history back makes the next run faster, safer, and better informed.</p>
       </article>
       <article class="card">
         <div class="card-header"><span class="card-dot ink"></span><h2>Memory compounds</h2></div>
-        <ul><li>Evidence survives the handoff</li><li>Outcomes update the playbook</li><li>One record stays shared</li></ul>
+        <ul><li>Build artifacts survive the handoff</li><li>CloudWatch alarms update the runbook</li><li>One S3 artifact store stays shared</li></ul>
       </article>
       <article class="card">
         <div class="card-header"><span class="card-dot muted"></span><h2>One human gate</h2></div>
-        <p>Decide is the only focal station because accountability should remain visible inside an improving system.</p>
+        <p>Approve is the only focal station because accountability for production should remain visible inside an automated pipeline.</p>
       </article>
     </section>
 
     <footer class="footer">
-      <span>company operations · reinforcing loop</span>
-      <span>example · schematic skill</span>
+      <span>ci/cd on aws · reinforcing loop</span>
+      <span>example · aws diagram design</span>
     </footer>
   </main>
 </body>

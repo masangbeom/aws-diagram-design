@@ -4,7 +4,7 @@
 
 ## Layout conventions
 - 2×2 grid. Axis lines: 1px ink cross through the center.
-- **Axis labels: Jobs-minimal.** One single word at each arrow tip — no glyphs baked into the label (no `↑` / `→` / `←` / `↓`), no parentheticals, no "HIGH / LOW" modifiers. Amazon Ember Mono 9px regular weight, tracked 0.18em, uppercase. Flank the arrow tips — never sit labels on top of the axis line. Shorten the arrow enough (~60–80px inside the viewBox edge) to leave breathing room for the labels beyond the tips.
+- **Axis labels: Jobs-minimal.** One single word at each arrow tip — no glyphs baked into the label (no `↑` / `→` / `←` / `↓`), no parentheticals, no "HIGH / LOW" modifiers. `eyebrow` role at 9px regular weight, tracked 0.18em, uppercase. Flank the arrow tips — never sit labels on top of the axis line. Shorten the arrow enough (~60–80px inside the viewBox edge) to leave breathing room for the labels beyond the tips.
 - Never label at the midpoint.
 - Items: small labeled dots (`r=4`) positioned in the quadrants. Labels 8–10px away; don't let labels cross axis lines.
 - Coral on the "do first" item (typically top-right).
@@ -48,14 +48,14 @@ Everything else — paper, dot pattern, typography, legend strip, 4px grid, comp
 ### Style tokens (in-house)
 
 - **Paper / bg / pattern**: defaults from `style-guide.md` (`paper`, 22×22 dot pattern at 10% ink).
-- **Axis lines**: `ink` (`#232F3E`), `stroke-width: 1.2`, `marker-start` + `marker-end` both pointing outward.
-- **Focal quadrant tint**: `rgba(255,153,0,0.04)` full rect behind the focal cell.
+- **Axis lines**: `ink`, `stroke-width: 1.2`, `marker-start` + `marker-end` both pointing outward.
+- **Focal quadrant tint**: `accent @ 0.04` full rect behind the focal cell.
 - **Focal cell**: `accent-tint` fill, `accent` stroke at 1.2px. Corner tag in `accent`, weight 600.
 - **Non-focal cells**: `store` treatment (`ink @ 0.04` fill, `muted @ 0.28` stroke).
-- **Cell title**: Amazon Ember, 16px, weight 600, `ink`.
-- **Cell description**: Amazon Ember, 11px, `muted`, 1–3 lines, left-aligned inside the cell.
-- **Corner tag**: Amazon Ember Mono, 8px, uppercase, tracked `0.18em`, `muted` (or `accent` on focal). Format: `NN · DIMENSION-A / DIMENSION-B` — the two axis-dimension words must match the axis labels exactly.
-- **Axis labels**: Amazon Ember Mono 9px **regular weight** (not bold), tracked `0.18em`, uppercase, `ink`. **One word per tip.** No arrow glyphs in the label, no `HIGH / LOW` parentheticals, no multi-line sublabels. The word itself *is* the label. Position labels *beyond* the arrow tips (not on the axis line):
+- **Cell title**: `node-name` role, 16px, weight 600, `ink`.
+- **Cell description**: `node-name` role, 11px, `muted`, 1–3 lines, left-aligned inside the cell.
+- **Corner tag**: `eyebrow` role, 8px, uppercase, tracked `0.18em`, `muted` (or `accent` on focal). Format: `NN · DIMENSION-A / DIMENSION-B` — the two axis-dimension words must match the axis labels exactly.
+- **Axis labels**: `eyebrow` role 9px **regular weight** (not bold), tracked `0.18em`, uppercase, `ink`. **One word per tip.** No arrow glyphs in the label, no `HIGH / LOW` parentheticals, no multi-line sublabels. The word itself *is* the label. Position labels *beyond* the arrow tips (not on the axis line):
   - Top tip: `text-anchor="middle"`, ~12px above the arrow tip
   - Bottom tip: `text-anchor="middle"`, ~20px below the arrow tip
   - Left tip: `text-anchor="end"`, ~12px left of the arrow tip, `dominant-baseline="middle"`

@@ -1,7 +1,7 @@
 {
   "name": "aws-diagram-design",
-  "description": "AWS-branded editorial diagrams: architecture, flowchart, sequence, ER, timeline, swimlane, quadrant, radar, loop, nested, tree, org chart, layers, Venn, pyramid, bar, line, Gantt, scatter, high-level, process, medallion, data-flow and DP diagrams as standalone HTML/SVG/PNG — Amazon Ember typography, squid ink + smile orange skin, official AWS Architecture Icons (07312026) bundled. Redraws .drawio and Mermaid sources. Korean triggers: AWS 아키텍처 다이어그램, 구성도, 흐름도, 시퀀스 다이어그램.",
-  "version": "1.2.0",
+  "description": "AWS-branded editorial diagrams: architecture, flowchart, sequence, ER, timeline, swimlane, quadrant, radar, loop, nested, tree, org chart, layers, Venn, pyramid, bar, line, Gantt, scatter, high-level, process, medallion, data-flow, DP, architecture delta, deployment, dependency, DB schema, UML class, waterfall, treemap, heatmap, Sankey, fishbone, Wardley, kanban, journey, service blueprint, story map, polar and axonometric diagrams as standalone HTML/SVG/PNG — Amazon Ember typography, squid ink + smile orange skin, official AWS Architecture Icons (07312026) bundled. Redraws .drawio and Mermaid sources. Korean triggers: AWS 아키텍처 다이어그램, 구성도, 흐름도, 시퀀스 다이어그램.",
+  "version": "1.3.0",
   "author": {
     "name": "Sangbeom"
   },

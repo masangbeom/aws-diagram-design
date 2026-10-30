@@ -3,18 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Should you write this as a skill?</title>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <title>Which compute should run this workload?</title>
+  <style>
+  @font-face { font-family: 'Amazon Ember'; font-weight: 400; font-style: normal; src: local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_Rg.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 400; font-style: italic; src: local('Amazon Ember Italic'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_RgIt.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 600; font-style: normal; src: local('Amazon Ember Medium'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_SBd.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 700; font-style: normal; src: local('Amazon Ember Bold'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_Bd.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember Mono'; font-weight: 400; font-style: normal; src: local('Amazon Ember Mono'), url('fonts/woff2/AmazonEmberMono_W_Rg.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember Mono'; font-weight: 700; font-style: normal; src: local('Amazon Ember Mono Bold'), local('Amazon Ember Mono'), url('fonts/woff2/AmazonEmberMono_W_Bd.woff2') format('woff2'); }
+</style>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --color-paper:   #f5f5f5;
-      --color-ink:     #2d3142;
-      --color-muted:   #4f5d75;
-      --color-accent:  #eb6c36;
-      --font-sans:     'Geist', system-ui, sans-serif;
-      --font-serif:    'Instrument Serif', serif;
-      --font-mono:     'Geist Mono', ui-monospace, monospace;
+      --color-paper:   #ffffff;
+      --color-ink:     #232f3e;
+      --color-muted:   #545b64;
+      --color-accent:  #ec7211;
+      --font-sans:     'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --font-serif:    'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --font-mono:     'Amazon Ember Mono', ui-monospace, monospace;
     }
 
     body {
@@ -28,7 +35,8 @@
       padding: 3rem 2rem;
     }
 
-    .frame { max-width: 1200px; width: 100%; }
+    .frame { max-width: 1200px; width: 100%; min-width: 0; }
+    .diagram-container { width: 100%; overflow-x: auto; }
 
     .eyebrow {
       font-family: var(--font-mono);
@@ -43,114 +51,123 @@
     h1 {
       font-family: var(--font-serif);
       font-size: clamp(1.5rem, 2.4vw + 0.75rem, 2rem);
-      font-weight: 400;
+      font-weight: 700;
       letter-spacing: -0.02em;
       line-height: 1.15;
       color: var(--color-ink);
       margin-bottom: 1.5rem;
     }
 
-    svg { width: 100%; min-width: 900px; display: block; }
+    svg { width: 100%; min-width: 1000px; display: block; }
+    @media print {
+      .diagram-container { overflow-x: visible; }
+      svg { min-width: 0; }
+    }
   </style>
 </head>
 <body>
   <div class="frame">
-    <p class="eyebrow">Flowchart · Diagram Design</p>
-    <h1>Should you write this as a skill?</h1>
+    <p class="eyebrow">Flowchart · AWS Compute</p>
+    <h1>Which compute should run this workload?</h1>
 
-    <svg viewBox="0 0 1000 600" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="flowchart-title flowchart-desc">
-      <title id="flowchart-title">Should you write this as a skill?</title>
-      <desc id="flowchart-desc">Flowchart showing when a new workflow should stay manual, become a project note, or be written as a reusable skill.</desc>
+    <div class="diagram-container">
+      <svg viewBox="0 0 1000 600" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="flowchart-title flowchart-desc">
+        <title id="flowchart-title">Which compute should run this workload?</title>
+        <desc id="flowchart-desc">Flowchart choosing AWS compute for a new workload: AWS Fargate for runs over 15 minutes, Amazon EC2 for work that needs host or GPU control, and AWS Lambda for everything else that finishes within 15 minutes.</desc>
         <defs>
           <pattern id="dots" width="22" height="22" patternUnits="userSpaceOnUse">
-            <circle cx="1" cy="1" r="0.9" fill="rgba(45,49,66,0.10)"/>
+            <circle cx="1" cy="1" r="0.9" fill="rgba(35,47,62,0.10)"/>
           </pattern>
-          <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#4f5d75"/></marker>
-          <marker id="arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#eb6c36"/></marker>
+          <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#545b64"/></marker>
+          <marker id="arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#ec7211"/></marker>
         </defs>
 
-        <rect width="100%" height="100%" fill="#f5f5f5"/>
+        <rect width="100%" height="100%" fill="#ffffff"/>
         <rect width="100%" height="100%" fill="url(#dots)" opacity="0.55"/>
 
         <!-- Arrows (drawn first, behind nodes) -->
         <!-- Start → Step -->
-        <line x1="500" y1="88" x2="500" y2="120" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#arrow)"/>
+        <line x1="500" y1="88" x2="500" y2="120" stroke="#545b64" stroke-width="1.2" marker-end="url(#arrow)"/>
         <!-- Step → Diamond 1 -->
-        <line x1="500" y1="168" x2="500" y2="192" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#arrow)"/>
+        <line x1="500" y1="168" x2="500" y2="192" stroke="#545b64" stroke-width="1.2" marker-end="url(#arrow)"/>
         <!-- Diamond 1 "NO" right -->
-        <line x1="600" y1="240" x2="720" y2="240" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#arrow)"/>
+        <line x1="600" y1="240" x2="720" y2="240" stroke="#545b64" stroke-width="1.2" marker-end="url(#arrow)"/>
         <!-- Diamond 1 "YES" down -->
-        <line x1="500" y1="288" x2="500" y2="328" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#arrow)"/>
+        <line x1="500" y1="288" x2="500" y2="328" stroke="#545b64" stroke-width="1.2" marker-end="url(#arrow)"/>
         <!-- Diamond 2 "NO" right -->
-        <line x1="600" y1="376" x2="720" y2="376" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#arrow)"/>
+        <line x1="600" y1="376" x2="720" y2="376" stroke="#545b64" stroke-width="1.2" marker-end="url(#arrow)"/>
         <!-- Diamond 2 "YES" down (coral — happy path) -->
-        <line x1="500" y1="424" x2="500" y2="464" stroke="#eb6c36" stroke-width="1.4" marker-end="url(#arrow-accent)"/>
+        <line x1="500" y1="424" x2="500" y2="464" stroke="#ec7211" stroke-width="1.4" marker-end="url(#arrow-accent)"/>
 
         <!-- Arrow labels -->
-        <rect x="644" y="230" width="24" height="12" rx="2" fill="#f5f5f5"/>
-        <text x="656" y="239" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.12em">NO</text>
+        <rect x="644" y="220" width="24" height="12" rx="2" fill="#ffffff"/>
+        <text x="656" y="229" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.12em">NO</text>
 
-        <rect x="484" y="298" width="32" height="12" rx="2" fill="#f5f5f5"/>
-        <text x="500" y="307" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.12em">YES</text>
+        <rect x="508" y="298" width="32" height="12" rx="2" fill="#ffffff"/>
+        <text x="524" y="307" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.12em">YES</text>
 
-        <rect x="644" y="366" width="24" height="12" rx="2" fill="#f5f5f5"/>
-        <text x="656" y="375" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.12em">NO</text>
+        <rect x="644" y="356" width="24" height="12" rx="2" fill="#ffffff"/>
+        <text x="656" y="365" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.12em">NO</text>
 
-        <rect x="484" y="434" width="32" height="12" rx="2" fill="#f5f5f5"/>
-        <text x="500" y="443" fill="#eb6c36" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.12em">YES</text>
+        <rect x="508" y="434" width="32" height="12" rx="2" fill="#ffffff"/>
+        <text x="524" y="443" fill="#232f3e" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.12em">YES</text>
 
         <!-- Start oval -->
-        <rect x="420" y="40" width="160" height="48" rx="24" fill="rgba(45,49,66,0.03)" stroke="rgba(45,49,66,0.30)" stroke-width="1"/>
-        <text x="500" y="68" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">New workflow</text>
+        <rect x="420" y="40" width="160" height="48" rx="20" fill="rgba(35,47,62,0.03)" stroke="rgba(35,47,62,0.30)" stroke-width="1"/>
+        <text x="500" y="68" fill="#232f3e" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">New workload</text>
 
         <!-- Rectangle: Step -->
-        <rect x="420" y="120" width="160" height="48" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
-        <text x="500" y="148" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Do it manually once</text>
+        <rect x="420" y="120" width="160" height="48" rx="6" fill="#ffffff" stroke="#232f3e" stroke-width="1"/>
+        <text x="500" y="148" fill="#232f3e" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Profile runtime + load</text>
 
         <!-- Diamond 1: Repeated >3 times? -->
-        <polygon points="500,192 600,240 500,288 400,240" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
-        <text x="500" y="238" fill="#2d3142" font-size="11" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Will you repeat</text>
-        <text x="500" y="252" fill="#2d3142" font-size="11" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">it >3 times?</text>
+        <polygon points="500,192 600,240 500,288 400,240" fill="#ffffff" stroke="#232f3e" stroke-width="1"/>
+        <text x="500" y="238" fill="#232f3e" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Finishes in under</text>
+        <text x="500" y="252" fill="#232f3e" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">15 minutes?</text>
 
         <!-- End oval: One-off -->
-        <rect x="720" y="216" width="160" height="48" rx="24" fill="rgba(45,49,66,0.03)" stroke="rgba(45,49,66,0.30)" stroke-width="1"/>
-        <text x="800" y="240" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">One-off</text>
-        <text x="800" y="254" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">keep manual</text>
+        <rect x="720" y="216" width="160" height="48" rx="20" fill="rgba(35,47,62,0.03)" stroke="rgba(35,47,62,0.30)" stroke-width="1"/>
+        <g transform="translate(744,228) scale(0.375)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g fill="#ED7100"> <rect x="0" y="0" width="64" height="64"></rect> </g> <path d="M42.4670854,46.382 L42.4670854,42.618 L44.4605025,41.618 L44.4605025,45.382 L42.4670854,46.382 Z M38.4802513,41.618 L40.4736684,42.618 L40.4736684,46.382 L38.4802513,45.382 L38.4802513,41.618 Z M33.4967085,51.382 L33.4967085,47.618 L35.4901256,46.618 L35.4901256,50.382 L33.4967085,51.382 Z M29.5098744,46.618 L31.5032915,47.618 L31.5032915,51.382 L29.5098744,50.382 L29.5098744,46.618 Z M24.5263316,46.382 L24.5263316,42.618 L26.5197487,41.618 L26.5197487,45.382 L24.5263316,46.382 Z M20.5394975,41.618 L22.5329146,42.618 L22.5329146,46.382 L20.5394975,45.382 L20.5394975,41.618 Z M23.5296231,39.118 L25.287817,40 L23.5296231,40.882 L21.7714292,40 L23.5296231,39.118 Z M32.5,44.118 L34.2581939,45 L32.5,45.882 L30.7418061,45 L32.5,44.118 Z M41.4703769,39.118 L43.2285708,40 L41.4703769,40.882 L39.712183,40 L41.4703769,39.118 Z M45.9027398,39.106 L41.9159056,37.106 C41.6358305,36.965 41.3049233,36.965 41.0248482,37.106 L37.038014,39.106 C36.7001298,39.275 36.4868342,39.621 36.4868342,40 L36.4868342,43.882 L32.9455287,42.106 C32.6654536,41.965 32.3345464,41.965 32.0544713,42.106 L28.5131658,43.882 L28.5131658,40 C28.5131658,39.621 28.2998702,39.275 27.961986,39.106 L23.9751518,37.106 C23.6950767,36.965 23.3641695,36.965 23.0840944,37.106 L19.0972602,39.106 C18.759376,39.275 18.5460804,39.621 18.5460804,40 L18.5460804,46 C18.5460804,46.379 18.759376,46.725 19.0972602,46.895 L23.0840944,48.895 C23.2236336,48.965 23.3771267,49 23.5296231,49 C23.6821195,49 23.8356126,48.965 23.9751518,48.895 L27.5164573,47.118 L27.5164573,51 C27.5164573,51.379 27.7297529,51.725 28.0676371,51.895 L32.0544713,53.895 C32.1940105,53.965 32.3475036,54 32.5,54 C32.6524964,54 32.8059895,53.965 32.9455287,53.895 L36.9323629,51.895 C37.2702471,51.725 37.4835427,51.379 37.4835427,51 L37.4835427,47.118 L41.0248482,48.895 C41.1643874,48.965 41.3178805,49 41.4703769,49 C41.6228733,49 41.7763664,48.965 41.9159056,48.895 L45.9027398,46.895 C46.240624,46.725 46.4539196,46.379 46.4539196,46 L46.4539196,40 C46.4539196,39.621 46.240624,39.275 45.9027398,39.106 L45.9027398,39.106 Z M54,28.09 C54,33.193 42.9225812,35.946 32.5,35.946 C22.0774188,35.946 11,33.193 11,28.09 C11,25.629 13.6801493,23.474 18.5470771,22.023 L19.115201,23.94 C15.3386723,25.066 12.9934171,26.656 12.9934171,28.09 C12.9934171,30.854 21.3358676,33.946 32.5,33.946 C43.6641324,33.946 52.0065829,30.854 52.0065829,28.09 C52.0065829,26.656 49.6613277,25.066 45.884799,23.94 L46.4529229,22.023 C51.3198507,23.474 54,25.629 54,28.09 L54,28.09 Z M32.5,12.064 L40.5474248,15 L32.5,17.936 L24.4525752,15 L32.5,12.064 Z M41.3677159,28.648 C39.8118539,29.348 37.2134347,30.164 33.4967085,30.293 L33.4967085,19.701 L42.4670854,16.428 L42.4670854,26.913 C42.4670854,27.667 42.0355106,28.348 41.3677159,28.648 L41.3677159,28.648 Z M22.5329146,26.913 L22.5329146,16.428 L31.5032915,19.701 L31.5032915,30.293 C27.7865653,30.164 25.1881461,29.348 23.6322841,28.648 C22.9644894,28.348 22.5329146,27.667 22.5329146,26.913 L22.5329146,26.913 Z M22.8159798,30.473 C24.6868017,31.315 27.8852394,32.319 32.5,32.319 C37.1147606,32.319 40.3131983,31.315 42.1840202,30.473 C43.5674517,29.851 44.4605025,28.454 44.4605025,26.913 L44.4605025,15 C44.4605025,14.58 44.1983682,14.204 43.8046683,14.06 L32.8408743,10.06 C32.6206017,9.98 32.3793983,9.98 32.1591257,10.06 L21.1953317,14.06 C20.8016318,14.204 20.5394975,14.58 20.5394975,15 L20.5394975,26.913 C20.5394975,28.454 21.4325483,29.851 22.8159798,30.473 L22.8159798,30.473 Z" fill="#FFFFFF"></path> </g></g>
+        <text x="776" y="240" fill="#232f3e" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="start">AWS Fargate</text>
+        <text x="776" y="254" fill="#545b64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="start">long-running</text>
 
-        <!-- Diamond 2: Reusable across projects? -->
-        <polygon points="500,328 600,376 500,424 400,376" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
-        <text x="500" y="374" fill="#2d3142" font-size="11" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Reusable across</text>
-        <text x="500" y="388" fill="#2d3142" font-size="11" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">projects?</text>
+        <!-- Diamond 2: No host or GPU control needed? -->
+        <polygon points="500,328 600,376 500,424 400,376" fill="#ffffff" stroke="#232f3e" stroke-width="1"/>
+        <text x="500" y="374" fill="#232f3e" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">No host or GPU</text>
+        <text x="500" y="388" fill="#232f3e" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">control needed?</text>
 
-        <!-- End oval: CLAUDE.md note -->
-        <rect x="720" y="352" width="160" height="48" rx="24" fill="rgba(45,49,66,0.03)" stroke="rgba(45,49,66,0.30)" stroke-width="1"/>
-        <text x="800" y="376" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">CLAUDE.md note</text>
-        <text x="800" y="390" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">project-scoped</text>
+        <!-- End oval: project note -->
+        <rect x="720" y="352" width="160" height="48" rx="20" fill="rgba(35,47,62,0.03)" stroke="rgba(35,47,62,0.30)" stroke-width="1"/>
+        <g transform="translate(744,364) scale(0.375)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g fill="#ED7100"> <rect x="0" y="0" width="64" height="64"></rect> </g> <path d="M22,41 L41,41 L41,23 L22,23 L22,41 Z M43,23 L46,23 L46,25 L43,25 L43,27 L46,27 L46,29 L43,29 L43,31 L46,31 L46,33 L43,33 L43,36 L46,36 L46,38 L43,38 L43,40 L46,40 L46,42 L42.863,42 C42.608,42.587 42.023,43 41.344,43 L41,43 L41,46 L39,46 L39,43 L37,43 L37,46 L35,46 L35,43 L33,43 L33,46 L31,46 L31,43 L29,43 L29,46 L27,46 L27,43 L24,43 L24,46 L22,46 L22,43 L21.656,43 C20.977,43 20.392,42.587 20.137,42 L18,42 L18,40 L20,40 L20,38 L18,38 L18,36 L20,36 L20,33 L18,33 L18,31 L20,31 L20,29 L18,29 L18,27 L20,27 L20,25 L18,25 L18,23 L20,23 L20,22.656 C20,21.743 20.743,21 21.656,21 L22,21 L22,18 L24,18 L24,21 L27,21 L27,18 L29,18 L29,21 L31,21 L31,18 L33,18 L33,21 L35,21 L35,18 L37,18 L37,21 L39,21 L39,18 L41,18 L41,21 L41.344,21 C42.257,21 43,21.743 43,22.656 L43,23 Z M32,52 L12,52 L12,32 L16,32 L16,30 L11.843,30 C10.826,30 10,30.827 10,31.843 L10,52.157 C10,53.173 10.826,54 11.843,54 L32.157,54 C33.174,54 34,53.173 34,52.157 L34,48 L32,48 L32,52 Z M54,11.843 L54,32.157 C54,33.173 53.174,34 52.157,34 L48,34 L48,32 L52,32 L52,12 L32,12 L32,16 L30,16 L30,11.843 C30,10.827 30.826,10 31.843,10 L52.157,10 C53.174,10 54,10.827 54,11.843 L54,11.843 Z" fill="#FFFFFF"></path> </g></g>
+        <text x="776" y="376" fill="#232f3e" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="start">Amazon EC2</text>
+        <text x="776" y="390" fill="#545b64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="start">host · GPU</text>
 
         <!-- End oval: Write a skill (coral focal) -->
-        <rect x="420" y="464" width="160" height="56" rx="28" fill="rgba(235,108,54,0.08)" stroke="#eb6c36" stroke-width="1"/>
-        <text x="500" y="492" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Write a skill</text>
-        <text x="500" y="508" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">reusable + assets</text>
+        <rect x="420" y="464" width="160" height="56" rx="20" fill="rgba(236,114,17,0.08)" stroke="#ec7211" stroke-width="1"/>
+        <g transform="translate(444,480) scale(0.375)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g fill="#ED7100"> <rect x="0" y="0" width="64" height="64"></rect> </g> <path d="M22.6794094,52 L13.5740701,52 L23.8376189,30.41 L28.3997494,39.861 L22.6794094,52 Z M24.7269406,27.667 C24.5606285,27.321 24.2120702,27.103 23.8306478,27.103 L23.8276601,27.103 C23.4452418,27.104 23.0966835,27.325 22.9323632,27.672 L11.0973143,52.569 C10.9499239,52.879 10.9708374,53.243 11.1540795,53.534 C11.3353298,53.824 11.6540117,54 11.9955989,54 L23.309802,54 C23.695208,54 24.0447622,53.777 24.2100784,53.428 L30.4044577,40.284 C30.5329264,40.01 30.5319305,39.692 30.3994783,39.42 L24.7269406,27.667 Z M51.0082382,52 L41.985557,52 L26.9547262,19.578 C26.7914017,19.226 26.4388599,19 26.0524581,19 L20.1279625,19 L20.1349337,12 L31.8146251,12 L46.7747483,44.42 C46.9380728,44.774 47.2906147,45 47.6790082,45 L51.0082382,45 L51.0082382,52 Z M52.0041191,43 L48.3143803,43 L33.354257,10.58 C33.1909326,10.226 32.8383907,10 32.450993,10 L19.1400486,10 C18.5913182,10 18.1451636,10.447 18.1441677,10.999 L18.1362006,19.999 C18.1362006,20.265 18.2407681,20.519 18.4269979,20.707 C18.6142235,20.895 18.8671772,21 19.1310857,21 L25.4170861,21 L40.4479168,53.422 C40.6112413,53.774 40.9627873,54 41.350185,54 L52.0041191,54 C52.5548412,54 53,53.552 53,53 L53,44 C53,43.448 52.5548412,43 52.0041191,43 L52.0041191,43 Z" fill="#FFFFFF"></path> </g></g>
+        <text x="476" y="492" fill="#232f3e" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="start">AWS Lambda</text>
+        <text x="476" y="508" fill="#545b64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="start">per-invoke</text>
 
         <!-- Legend -->
-        <line x1="40" y1="540" x2="960" y2="540" stroke="rgba(45,49,66,0.10)" stroke-width="0.8"/>
-        <text x="40" y="556" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.18em">LEGEND · SHAPE CARRIES TYPE</text>
+        <line x1="40" y1="540" x2="960" y2="540" stroke="rgba(35,47,62,0.10)" stroke-width="0.8"/>
+        <text x="40" y="556" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.18em">LEGEND · SHAPE CARRIES TYPE</text>
 
-        <rect x="40" y="572" width="24" height="12" rx="6" fill="rgba(45,49,66,0.03)" stroke="rgba(45,49,66,0.30)" stroke-width="1"/>
-        <text x="72" y="582" fill="#4f5d75" font-size="8.5" font-family="'Geist', sans-serif">Start / end (oval)</text>
+        <rect x="40" y="572" width="24" height="12" rx="6" fill="rgba(35,47,62,0.03)" stroke="rgba(35,47,62,0.30)" stroke-width="1"/>
+        <text x="72" y="582" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Start / end (oval)</text>
 
-        <rect x="220" y="572" width="24" height="12" rx="2" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
-        <text x="252" y="582" fill="#4f5d75" font-size="8.5" font-family="'Geist', sans-serif">Step (rectangle)</text>
+        <rect x="220" y="572" width="24" height="12" rx="2" fill="#ffffff" stroke="#232f3e" stroke-width="1"/>
+        <text x="252" y="582" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Step (rectangle)</text>
 
-        <polygon points="412,578 424,572 436,578 424,584" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
-        <text x="448" y="582" fill="#4f5d75" font-size="8.5" font-family="'Geist', sans-serif">Decision (diamond)</text>
+        <polygon points="412,578 424,572 436,578 424,584" fill="#ffffff" stroke="#232f3e" stroke-width="1"/>
+        <text x="448" y="582" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Decision (diamond)</text>
 
-        <line x1="604" y1="580" x2="632" y2="580" stroke="#eb6c36" stroke-width="1.4" marker-end="url(#arrow-accent)"/>
-        <text x="640" y="582" fill="#4f5d75" font-size="8.5" font-family="'Geist', sans-serif">Happy path</text>
+        <line x1="604" y1="580" x2="632" y2="580" stroke="#ec7211" stroke-width="1.4" marker-end="url(#arrow-accent)"/>
+        <text x="640" y="582" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Serverless path</text>
 
-        <line x1="768" y1="580" x2="796" y2="580" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#arrow)"/>
-        <text x="804" y="582" fill="#4f5d75" font-size="8.5" font-family="'Geist', sans-serif">Branch</text>
+        <line x1="768" y1="580" x2="796" y2="580" stroke="#545b64" stroke-width="1.2" marker-end="url(#arrow)"/>
+        <text x="804" y="582" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Branch</text>
       </svg>
+    </div>
   </div>
 </body>
 </html>

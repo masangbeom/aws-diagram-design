@@ -354,3 +354,9 @@ Before emitting SVG, verify **every** item:
 ## 10. Worked YAML
 
 The YAML in §1 is the **complete** inputs definition for the shipped `example-medallion.html`. Every coordinate in that file's SVG is derivable from §2 applied to those inputs. The same YAML is embedded as a top-of-file HTML comment inside `example-medallion.html` so source view shows the parametric inputs immediately above the SVG.
+
+## On AWS
+
+- Tiers are S3 prefixes or buckets (`s3://lake/bronze/`, `silver/`, `gold/`) with the S3 icon in the tier header; the table format (Iceberg, Parquet) goes in the sublabel.
+- Promotion between tiers is a Glue job, an EMR step, or an Athena CTAS; governance is AWS Lake Formation (tags and grants) and the Glue Data Catalog.
+- Lifecycle to cold storage is an S3 Lifecycle rule to S3 Glacier Flexible Retrieval or Deep Archive, drawn as its own path, not as another quality tier.

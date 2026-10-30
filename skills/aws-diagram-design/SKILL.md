@@ -1,17 +1,17 @@
 ---
 name: aws-diagram-design
-description: "Create branded architecture, IT current-state, flowchart, sequence, state machine, ER/data model, timeline, swimlane, quadrant, radar/spider, loop/flywheel, nested, tree, org chart, layer stack, Venn, pyramid/funnel, bar, line, Gantt and scatter charts, high-level, process, medallion, data flow, DP integration, or DP security matrix diagrams as standalone HTML/SVG/PNG. Default skin is the AWS brand (Amazon Ember, squid ink, smile orange) with the official AWS Architecture Icons (EC2, Lambda, S3, VPC zones, …) bundled. Redraw .drawio/.drawio.png/.drawio.svg or Mermaid .mmd sources at a chosen size/detail; onboard brand tokens from a website; add semantic patterns, callouts, accessible motion, or sketchy/hand-drawn styling. Korean triggers: AWS 아키텍처 다이어그램, 구성도, 아키텍처 그림, 흐름도, 순서도, 시퀀스 다이어그램, 다이어그램 그려줘/그리기."
+description: "Create AWS-branded diagrams as standalone HTML/SVG/PNG: architecture and architecture delta, deployment, IT current-state, flowchart, sequence, state machine, ER and database schema, UML class, dependency graph, timeline, swimlane, service blueprint, user journey, story map, kanban, quadrant, radar, polar, loop, nested, tree, org chart, layer stack, exploded axonometric, axonometric plan, Venn, pyramid/funnel, bar, waterfall, treemap, heatmap, line, Gantt, scatter, Sankey, fishbone, Wardley map, high-level, process, medallion, data flow, DP integration, DP security matrix. Ships Amazon Ember, squid ink + smile orange, and the official AWS Architecture Icons. Redraw draw.io or Mermaid sources; onboard brand tokens; add callouts, motion, or sketchy styling. Korean triggers: AWS 아키텍처 다이어그램, 구성도, 아키텍처 그림, 흐름도, 순서도, 시퀀스 다이어그램, 다이어그램 그려줘/그리기."
 license: MIT
 metadata:
-  version: "1.2.0"
-  base: "cathrynlavery/diagram-design 2.3.2 + AWS brand skin"
+  version: "1.3.0"
+  base: "cathrynlavery/diagram-design 2.6.136 + AWS brand skin"
 ---
 
-# Diagram Design
+# AWS Diagram Design
 
-Create visual diagrams as self-contained HTML files with inline SVG and CSS, following an opinionated editorial design system.
+Create visual diagrams as self-contained HTML files with inline SVG and CSS, following an opinionated editorial design system in the AWS brand skin.
 
-Twenty-seven visual types. Semantic patterns describe behavior independently; type references describe layout. Details load from `references/` only when selected.
+Forty-five visual types. Semantic patterns describe behavior independently; type references describe layout. Details load from `references/` only when selected.
 
 ---
 
@@ -21,7 +21,7 @@ Twenty-seven visual types. Semantic patterns describe behavior independently; ty
 
 **Before generating your first diagram in a project that is clearly *not* AWS-branded** (another company's brand, a personal blog, a non-AWS product), pause and ask the user:
 
-> *"This is your first Schematic in this project. The style guide is currently the AWS brand skin (white + squid ink + smile orange, Amazon Ember). Do you want to keep it, or customize? Options: (a) pull from your website URL, (b) extract from an installed skill, (c) extract from a local folder / design-system directory, (d) paste tokens manually, (e) proceed with the AWS skin."*
+> *"This is your first diagram in this project. The style guide is currently the AWS brand skin (white + squid ink + smile orange, Amazon Ember). Do you want to keep it, or customize? Options: (a) pull from your website URL, (b) extract from an installed skill, (c) extract from a local folder / design-system directory, (d) paste tokens manually, (e) proceed with the AWS skin."*
 
 Then branch:
 
@@ -52,13 +52,13 @@ Applied to schematics:
 
 ## 2. When to Use
 
-Use for any of the 27 visual types (§3) when a reader will learn more from a visual than from prose, a table, or a bulleted list.
+Use for any of the 45 visual types (§3) when a reader will learn more from a visual than from prose, a table, or a bulleted list.
 
 **Don't use for:**
 
-- Quick unicode diagrams → use **wiretext**.
+- Quick unicode diagrams → a separate plain-text tool such as wiretext. This skill doesn't ship one.
 - Lists of things → table or bullets.
-- Simple before/after → table.
+- Attribute-only before/after → table; topology changes → Architecture delta.
 - One-shape "diagrams" → just write the sentence.
 
 Before drawing, ask: *Would the reader learn more from this than from a well-written paragraph?* If no, don't draw.
@@ -78,14 +78,16 @@ When behavior, state, enforcement, or risk carries the meaning, first load [`ref
 | Trust boundaries plus permitted/forbidden ingress or deploy paths | **Secure paved road** → Architecture |
 | Controls grouped by where they are enforced | **Governance / control catalog** → Layer stack |
 | Defenses compensate for prior gaps and residual risk propagates | **Compensating security layers** → Layer stack |
+| One subject progresses through phases, waits, retries, cancellation, and terminal outcomes | **Lifecycle phase map** → State Machine |
 
 The pattern owns semantic primitives and its tighter budget; the type owns layout grammar. Use [`references/animation.md`](references/animation.md) only when motion is requested or materially clarifies ordered change; static remains the default.
 
-### Visual-type guide (27)
+### Visual-type guide (45)
 
 | If you're showing… | Use | Reference |
 |---|---|---|
-| Components + connections in a system | **Architecture** | [type-architecture.md](references/type-architecture.md) |
+| Components + connections in one snapshot; nested admin vs traffic scopes (account → VPC → subnet) | **Architecture** | [type-architecture.md](references/type-architecture.md) |
+| Structural change between synchronized Before / After topologies, with a Changes ledger (migrations, re-platforming) | **Architecture delta** | [type-architecture-delta.md](references/type-architecture-delta.md) |
 | Legacy IT landscape grouped by phase/department; documents the *before* state in modernization proposals | **IT current-state** | [type-it-state.md](references/type-it-state.md) |
 | Decision logic with branches | **Flowchart** | [type-flowchart.md](references/type-flowchart.md) |
 | Time-ordered messages between actors | **Sequence** | [type-sequence.md](references/type-sequence.md) |
@@ -95,31 +97,71 @@ The pattern owns semantic primitives and its tighter budget; the type owns layou
 | Cross-functional process with handoffs | **Swimlane** | [type-swimlane.md](references/type-swimlane.md) |
 | Two-axis positioning / prioritization | **Quadrant** | [type-quadrant.md](references/type-quadrant.md) |
 | Multiple entities scored across 3–5 quantitative criteria | **Radar / Spider** | [type-radar.md](references/type-radar.md) |
+| One quantitative series across cyclic categories; angle = category, radius = magnitude | **Polar chart** | [type-polar.md](references/type-polar.md) |
 | Reinforcing cycle / flywheel where the last step feeds the first and a shared hub accumulates state | **Loop** | [type-loop.md](references/type-loop.md) |
 | Hierarchy through containment / scope | **Nested** | [type-nested.md](references/type-nested.md) |
 | Parent → children relationships | **Tree** | [type-tree.md](references/type-tree.md) |
 | Human/agent/team ownership, reporting, routing, escalation | **Org chart** | [type-org-chart.md](references/type-org-chart.md) |
 | Stacked abstraction levels | **Layer stack** | [type-layers.md](references/type-layers.md) |
+| Parts of one object pulled apart along one axis: a teardown, an unboxing, assembly order | **Exploded axonometric** | [type-exploded.md](references/type-exploded.md) |
+| One floor or site seen from above at an angle: rooms with furniture, buildings by phase | **Axonometric plan** | [type-axonometric-plan.md](references/type-axonometric-plan.md) |
 | Overlap between sets | **Venn** | [type-venn.md](references/type-venn.md) |
 | Ranked hierarchy or conversion drop-off | **Pyramid / funnel** | [type-pyramid.md](references/type-pyramid.md) |
-| Quantitative comparison across categories | **Bar chart** | [type-bar.md](references/type-bar.md) |
-| Continuous trends over time | **Line chart** | [type-line.md](references/type-line.md) |
+| Quantitative comparison across categories; dumbbell for a two-point gap per row | **Bar chart** | [type-bar.md](references/type-bar.md) |
+| A start total bridged to an end total by signed contributions (cost bridge, headcount deltas) | **Waterfall** | [type-waterfall.md](references/type-waterfall.md) |
+| Part-of-whole where the relative sizes are the story; marimekko for two-level shares | **Treemap** | [type-treemap.md](references/type-treemap.md) |
+| Cross-tabulated data; fill encodes value per cell | **Heatmap** | [type-heatmap.md](references/type-heatmap.md) |
+| Continuous trends over time, change between exactly two states (slopegraph), one distribution per series (ridgeline), part-of-whole flow over time (streamgraph), or rank movement across several snapshots (bump) | **Line chart** | [type-line.md](references/type-line.md) |
 | Tasks and phases on a timeline | **Gantt** | [type-gantt.md](references/type-gantt.md) |
-| Distribution and correlation between two variables | **Scatter plot** | [type-scatter.md](references/type-scatter.md) |
+| Correlation or distribution of two variables; bubble (three variables), beeswarm (one variable, dot per item), and box plot (five-number summary per group) variants | **Scatter plot** | [type-scatter.md](references/type-scatter.md) |
 | End-to-end data stack on a container cluster | **High-Level** | [type-high-level.md](references/type-high-level.md) |
 | Multi-actor sequential process with data handoffs | **Process** | [type-process.md](references/type-process.md) |
 | Multi-tier data storage with quality levels and access policies | **Medallion** | [type-medallion.md](references/type-medallion.md) |
 | Role-scoped data flow: who does what at each pipeline step | **Data flow** | [type-data-flow.md](references/type-data-flow.md) |
 | Integration topology of a data platform — sources → core → consumers | **DP integration** | [type-dp-integration.md](references/type-dp-integration.md) |
 | Per-role / per-component access permissions matrix | **DP security matrix** | [type-dp-security-matrix.md](references/type-dp-security-matrix.md) |
+| A quantity splitting and merging across stages, band width = amount (cost allocation, traffic split) | **Sankey** | [type-sankey.md](references/type-sankey.md) |
+| Causes of one observed effect, grouped by category (root-cause analysis, incident review) | **Fishbone** | [type-fishbone.md](references/type-fishbone.md) |
+| Value chain against evolution — what to build, buy, and what is moving | **Wardley map** | [type-wardley.md](references/type-wardley.md) |
+| Work-in-progress by state, with WIP limits and blocked items | **Kanban** | [type-kanban.md](references/type-kanban.md) |
+| What a person does across stages of an experience, and how it feels | **User journey** | [type-journey.md](references/type-journey.md) |
+| What the customer does vs what the service hides, across stages, with a line of visibility | **Service blueprint** | [type-service-blueprint.md](references/type-service-blueprint.md) |
+| Where software runs — zones, hosts, artifacts, replicas, ports | **Deployment** | [type-deployment.md](references/type-deployment.md) |
+| What depends on what, with fan-in and cycles a tree cannot express | **Dependency graph** | [type-dependency.md](references/type-dependency.md) |
+| Classes with operations, inheritance, composition (other UML routes elsewhere) | **UML class** | [type-uml-class.md](references/type-uml-class.md) |
+| Narrative backbone sliced into releases, with the cut line | **Story map** | [type-story-map.md](references/type-story-map.md) |
+| Physical tables: SQL types, constraints, indexes, column-level FKs | **Database schema** | [type-db-schema.md](references/type-db-schema.md) |
 
 Rules of thumb:
 
 - If a 3-column table communicates the same thing, pick the table.
 - If two types seem useful, pick the dominant axis; a semantic pattern may add behavior-specific primitives, not a second layout grammar.
 - If you're past the complexity budget (§7), split into an overview + detail.
+- For AWS systems: service topology and data paths → **Architecture**; where artifacts and replicas physically run (AZs, hosts, task counts, ports) → **Deployment**; a migration or re-architecture shown as before/after → **Architecture delta**; DynamoDB/RDS tables with keys and indexes → **Database schema**.
 
 **Always load the chosen `references/type-*.md` before drawing.** When routed above, also load `semantic-patterns.md`; when animation is chosen, load `animation.md`.
+
+### AWS diagrams
+
+Most requests here are AWS systems. For any diagram that names AWS services:
+
+1. Load [`references/primitive-aws-icons.md`](references/primitive-aws-icons.md) alongside the type reference. It owns icons, container colors, service naming, and the inside/outside-the-VPC placement table.
+2. Read the type reference's **On AWS** section. It maps that type's primitives to AWS constructs (containers, services, lifecycles) and lists AWS-specific anti-patterns.
+3. Inline icons with `python3 <skill-dir>/scripts/aws_icon.py find <service>` and `aws_icon.py <icon> X Y 24`; never hand-copy or recolor SVG.
+
+| Typical ask | Type |
+|---|---|
+| "구성도", "아키텍처", a system on AWS, VPC / subnet / account layout | Architecture (On AWS) |
+| Migration or re-architecture, before vs after | Architecture delta |
+| Where tasks, instances, replicas, and ports run across AZs | Deployment |
+| Request path through services, with retries, auth, or async | Sequence |
+| Step Functions workflow, resource or execution lifecycle | State machine |
+| Data lake / analytics pipeline | Data flow, Medallion, or DP integration |
+| AWS Organizations, OUs, accounts, SCP scope | Tree or Nested |
+| CDK / CloudFormation stack dependencies | Dependency graph |
+| AWS cost, utilization, or CloudWatch metrics | the matching chart (bar, line, waterfall, treemap, heatmap, Sankey) |
+
+**AWS data in charts:** state the basis on the chart. Cost: unblended or amortized, monthly, currency, with or without credits and Savings Plans. CloudWatch metrics: the statistic and period (`p99 · 5 min`), Region, and unit.
 
 ### Confirm before drawing
 
@@ -144,6 +186,7 @@ These mark "AI slop" schematics of any type:
 | Shadow on any element | Shadows are out. Borders are in. |
 | `rounded-2xl` on boxes | Max radius 6–10px or none |
 | Coral on every "important" node | Coral is 1–2 editorial accents, not a signaling system |
+| Small text in light-skin smile orange | `#EC7211` reads 3.01:1 on white — below the 4.5:1 text bar. Accent marks the stroke/fill; the label stays `ink` ([style-guide.md § Contrast contract](references/style-guide.md#contrast-contract)) |
 | Reproducing Mermaid's renderer layout | Imports automatic spacing and routing instead of making an editorial layout |
 | Diagonal / slanted connectors between off-axis nodes | Rounded right-angle (orthogonal) elbows are mandatory — see §6 Mandatory connector rules |
 | Arrow label sitting on or touching its connector | Label must have a 6–10px gap above the line so the connector stays visible |
@@ -162,6 +205,8 @@ Type-specific anti-patterns live in each `references/type-*.md`.
 
 > When specs below or in type references mention "ink", "accent", "muted", etc., look up the current hex value in `style-guide.md`. When they say "coral", they mean the `accent` role — smile orange in the AWS skin.
 
+Type-reference snippets write roles as placeholders: `{ink}`, `{ink @ 0.40}` for a role at an opacity, and `{node-name}`, `{sublabel}`, `{eyebrow}`, `{arrow-label}`, `{title}`, `{callout}` for fonts. Resolve every placeholder against `style-guide.md` before emitting.
+
 ### Semantic roles (at a glance)
 
 | Role | Purpose |
@@ -173,7 +218,7 @@ Type-specific anti-patterns live in each `references/type-*.md`.
 | `accent`, `accent-tint` | 1–2 focal elements per diagram |
 | `link` | HTTP/API calls, external arrows |
 
-**Focal rule:** `accent` goes on 1–2 elements max. Everything else is `ink` / `muted` / `soft`. If you're tempted to accent 4 things, you haven't decided what's focal yet.
+**Focal rule:** `accent` goes on 1–2 elements max. Everything else is `ink` / `muted` / `soft`. If you're tempted to accent 4 things, you haven't decided what's focal yet. In the light skin `accent` is a mark color — strokes, markers, fills — never text under 24px; labels beside a focal mark stay `ink`.
 
 ### Node type → treatment
 
@@ -204,6 +249,8 @@ Type-specific anti-patterns live in each `references/type-*.md`.
 <!-- @font-face for both families: assets/fonts/README.md (bundled woff2, local() first) -->
 ```
 
+**Non-Latin labels** — Amazon Ember has no Hangul or Han glyphs; extend the family per label and follow the width, 12px-floor, and register rules: [Korean](references/style-guide.md#korean-labels), [Chinese / Japanese](references/style-guide.md#chinese-and-japanese-labels), [Cyrillic](references/style-guide.md#cyrillic-labels).
+
 ---
 
 ## 6. Core SVG Primitives
@@ -212,7 +259,7 @@ Universal building blocks. Type-specialized primitives (lifeline, activation bar
 
 - Editorial callouts → [primitive-annotation.md](references/primitive-annotation.md)
 - Hand-drawn variant → [primitive-sketchy.md](references/primitive-sketchy.md)
-- **Official AWS Architecture Icons** (EC2, Lambda, S3, … + VPC/subnet/account zone conventions) → [primitive-aws-icons.md](references/primitive-aws-icons.md). **Use these whenever a diagram names specific AWS services — in every visual type, not just Architecture.** Data-flow cells, process steps, high-level components, sequence actors, swimlane steps, medallion tiers, DP-integration nodes: any element whose subject is a named AWS service carries its official icon. Types with the standard 56px node use the icon-left pattern; compact node types (data-flow, and any node too small for icon-left) use the 16px corner slot defined in [primitive-aws-icons.md § Compact nodes](references/primitive-aws-icons.md). Gallery: [`assets/aws-icons.html`](assets/aws-icons.html); index: [`assets/aws-icons/INDEX.md`](assets/aws-icons/INDEX.md).
+- **Official AWS Architecture Icons** (EC2, Lambda, S3, … + VPC/subnet/account zone conventions) → [primitive-aws-icons.md](references/primitive-aws-icons.md). **Use these whenever a diagram names specific AWS services — in every visual type, not just Architecture.** Data-flow cells, process steps, high-level components, sequence actors, swimlane steps, medallion tiers, DP-integration nodes: any element whose subject is a named AWS service carries its official icon. Types with the standard 56px node use the icon-left pattern; compact node types (data-flow, and any node too small for icon-left) use the 16px corner slot defined in [primitive-aws-icons.md § Compact nodes](references/primitive-aws-icons.md). Gallery: [`assets/aws-icons.html`](assets/aws-icons.html); index: [`assets/aws-icons/INDEX.md`](assets/aws-icons/INDEX.md); inline with `scripts/aws_icon.py`.
 - Generic monochrome icon set (laptop, server, DB, K8s, Docker, …) → [primitive-icons.md](references/primitive-icons.md). Browse the gallery at [`assets/icons.html`](assets/icons.html). For generic/non-AWS infrastructure.
 - Terminal / CLI-window variant → [primitive-terminal.md](references/primitive-terminal.md)
 - Optional explanatory motion → [animation.md](references/animation.md)
@@ -316,7 +363,7 @@ Every arrow label needs an opaque rect behind it. Without one it bleeds through 
 ```svg
 <!-- Mask spans ARROW_Y-20 to ARROW_Y-8: 12px plate + 8px visible gap above the stroke at ARROW_Y. -->
 <rect x="MID_X-18" y="ARROW_Y-20" width="36" height="12" rx="2" fill="#ffffff"/>
-<text x="MID_X" y="ARROW_Y-11" fill="#7D8998" font-size="8"
+<text x="MID_X" y="ARROW_Y-11" fill="#687078" font-size="8"
       font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">WRITE</text>
 ```
 
@@ -369,6 +416,8 @@ Quick check: if a coordinate ends in 1, 2, 3, 5, 6, 7, 9 — fix it.
 | Max nodes | 9 |
 | Max arrows / transitions | 12 |
 | Max coral elements | 2 |
+| Max unique components / relationships / ledger entries (architecture delta) | 8 / 10 / 8 |
+| Max admin bands / traffic scopes / nodes (architecture containment) | 2 / 4 / 8 |
 | Max lifelines (sequence) | 5 |
 | Max combined fragments (sequence) | 1 (default); 2 only if each is single-region `opt`/`loop` |
 | Max `alt` regions (sequence) | 2 |
@@ -381,15 +430,32 @@ Quick check: if a coordinate ends in 1, 2, 3, 5, 6, 7, 9 — fix it.
 | Max org chart depth | 4 |
 | Max org chart nodes | 12 |
 | Max layers (layer stack) | 6 |
+| Max parts / levels / focal parts (exploded axonometric) | 5 / 5 / 1, three detail levels |
+| Max tagged rooms or buildings / boxes / focal (axonometric plan) | 8 / 40 / 1 |
 | Max circles (venn) | 3 |
 | Max layers (pyramid) | 6 |
 | Max radar axes | 5 |
 | Max radar series | 5 |
 | Max focal radar series | 1 |
+| Max polar categories / series / focal categories | 8 / 1 / 1 |
 | Max bars (bar chart) | 8 |
+| Max bars (waterfall) | 8 incl. totals, 1 subtotal |
+| Max cells (treemap) | 8 |
 | Max series (line chart) | 5 |
 | Max tasks (Gantt) | 12 |
 | Max points (scatter plot) | 30 |
+| Max series / outliers (box plot) | 8 / 8, 1 focal series |
+| Max stages / nodes / flows (sankey) | 3 / 8 / 12 |
+| Max categories (fishbone) | 6 bones, 3 sub-causes each |
+| Max components / links (wardley) | 9 / 12, 2 movement arrows |
+| Max columns / cards (kanban) | 5 / 12 total, 4 per column |
+| Max stages / rows (user journey) | 6 / 3, 2 pain markers |
+| Max stages / layers (service blueprint) | 6 stages; required customer / frontstage / backstage; optional evidence / support; 1 focal cell |
+| Max zones / nodes / paths (deployment) | 3 / 6 / 8, 9 artifacts |
+| Max nodes / edges (dependency) | 9 / 14, 4 ranks, 1 cycle |
+| Max classes / relationships (UML class) | 7 / 8, 5 members per compartment |
+| Max activities / slices / cards (story map) | 5 / 3 / 12 |
+| Max tables / columns / FKs (db schema) | 5 / 8 shown / 6 |
 | Max annotation callouts | 2 |
 | Max motion (optional) | 8 steps, 12 marked items, 2 simultaneous items — see [animation.md](references/animation.md) |
 
@@ -453,6 +519,7 @@ Run before producing any diagram.
 **Signal:**
 
 - [ ] Coral used on ≤2 elements? If more, which actually deserve focal status?
+- [ ] No small text set in the light-skin accent? (Labels beside accent marks are `ink`.)
 - [ ] Legend covers every type used — and nothing extra?
 - [ ] Within the type's complexity budget (§7)?
 
@@ -470,11 +537,13 @@ Run before producing any diagram.
 - [ ] **No label mask overlaps a node drawn after it? (Node fill would clip the text — §6 rule 6. Run `python3 <skill-dir>/scripts/verify-geometry.py <file>` — ships with the skill.)**
 - [ ] Every arrow label has an opaque `paper`-filled rect behind it (`#ffffff` in the AWS skin)?
 - [ ] Named AWS services use official icons from `assets/aws-icons/` — unmodified, uncolored, ≥16px ([primitive-aws-icons.md](references/primitive-aws-icons.md))?
+- [ ] AWS placement and names hold up to an AWS engineer? Regional services outside the VPC (reached through a labeled endpoint), Multi-AZ drawn across AZs, public/private subnets right, official service names with the correct `AWS` / `Amazon` prefix ([primitive-aws-icons.md § Placement](references/primitive-aws-icons.md#placement-inside-vs-outside-the-vpc))?
 - [ ] Legend is a horizontal bottom strip, not floating?
 - [ ] No vertical `writing-mode` text?
 - [ ] `viewBox` expanded for the legend strip (~60px)?
+- [ ] **`min-width` equals the viewBox width, and the SVG sits in a local `overflow-x: auto` wrapper (`.diagram-container`)? (Otherwise a phone scrolls the whole page — or an `overflow: hidden` ancestor clips the diagram with no scrollbar at all. See [output-spec.md](references/output-spec.md).)**
 - [ ] Every font size, coord, width, height, gap divisible by 4?
-- [ ] Ran the packaged self-check — `python3 <skill-dir>/scripts/self_check.py <file>` — clean? (Accessible-SVG contract, single-file safety, motion basics; ships with the skill.)
+- [ ] Ran the packaged self-check — `python3 <skill-dir>/scripts/self_check.py <file>` — clean? (Accessible-SVG contract, single-file safety, document completeness, content inside the viewBox, motion basics; ships with the skill.)
 - [ ] If animated, does the complete static/no-JS frame work, does reduced motion hide/disable playback, and is the controller copied verbatim from `template-motion.html`? In this repository, also run `python3 scripts/verify-motion.py path/to/generated.html`; from an installed skill, manually check print and static-query states on top of the self-check.
 
 **Typography:**
@@ -495,7 +564,7 @@ Every diagram ships in three variants (see `assets/`):
 
 | Variant | File pattern | When to use |
 |---|---|---|
-| **Minimal light** (default) | `template.html`, `example-<type>.html` | Screenshot-ready. Diagram + title. Warm paper. |
+| **Minimal light** (default) | `template.html`, `example-<type>.html` | Screenshot-ready. Diagram + title. White AWS paper. |
 | **Minimal dark** | `template-dark.html`, `example-<type>-dark.html` | Dark mode sites, slides, high-contrast posts. |
 | **Full editorial** | `template-full.html`, `example-<type>-full.html` | Long-form posts where the diagram is the hero. |
 | **Consultant special** (quadrant only) | `example-quadrant-consultant.html` | BCG/McKinsey-style 2×2 scenario matrix. Clinical sans-serif, white bg, bold blue double-ended axes, named scenario cells. See [type-quadrant.md](references/type-quadrant.md#consultant-special-2x2-scenario-matrix). |
@@ -503,6 +572,8 @@ Every diagram ships in three variants (see `assets/`):
 **Sketchy variant** (optional, applied to any of the above) — see [primitive-sketchy.md](references/primitive-sketchy.md). SVG turbulence filter wobbles strokes for a hand-drawn feel. Good for essays, not for technical docs.
 
 **Terminal variant** (optional, replaces any of the above) — see [primitive-terminal.md](references/primitive-terminal.md). `template-terminal.html`, `example-<type>-terminal.html`. Charcoal-black CLI-window chrome, monospace type, one red-orange accent. Good for dev-tool / CLI-product posts and technical social cards; not brand-tokenized, so skip it for onboarded/brand-matched output.
+
+**Examples.** Every `example-*.html` in `assets/` is drawn in the AWS skin with an AWS scenario and official icons. Take layout grammar and geometry from them and tokens from `style-guide.md`; browse them all in the gallery, [`assets/index.html`](assets/index.html).
 
 **Animation** (optional presentation layer) — see [animation.md](references/animation.md). Modes are `none` (default), `reveal`, `step`, and `loop`; motion never changes the static meaning or raises the complexity budget.
 
@@ -536,7 +607,7 @@ Every imported diagram is shaped by four decisions. Full spec in [`references/ou
 | Dial | Options | Default |
 |---|---|---|
 | **Format** | `html` · `svg` · `png` · `html+png` | `html` |
-| **Size** | `doc-inline` · `doc-wide` · `slide-16x9` · `slide-4x3` · `social-og` · `social-square` · `print-a4-landscape` · `print-letter-landscape` · `fit` | `doc-inline` |
+| **Size** | `doc-inline` · `doc-wide` · `slide-16x9` · `slide-4x3` · `social-og` · `social-square` · `print-a4-landscape` · `print-a3-landscape` · `print-letter-landscape` · `fit` | `doc-inline` |
 | **Detail** | `faithful` (≤24 nodes, zoned) · `balanced` (≤12) · `simplified` (≤7) | `balanced` |
 | **Audience** | `engineer` · `mixed` · `executive` — governs wording, not count | `mixed` |
 
@@ -551,7 +622,7 @@ Two consequences worth remembering here:
 
 Always produce a single self-contained `.html` file:
 
-- Embedded CSS (no external except Google Fonts)
+- Embedded CSS; fonts come from the bundled Amazon Ember `@font-face` block (`local()` first) — no external stylesheet or CDN
 - Inline SVG (no external images)
 - Static by default; minimal inline JavaScript only for explicit animation controls/state
 
@@ -570,6 +641,6 @@ Every diagram is an accessible figure by default:
 
 ### Exporting to PNG / SVG
 
-When the user asks to export, save, rasterize, or convert a generated diagram to `.png` or `.svg`, load [`references/export.md`](references/export.md) and follow the procedure there. Both formats deliver the diagram only (the `<svg>` node) — editorial wrappers like cards and headers are dropped by design. Export is **manual** — never produce export files unprompted.
+When the user asks to export, save, rasterize, or convert a generated diagram to `.png` or `.svg`, load [`references/export.md`](references/export.md) and follow the procedure there — it runs the packaged `scripts/export_svg.py` and `scripts/export_png.py` helpers. Both formats deliver the diagram only (the `<svg>` node) — editorial wrappers like cards and headers are dropped by design. Export is **manual** — never produce export files unprompted.
 
 For an imported diagram, pixel dimensions come from the `viewBox` × scale factor, so its size decision belongs to §11, not to export. For any diagram that needs an exact frame (an OG card or a 1920×1080 slide image), see [`export.md` § Sizing the export](references/export.md).

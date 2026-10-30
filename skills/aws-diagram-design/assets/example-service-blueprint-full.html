@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Account vending — what the app team never sees · Service blueprint</title>
+  <style>
+  @font-face { font-family: 'Amazon Ember'; font-weight: 400; font-style: normal; src: local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_Rg.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 400; font-style: italic; src: local('Amazon Ember Italic'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_RgIt.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 600; font-style: normal; src: local('Amazon Ember Medium'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_SBd.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 700; font-style: normal; src: local('Amazon Ember Bold'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_Bd.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember Mono'; font-weight: 400; font-style: normal; src: local('Amazon Ember Mono'), url('fonts/woff2/AmazonEmberMono_W_Rg.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember Mono'; font-weight: 700; font-style: normal; src: local('Amazon Ember Mono Bold'), local('Amazon Ember Mono'), url('fonts/woff2/AmazonEmberMono_W_Bd.woff2') format('woff2'); }
+</style>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --color-paper:       #ffffff;
+      --color-paper-2:     #f2f3f3;
+      --color-ink:         #232f3e;
+      --color-muted:       #545b64;
+      --color-soft:        #687078;
+      --color-rule:        rgba(35,47,62,0.12);
+      --color-accent:      #ec7211;
+      --font-sans:   'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --font-serif:  'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --font-mono:   'Amazon Ember Mono', ui-monospace, monospace;
+    }
+    body {
+      font-family: var(--font-sans);
+      background: var(--color-paper);
+      min-height: 100vh;
+      padding: 3rem 2rem;
+      color: var(--color-ink);
+    }
+    .container { max-width: 1280px; margin: 0 auto; }
+    .header { margin-bottom: 2.5rem; }
+    .header-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+      margin-bottom: 0.75rem;
+    }
+    h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(1.75rem, 3vw + 1rem, 2.5rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      color: var(--color-ink);
+      margin-bottom: 0.5rem;
+    }
+    .subtitle {
+      font-family: var(--font-sans);
+      font-size: 1rem;
+      line-height: 1.55;
+      color: var(--color-muted);
+      max-width: 58ch;
+    }
+    .diagram-container {
+      background: var(--color-paper-2);
+      border-radius: 8px;
+      border: 1px solid var(--color-rule);
+      padding: 1.5rem;
+      overflow-x: auto;
+    }
+    svg { width: 100%; min-width: 1080px; display: block; }
+    @media print {
+      .diagram-container { overflow-x: visible; }
+      svg { min-width: 0; }
+    }
+    .cards { display: grid; grid-template-columns: 1.15fr 1fr 0.85fr; gap: 1rem; margin-top: 1.5rem; }
+    @media (max-width: 900px) { .cards { grid-template-columns: 1fr; } }
+    .card {
+      background: #ffffff;
+      border-radius: 6px;
+      border: 1px solid var(--color-rule);
+      padding: 1.25rem;
+    }
+    .card .eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.5rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+      margin-bottom: 0.5rem;
+    }
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 0.875rem;
+      padding-bottom: 0.875rem;
+      border-bottom: 1px solid rgba(35,47,62,0.08);
+    }
+    .card-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+    .card-dot.coral { background: var(--color-accent); }
+    .card-dot.ink { background: var(--color-ink); }
+    .card-dot.muted { background: var(--color-muted); }
+    .card h3 { font-size: 0.875rem; font-weight: 600; }
+    .card p { color: var(--color-muted); font-size: 0.8125rem; line-height: 1.55; }
+    .footer {
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(35,47,62,0.10);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      color: var(--color-soft);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <p class="header-eyebrow">Service blueprint · AWS Diagram Design</p>
+      <h1>Account vending — what the app team never sees</h1>
+      <p class="subtitle">Five stages from account request to first workload. The app team still sees Retry request; the failure is a backstage AWS Control Tower Account Factory timeout sitting below the line of visibility.</p>
+    </div>
+    <div class="diagram-container">
+      <svg viewBox="0 0 1280 520" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="service-blueprint-full-title service-blueprint-full-desc">
+        <title id="service-blueprint-full-title">Account vending — what the app team never sees</title>
+        <desc id="service-blueprint-full-desc">Service blueprint of an AWS account-vending request across five stages, with customer and frontstage actions above a line of visibility and a focal backstage Account Factory timeout under Provision.</desc>
+        <defs>
+          <pattern id="dots" width="22" height="22" patternUnits="userSpaceOnUse">
+            <circle cx="1" cy="1" r="0.9" fill="rgba(35,47,62,0.10)"/>
+          </pattern>
+        </defs>
+
+        <rect width="100%" height="100%" fill="#ffffff"/>
+        <rect width="100%" height="100%" fill="url(#dots)" opacity="0.55"/>
+        <rect x="96" y="272" width="1104" height="120" fill="rgba(35,47,62,0.03)"/>
+        <rect x="96" y="24" width="208" height="48" fill="none" data-stage="request"/>
+        <text x="200" y="40" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.14em">STAGE 1</text>
+        <text x="200" y="60" fill="#232f3e" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Request</text>
+        <rect x="320" y="24" width="208" height="48" fill="none" data-stage="approve"/>
+        <text x="424" y="40" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.14em">STAGE 2</text>
+        <text x="424" y="60" fill="#232f3e" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Approve</text>
+        <rect x="544" y="24" width="208" height="48" fill="none" data-stage="provision"/>
+        <text x="648" y="40" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.14em">STAGE 3</text>
+        <text x="648" y="60" fill="#232f3e" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Provision</text>
+        <rect x="768" y="24" width="208" height="48" fill="none" data-stage="handover"/>
+        <text x="872" y="40" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.14em">STAGE 4</text>
+        <text x="872" y="60" fill="#232f3e" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Hand over</text>
+        <rect x="992" y="24" width="208" height="48" fill="none" data-stage="first-workload"/>
+        <text x="1096" y="40" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.14em">STAGE 5</text>
+        <text x="1096" y="60" fill="#232f3e" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">First workload</text>
+        <line x1="96" y1="196" x2="1200" y2="196" stroke="rgba(35,47,62,0.18)" stroke-width="1" data-role="interaction"/>
+        <line x1="96" y1="268" x2="1200" y2="268" stroke="rgba(35,47,62,0.55)" stroke-width="2" data-role="visibility"/>
+        <line x1="96" y1="340" x2="1200" y2="340" stroke="rgba(35,47,62,0.18)" stroke-width="1" data-role="internal-interaction"/>
+        <g data-layer="evidence">
+          <text x="88" y="99" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="end" letter-spacing="0.12em">EVIDENCE</text>
+          <rect x="96" y="72" width="208" height="48" rx="4" fill="#ffffff"/>
+          <rect x="96" y="72" width="208" height="48" rx="4" fill="#ffffff" stroke="#232f3e" stroke-width="1" data-stage="request" data-name="Service Catalog form"/>
+          <text x="200" y="100" fill="#232f3e" font-size="12" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Service Catalog form</text>
+          <rect x="320" y="72" width="208" height="48" rx="4" fill="#ffffff"/>
+          <rect x="320" y="72" width="208" height="48" rx="4" fill="#ffffff" stroke="#232f3e" stroke-width="1" data-stage="approve" data-name="Approval email"/>
+          <text x="424" y="100" fill="#232f3e" font-size="12" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Approval email</text>
+          <rect x="544" y="72" width="208" height="48" rx="4" fill="#ffffff"/>
+          <rect x="544" y="72" width="208" height="48" rx="4" fill="#ffffff" stroke="#232f3e" stroke-width="1" data-stage="provision" data-name="Request status page"/>
+          <text x="648" y="100" fill="#232f3e" font-size="12" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Request status page</text>
+          <rect x="768" y="72" width="208" height="48" rx="4" fill="#ffffff"/>
+          <rect x="768" y="72" width="208" height="48" rx="4" fill="#ffffff" stroke="#232f3e" stroke-width="1" data-stage="handover" data-name="Access portal URL"/>
+          <text x="872" y="100" fill="#232f3e" font-size="12" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Access portal URL</text>
+          <rect x="992" y="72" width="208" height="48" rx="4" fill="#ffffff"/>
+          <rect x="992" y="72" width="208" height="48" rx="4" fill="#ffffff" stroke="#232f3e" stroke-width="1" data-stage="first-workload" data-name="Cost Explorer view"/>
+          <text x="1096" y="100" fill="#232f3e" font-size="12" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Cost Explorer view</text>
+        </g>
+        <g data-layer="customer">
+          <text x="88" y="163" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="end" letter-spacing="0.12em">CUSTOMER</text>
+          <rect x="96" y="128" width="208" height="64" rx="4" fill="#ffffff"/>
+          <rect x="96" y="128" width="208" height="64" rx="4" fill="#ffffff" stroke="#232f3e" stroke-width="1" data-stage="request" data-name="Request account"/>
+          <text x="200" y="164" fill="#232f3e" font-size="12" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Request account</text>
+          <rect x="320" y="128" width="208" height="64" rx="4" fill="#ffffff"/>
+          <rect x="320" y="128" width="208" height="64" rx="4" fill="#ffffff" stroke="#232f3e" stroke-width="1" data-stage="approve" data-name="Wait for approval"/>
+          <text x="424" y="164" fill="#232f3e" font-size="12" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Wait for approval</text>
+          <rect x="544" y="128" width="208" height="64" rx="4" fill="#ffffff"/>
+          <rect x="544" y="128" width="208" height="64" rx="4" fill="#ffffff" stroke="#232f3e" stroke-width="1" data-stage="provision" data-name="Retry request"/>
+          <text x="648" y="164" fill="#232f3e" font-size="12" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Retry request</text>
+          <rect x="768" y="128" width="208" height="64" rx="4" fill="#ffffff"/>
+          <rect x="768" y="128" width="208" height="64" rx="4" fill="#ffffff" stroke="#232f3e" stroke-width="1" data-stage="handover" data-name="Sign in via SSO"/>
+          <text x="872" y="164" fill="#232f3e" font-size="12" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Sign in via SSO</text>
+          <rect x="992" y="128" width="208" height="64" rx="4" fill="#ffffff"/>
+          <rect x="992" y="128" width="208" height="64" rx="4" fill="#ffffff" stroke="#232f3e" stroke-width="1" data-stage="first-workload" data-name="Deploy workload"/>
+          <text x="1096" y="164" fill="#232f3e" font-size="12" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Deploy workload</text>
+        </g>
+        <g data-layer="frontstage">
+          <text x="88" y="235" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="end" letter-spacing="0.12em">FRONTSTAGE</text>
+          <rect x="96" y="200" width="208" height="64" rx="4" fill="#ffffff"/>
+          <rect x="96" y="200" width="208" height="64" rx="4" fill="#ffffff" stroke="#232f3e" stroke-width="1" data-stage="request" data-name="Request acknowledged"/>
+          <text x="200" y="236" fill="#232f3e" font-size="12" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Request acknowledged</text>
+          <rect x="320" y="200" width="208" height="64" rx="4" fill="#ffffff"/>
+          <rect x="320" y="200" width="208" height="64" rx="4" fill="#ffffff" stroke="#232f3e" stroke-width="1" data-stage="approve" data-name="Approval ticket"/>
+          <text x="424" y="236" fill="#232f3e" font-size="12" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Approval ticket</text>
+          <rect x="544" y="200" width="208" height="64" rx="4" fill="#ffffff"/>
+          <rect x="544" y="200" width="208" height="64" rx="4" fill="#ffffff" stroke="#232f3e" stroke-width="1" data-stage="provision" data-name="Status: in progress"/>
+          <text x="648" y="236" fill="#232f3e" font-size="12" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Status: in progress</text>
+          <rect x="768" y="200" width="208" height="64" rx="4" fill="#ffffff"/>
+          <rect x="768" y="200" width="208" height="64" rx="4" fill="#ffffff" stroke="#232f3e" stroke-width="1" data-stage="handover" data-name="Access email sent"/>
+          <text x="872" y="236" fill="#232f3e" font-size="12" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Access email sent</text>
+          <rect x="992" y="200" width="208" height="64" rx="4" fill="#ffffff"/>
+          <rect x="992" y="200" width="208" height="64" rx="4" fill="#ffffff" stroke="#232f3e" stroke-width="1" data-stage="first-workload" data-name="Onboarding guide"/>
+          <text x="1096" y="236" fill="#232f3e" font-size="12" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Onboarding guide</text>
+        </g>
+        <g data-layer="backstage">
+          <text x="88" y="307" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="end" letter-spacing="0.12em">BACKSTAGE</text>
+          <rect x="96" y="272" width="208" height="64" rx="4" fill="rgba(35,47,62,0.06)" stroke="#545b64" stroke-width="1" data-stage="request" data-name="Quota + budget check"/>
+          <text x="200" y="308" fill="#232f3e" font-size="12" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Quota + budget check</text>
+          <rect x="320" y="272" width="208" height="64" rx="4" fill="rgba(35,47,62,0.06)" stroke="#545b64" stroke-width="1" data-stage="approve" data-name="Choose target OU"/>
+          <text x="424" y="308" fill="#232f3e" font-size="12" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Choose target OU</text>
+          <rect x="544" y="272" width="208" height="64" rx="4" fill="rgba(236,114,17,0.12)" stroke="#ec7211" stroke-width="1" data-stage="provision" data-name="Account Factory timeout" data-focal="true"/>
+          <text x="648" y="300" fill="#232f3e" font-size="12" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle" font-weight="600">Account Factory timeout</text>
+          <text x="648" y="318" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">Control Tower · 45m</text>
+          <rect x="768" y="272" width="208" height="64" rx="4" fill="rgba(35,47,62,0.06)" stroke="#545b64" stroke-width="1" data-stage="handover" data-name="Assign permission sets"/>
+          <text x="872" y="308" fill="#232f3e" font-size="12" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Assign permission sets</text>
+          <rect x="992" y="272" width="208" height="64" rx="4" fill="rgba(35,47,62,0.06)" stroke="#545b64" stroke-width="1" data-stage="first-workload" data-name="Apply StackSets baseline"/>
+          <text x="1096" y="308" fill="#232f3e" font-size="12" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Apply StackSets baseline</text>
+        </g>
+        <g data-layer="support">
+          <text x="88" y="371" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="end" letter-spacing="0.12em">SUPPORT</text>
+          <rect x="96" y="344" width="208" height="48" rx="4" fill="rgba(35,47,62,0.06)" stroke="#545b64" stroke-width="1" data-stage="request" data-name="Service Catalog"/>
+          <g transform="translate(284,348) scale(0.25)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g fill="#E7157B"> <rect x="0" y="0" width="64" height="64"></rect> </g> <path d="M50.4122824,24.9400941 C50.1441647,25.0432941 49.8699765,25.0938824 49.5735294,25.0938824 C48.2481176,25.0938824 47.1705882,24.0153412 47.1705882,22.6909412 C47.1705882,21.8481412 47.6016,21.0832471 48.3331059,20.6390824 C48.7064471,20.4063765 49.1243059,20.288 49.5735294,20.288 C50.8979294,20.288 51.9764706,21.3655294 51.9764706,22.6909412 C51.9764706,23.7006824 51.3653647,24.5819294 50.4122824,24.9400941 L50.4122824,24.9400941 Z M49.5735294,18.2644706 C49.0646118,18.2644706 48.5688471,18.3616 48.0993882,18.5285412 C47.7027765,18.0317647 47.2930118,17.5521882 46.8609882,17.1140941 C43.0597882,13.1712471 37.9453176,11 32.4575059,11 C27.0020706,11 21.8997412,13.1550588 18.0904471,17.0675529 L19.5403059,18.4799765 C22.9661412,14.9610588 27.5534824,13.0235294 32.4575059,13.0235294 C37.3898588,13.0235294 41.9883294,14.9742118 45.4131529,18.5265176 C45.7520941,18.8705176 46.0738353,19.2408235 46.3864706,19.6212471 C45.5972941,20.4326824 45.1470588,21.5213412 45.1470588,22.6909412 C45.1470588,25.1313176 47.1331529,27.1174118 49.5735294,27.1174118 C50.1168471,27.1174118 50.6439765,27.0202824 51.1316471,26.8310824 C52.8476,26.1876 54,24.5242588 54,22.6909412 C54,20.2495529 52.0139059,18.2644706 49.5735294,18.2644706 L49.5735294,18.2644706 Z M34.8533647,49.7242824 C34.7754588,50.9869647 33.7232235,51.9764706 32.4575059,51.9764706 C31.1928,51.9764706 30.1395529,50.9869647 30.0606353,49.7232706 C30.0596235,49.7060706 30.0565882,49.5907294 30.0545647,49.5735294 C30.0545647,48.2481176 31.1320941,47.1705882 32.4575059,47.1705882 C33.7819059,47.1705882 34.8604471,48.2481176 34.8604471,49.5735294 L34.8533647,49.7242824 Z M50.3060471,28.5601882 C50.4234118,29.3463294 50.4820941,30.1840706 50.4820941,31.0481176 C50.4820941,38.864 45.5032,45.7470353 38.0788706,48.1813412 C37.6579765,48.3260235 37.2117882,48.4494588 36.7564941,48.5607529 C36.2951294,46.6080471 34.5478118,45.1470588 32.4575059,45.1470588 C30.0171294,45.1470588 28.0310353,47.1321412 28.0310353,49.5735294 C28.0310353,49.6787529 28.0330588,49.7971294 28.0411529,49.8497412 C28.1858353,52.1768 30.1264,54 32.4575059,54 C34.5376941,54 36.2961412,52.5471059 36.7504235,50.6308235 C37.4374118,50.4820941 38.1061882,50.3111059 38.7223529,50.0996471 C46.9672235,47.3972235 52.5056235,39.7412 52.5056235,31.0481176 C52.5056235,30.0839059 52.4388471,29.1470118 52.3073176,28.2617176 L50.3060471,28.5601882 Z M15.4264706,20.288 C15.8493882,20.288 16.2642118,20.4013176 16.6345176,20.6208706 C17.3822118,21.0549176 17.8294118,21.8279059 17.8294118,22.6909412 C17.8294118,24.0153412 16.7508706,25.0938824 15.4264706,25.0938824 C15.1118118,25.0938824 14.8032235,25.0341882 14.5280235,24.9208706 C13.6144,24.5475294 13.0235294,23.6723529 13.0235294,22.6909412 C13.0235294,21.3655294 14.1010588,20.288 15.4264706,20.288 L15.4264706,20.288 Z M14.4319059,31.0481176 C14.4319059,30.1749647 14.4916,29.3281176 14.6099765,28.5237647 C14.6797882,28.0290118 14.7748941,27.5443765 14.8851765,27.0658118 C15.0632471,27.0880706 15.2413176,27.1174118 15.4264706,27.1174118 C17.8668471,27.1174118 19.8529412,25.1313176 19.8529412,22.6909412 C19.8529412,21.1227059 19.0091294,19.6586824 17.6584235,18.8755765 C16.9845882,18.4759294 16.2126118,18.2644706 15.4264706,18.2644706 C12.9860941,18.2644706 11,20.2495529 11,22.6909412 C11,24.1954353 11.7588235,25.5542353 12.9759765,26.3656706 C12.8262353,26.9808235 12.6957176,27.6040706 12.6076941,28.2374353 C12.4761647,29.1308235 12.4083765,30.0768235 12.4083765,31.0481176 C12.4083765,39.7412 17.9477882,47.3972235 26.1926588,50.0996471 L26.8229882,48.1762824 C19.4108,45.7480471 14.4319059,38.8650118 14.4319059,31.0481176 L14.4319059,31.0481176 Z M27.4199294,40.4018824 L27.4199294,35.8276941 L31.4882353,33.5239059 L31.4882353,38.0980941 L27.4199294,40.4018824 Z M21.3291059,33.5239059 L25.3964,35.8276941 L25.3964,40.4018824 L21.3291059,38.0980941 L21.3291059,33.5239059 Z M26.4081647,29.5001176 L30.4471294,31.7877176 L26.4081647,34.0743059 L22.3702118,31.7877176 L26.4081647,29.5001176 Z M27.4199294,23.1735529 L31.4882353,25.4773412 L31.4882353,30.0515294 L27.4199294,27.7477412 L27.4199294,23.1735529 Z M32.5,19.1497647 L36.5379529,21.4373647 L32.5,23.7239529 L28.4620471,21.4373647 L32.5,19.1497647 Z M37.5790588,27.7477412 L33.5117647,30.0515294 L33.5117647,25.4773412 L37.5790588,23.1735529 L37.5790588,27.7477412 Z M42.6297882,31.7877176 L38.5908235,34.0743059 L34.5528706,31.7877176 L38.5908235,29.5001176 L42.6297882,31.7877176 Z M43.6708941,38.0980941 L39.6025882,40.4018824 L39.6025882,35.8276941 L43.6708941,33.5228941 L43.6708941,38.0980941 Z M37.5790588,40.4018824 L33.5117647,38.0980941 L33.5117647,33.5239059 L37.5790588,35.8276941 L37.5790588,40.4018824 Z M38.0920235,43.0183059 C38.2478353,43.1053176 38.4188235,43.1498353 38.5908235,43.1498353 C38.7628235,43.1498353 38.9348235,43.1053176 39.0906353,43.0183059 L45.1814588,39.5681882 C45.4991529,39.3880941 45.6944235,39.0521882 45.6944235,38.6879529 L45.6944235,31.7877176 C45.6944235,31.4234824 45.4991529,31.0875765 45.1814588,30.9074824 L39.6025882,27.7477412 L39.6025882,21.4373647 C39.6025882,21.0731294 39.4073176,20.7372235 39.0906353,20.5571294 L32.9988,17.1070118 C32.6881882,16.9319765 32.3108,16.9319765 32.0012,17.1070118 L25.9093647,20.5571294 C25.5926824,20.7372235 25.3964,21.0731294 25.3964,21.4373647 L25.3964,27.7477412 L19.8185412,30.9074824 C19.5008471,31.0875765 19.3055765,31.4234824 19.3055765,31.7877176 L19.3055765,38.6879529 C19.3055765,39.0521882 19.5008471,39.3880941 19.8185412,39.5681882 L25.9093647,43.0183059 C26.2199765,43.1933412 26.5973647,43.1933412 26.9079765,43.0183059 L32.5,39.8504706 L38.0920235,43.0183059 Z" fill="#FFFFFF"></path> </g></g>
+          <text x="200" y="372" fill="#232f3e" font-size="12" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Service Catalog</text>
+          <rect x="320" y="344" width="208" height="48" rx="4" fill="rgba(35,47,62,0.06)" stroke="#545b64" stroke-width="1" data-stage="approve" data-name="—"/>
+          <text x="424" y="372" fill="#232f3e" font-size="12" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">—</text>
+          <rect x="544" y="344" width="208" height="48" rx="4" fill="rgba(35,47,62,0.06)" stroke="#545b64" stroke-width="1" data-stage="provision" data-name="AWS Control Tower"/>
+          <g transform="translate(732,348) scale(0.25)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g fill="#E7157B"> <rect x="0" y="0" width="64" height="64"></rect> </g> <path d="M16.979,36.394 L21.221,40.636 L22.635,39.222 L18.393,34.98 L16.979,36.394 Z M24.05,43.465 L28.292,47.707 L29.707,46.293 L25.464,42.051 L24.05,43.465 Z M42.05,25.465 L46.292,29.707 L47.707,28.293 L43.464,24.051 L42.05,25.465 Z M40.635,21.222 L36.393,16.98 L34.979,18.394 L39.221,22.636 L40.635,21.222 Z M41.364,39.222 L42.778,40.636 L47.02,36.394 L45.606,34.98 L41.364,39.222 Z M34.292,46.293 L35.707,47.707 L39.949,43.465 L38.535,42.051 L34.292,46.293 Z M29.02,18.394 L27.606,16.98 L23.364,21.222 L24.778,22.636 L29.02,18.394 Z M21.949,25.465 L20.535,24.051 L16.292,28.293 L17.707,29.707 L21.949,25.465 Z M35.638,33 L33,33 L33,35.637 C33.614,35.469 34.197,35.161 34.678,34.68 L34.678,34.679 C35.15,34.207 35.467,33.627 35.638,33 L35.638,33 Z M31,35.636 L31,33 L28.361,33 C28.532,33.627 28.849,34.207 29.321,34.679 C29.802,35.161 30.385,35.469 31,35.636 L31,35.636 Z M28.361,31 L31,31 L31,28.364 C30.385,28.532 29.802,28.84 29.321,29.321 C28.849,29.793 28.533,30.373 28.361,31 L28.361,31 Z M33,28.364 L33,31 L35.638,31 C35.466,30.373 35.15,29.793 34.678,29.321 C34.197,28.84 33.614,28.532 33,28.364 L33,28.364 Z M44.414,32 L40.707,35.707 L39.292,34.293 L40.585,33 L37.691,33 C37.489,34.165 36.946,35.241 36.092,36.094 C35.239,36.947 34.164,37.49 33,37.692 L33,40.586 L34.292,39.293 L35.707,40.707 L32,44.415 L28.292,40.707 L29.707,39.293 L31,40.586 L31,37.692 C29.835,37.49 28.76,36.947 27.907,36.094 C27.053,35.241 26.51,34.165 26.308,33 L23.414,33 L24.707,34.293 L23.292,35.707 L19.585,32 L23.292,28.293 L24.707,29.707 L23.414,31 L26.308,31 C26.511,29.835 27.053,28.76 27.907,27.907 C28.76,27.054 29.835,26.511 31,26.309 L31,23.415 L29.707,24.707 L28.292,23.293 L32,19.586 L35.707,23.293 L34.292,24.707 L33,23.415 L33,26.309 C34.164,26.511 35.239,27.054 36.092,27.907 C36.946,28.76 37.488,29.835 37.691,31 L40.585,31 L39.292,29.707 L40.707,28.293 L44.414,32 Z M30,50 L32,52 L34,50 L32,48 L30,50 Z M12,32 L14,34 L16,32 L14,30 L12,32 Z M50,30 L48,32 L50,34 L52,32 L50,30 Z M32,16 L30,14 L32,12 L34,14 L32,16 Z" fill="#FFFFFF"></path> </g></g>
+          <text x="648" y="372" fill="#232f3e" font-size="12" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">AWS Control Tower</text>
+          <rect x="768" y="344" width="208" height="48" rx="4" fill="rgba(35,47,62,0.06)" stroke="#545b64" stroke-width="1" data-stage="handover" data-name="IAM Identity Center"/>
+          <g transform="translate(956,348) scale(0.25)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g fill="#DD344C"> <rect x="0" y="0" width="64" height="64"></rect> </g> <path d="M52.032,49.2350148 L41.44,38.6430148 C41.134,38.3370148 41.059,37.8670148 41.257,37.4820148 C42.617,34.8180148 42.117,31.6140148 40.013,29.5090148 C38.498,27.9940148 36.408,27.2730148 34.274,27.5300148 C32.141,27.7870148 30.261,29.0200148 29.114,30.9110148 C27.77,33.1270148 27.83,35.9690148 29.266,38.1530148 C31.253,41.1750148 35.031,42.1550148 38.247,40.4870148 C38.634,40.2860148 39.106,40.3580148 39.415,40.6680148 L41.208,42.4600148 C41.415,42.6670148 41.521,42.9550148 41.498,43.2470148 L41.336,45.2590148 L43.347,45.0970148 C43.636,45.0680148 43.928,45.1790148 44.135,45.3870148 L45.11,46.3620148 C45.317,46.5690148 45.424,46.8580148 45.4,47.1500148 L45.238,49.1610148 L47.25,49.0000148 C47.54,48.9680148 47.83,49.0820148 48.037,49.2890148 L49.5,50.7520148 L52.011,51.1380148 L52.032,49.2350148 Z M54.036062,48.8360148 L54,52.3110148 C53.997,52.6010148 53.868,52.8760148 53.647,53.0630148 C53.466,53.2180148 53.235,53.3010148 53,53.3010148 C52.949,53.3010148 52.898,53.2970148 52.848,53.2890148 L48.873,52.6790148 C48.662,52.6470148 48.468,52.5480148 48.317,52.3980148 L46.949,51.0300148 L44.227,51.2490148 C43.937,51.2720148 43.647,51.1660148 43.44,50.9590148 C43.233,50.7520148 43.127,50.4640148 43.15,50.1720148 L43.369,47.4500148 L43.047,47.1280148 L40.325,47.3460148 C40.027,47.3720148 39.746,47.2640148 39.538,47.0570148 C39.331,46.8500148 39.224,46.5620148 39.248,46.2700148 L39.467,43.5480148 L38.496,42.5770148 C34.555,44.2300148 29.977,42.8770148 27.595,39.2520148 C25.737,36.4270148 25.662,32.7460148 27.403,29.8740148 C28.871,27.4540148 31.288,25.8760148 34.035,25.5440148 C36.776,25.2140148 39.475,26.1420148 41.428,28.0950148 C43.972,30.6400148 44.702,34.4270148 43.346,37.7210148 L53.743,48.1180148 C53.933,48.3080148 54.039,48.5670148 54.036062,48.8360148 L54.036062,48.8360148 Z M36.258,33.4130148 C35.981,33.1370148 35.619,33.0000148 35.258,33.0000148 C34.895,33.0000148 34.533,33.1370148 34.257,33.4130148 C33.706,33.9640148 33.706,34.8620148 34.257,35.4140148 C34.809,35.9650148 35.707,35.9650148 36.258,35.4130148 C36.809,34.8620148 36.809,33.9640148 36.258,33.4130148 L36.258,33.4130148 Z M37.672,31.9990148 C38.317,32.6440148 38.672,33.5020148 38.672,34.4140148 C38.672,35.3250148 38.317,36.1830148 37.672,36.8280148 L37.672,36.8280148 C37.006,37.4930148 36.132,37.8260148 35.258,37.8260148 C34.383,37.8260148 33.509,37.4930148 32.843,36.8280148 C31.512,35.4960148 31.512,33.3310148 32.843,32.0000148 C34.172,30.6680148 36.339,30.6660148 37.672,31.9990148 L37.672,31.9990148 Z M19.002,36.9930148 L24,36.9930148 L24,38.9930148 L19,38.9930148 C14.116,38.9830148 10.256,35.7670148 10.019,31.5140148 C10.009,31.3250148 10,31.1310148 10,30.9360148 C10,25.7340148 13.52,23.7230148 15.71,22.9770148 C15.701,22.7920148 15.696,22.6070148 15.696,22.4190148 C15.696,18.0790148 18.675,13.5850148 22.626,11.9650148 C27.233,10.0620148 32.115,11.0080148 35.682,14.4980148 C36.569,15.3550148 37.69,16.6160148 38.521,18.1530148 C39.39,17.4480148 40.367,17.1020148 41.476,17.1020148 C43.805,17.1020148 46.413,18.9790148 46.928,23.0760148 C51.622,24.2170148 54,26.9040148 54,31.0690148 C54,34.1540148 52.814,38.0320148 47.165,38.9800148 L46.835,37.0070148 C50.358,36.4160148 52,34.5290148 52,31.0690148 C52,27.6880148 50.031,25.7200148 45.803,24.8760148 C45.358,24.7870148 45.028,24.4080148 45.002,23.9540148 C44.834,21.0970148 43.384,19.1020148 41.476,19.1020148 C40.517,19.1020148 39.76,19.5370148 39.019,20.5130148 C38.799,20.8040148 38.44,20.9560148 38.074,20.8980148 C37.712,20.8440148 37.409,20.5960148 37.283,20.2530148 C36.618,18.4300148 35.287,16.8970148 34.288,15.9320148 C31.307,13.0140148 27.234,12.2240148 23.386,13.8150148 C20.194,15.1240148 17.696,18.9020148 17.696,22.4190148 C17.696,22.8110148 17.719,23.1910148 17.767,23.5780148 C17.771,23.6130148 17.774,23.6480148 17.775,23.6830148 L17.775,23.6850148 L17.775,23.6860148 L17.775,23.6870148 L17.775,23.6880148 L17.775,23.6890148 L17.775,23.6900148 L17.775,23.6910148 L17.775,23.6920148 L17.775,23.6930148 L17.775,23.6950148 L17.775,23.6960148 L17.775,23.6980148 L17.775,23.7000148 L17.775,23.7010148 L17.775,23.7020148 L17.775,23.7040148 C17.775,24.2030148 17.41,24.6200148 16.932,24.6960148 C15.05,25.1880148 12,26.6480148 12,30.9360148 C12,31.0950148 12.009,31.2550148 12.016,31.4060148 C12.218,35.0250148 15.765,36.9860148 19.002,36.9930148 L19.002,36.9930148 Z" fill="#FFFFFF"></path> </g></g>
+          <text x="872" y="372" fill="#232f3e" font-size="12" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">IAM Identity Center</text>
+          <rect x="992" y="344" width="208" height="48" rx="4" fill="rgba(35,47,62,0.06)" stroke="#545b64" stroke-width="1" data-stage="first-workload" data-name="CloudFormation"/>
+          <g transform="translate(1180,348) scale(0.25)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g fill="#E7157B"> <rect x="0" y="0" width="64" height="64"></rect> </g> <path d="M42.008002,32.7880215 L46.0090023,32.7880215 L46.0090023,30.765708 L42.008002,30.765708 L42.008002,32.7880215 Z M23.0032508,42.8995891 L27.0042511,42.8995891 L27.0042511,40.8772756 L23.0032508,40.8772756 L23.0032508,42.8995891 Z M15.0012503,42.8995891 L20.0025006,42.8995891 L20.0025006,40.8772756 L15.0012503,40.8772756 L15.0012503,42.8995891 Z M15.0012503,37.8438053 L24.0035009,37.8438053 L24.0035009,35.8214918 L15.0012503,35.8214918 L15.0012503,37.8438053 Z M15.0012503,28.7433945 L22.0030008,28.7433945 L22.0030008,26.721081 L15.0012503,26.721081 L15.0012503,28.7433945 Z M15.0012503,32.7880215 L40.0075019,32.7880215 L40.0075019,30.765708 L15.0012503,30.765708 L15.0012503,32.7880215 Z M30.0050013,49.9776865 L12.0005001,49.9776865 L12.0005001,23.6876107 L30.0050013,23.6876107 L30.0050013,28.7433945 L32.0055014,28.7433945 L32.0055014,22.6764539 C32.0055014,22.1182954 31.5573893,21.6652971 31.0052513,21.6652971 L11.0002501,21.6652971 C10.4471118,21.6652971 10,22.1182954 10,22.6764539 L10,50.9888432 C10,51.5470018 10.4471118,52 11.0002501,52 L31.0052513,52 C31.5573893,52 32.0055014,51.5470018 32.0055014,50.9888432 L32.0055014,35.8214918 L30.0050013,35.8214918 L30.0050013,49.9776865 Z M54,30.765708 C54,36.364483 49.4268567,37.8438053 47.0092523,37.8438053 L35.0062516,37.8438053 L35.0062516,35.8214918 L47.0092523,35.8214918 C47.5173793,35.8174472 51.9994999,35.6435282 51.9994999,30.765708 C51.9994999,26.7069248 49.1987997,24.9161661 47.8424606,24.6846112 C47.3293323,24.5966406 46.9692423,24.1274639 47.0132533,23.6036847 C47.0142536,23.5905396 47.0152538,23.5773946 47.0172543,23.5652607 C46.9782446,21.9645995 46.20005,20.7957023 44.8657164,20.3477599 C43.5703926,19.9139736 42.1090273,20.2961909 41.3978495,21.2588121 C41.1777944,21.5571034 40.8177044,21.7138327 40.4476119,21.6541744 C40.0835209,21.5985608 39.7784446,21.3457716 39.6544136,20.9938891 C39.1832958,19.6632068 38.4971243,18.7956343 37.5408852,17.8289684 C35.2413103,15.5215087 32.9637409,14.2484623 29.3368342,15.5407206 C27.6914229,16.1261804 25.7129282,18.1434381 24.9257314,20.0353124 L23.0812703,19.2506548 C24.0915229,16.8238786 26.4951238,14.4092362 28.6726682,13.633679 C33.5648912,11.8904447 36.6166542,14.0512867 38.9522381,16.3961593 C39.7464366,17.1990177 40.4116029,17.9826642 40.9437359,18.9675309 C42.2180545,18.1292819 43.9174794,17.897727 45.4968742,18.4285843 C47.4703676,19.090892 48.7306827,20.7340218 48.9757439,22.9009307 C51.1832958,23.6754768 54,26.1851679 54,30.765708 L54,30.765708 Z" fill="#FFFFFF"></path> </g></g>
+          <text x="1096" y="372" fill="#232f3e" font-size="12" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">CloudFormation</text>
+        </g>
+        <line x1="96" y1="448" x2="1200" y2="448" stroke="rgba(35,47,62,0.10)" stroke-width="0.8"/>
+        <text x="96" y="468" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.18em">LEGEND</text>
+        <line x1="96" y1="492" x2="124" y2="492" stroke="rgba(35,47,62,0.55)" stroke-width="2"/>
+        <text x="132" y="496" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Line of visibility</text>
+        <rect x="280" y="484" width="16" height="10" rx="2" fill="rgba(35,47,62,0.06)" stroke="#545b64" stroke-width="1"/>
+        <text x="304" y="494" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Backstage layer</text>
+        <rect x="456" y="484" width="16" height="10" rx="2" fill="rgba(236,114,17,0.12)" stroke="#ec7211" stroke-width="1"/>
+        <text x="480" y="494" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Focal cell · timeout</text>
+      </svg>
+    </div>
+    <div class="cards">
+      <div class="card">
+        <p class="eyebrow">THE FINDING</p>
+        <div class="card-header"><span class="card-dot coral"></span><h3>Account Factory timeout</h3></div>
+        <p>Under Provision, the customer row still says Retry request. The timeout lives on the backstage row, below the line of visibility — an Account Factory job, not a problem with the Service Catalog form.</p>
+      </div>
+      <div class="card">
+        <div class="card-header"><span class="card-dot ink"></span><h3>The line is the claim</h3></div>
+        <p>Stages are equal columns. Layers are labeled rows. Everything above the heavy rule is onstage; everything below it is hidden. No arrows: stage order is the sequence, and wait times are cell text.</p>
+      </div>
+      <div class="card">
+        <div class="card-header"><span class="card-dot muted"></span><h3>Recovery after the dip</h3></div>
+        <p>Hand over and First workload restore the walk: permission sets and the StackSets baseline apply below the line, the access email and onboarding guide stay above it. The timeout is the one accent cell the figure exists to show.</p>
+      </div>
+    </div>
+    <div class="footer">
+      <span>account vending · service blueprint</span>
+      <span>example · aws diagram design</span>
+    </div>
+  </div>
+</body>
+</html>

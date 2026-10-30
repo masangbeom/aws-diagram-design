@@ -14,7 +14,7 @@
       --color-paper-2:     #F2F3F3;
       --color-ink:         #232F3E;
       --color-muted:       #545B64;
-      --color-soft:        #7D8998;
+      --color-soft:        #687078;
       --color-rule:        rgba(35,47,62,0.12);
       --color-rule-solid:  rgba(84,91,100,0.25);
       --color-accent:      #EC7211;
@@ -79,8 +79,15 @@
       /* padding: 1.5rem; */
     }
 
-    svg { width: 100%; min-width: 900px; display: block; }
-    .frame { overflow-x: auto; }
+    svg { width: 100%; min-width: 1000px; display: block; }  /* == viewBox width: never scale the type ramp down */
+    /* Paper has no scrollbar, so the local scroller would clip instead of
+       scroll. Let the diagram scale down to the sheet: smaller but whole
+       beats sharp but cut off. Must come after the svg rule above - a media
+       query adds no specificity, so a later plain rule would win. */
+    @media print {
+      .diagram-container { overflow-x: visible; }
+      svg { min-width: 0; }
+    }
 
     /* ── Info cards ───────────────────────────────────────────────── */
     .cards {
@@ -176,7 +183,7 @@
     <!-- Main Diagram -->
     <div class="diagram-container">
       <!-- Replace [diagram-slug] with a unique slug for this diagram before export. -->
-      <svg viewBox="0 0 1000 700" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="[diagram-slug]-title [diagram-slug]-desc">
+      <svg viewBox="0 0 1000 720" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="[diagram-slug]-title [diagram-slug]-desc">
         <title id="[diagram-slug]-title">[Diagram title]</title>
         <desc id="[diagram-slug]-desc">[One sentence describing what the diagram shows]</desc>
         <defs>
@@ -227,11 +234,11 @@
         <path d="M 80 140 L 80 200 Q 80 218 98 218 L 200 218 Q 218 218 218 236 L 218 276"
               fill="none" stroke="#EC7211" stroke-width="1.2" stroke-dasharray="5,4"
               marker-end="url(#arrow-accent)"/>
-        <text x="148" y="212" fill="#EC7211" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">JWT</text>
+        <text x="148" y="212" fill="#232F3E" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">JWT</text>
 
         <!-- Primary data flow (coral) -->
         <line x1="620" y1="305" x2="696" y2="305" stroke="#EC7211" stroke-width="1.2" marker-end="url(#arrow-accent)"/>
-        <text x="655" y="297" fill="#EC7211" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">TLS</text>
+        <text x="655" y="297" fill="#232F3E" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">TLS</text>
 
 
         <!-- =================================================================
@@ -242,10 +249,10 @@
 
         <!-- ── External / User ──────────────────────────────────────── -->
         <rect x="30" y="278" width="100" height="54" rx="6" fill="#ffffff"/>
-        <rect x="30" y="278" width="100" height="54" rx="6" fill="rgba(84,91,100,0.10)" stroke="#7D8998" stroke-width="1"/>
+        <rect x="30" y="278" width="100" height="54" rx="6" fill="rgba(84,91,100,0.10)" stroke="#687078" stroke-width="1"/>
         <!-- Rectangular type tag (not rounded — brand rule) -->
-        <rect x="38" y="284" width="26" height="12" rx="2" fill="transparent" stroke="rgba(125,137,152,0.4)" stroke-width="0.8"/>
-        <text x="51" y="293" fill="#7D8998" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">EXT</text>
+        <rect x="38" y="284" width="26" height="12" rx="2" fill="transparent" stroke="rgba(104,112,120,0.4)" stroke-width="0.8"/>
+        <text x="51" y="293" fill="#687078" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">EXT</text>
         <!-- Main label -->
         <text x="80" y="308" fill="#232F3E" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Users</text>
         <text x="80" y="323" fill="#545B64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">Browser / Mobile</text>
@@ -254,7 +261,7 @@
         <rect x="30" y="78" width="100" height="56" rx="6" fill="#ffffff"/>
         <rect x="30" y="78" width="100" height="56" rx="6" fill="rgba(255,153,0,0.06)" stroke="rgba(255,153,0,0.50)" stroke-width="1"/>
         <rect x="38" y="84" width="28" height="12" rx="2" fill="transparent" stroke="rgba(255,153,0,0.40)" stroke-width="0.8"/>
-        <text x="52" y="93" fill="rgba(255,153,0,0.8)" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">AUTH</text>
+        <text x="52" y="93" fill="#545B64" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">AUTH</text>
         <text x="80" y="110" fill="#232F3E" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Auth Provider</text>
         <text x="80" y="125" fill="#545B64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">OAuth 2.0</text>
 
@@ -268,7 +275,7 @@
         <!-- Faded mono watermark numeral (background) -->
         <text x="294" y="323" fill="rgba(35,47,62,0.06)" font-size="40" font-weight="600" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="end">01</text>
         <rect x="206" y="284" width="24" height="12" rx="2" fill="transparent" stroke="rgba(35,47,62,0.22)" stroke-width="0.8"/>
-        <text x="218" y="293" fill="#7D8998" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">CDN</text>
+        <text x="218" y="293" fill="#687078" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">CDN</text>
         <text x="254" y="308" fill="#232F3E" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">CloudFront</text>
         <text x="254" y="323" fill="#545B64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">AWS CDN</text>
 
@@ -277,21 +284,21 @@
         <rect x="198" y="378" width="112" height="102" rx="6" fill="rgba(35,47,62,0.03)" stroke="rgba(35,47,62,0.30)" stroke-width="1"/>
         <text x="294" y="468" fill="rgba(35,47,62,0.06)" font-size="40" font-weight="600" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="end">02</text>
         <rect x="206" y="384" width="22" height="12" rx="2" fill="transparent" stroke="rgba(35,47,62,0.22)" stroke-width="0.8"/>
-        <text x="217" y="393" fill="#7D8998" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">S3</text>
+        <text x="217" y="393" fill="#687078" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">S3</text>
         <text x="254" y="408" fill="#232F3E" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">S3 Buckets</text>
         <text x="254" y="426" fill="#545B64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">bucket-assets</text>
         <text x="254" y="440" fill="#545B64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">bucket-uploads</text>
-        <text x="254" y="466" fill="#EC7211" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">OAI PROTECTED</text>
+        <text x="254" y="466" fill="#232F3E" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">OAI PROTECTED</text>
 
         <!-- ── Security group boundary ───────────────────────────────── -->
         <rect x="348" y="264" width="120" height="80" rx="6" fill="transparent" stroke="rgba(255,153,0,0.45)" stroke-width="1" stroke-dasharray="4,4"/>
-        <text x="356" y="278" fill="rgba(255,153,0,0.7)" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.08em">SG · :443</text>
+        <text x="356" y="278" fill="#545B64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.08em">SG · :443</text>
 
         <!-- ── Load Balancer (inside security group) ──────────────────── -->
         <rect x="358" y="282" width="100" height="54" rx="6" fill="#ffffff"/>
         <rect x="358" y="282" width="100" height="54" rx="6" fill="rgba(35,47,62,0.03)" stroke="rgba(35,47,62,0.30)" stroke-width="1"/>
         <rect x="366" y="288" width="22" height="12" rx="2" fill="transparent" stroke="rgba(35,47,62,0.22)" stroke-width="0.8"/>
-        <text x="377" y="297" fill="#7D8998" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">LB</text>
+        <text x="377" y="297" fill="#687078" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">LB</text>
         <text x="408" y="311" fill="#232F3E" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Load Balancer</text>
         <text x="408" y="326" fill="#545B64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">HTTPS :443</text>
 
@@ -315,7 +322,7 @@
         <rect x="198" y="518" width="200" height="112" rx="6" fill="#ffffff"/>
         <rect x="198" y="518" width="200" height="112" rx="6" fill="rgba(255,153,0,0.08)" stroke="#EC7211" stroke-width="1"/>
         <rect x="206" y="524" width="22" height="12" rx="2" fill="transparent" stroke="rgba(255,153,0,0.50)" stroke-width="0.8"/>
-        <text x="217" y="533" fill="#EC7211" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">UI</text>
+        <text x="217" y="533" fill="#232F3E" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">UI</text>
         <text x="298" y="550" fill="#232F3E" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Web App</text>
         <text x="298" y="567" fill="#545B64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">React + TypeScript</text>
         <text x="298" y="581" fill="#545B64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">Astro SSG</text>
@@ -341,7 +348,7 @@
         <rect x="510" y="612" width="14" height="10" rx="2" fill="rgba(35,47,62,0.05)" stroke="#545B64" stroke-width="1"/>
         <text x="530" y="621" fill="#545B64" font-size="9" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Database</text>
 
-        <rect x="510" y="630" width="14" height="10" rx="2" fill="rgba(84,91,100,0.10)" stroke="#7D8998" stroke-width="1"/>
+        <rect x="510" y="630" width="14" height="10" rx="2" fill="rgba(84,91,100,0.10)" stroke="#687078" stroke-width="1"/>
         <text x="530" y="639" fill="#545B64" font-size="9" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">External / User</text>
 
         <!-- Arrow types -->

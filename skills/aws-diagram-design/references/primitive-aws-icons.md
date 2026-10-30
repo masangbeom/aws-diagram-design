@@ -101,6 +101,16 @@ Renamed services to know: SageMaker → `Arch_Amazon-SageMaker-AI`, QuickSight �
 
 ## Inlining an icon
 
+**Use the packaged helper** rather than copying SVG by hand. It finds the file, strips the wrapper and ids, and computes the scale:
+
+```
+python3 <skill-dir>/scripts/aws_icon.py find dynamodb          # list matching icon paths
+python3 <skill-dir>/scripts/aws_icon.py service/Databases/Arch_Amazon-DynamoDB_48.svg X Y 24
+python3 <skill-dir>/scripts/aws_icon.py <icon> X Y 24 --bake   # absolute coordinates, no transform
+```
+
+Paste the printed `<g>` after the node's box rects. `--bake` is for grammars whose verifier rejects transforms on the canvas (architecture delta). What the helper does, if you must do it by hand:
+
 Read the SVG file, keep only its **inner `<g>`** (drop the XML declaration, the outer `<svg>` wrapper, and the `<title>`), strip `id` attributes (two icons from the same category collide on the BG-group id), and wrap in a positioned group:
 
 ```svg
@@ -182,11 +192,33 @@ AWS zone containers follow the official convention: **border in the group color,
 
 Zone dashes use `stroke-dasharray="4,4"`; nested zones inset by ≥16px. These zone borders are *identity colors* and don't count against the accent budget — but the §6 connector rules and §7 complexity budget still apply unchanged.
 
+## Naming and labeling AWS services
+
+Diagrams are read by people who know the console. Names that are almost right read as wrong.
+
+- **First mention uses the official name with its prefix, later mentions the short form**: `Amazon S3` → `S3`, `AWS Lambda` → `Lambda`, `Amazon Aurora PostgreSQL` → `Aurora`. The prefix is part of the name and is not interchangeable: it is `AWS Lambda`, `AWS Fargate`, `AWS Glue`, `AWS Step Functions`, but `Amazon EC2`, `Amazon ECS`, `Amazon EKS`, `Amazon DynamoDB`, `Amazon Bedrock`. The icon filename (`Arch_AWS-Lambda_48.svg`, `Arch_Amazon-EC2_48.svg`) is the tie-breaker.
+- **Use current names** (rule 5 below): `Amazon SageMaker AI`, `Amazon Quick Suite` / `Amazon Quick Sight` (formerly QuickSight), `Amazon Data Firehose` (formerly Kinesis Data Firehose), `Amazon MWAA`, `AWS IAM Identity Center` (formerly AWS SSO).
+- **Node name = what it is in this system; sublabel = the AWS configuration that matters.** `Orders API` / `API Gateway · HTTP API`; `Orders DB` / `Aurora PostgreSQL · db.r7g.large · Multi-AZ`; `Thumbnailer` / `Lambda · python3.13 · 1024 MB`. Put identifiers in the mono sublabel role: Region codes (`us-east-1`), AZ IDs (`use1-az1`), CIDRs (`10.0.0.0/16`), instance types, ARNs only when the reader needs them.
+- **Never invent a service or a feature.** If the user names a capability you can't map to a real AWS service, label it generically (no AWS icon) and say so beside the deliverable.
+- **Account IDs and secrets are not decoration**: use placeholders (`111122223333`) unless the user supplied real values for the deliverable.
+
+## Placement: inside vs outside the VPC
+
+Where a box sits is a claim about its network path. The Containment rule in [type-architecture.md](type-architecture.md#containment) generalizes this; on AWS it resolves to:
+
+| Lives inside a VPC subnet | Regional, outside every VPC | Global / edge, outside the Region |
+|---|---|---|
+| Amazon EC2, ECS/EKS tasks and nodes, Lambda **with** VPC config (its ENIs), RDS / Aurora, ElastiCache, OpenSearch (VPC domain), Amazon MSK, Redshift (provisioned), ALB / NLB, NAT gateway (**public** subnet), interface VPC endpoints | Amazon S3, DynamoDB, SQS, SNS, EventBridge, Kinesis, Lambda (default), API Gateway, Step Functions, Cognito, Secrets Manager, KMS, Bedrock, CloudWatch, Athena, Glue | CloudFront, Route 53, AWS WAF on CloudFront, IAM, AWS Organizations |
+
+- A regional service is reached from inside the VPC through a **gateway endpoint** (S3, DynamoDB) or an **interface endpoint / PrivateLink** (most others), otherwise through a NAT gateway. Draw the endpoint inside the subnet and the service outside the VPC, as [`assets/example-architecture-containment.html`](../assets/example-architecture-containment.html) does.
+- **Multi-AZ is drawn, not just labeled**: a Multi-AZ RDS/Aurora cluster, an ALB, or an Auto Scaling group spans both AZ columns (one node per AZ, or one node straddling the boundary). Never place it in a single AZ while the sublabel says Multi-AZ.
+- Internet-facing load balancers and NAT gateways sit in **public** subnets; application and data tiers in **private** subnets.
+
 ## Rules (official brand + skill integration)
 
 1. **Never recolor, restyle, distort, rotate, or crop an official icon.** If the diagram must be monochrome, use the generic set ([primitive-icons.md](primitive-icons.md)) instead of tinting AWS icons.
 2. **Minimum render 16px**; 24–32px inside nodes is the sweet spot. Keep the 1:1 aspect ratio.
-3. **Icon and zone-border colors are identity marks, exempt from the accent budget.** The `accent` (#FF9900) budget of 1–2 still governs editorial elements: focal node strokes, highlighted arrows, callouts.
+3. **Icon and zone-border colors are identity marks, exempt from the accent budget.** The `accent` (`#EC7211` light / `#FF9900` dark) budget of 1–2 still governs editorial elements: focal node strokes, highlighted arrows, callouts.
 4. **Don't pair a full-color icon with a colored type tag** — the icon already carries the category signal. Node text stays `ink`/`muted`.
 5. **Latest names**: this release renames several services (see Lookup workflow). Label nodes with the current service name, not the icon's historical one.
 6. **Density**: full-color icons are visually loud. Above ~7 icons, consider zoning the diagram or dropping icons from secondary nodes (text-only nodes are fine).

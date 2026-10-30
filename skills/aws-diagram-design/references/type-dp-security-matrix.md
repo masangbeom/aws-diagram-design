@@ -291,7 +291,7 @@ Before emitting SVG, verify **every** item:
 
 ## 9. Examples
 
-- `assets/example-dp-security-matrix.html` — minimal light (NatStat canonical: 4 roles × 8 components, focal at Data Consumers × Trino aggregated). Gallery default.
+- `assets/example-dp-security-matrix.html` — minimal light (IAM roles × AWS data services with Lake Formation-style grants). Gallery default.
 - `assets/example-dp-security-matrix-dark.html` — same, dark skin.
 - `assets/example-dp-security-matrix-full.html` — same, editorial-card frame with subtitle + summary cards.
 
@@ -377,3 +377,8 @@ Run §2 with these inputs:
 - Focal cell at `(row=5, col=3)` → rect `(724, 340, 148, 36)` with accent stroke 1.4 ✓
 
 A fresh generation from this YAML produces a diagram visually indistinguishable from the shipped `example-dp-security-matrix.html`.
+
+## On AWS
+
+- Rows are IAM roles or permission sets (`role/DataEngineer`, IAM Identity Center permission sets); columns are AWS services or data resources (S3 buckets or prefixes, Glue databases, Athena workgroups, Redshift schemas).
+- Cell values use AWS permission vocabulary: IAM action groups (`Read`, `Write`, `Admin`) or Lake Formation permissions (`SELECT`, `DESCRIBE`, `ALTER`), with column- or row-level filters noted in the cell. An SCP deny is a distinct cell treatment, not a missing grant.

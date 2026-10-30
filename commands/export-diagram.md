@@ -9,20 +9,20 @@ allowed-tools:
   - Glob
 ---
 
-Export the diagram HTML at `$1` to `.svg` and/or `.png`, following the procedure documented in [`skills/aws-diagram-design/references/export.md`](../skills/aws-diagram-design/references/export.md). Treat that reference as the source of truth — don't reimplement the logic here.
+Export the diagram HTML at `$1` to `.svg` and/or `.png`, following the procedure documented in [`skills/aws-diagram-design/references/export.md`](../skills/aws-diagram-design/references/export.md). Treat that reference as the source of truth — don't reimplement the logic here. Run the packaged `skills/aws-diagram-design/scripts/export_svg.py` and `skills/aws-diagram-design/scripts/export_png.py` helpers for the requested formats.
 
 Full argument string: `$ARGUMENTS`
 
 ## Defaults
 
-- Produce **both** `.svg` and `.png` next to the source (e.g. `diagram.html` → `diagram.svg` + `diagram.png`).
+- **With no format flag (nothing, or only `--scale`/`--output`):** produce **both** `.svg` and `.png` next to the source (e.g. `diagram.html` → `diagram.svg` + `diagram.png`). `--svg-only` or `--png-only` restricts the image output to that one format.
 - PNG renders at `device_scale_factor=2`.
 
 ## Flags
 
 - `--svg-only` — emit only the SVG. Skip Playwright entirely.
 - `--png-only` — emit only the PNG.
-- `--scale=1` / `--scale=2` / `--scale=3` — override the PNG device scale factor. Default `2`.
+- `--scale=N` — override the PNG device scale factor with a finite number from `1` to `4`, including fractional values such as `1.25`. Default `2`.
 - `--output=<path>` — override the output base path; the format extension is appended. Applies to both formats when both are produced.
 
 ## Required behaviour
@@ -31,6 +31,7 @@ Full argument string: `$ARGUMENTS`
 2. **Source is `assets/index.html`** (the gallery, multiple SVGs in one file) → refuse and ask which specific diagram file. Per the reference's edge-case section.
 3. **Source has no `<svg>` block** → refuse and tell the user; don't write anything.
 4. **PNG requested but Playwright not installed** → surface the install instruction from the reference verbatim and stop. Do **not** auto-install.
-5. **PNG requested with `--scale` outside {1,2,3}** → reject; valid values are 1, 2, 3.
+5. **PNG requested with a non-numeric or non-finite `--scale`, or a value outside the inclusive 1–4 range** → reject. Fractional values within that range are valid.
+6. **Both `--svg-only` and `--png-only` supplied** → reject them as mutually exclusive.
 
 After producing the outputs, report the file paths and sizes back to the user.

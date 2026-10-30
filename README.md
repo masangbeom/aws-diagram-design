@@ -13,7 +13,7 @@ draw.io 등을 사용하여 다양한 아키텍처 및 다이어그램을 작성
 ## 이런 걸 그려줍니다
 
 - **아키텍처 구성도**: 서버리스, VPC 네트워크, 멀티 계정/멀티 리전, 하이브리드(Direct Connect/VPN)까지. VPC/서브넷/Region/계정 경계는 공식 그룹 컨테이너 색상/배지 규약을 따릅니다.
-- **운영/설계 문서에 쓰는 나머지 전부**: 플로차트, 시퀀스, 상태 머신, ER, 타임라인, 스윔레인, 간트, 조직도, 레이어 스택, 데이터 플로 등 총 27개 시각 타입.
+- **운영/설계 문서에 쓰는 나머지 전부**: 플로차트, 시퀀스, 상태 머신, ER·DB 스키마, 타임라인, 스윔레인, 간트, 조직도, 레이어 스택, 데이터 플로, 배포·의존성 그래프, 아키텍처 Before/After 비교(delta), 워터폴·생키·트리맵·히트맵 차트, 서비스 블루프린트, 워들리 맵 등 총 45개 시각 타입.
 - **기존 다이어그램 재작도**: 갖고 있는 draw.io(.drawio)나 Mermaid(.mmd) 파일을 읽어 내용은 유지한 채 지정한 크기와 상세도(문서용/슬라이드용/요약본)로 다시 그립니다.
 
 AWS 서비스를 명명하는 노드에는 다이어그램 타입에 관계없이 공식 아이콘이 들어가고, 강조는 smile orange 포컬 1–2개로 절제하는 에디토리얼 디자인 시스템([cathrynlavery/diagram-design](https://github.com/cathrynlavery/diagram-design) 기반)이 적용됩니다.
@@ -123,10 +123,10 @@ aws-diagram-design/
 ├── plugin.json                     # Agent Plugins 매니페스트 (Kiro Power용)
 ├── commands/                       # 슬래시 커맨드 3종 (import-drawio / import-mermaid / export-diagram)
 ├── skills/aws-diagram-design/      # 정본 스킬 (모든 환경 공용)
-│   ├── SKILL.md                    #   설계 시스템 + 27개 타입 라우팅
-│   ├── references/                 #   타입별 스펙 40개 (style-guide, type-*, primitive-aws-icons 등)
+│   ├── SKILL.md                    #   설계 시스템 + 45개 타입 라우팅
+│   ├── references/                 #   스펙 58개 (style-guide, type-*, primitive-aws-icons 등)
 │   ├── assets/                     #   템플릿·예제, aws-icons/ 812 SVG, fonts/ Amazon Ember
-│   └── scripts/                    #   자체 검증(self_check, verify-geometry), drawio/mermaid 추출기
+│   └── scripts/                    #   자체 검증(self_check, verify-geometry), drawio/mermaid 추출기, SVG/PNG 내보내기(export_svg, export_png), AWS 아이콘 삽입(aws_icon)
 ├── scripts/                        # 저장소 수준 검증 스크립트 + 테스트 fixtures
 ├── docs/                           # 환경별 한글 가이드 + samples/ 예제 다이어그램
 └── install.sh                      # claude-code · kiro · fonts 설치

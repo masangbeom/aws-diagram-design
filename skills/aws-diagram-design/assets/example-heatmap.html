@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CodeBuild failure rate by service and sprint · Heatmap</title>
+  <style>
+  @font-face { font-family: 'Amazon Ember'; font-weight: 400; font-style: normal; src: local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_Rg.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 400; font-style: italic; src: local('Amazon Ember Italic'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_RgIt.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 600; font-style: normal; src: local('Amazon Ember Medium'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_SBd.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 700; font-style: normal; src: local('Amazon Ember Bold'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_Bd.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember Mono'; font-weight: 400; font-style: normal; src: local('Amazon Ember Mono'), url('fonts/woff2/AmazonEmberMono_W_Rg.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember Mono'; font-weight: 700; font-style: normal; src: local('Amazon Ember Mono Bold'), local('Amazon Ember Mono'), url('fonts/woff2/AmazonEmberMono_W_Bd.woff2') format('woff2'); }
+</style>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --color-paper:  #ffffff;
+      --color-ink:    #232f3e;
+      --color-muted:  #545b64;
+      --color-accent: #ec7211;
+      --font-sans:    'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --font-serif:   'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --font-mono:    'Amazon Ember Mono', ui-monospace, monospace;
+    }
+    body { font-family: var(--font-sans); background: var(--color-paper); color: var(--color-ink); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 3rem 2rem; }
+    .frame { max-width: 1200px; width: 100%; }
+    .eyebrow { font-family: var(--font-mono); font-size: 0.66rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--color-muted); margin-bottom: 0.5rem; }
+    h1 { font-family: var(--font-serif); font-size: clamp(1.5rem, 2.4vw + 0.75rem, 2rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 1.5rem; }
+    svg { display: block; width: 100%; height: auto; max-width: 100%; }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <p class="eyebrow">Heatmap · AWS Diagram Design</p>
+    <h1>The sprint payments went dark</h1>
+
+    <svg viewBox="0 0 1000 500" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="heatmap-title heatmap-desc">
+      <title id="heatmap-title">The sprint payments went dark</title>
+      <desc id="heatmap-desc">Heatmap of AWS CodeBuild failure rate by service and sprint; payments service spiked to 47% in sprint 4 due to a deploy regression, recovered to 4% by sprint 6; billing carries the highest baseline failure rate at 9% in sprint 3.</desc>
+      <defs>
+        <pattern id="dots" width="22" height="22" patternUnits="userSpaceOnUse">
+          <circle cx="1" cy="1" r="0.9" fill="rgba(35,47,62,0.10)"/>
+        </pattern>
+      </defs>
+
+      <rect width="100%" height="100%" fill="#ffffff"/>
+      <rect width="100%" height="100%" fill="url(#dots)" opacity="0.55"/>
+
+      <!-- Cell grid: 6 columns (x=160,280,400,520,640,760), 5 rows (y=64,124,184,244,304).
+           Cell size 116×56, gap 4px (col step=120, row step=60).
+           Fill: single ink ramp for non-focal cells — opacity = max(0.07, value/9·0.65).
+           Focal cell (payments·S4) uses the accent fill and carries data-focal="true".
+           scripts/verify-heatmap.py enforces monotone opacity against data-value for every
+           non-focal cell, complete 5×6 coverage, and at most one data-focal cell. -->
+
+      <!-- SERVICE axis label (rotated) -->
+      <text transform="rotate(-90 24 212)" x="24" y="212" fill="#545b64" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.14em" text-anchor="middle">SERVICE</text>
+
+      <!-- SPRINT axis label -->
+      <text x="518" y="36" fill="#545b64" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.14em" text-anchor="middle">SPRINT</text>
+
+      <!-- Column headers -->
+      <text data-axis="0" data-col="S1" x="218" y="52" fill="#545b64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.14em" text-anchor="middle">S1</text>
+      <text data-axis="1" data-col="S2" x="338" y="52" fill="#545b64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.14em" text-anchor="middle">S2</text>
+      <text data-axis="2" data-col="S3" x="458" y="52" fill="#545b64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.14em" text-anchor="middle">S3</text>
+      <text data-axis="3" data-col="S4" x="578" y="52" fill="#545b64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.14em" text-anchor="middle">S4</text>
+      <text data-axis="4" data-col="S5" x="698" y="52" fill="#545b64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.14em" text-anchor="middle">S5</text>
+      <text data-axis="5" data-col="S6" x="818" y="52" fill="#545b64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.14em" text-anchor="middle">S6</text>
+
+      <!-- Row labels -->
+      <text data-row-label="auth" x="148" y="96" fill="#232f3e" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="end">auth</text>
+      <text data-row-label="payments" x="148" y="156" fill="#232f3e" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="end">payments</text>
+      <text data-row-label="api-gateway" x="148" y="216" fill="#232f3e" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="end">api-gateway</text>
+      <text data-row-label="billing" x="148" y="276" fill="#232f3e" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="end">billing</text>
+      <text data-row-label="notifications" x="148" y="336" fill="#232f3e" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="end">notifications</text>
+
+      <!-- Row: auth (y=64) — values 4,5,6,3,2,2 -->
+      <rect x="160" y="64" width="116" height="56" fill="#ffffff"/>
+      <rect data-row="auth" data-col="S1" data-value="4" x="160" y="64" width="116" height="56" fill="rgba(35,47,62,0.29)"/>
+      <text x="218" y="96" fill="#232f3e" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">4%</text>
+
+      <rect x="280" y="64" width="116" height="56" fill="#ffffff"/>
+      <rect data-row="auth" data-col="S2" data-value="5" x="280" y="64" width="116" height="56" fill="rgba(35,47,62,0.36)"/>
+      <text x="338" y="96" fill="#232f3e" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">5%</text>
+
+      <rect x="400" y="64" width="116" height="56" fill="#ffffff"/>
+      <rect data-row="auth" data-col="S3" data-value="6" x="400" y="64" width="116" height="56" fill="rgba(35,47,62,0.43)"/>
+      <text x="458" y="96" fill="#ffffff" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">6%</text>
+
+      <rect x="520" y="64" width="116" height="56" fill="#ffffff"/>
+      <rect data-row="auth" data-col="S4" data-value="3" x="520" y="64" width="116" height="56" fill="rgba(35,47,62,0.22)"/>
+      <text x="578" y="96" fill="#232f3e" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">3%</text>
+
+      <rect x="640" y="64" width="116" height="56" fill="#ffffff"/>
+      <rect data-row="auth" data-col="S5" data-value="2" x="640" y="64" width="116" height="56" fill="rgba(35,47,62,0.14)"/>
+      <text x="698" y="96" fill="#232f3e" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">2%</text>
+
+      <rect x="760" y="64" width="116" height="56" fill="#ffffff"/>
+      <rect data-row="auth" data-col="S6" data-value="2" x="760" y="64" width="116" height="56" fill="rgba(35,47,62,0.14)"/>
+      <text x="818" y="96" fill="#232f3e" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">2%</text>
+
+      <!-- Row: payments (y=124) — values 3,4,5,47(focal),6,4 -->
+      <rect x="160" y="124" width="116" height="56" fill="#ffffff"/>
+      <rect data-row="payments" data-col="S1" data-value="3" x="160" y="124" width="116" height="56" fill="rgba(35,47,62,0.22)"/>
+      <text x="218" y="156" fill="#232f3e" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">3%</text>
+
+      <rect x="280" y="124" width="116" height="56" fill="#ffffff"/>
+      <rect data-row="payments" data-col="S2" data-value="4" x="280" y="124" width="116" height="56" fill="rgba(35,47,62,0.29)"/>
+      <text x="338" y="156" fill="#232f3e" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">4%</text>
+
+      <rect x="400" y="124" width="116" height="56" fill="#ffffff"/>
+      <rect data-row="payments" data-col="S3" data-value="5" x="400" y="124" width="116" height="56" fill="rgba(35,47,62,0.36)"/>
+      <text x="458" y="156" fill="#232f3e" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">5%</text>
+
+      <!-- FOCAL CELL: payments·S4 = 47% deploy regression -->
+      <rect x="520" y="124" width="116" height="56" fill="#ffffff"/>
+      <rect data-row="payments" data-col="S4" data-value="47" data-focal="true" x="520" y="124" width="116" height="56" fill="rgba(236,114,17,0.85)" stroke="#ec7211" stroke-width="1.2"/>
+      <text x="578" y="149" fill="#111111" font-size="10" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">47%</text>
+      <text x="578" y="163" fill="#111111" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">REGRESSION</text>
+
+      <rect x="640" y="124" width="116" height="56" fill="#ffffff"/>
+      <rect data-row="payments" data-col="S5" data-value="6" x="640" y="124" width="116" height="56" fill="rgba(35,47,62,0.43)"/>
+      <text x="698" y="156" fill="#ffffff" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">6%</text>
+
+      <rect x="760" y="124" width="116" height="56" fill="#ffffff"/>
+      <rect data-row="payments" data-col="S6" data-value="4" x="760" y="124" width="116" height="56" fill="rgba(35,47,62,0.29)"/>
+      <text x="818" y="156" fill="#232f3e" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">4%</text>
+
+      <!-- Row: api-gateway (y=184) — values 2,3,4,2,1,1 -->
+      <rect x="160" y="184" width="116" height="56" fill="#ffffff"/>
+      <rect data-row="api-gateway" data-col="S1" data-value="2" x="160" y="184" width="116" height="56" fill="rgba(35,47,62,0.14)"/>
+      <text x="218" y="216" fill="#232f3e" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">2%</text>
+
+      <rect x="280" y="184" width="116" height="56" fill="#ffffff"/>
+      <rect data-row="api-gateway" data-col="S2" data-value="3" x="280" y="184" width="116" height="56" fill="rgba(35,47,62,0.22)"/>
+      <text x="338" y="216" fill="#232f3e" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">3%</text>
+
+      <rect x="400" y="184" width="116" height="56" fill="#ffffff"/>
+      <rect data-row="api-gateway" data-col="S3" data-value="4" x="400" y="184" width="116" height="56" fill="rgba(35,47,62,0.29)"/>
+      <text x="458" y="216" fill="#232f3e" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">4%</text>
+
+      <rect x="520" y="184" width="116" height="56" fill="#ffffff"/>
+      <rect data-row="api-gateway" data-col="S4" data-value="2" x="520" y="184" width="116" height="56" fill="rgba(35,47,62,0.14)"/>
+      <text x="578" y="216" fill="#232f3e" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">2%</text>
+
+      <rect x="640" y="184" width="116" height="56" fill="#ffffff"/>
+      <rect data-row="api-gateway" data-col="S5" data-value="1" x="640" y="184" width="116" height="56" fill="rgba(35,47,62,0.07)"/>
+      <text x="698" y="216" fill="#232f3e" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">1%</text>
+
+      <rect x="760" y="184" width="116" height="56" fill="#ffffff"/>
+      <rect data-row="api-gateway" data-col="S6" data-value="1" x="760" y="184" width="116" height="56" fill="rgba(35,47,62,0.07)"/>
+      <text x="818" y="216" fill="#232f3e" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">1%</text>
+
+      <!-- Row: billing (y=244) — values 5,7,9,6,4,3 -->
+      <rect x="160" y="244" width="116" height="56" fill="#ffffff"/>
+      <rect data-row="billing" data-col="S1" data-value="5" x="160" y="244" width="116" height="56" fill="rgba(35,47,62,0.36)"/>
+      <text x="218" y="276" fill="#232f3e" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">5%</text>
+
+      <rect x="280" y="244" width="116" height="56" fill="#ffffff"/>
+      <rect data-row="billing" data-col="S2" data-value="7" x="280" y="244" width="116" height="56" fill="rgba(35,47,62,0.51)"/>
+      <text x="338" y="276" fill="#ffffff" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">7%</text>
+
+      <rect x="400" y="244" width="116" height="56" fill="#ffffff"/>
+      <rect data-row="billing" data-col="S3" data-value="9" x="400" y="244" width="116" height="56" fill="rgba(35,47,62,0.65)"/>
+      <text x="458" y="276" fill="#ffffff" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">9%</text>
+
+      <rect x="520" y="244" width="116" height="56" fill="#ffffff"/>
+      <rect data-row="billing" data-col="S4" data-value="6" x="520" y="244" width="116" height="56" fill="rgba(35,47,62,0.43)"/>
+      <text x="578" y="276" fill="#ffffff" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">6%</text>
+
+      <rect x="640" y="244" width="116" height="56" fill="#ffffff"/>
+      <rect data-row="billing" data-col="S5" data-value="4" x="640" y="244" width="116" height="56" fill="rgba(35,47,62,0.29)"/>
+      <text x="698" y="276" fill="#232f3e" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">4%</text>
+
+      <rect x="760" y="244" width="116" height="56" fill="#ffffff"/>
+      <rect data-row="billing" data-col="S6" data-value="3" x="760" y="244" width="116" height="56" fill="rgba(35,47,62,0.22)"/>
+      <text x="818" y="276" fill="#232f3e" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">3%</text>
+
+      <!-- Row: notifications (y=304) — values 1,2,2,2,1,1 -->
+      <rect x="160" y="304" width="116" height="56" fill="#ffffff"/>
+      <rect data-row="notifications" data-col="S1" data-value="1" x="160" y="304" width="116" height="56" fill="rgba(35,47,62,0.07)"/>
+      <text x="218" y="336" fill="#232f3e" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">1%</text>
+
+      <rect x="280" y="304" width="116" height="56" fill="#ffffff"/>
+      <rect data-row="notifications" data-col="S2" data-value="2" x="280" y="304" width="116" height="56" fill="rgba(35,47,62,0.14)"/>
+      <text x="338" y="336" fill="#232f3e" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">2%</text>
+
+      <rect x="400" y="304" width="116" height="56" fill="#ffffff"/>
+      <rect data-row="notifications" data-col="S3" data-value="2" x="400" y="304" width="116" height="56" fill="rgba(35,47,62,0.14)"/>
+      <text x="458" y="336" fill="#232f3e" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">2%</text>
+
+      <rect x="520" y="304" width="116" height="56" fill="#ffffff"/>
+      <rect data-row="notifications" data-col="S4" data-value="2" x="520" y="304" width="116" height="56" fill="rgba(35,47,62,0.14)"/>
+      <text x="578" y="336" fill="#232f3e" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">2%</text>
+
+      <rect x="640" y="304" width="116" height="56" fill="#ffffff"/>
+      <rect data-row="notifications" data-col="S5" data-value="1" x="640" y="304" width="116" height="56" fill="rgba(35,47,62,0.07)"/>
+      <text x="698" y="336" fill="#232f3e" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">1%</text>
+
+      <rect x="760" y="304" width="116" height="56" fill="#ffffff"/>
+      <rect data-row="notifications" data-col="S6" data-value="1" x="760" y="304" width="116" height="56" fill="rgba(35,47,62,0.07)"/>
+      <text x="818" y="336" fill="#232f3e" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">1%</text>
+
+      <!-- Annotation: callout for billing row high baseline -->
+      <line x1="880" y1="244" x2="880" y2="300" stroke="rgba(35,47,62,0.30)" stroke-width="1" stroke-dasharray="3,2"/>
+      <text x="884" y="272" fill="#545b64" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.04em">HIGH BASELINE</text>
+
+      <!-- Legend -->
+      <line x1="40" y1="382" x2="960" y2="382" stroke="rgba(35,47,62,0.10)" stroke-width="0.8"/>
+      <text x="40" y="398" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.18em">LEGEND</text>
+      <text x="960" y="398" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.06em" text-anchor="end">ILLUSTRATIVE CODEBUILD FAILURE RATES · NOT A MEASURED ACCOUNT</text>
+
+      <!-- Ink ramp strip: 8 steps low→high -->
+      <rect x="120" y="386" width="20" height="12" fill="#ffffff"/><rect x="120" y="386" width="20" height="12" fill="rgba(35,47,62,0.07)"/>
+      <rect x="142" y="386" width="20" height="12" fill="#ffffff"/><rect x="142" y="386" width="20" height="12" fill="rgba(35,47,62,0.14)"/>
+      <rect x="164" y="386" width="20" height="12" fill="#ffffff"/><rect x="164" y="386" width="20" height="12" fill="rgba(35,47,62,0.22)"/>
+      <rect x="186" y="386" width="20" height="12" fill="#ffffff"/><rect x="186" y="386" width="20" height="12" fill="rgba(35,47,62,0.29)"/>
+      <rect x="208" y="386" width="20" height="12" fill="#ffffff"/><rect x="208" y="386" width="20" height="12" fill="rgba(35,47,62,0.36)"/>
+      <rect x="230" y="386" width="20" height="12" fill="#ffffff"/><rect x="230" y="386" width="20" height="12" fill="rgba(35,47,62,0.43)"/>
+      <rect x="252" y="386" width="20" height="12" fill="#ffffff"/><rect x="252" y="386" width="20" height="12" fill="rgba(35,47,62,0.51)"/>
+      <rect x="274" y="386" width="20" height="12" fill="#ffffff"/><rect x="274" y="386" width="20" height="12" fill="rgba(35,47,62,0.65)"/>
+      <text x="116" y="396" fill="#545b64" font-size="7.5" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="end">LOW</text>
+      <text x="298" y="396" fill="#545b64" font-size="7.5" font-family="'Amazon Ember Mono', ui-monospace, monospace">HIGH</text>
+
+      <!-- Focal accent swatch -->
+      <rect x="360" y="386" width="20" height="12" fill="#ffffff"/><rect x="360" y="386" width="20" height="12" fill="rgba(236,114,17,0.85)" stroke="#ec7211" stroke-width="1"/>
+      <text x="388" y="396" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">payments · S4 · 47% — deploy regression (now fixed)</text>
+
+      <!-- Scale note -->
+      <text x="40" y="418" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.06em">NON-FOCAL SCALE: 1–9% · SINGLE INK RAMP · ACCENT IS EDITORIAL, NOT A DATA RANGE</text>
+    </svg>
+  </div>
+</body>
+</html>

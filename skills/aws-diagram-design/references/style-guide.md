@@ -1,6 +1,6 @@
 # Style Guide
 
-**The single source of truth for colors, typography, and tokens.** Every diagram draws from this — not from hex values inlined in other reference files. If you want to change the visual skin of Schematic, change this file.
+**The single source of truth for colors, typography, and tokens.** Every diagram draws from this — not from hex values inlined in other reference files. If you want to change the visual skin of Diagram Design, change this file.
 
 **Current skin: AWS brand** — white paper, Squid-Ink text (`#232F3E`), Smile-Orange accent, Amazon Ember typography, and the official AWS Architecture Icons ([primitive-aws-icons.md](primitive-aws-icons.md)). This replaces the shipped editorial default (white-smoke / atomic-tangerine `#eb6c36`); swap these values (or run [`onboarding.md`](onboarding.md)) and every new diagram inherits the new skin without touching any type-specific logic.
 
@@ -18,7 +18,7 @@ Every token is referred to by **semantic role**, not by its hex value. Type refe
 | `paper-2` | Diagram container bg, secondary fill | `#F2F3F3` | `#232F3E` (squid ink) |
 | `ink` | Primary text, primary stroke | `#232F3E` (squid ink) | `#FFFFFF` |
 | `muted` | Secondary text, default arrow stroke | `#545B64` | `#B6BEC9` |
-| `soft` | Sublabels, boundary labels | `#7D8998` | `#8D99A8` |
+| `soft` | Sublabels, boundary labels | `#687078` | `#8D99A8` |
 | `rule` | Hairline borders | `rgba(35,47,62,0.12)` | `rgba(255,255,255,0.12)` |
 | `rule-solid` | Stronger borders, baselines | `#D5DBDB` | `rgba(255,255,255,0.25)` |
 | `accent` | Focal / 1–2 max per diagram | `#EC7211` (smile orange, dark step) | `#FF9900` (smile orange) |
@@ -27,7 +27,24 @@ Every token is referred to by **semantic role**, not by its hex value. Type refe
 
 > **Brand palette source:** AWS brand — `squid ink #232F3E`, `smile orange #FF9900`, white. Pure `#FF9900` reads weakly as thin strokes/text on white, so light-mode `accent` uses the darker step `#EC7211` (the orange AWS itself uses on light UI); `#FF9900` is the accent on dark and the base of `accent-tint`. `muted`/`soft`/`rule-solid`/`link` come from the AWS/Cloudscape grey-blue ramp. Category identity colors (`#ED7100`, `#8C4FFF`, …) belong to the icons and zone borders — see [primitive-aws-icons.md](primitive-aws-icons.md) — and are **not** editorial accents.
 
-> **Note:** The pre-baked example HTML files in `assets/` were built under earlier skins and don't reflect the AWS skin. New diagrams the skill produces must use the tokens above.
+> **Note:** The example HTML files in `assets/` are drawn in this AWS skin (light, dark, and full-editorial variants) with AWS scenarios. They are the reference renders for each type; new diagrams use the tokens above.
+
+### Contrast contract
+
+Every token must clear the threshold for each role it plays, against the background it actually sits on, in both skins.
+
+| Use | Minimum vs. its actual background |
+|---|---|
+| Regular text, including any `soft`, `link`, or `accent` used as text | 4.5:1 |
+| Large text (24px+, or 18.7px+ at weight 600+) | 3:1 |
+| Essential non-text marks: lines, arrows, borders, focus outlines, data points | 3:1 against the adjacent color |
+| Decorative rules and translucent tints (`rule`, `rule-solid`, `paper-2`, `accent-tint`, fills at opacity) | No minimum, but never the only carrier of meaning |
+
+- **A token used in several roles must pass each one.** `accent` is a stroke in one place and a label in another, so as text it is held to 4.5:1, not the 3:1 its strokes alone would need.
+- **Translucent colors are composited first.** An `rgba()` fill or stroke is blended over `paper` before its ratio is measured. A value that clears the bar at full strength can fail at 0.5 opacity.
+- **Surfaces other than `paper` cost contrast.** Inside an `accent-tint` box or on `paper-2` every ratio drops. Measure text placed there against that surface, not against `paper`.
+- **Current AWS values** (WCAG 2.x, on `paper`): light `ink` 13.57:1, `muted` 6.87:1, `soft` 5.03:1, `link` 4.82:1, `accent` 3.01:1 on `#FFFFFF`; dark `muted` 8.90:1, `soft` 5.77:1, `link` 5.93:1, `accent` 7.80:1 on `#161E2D`. `soft` was darkened from `#7D8998` (3.56:1) to `#687078` so sublabels and boundary labels clear the text bar.
+- **Light `accent` is a mark color, not a text color.** Smile orange `#EC7211` is kept for brand fidelity and clears the 3:1 bar for strokes, borders, markers, and fills, but not the 4.5:1 text bar. In the light skin, text below the large-text threshold never takes `accent`: wherever a type reference asks for an accent-colored label (a focal arrow label, a focal value label, a tag on an accent box), set it in `ink` — or `muted` for a tag or boundary label that would otherwise be accent at an opacity — and let the accent stroke, marker, or fill beside it carry the focal signal. Large titles and numerals (24px+, or 18.7px+ at weight 600+) may use `accent`. The dark skin's `#FF9900` reads 7.80:1, so accent text is fine there.
 
 ### Inversion rule (light → dark)
 
@@ -97,6 +114,43 @@ Installed Ember faces: Light 300 / Regular 400 / Medium 500 / Bold 700 / Heavy 8
 
 **Load-bearing rule:** Mono is for *technical* content (ports, commands, URLs, field types). Names, titles, and callouts go in Amazon Ember. Italic Ember is reserved for annotation callouts (see [primitive-annotation.md](primitive-annotation.md)). **Never JetBrains Mono** as a blanket "dev" font. This skin intentionally drops the editorial serif (Instrument Serif) — AWS brand typography is single-family.
 
+### Korean labels
+
+Amazon Ember and Amazon Ember Mono carry no Hangul. A Korean `<text>` element extends its own family — never swap the skin:
+
+```svg
+<text font-family="'Amazon Ember', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif">결제 서비스</text>
+```
+
+Hangul resolves through the viewer's installed Korean face (Apple SD Gothic Neo on macOS, Malgun Gothic on Windows, Noto Sans KR on Linux); the AWS skin loads nothing from a CDN, so there is no web Korean face to prefer. Titles use the same stack at the title weight.
+
+**Width budget.** Measure per character, not per script: **every Unicode wide or full-width character costs 1em, every other character costs its face's Latin advance** (0.60em sans, 0.62em mono), and nonspacing/enclosing marks cost nothing. Sum over the string and multiply by the font size for the text width, then add padding and round the box up to the next multiple of 4.
+
+Counting by script is the trap. `주문 v2.1` is two full-width syllables and five narrow characters; a formula that tallies Hangul, Latin letters, and spaces silently drops `2`, `.`, and `1` and sizes the box for four of its seven characters. Every rendered character costs something — measure per character, never per script.
+
+Three rules follow from Hangul metrics:
+
+- **Sublabels stay Latin.** Ports, protocols, field types, ARNs, and URLs are Latin anyway — keep Amazon Ember Mono there and don't translate them. Hangul in a 9px mono sublabel is unreadable and has no mono face to fall back to.
+- **Floor of 12px.** Hangul goes muddy below 12px. If a Korean name doesn't fit at 12px, cut the name — don't shrink the type.
+- **Arrow labels, eyebrows, and legend text switch register.** Those slots are 7–8px Amazon Ember Mono, uppercase and tracked, which Hangul has neither a face nor legibility for. A Korean label in one of those slots becomes 12px sans at weight 500 with no tracking and no uppercase transform, and its mask rect grows to match (16px tall, width from the budget above, still rounded to a multiple of 4). Latin labels in the same diagram keep the mono treatment.
+
+### Chinese and Japanese labels
+
+The same three rules apply to Han and kana, with their own stacks — Japanese fonts cover only part of the Chinese set and draw Japanese glyph variants, and Simplified and Traditional are separate stacks for the same reason:
+
+```svg
+<text font-family="'Amazon Ember', 'Hiragino Sans', 'Noto Sans JP', 'Yu Gothic', sans-serif">認証サービス</text>
+<text font-family="'Amazon Ember', 'PingFang SC', 'Noto Sans SC', 'Microsoft YaHei', sans-serif">认证服务</text>
+<text font-family="'Amazon Ember', 'PingFang TC', 'Noto Sans TC', 'Microsoft JhengHei', sans-serif">認證服務</text>
+```
+
+Full-width punctuation — `（）「」，。：` — is wide and costs 1em as well.
+
+### Cyrillic labels
+
+Amazon Ember and Amazon Ember Mono both ship Cyrillic, so names, sublabels, arrow labels, eyebrows, and legend text in Bulgarian, Russian, Ukrainian, or Serbian keep the Latin treatment: same faces, sizes, tracking, and uppercase — no register switch and no stack extension. Width follows the same per-character budget. A label the reader matches against a physical thing (a cabinet, a port map) carries the exact printed string: don't transliterate or re-case it.
+
+
 ---
 
 ## Stroke, radius, spacing
@@ -141,7 +195,7 @@ Three options:
 
 ### Constraints (don't break these)
 
-- **Contrast**: `ink` must hit WCAG AA on `paper`. `muted` must hit AA on `paper` for 11px+ text.
+- **Contrast**: every text token (`ink`, `muted`, `soft`, `link`, and `accent`) must clear 4.5:1 on `paper`, in both skins. See the [contrast contract](#contrast-contract).
 - **One accent**: pick one color for `accent`. Two accents erases the focal signal. (AWS icon/zone identity colors are exempt — they're identity marks, not accents.)
 - **No rainbow palette**: if your brand ships 8 colors, pick 3 (paper, ink, accent). The rest become `muted` variants.
 - **Typography**: at most three families. The AWS skin runs sans + mono (Ember + Amazon Ember Mono) — brand consistency outweighs the serif/sans contrast the editorial default used.

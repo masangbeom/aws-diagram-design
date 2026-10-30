@@ -108,10 +108,10 @@
       <text x="960" y="204" fill="#232F3E" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">VPC 10.2.0.0/16</text>
 
       <!-- ===== zone: Corporate data center ===== -->
-      <rect x="32" y="360" width="136" height="128" fill="none" stroke="#7D8998" stroke-width="1"/>
+      <rect x="32" y="360" width="136" height="128" fill="none" stroke="#687078" stroke-width="1"/>
       <g transform="translate(32,360) scale(0.6)" aria-hidden="true">
         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-          <rect fill="#7D8998" x="0" y="0" width="40" height="40"></rect>
+          <rect fill="#687078" x="0" y="0" width="40" height="40"></rect>
           <path d="M12,17 L15.5,17 C15.776,17 16,16.776 16,16.5 L16,7 L23,7 L23,16.5 C23,16.776 23.224,17 23.5,17 L27,17 L27,33 L12,33 L12,17 Z M28,33.5 L28,16.5 C28,16.224 27.776,16 27.5,16 L24,16 L24,6.5 C24,6.224 23.776,6 23.5,6 L15.5,6 C15.224,6 15,6.224 15,6.5 L15,16 L11.5,16 C11.224,16 11,16.224 11,16.5 L11,33.5 C11,33.776 11.224,34 11.5,34 L27.5,34 C27.776,34 28,33.776 28,33.5 L28,33.5 Z M24,31 L25,31 L25,29 L24,29 L24,31 Z M19,31 L20,31 L20,29 L19,29 L19,31 Z M14,31 L15,31 L15,29 L14,29 L14,31 Z M24,27 L25,27 L25,24 L24,24 L24,27 Z M19,27 L20,27 L20,24 L19,24 L19,27 Z M14,27 L15,27 L15,24 L14,24 L14,27 Z M24,22 L25,22 L25,19 L24,19 L24,22 Z M19,12 L20,12 L20,9 L19,9 L19,12 Z M19,17 L20,17 L20,14 L19,14 L19,17 Z M19,22 L20,22 L20,19 L19,19 L19,22 Z M14,22 L15,22 L15,19 L14,19 L14,22 Z" fill="#FFFFFF"></path>
         </g>
       </g>
@@ -121,22 +121,22 @@
       <!-- App A -> TGW us-east-1 -->
       <line x1="424" y1="260" x2="488" y2="260" stroke="#545B64" stroke-width="1.2" marker-end="url(#arrow)"/>
       <rect x="434" y="240" width="44" height="12" rx="2" fill="#ffffff"/>
-      <text x="456" y="249" fill="#7D8998" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">ATTACH</text>
+      <text x="456" y="249" fill="#687078" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">ATTACH</text>
 
       <!-- App B -> TGW ap-northeast-2 -->
       <line x1="944" y1="260" x2="888" y2="260" stroke="#545B64" stroke-width="1.2" marker-end="url(#arrow)"/>
       <rect x="894" y="240" width="44" height="12" rx="2" fill="#ffffff"/>
-      <text x="916" y="249" fill="#7D8998" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">ATTACH</text>
+      <text x="916" y="249" fill="#687078" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">ATTACH</text>
 
       <!-- TGW us-east-1 -> Cloud WAN -->
       <line x1="564" y1="288" x2="564" y2="392" stroke="#545B64" stroke-width="1.2" marker-end="url(#arrow)"/>
       <rect x="572" y="328" width="48" height="12" rx="2" fill="#ffffff"/>
-      <text x="576" y="337" fill="#7D8998" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.06em">PEERING</text>
+      <text x="576" y="337" fill="#687078" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.06em">PEERING</text>
 
       <!-- TGW ap-northeast-2 -> Cloud WAN -->
       <line x1="812" y1="288" x2="812" y2="392" stroke="#545B64" stroke-width="1.2" marker-end="url(#arrow)"/>
       <rect x="820" y="328" width="48" height="12" rx="2" fill="#ffffff"/>
-      <text x="824" y="337" fill="#7D8998" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.06em">PEERING</text>
+      <text x="824" y="337" fill="#687078" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.06em">PEERING</text>
 
       <!-- On-prem servers -> Direct Connect -->
       <line x1="156" y1="424" x2="232" y2="424" stroke="#0972D3" stroke-width="1.2" marker-end="url(#arrow-link)"/>

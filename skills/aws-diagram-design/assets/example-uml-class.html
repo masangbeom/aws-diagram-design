@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AWS CDK construct model · UML class diagram</title>
+  <style>
+  @font-face { font-family: 'Amazon Ember'; font-weight: 400; font-style: normal; src: local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_Rg.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 400; font-style: italic; src: local('Amazon Ember Italic'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_RgIt.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 600; font-style: normal; src: local('Amazon Ember Medium'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_SBd.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 700; font-style: normal; src: local('Amazon Ember Bold'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_Bd.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember Mono'; font-weight: 400; font-style: normal; src: local('Amazon Ember Mono'), url('fonts/woff2/AmazonEmberMono_W_Rg.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember Mono'; font-weight: 700; font-style: normal; src: local('Amazon Ember Mono Bold'), local('Amazon Ember Mono'), url('fonts/woff2/AmazonEmberMono_W_Bd.woff2') format('woff2'); }
+</style>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --color-paper:   #ffffff;
+      --color-ink:     #232f3e;
+      --color-muted:   #545b64;
+      --color-accent:  #ec7211;
+      --font-sans:     'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --font-serif:    'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --font-mono:     'Amazon Ember Mono', ui-monospace, monospace;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--color-paper);
+      color: var(--color-ink);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 2rem;
+    }
+
+    .frame { max-width: 1240px; width: 100%; }
+
+    .eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(1.5rem, 2.4vw + 0.75rem, 2rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      color: var(--color-ink);
+      margin-bottom: 1.5rem;
+    }
+
+    svg { width: 100%; min-width: 900px; display: block; }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <p class="eyebrow">UML class · AWS Diagram Design</p>
+    <h1>AWS CDK construct model · class diagram</h1>
+
+    <svg viewBox="0 0 980 664" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="uml-class-title uml-class-desc">
+      <title id="uml-class-title">AWS CDK construct model · UML class diagram</title>
+      <desc id="uml-class-desc">Class diagram of an AWS CDK app showing the s3 Bucket and dynamodb Table constructs realizing the IResource interface, a RetentionAspect depending only on IResource, and an OrdersApi construct composed of ApiRoute children while associated with a Cognito UserPool.</desc>
+      <defs>
+        <marker id="uml-triangle" markerWidth="16" markerHeight="12" refX="15" refY="6" orient="auto" markerUnits="userSpaceOnUse">
+          <polygon points="0 0, 16 6, 0 12" fill="#ffffff" stroke="#232f3e" stroke-width="1"/>
+        </marker>
+        <marker id="uml-diamond-filled" markerWidth="18" markerHeight="10" refX="0" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+          <polygon points="0 5, 9 0, 18 5, 9 10" fill="#232f3e"/>
+        </marker>
+        <marker id="uml-diamond-hollow" markerWidth="18" markerHeight="10" refX="0" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+          <polygon points="0 5, 9 0, 18 5, 9 10" fill="#ffffff" stroke="#232f3e" stroke-width="1"/>
+        </marker>
+        <marker id="uml-open" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto" markerUnits="userSpaceOnUse">
+          <path d="M0,0 L9,4 L0,8" fill="none" stroke="#545b64" stroke-width="1"/>
+        </marker>
+      </defs>
+
+      <rect width="100%" height="100%" fill="#ffffff"/>
+
+      <!-- Relationships (drawn before boxes) -->
+      <!-- Bucket realizes IResource -->
+      <line x1="480" y1="240" x2="480" y2="140" stroke="#ec7211" stroke-width="1" stroke-dasharray="5,4" marker-end="url(#uml-triangle)"/>
+      <!-- Table realizes IResource -->
+      <line x1="760" y1="240" x2="760" y2="140" stroke="#ec7211" stroke-width="1" stroke-dasharray="5,4" marker-end="url(#uml-triangle)"/>
+      <!-- RetentionAspect depends on IResource -->
+      <line x1="320" y1="100" x2="420" y2="100" stroke="#545b64" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#uml-open)"/>
+      <!-- OrdersApi composed of ApiRoute -->
+      <line x1="260" y1="480" x2="380" y2="480" stroke="#545b64" stroke-width="1" marker-start="url(#uml-diamond-filled)"/>
+      <!-- OrdersApi associates UserPool (routed below to clear ApiRoute) -->
+      <path d="M 160,540 V 572 Q 160,580 168,580 H 752 Q 760,580 760,572 V 540" fill="none" stroke="#545b64" stroke-width="1" marker-end="url(#uml-open)"/>
+
+      <!-- Dependency label -->
+      <rect x="352" y="80" width="32" height="12" rx="2" fill="#ffffff"/>
+      <text x="368" y="89" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">USES</text>
+
+      <!-- Composition multiplicities -->
+      <rect x="288" y="474" width="12" height="12" rx="2" fill="#ffffff"/>
+      <text x="294" y="484" fill="#232f3e" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" font-weight="600">1</text>
+      <rect x="348" y="474" width="24" height="12" rx="2" fill="#ffffff"/>
+      <text x="360" y="484" fill="#232f3e" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" font-weight="600">1..*</text>
+
+      <!-- Association multiplicities -->
+      <rect x="164" y="548" width="28" height="12" rx="2" fill="#ffffff"/>
+      <text x="178" y="557" fill="#232f3e" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" font-weight="600">0..*</text>
+      <rect x="752" y="548" width="16" height="12" rx="2" fill="#ffffff"/>
+      <text x="760" y="557" fill="#232f3e" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" font-weight="600">1</text>
+
+      <!-- Class: IResource (interface, focal) -->
+      <rect x="420" y="40" width="360" height="100" rx="6" fill="rgba(236,114,17,0.04)" stroke="#ec7211" stroke-width="1"/>
+      <path d="M420 80 V46 A6 6 0 0 1 426 40 H774 A6 6 0 0 1 780 46 V80 Z" fill="rgba(236,114,17,0.10)"/>
+      <line x1="420" y1="80" x2="780" y2="80" stroke="rgba(236,114,17,0.40)" stroke-width="1"/>
+      <text x="600" y="56" fill="#232f3e" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">«interface»</text>
+      <text x="600" y="72" fill="#232f3e" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">IResource</text>
+      <text x="436" y="100" fill="#232f3e" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace">+ applyRemovalPolicy(p: RemovalPolicy): void</text>
+      <text x="436" y="120" fill="#232f3e" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace">+ readonly stack: Stack</text>
+
+      <!-- Class: Bucket -->
+      <rect x="380" y="240" width="200" height="120" rx="6" fill="#ffffff" stroke="#232f3e" stroke-width="1"/>
+      <line x1="380" y1="280" x2="580" y2="280" stroke="rgba(35,47,62,0.22)" stroke-width="1"/>
+      <text x="480" y="264" fill="#232f3e" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Bucket</text>
+      <g transform="translate(560,244) scale(0.25)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g fill="#7AA116"> <rect x="0" y="0" width="64" height="64"></rect> </g> <g transform="translate(10.999800, 10.000200)" fill="#FFFFFF"> <path d="M36.759,23.948 L36.993,22.131 C39.166,23.385 39.842,24.121 40.037,24.424 C39.713,24.485 38.832,24.509 36.759,23.948 L36.759,23.948 Z M19.5,11 C9.125,11 2.382,8.488 2,6.696 L2,6.511 C2.349,5.392 8.14,2 19.5,2 C30.84,2 36.632,5.381 37,6.505 L37,6.616 C36.724,8.446 29.961,11 19.5,11 L19.5,11 Z M34.818,23.362 C30.053,21.797 23.912,18.979 21.594,17.888 C21.535,16.786 20.628,15.906 19.512,15.906 C18.358,15.906 17.418,16.845 17.418,18 C17.418,19.154 18.358,20.094 19.512,20.094 C19.969,20.094 20.389,19.942 20.733,19.693 C23.132,20.822 29.619,23.798 34.558,25.38 L32.837,38.724 C32.583,40.352 27.919,42 19.497,42 C11.072,42 6.405,40.352 6.155,38.751 L2.435,9.814 C5.945,11.915 12.749,13 19.5,13 C26.25,13 33.054,11.915 36.565,9.815 L34.818,23.362 Z M39,6.5 C39,3.431 30.661,0 19.5,0 C8.339,0 -3.55271368e-15,3.431 -3.55271368e-15,6.5 L-3.55271368e-15,7.043 L4.174,39.033 C4.875,43.516 15.123,44 19.497,44 C23.869,44 34.113,43.516 34.818,39.007 L36.501,25.947 C37.778,26.279 38.812,26.456 39.616,26.455 C40.606,26.455 41.273,26.203 41.697,25.697 C42.047,25.281 42.185,24.756 42.085,24.221 C41.857,23 40.403,21.712 37.37,20.044 L37.27,19.989 L39,7.044 L39,6.5 Z"></path> </g> </g></g>
+      <text x="396" y="300" fill="#232f3e" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace">- bucketName: string</text>
+      <text x="396" y="320" fill="#232f3e" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace">- versioned: boolean</text>
+      <text x="396" y="340" fill="#232f3e" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace">- encryptionKey: IKey</text>
+
+      <!-- Class: Table -->
+      <rect x="660" y="240" width="200" height="100" rx="6" fill="#ffffff" stroke="#232f3e" stroke-width="1"/>
+      <line x1="660" y1="280" x2="860" y2="280" stroke="rgba(35,47,62,0.22)" stroke-width="1"/>
+      <text x="760" y="264" fill="#232f3e" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Table</text>
+      <g transform="translate(840,244) scale(0.25)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g fill="#C925D1"> <rect x="0" y="0" width="64" height="64"></rect> </g> <path d="M46.5858287,25.2492763 L43.0008475,25.2492763 C42.6728493,25.2492763 42.3658509,25.086523 42.1788519,24.8145936 C41.9918528,24.5416533 41.9488531,24.1939071 42.0648525,23.8835638 L44.5578394,17.162156 L35.6448862,17.162156 L31.5539077,26.2601663 L36.0008843,26.2601663 C36.3218827,26.2601663 36.6238811,26.4158434 36.8128801,26.6806966 C36.9998791,26.943528 37.0518788,27.2821762 36.9488794,27.5904976 L33.2888986,38.6910812 L46.5858287,25.2492763 Z M49.7068123,24.9530855 L31.7079069,43.1491063 C31.5159079,43.3442081 31.2589093,43.4452971 31.0009106,43.4452971 C30.8189116,43.4452971 30.6379125,43.3957635 30.4759134,43.2946744 C30.0809155,43.0480173 29.9049164,42.5597574 30.0529156,42.1149658 L34.6128916,28.2819464 L30.0009159,28.2819464 C29.6609177,28.2819464 29.3449193,28.1070624 29.1599203,27.8189588 C28.9769213,27.5288333 28.9499214,27.1659238 29.0909207,26.8525479 L34.0908944,15.7327574 C34.2528935,15.3718697 34.6078917,15.1403759 35.0008896,15.1403759 L46.0008318,15.1403759 C46.32883,15.1403759 46.6358284,15.3031292 46.8228274,15.5750586 C47.0098265,15.8479989 47.0528262,16.1957451 46.9378268,16.5060883 L44.44384,23.2274962 L48.999816,23.2274962 C49.4038139,23.2274962 49.769812,23.4741534 49.9238111,23.8512154 C50.0788103,24.2292882 49.9928108,24.663971 49.7068123,24.9530855 L49.7068123,24.9530855 Z M41.0008581,44.2196388 C38.2908723,46.1059597 33.3138985,47.1016863 28.5329236,47.1016863 C23.7169489,47.1016863 18.6959753,46.0928181 15.9999895,44.1781923 L16.0009895,47.9943023 C16.0009895,49.6582273 20.7689644,51.9782199 28.5329236,51.9782199 C36.0278842,51.9782199 41.0008581,49.2761108 41.0008581,47.4888572 L41.0008581,44.2196388 Z M43.0648472,40.9504204 C43.0648472,41.1374351 43.0328474,41.3173735 43.0008475,41.4963011 L43.0008475,47.4888572 C43.0008475,51.0795387 36.5108817,54 28.5329236,54 C21.6299599,54 14.6619965,52.1106465 14.0599997,48.4997473 L14.001,48.4997473 L14,43.4452971 L14,30.3037265 L14,16.1512659 L14.001,16.1512659 C14.001,12.1552176 21.4879606,10 28.5329236,10 C32.4739029,10 36.262883,10.6398934 38.9298689,11.755916 L38.163873,13.6240408 C35.7318858,12.6050636 32.2209042,12.0217801 28.5329236,12.0217801 C20.7689644,12.0217801 16.0009895,14.4266875 16.0009895,16.1512659 C16.0009895,17.8758443 20.7689644,20.2807517 28.5329236,20.2807517 C28.7279226,20.2807517 28.9319215,20.2817626 29.1289205,20.2736755 L29.2069201,22.2934338 C28.9819212,22.3025318 28.7579224,22.3025318 28.5329236,22.3025318 C23.7159489,22.3025318 18.6959753,21.2936636 15.9999895,19.3790378 L15.9999895,23.7369848 L16.0009895,23.7369848 L16.0009895,23.7541699 C16.0059895,24.2838763 16.4899869,24.8974866 17.3649823,25.4736939 C19.3469719,26.7615678 22.9149531,27.642053 26.9039322,27.8250241 L26.8129326,29.8447824 C22.6869543,29.6547351 19.0629734,28.7762717 16.7269857,27.4287552 C16.4169873,27.7269678 16.0009895,28.4851353 16.0009895,28.8955567 C16.0009895,30.6201351 20.7689644,33.0250425 28.5329236,33.0250425 C29.2709197,33.0250425 29.9979159,32.9997703 30.6949122,32.9502366 L30.8359115,34.9669623 C30.0919154,35.0205394 29.3169195,35.0468226 28.5329236,35.0468226 C23.7159489,35.0468226 18.6959753,34.0379543 15.9999895,32.1233286 L15.9999895,35.7928594 L16.0009895,35.7928594 C16.0059895,36.339751 16.4899869,36.9533612 17.3649823,37.5295685 C19.6329704,39.0044571 23.9139479,39.9233562 28.5329236,39.9233562 L28.8629219,39.9233562 L28.8629219,41.9451362 L28.5329236,41.9451362 C23.7549487,41.9451362 18.6729754,40.9372789 16.0009895,39.4017369 C15.6789912,39.6999495 16.0009895,40.4126269 16.0009895,40.9504204 C16.0009895,42.6749989 20.7689644,45.0799063 28.5329236,45.0799063 C36.2978828,45.0799063 41.0648577,42.6749989 41.0648577,40.9504204 C41.0648577,40.3408537 40.4658609,39.7757662 39.9728635,39.4118458 C39.5638656,39.658503 39.113868,39.8950512 38.6008707,40.1113817 L37.8328747,38.2442678 C38.3638719,38.0208611 38.8228695,37.7812802 39.1968675,37.5326012 C40.2978617,36.798695 41.0008581,35.7544456 41.0008581,35.3581767 L43.0008475,35.3581767 C43.0008475,36.2983045 42.3798508,37.3051509 41.583855,38.1330699 C42.7758487,39.1732757 43.0648472,40.2114598 43.0648472,40.9504204 L43.0648472,40.9504204 Z M17.1419835,48.3885494 C17.9329793,48.796949 18.8579745,49.1608694 19.893969,49.4691908 L20.457966,47.5292928 C19.5419709,47.2573634 18.7319751,46.9399439 18.0519787,46.5881542 L17.1419835,48.3885494 Z M19.893969,37.3385103 L20.457966,35.3996232 C19.5419709,35.1266829 18.7319751,34.8102743 18.0519787,34.4584846 L17.1419835,36.2578689 C17.9329793,36.6672793 18.8579745,37.0301889 19.893969,37.3385103 L19.893969,37.3385103 Z M17.1419835,24.1281992 L18.0519787,22.3278041 C18.7319751,22.6795938 19.5419709,22.9960024 20.457966,23.2689427 L19.893969,25.2088407 C18.8579745,24.9005192 17.9329793,24.5365988 17.1419835,24.1281992 L17.1419835,24.1281992 Z" fill="#FFFFFF"></path> </g></g>
+      <text x="676" y="300" fill="#232f3e" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace">- tableName: string</text>
+      <text x="676" y="320" fill="#232f3e" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace">- billingMode: BillingMode</text>
+
+      <!-- Class: RetentionAspect -->
+      <rect x="40" y="60" width="280" height="80" rx="6" fill="#ffffff" stroke="#232f3e" stroke-width="1"/>
+      <line x1="40" y1="100" x2="320" y2="100" stroke="rgba(35,47,62,0.22)" stroke-width="1"/>
+      <text x="180" y="84" fill="#232f3e" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">RetentionAspect</text>
+      <text x="56" y="120" fill="#232f3e" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace">+ visit(node: IResource): void</text>
+
+      <!-- Class: OrdersApi -->
+      <rect x="60" y="420" width="200" height="120" rx="6" fill="#ffffff" stroke="#232f3e" stroke-width="1"/>
+      <line x1="60" y1="460" x2="260" y2="460" stroke="rgba(35,47,62,0.22)" stroke-width="1"/>
+      <text x="160" y="444" fill="#232f3e" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">OrdersApi</text>
+      <g transform="translate(240,424) scale(0.25)" aria-hidden="true"><g> <g> <rect width="64" height="64" fill="#8C4FFF"/> </g> <g> <path fill-rule="evenodd" clip-rule="evenodd" d="M28 43.9999H31V41.9999H28V43.9999ZM33 43.9999H36V41.9999H33V43.9999ZM28 21.9998H31V19.9998H28V21.9998ZM33 21.9998H36V19.9998H33V21.9998ZM22 12.7408L12 18.5738V46.382L22 51.382V12.7408ZM24 19.9998H26V21.9998H24V41.9999H26V43.9999H24V53C24 53.347 23.82 53.668 23.525 53.851C23.365 53.95 23.183 54 23 54C22.847 54 22.694 53.965 22.553 53.895L10.553 47.895C10.214 47.725 10 47.379 10 47V17.9998C10 17.6448 10.188 17.3148 10.496 17.1358L22.496 10.1358C22.805 9.95575 23.188 9.95475 23.498 10.1328C23.809 10.3108 24 10.6418 24 10.9998V19.9998ZM52 18.5738L42 12.7408V51.382L52 46.382V18.5738ZM54 17.9998V47C54 47.379 53.786 47.725 53.447 47.895L41.447 53.895C41.306 53.965 41.153 54 41 54C40.817 54 40.635 53.95 40.475 53.851C40.18 53.668 40 53.347 40 53V43.9999H38V41.9999H40V21.9998H38V19.9998H40V10.9998C40 10.6418 40.191 10.3108 40.502 10.1328C40.812 9.95575 41.195 9.95575 41.504 10.1358L53.504 17.1358C53.812 17.3148 54 17.6448 54 17.9998ZM34.939 27.3419L33.061 26.6578L29.061 37.6579L30.939 38.3419L34.939 27.3419ZM39.707 32.7069C40.098 32.3159 40.098 31.6839 39.707 31.2929L36.707 28.2929L35.293 29.7069L37.586 31.9999L35.293 34.2929L36.707 35.7069L39.707 32.7069ZM27.293 35.7069L24.293 32.7069C23.902 32.3159 23.902 31.6839 24.293 31.2929L27.293 28.2929L28.707 29.7069L26.414 31.9999L28.707 34.2929L27.293 35.7069Z" fill="white"/> </g> </g></g>
+      <text x="76" y="480" fill="#232f3e" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace">- api: RestApi</text>
+      <text x="76" y="500" fill="#232f3e" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace">- handler: Function</text>
+      <text x="76" y="520" fill="#232f3e" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace">- stageName: string</text>
+
+      <!-- Class: ApiRoute -->
+      <rect x="380" y="420" width="200" height="120" rx="6" fill="#ffffff" stroke="#232f3e" stroke-width="1"/>
+      <line x1="380" y1="460" x2="580" y2="460" stroke="rgba(35,47,62,0.22)" stroke-width="1"/>
+      <text x="480" y="444" fill="#232f3e" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">ApiRoute</text>
+      <text x="396" y="480" fill="#232f3e" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace">- path: string</text>
+      <text x="396" y="500" fill="#232f3e" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace">- method: HttpMethod</text>
+      <text x="396" y="520" fill="#232f3e" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace">- authorizer: IAuthorizer</text>
+
+      <!-- Class: UserPool -->
+      <rect x="660" y="420" width="200" height="120" rx="6" fill="#ffffff" stroke="#232f3e" stroke-width="1"/>
+      <line x1="660" y1="460" x2="860" y2="460" stroke="rgba(35,47,62,0.22)" stroke-width="1"/>
+      <text x="760" y="444" fill="#232f3e" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">UserPool</text>
+      <g transform="translate(840,424) scale(0.25)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g fill="#DD344C"> <rect x="0" y="0" width="64" height="64"></rect> </g> <path d="M48.3851357,21.0063704 L48.3851357,15.7026189 C48.3851357,14.780967 47.766933,14.0014156 47.034585,14.0014156 L13.370821,14.0014156 C12.638473,14.0014156 12.0202703,14.780967 12.0202703,15.7026189 L12.0202703,21.0063704 L27.1722975,21.0063704 L27.1722975,17.0035391 C27.1722975,16.4511484 27.623828,16.0028313 28.1824327,16.0028313 L45.3547302,16.0028313 C45.913335,16.0028313 46.3648654,16.4511484 46.3648654,17.0035391 L46.3648654,21.0063704 L48.3851357,21.0063704 Z M44.3445951,18.0042469 L29.1925678,18.0042469 L29.1925678,30.3880062 C30.1532064,28.5877328 31.7471996,27.158722 33.7260544,26.4031876 C33.1189632,25.6316419 32.7724868,24.6739645 32.7724868,23.6662517 C32.7724868,21.1985063 34.8109395,19.1920871 37.318095,19.1920871 C39.8242403,19.1920871 41.8637032,21.1985063 41.8637032,23.6662517 C41.8637032,24.7400112 41.4657099,25.7517268 40.7838687,26.5452881 C42.1970478,27.1607234 43.4364836,28.1454199 44.3445951,29.3913012 L44.3445951,18.0042469 Z M39.8434329,23.6662517 C39.8434329,22.302287 38.7110714,21.1935027 37.318095,21.1935027 C35.9251186,21.1935027 34.7927571,22.302287 34.7927571,23.6662517 C34.7927571,24.5628859 35.2907537,25.3894706 36.0938112,25.8237778 C36.8453517,26.2290645 37.7726558,26.2360694 38.5383383,25.8227771 C39.343416,25.3894706 39.8434329,24.5628859 39.8434329,23.6662517 L39.8434329,23.6662517 Z M48.3861458,33.0148642 L48.3851357,23.007786 L46.3648654,23.007786 L46.3648654,30.0127407 L44.6516762,30.0127407 L43.006166,30.9984379 C42.1596728,29.6134583 40.8050815,28.5737229 39.2514937,28.1043909 C37.8766997,28.7108198 36.271595,28.7048156 34.9149835,28.1043909 C32.2532774,28.9059579 30.40473,31.2636255 30.2350273,34.015572 L36.2635139,34.015572 L36.2635139,36.0169876 L28.1824327,36.0169876 C27.623828,36.0169876 27.1722975,35.5686705 27.1722975,35.0162798 L27.1722975,23.007786 L12.0202703,23.007786 L12.0202703,37.3179078 C12.0202703,38.2395597 12.638473,39.0191111 13.370821,39.0191111 L33.2331084,39.0191111 L33.2331084,41.0205267 L13.370821,41.0205267 C11.5121723,41.0205267 10,39.3593517 10,37.3179078 L10,15.7026189 C10,13.661175 11.5121723,12 13.370821,12 L47.034585,12 C48.8932337,12 50.405406,13.661175 50.405406,15.7026189 L50.405406,33.0148642 L48.3861458,33.0148642 Z M43.305166,46.9937517 L48.9316188,41.4198091 L47.5032877,40.0048083 L42.5910005,44.8712504 L40.4757775,42.7757682 L39.0474464,44.1907691 L41.8768349,46.9937517 C42.0657302,47.1818847 42.3223045,47.2869591 42.5910005,47.2869591 C42.8586863,47.2869591 43.1152606,47.1818847 43.305166,46.9937517 L43.305166,46.9937517 Z M45.3173552,35.9629494 L45.3173552,35.9629494 C47.8174397,36.2661639 49.9983215,37.7822362 51.1498756,40.0198189 C51.8397979,41.3597667 52.1074837,42.8628298 51.922629,44.3638915 C51.7418148,45.8489419 51.1316932,47.2319201 50.1579229,48.3607186 C49.4659803,49.1642869 48.5922134,49.8277562 47.6315749,50.2790754 C46.3456728,50.8855044 44.9143113,51.1166679 43.4890106,50.9435454 C42.1051255,50.7764272 40.7980106,50.2340436 39.7090849,49.3774377 C37.6181051,47.7302726 36.5615038,45.1744649 36.8837369,42.5426033 C37.1877876,40.0548437 38.7070308,37.8853091 40.9475106,36.7374973 C42.019264,36.1891094 43.1950613,35.9079105 44.3930816,35.9079105 C44.7001627,35.9079105 45.0082539,35.9259232 45.3173552,35.9629494 L45.3173552,35.9629494 Z M48.4982708,52.0873545 C49.7134634,51.5159503 50.8195614,50.6763564 51.6943384,49.660638 C52.9267033,48.2306265 53.6994567,46.48239 53.9287574,44.6050621 C54.1610885,42.7077201 53.8226932,40.8073759 52.9499364,39.1101755 C51.4923114,36.2791731 48.7306019,34.3598155 45.5618079,33.9765444 C43.6496221,33.7423788 41.7293552,34.0846208 40.0202065,34.9602402 C37.1847572,36.4112665 35.26247,39.156208 34.8776085,42.3014327 C34.4715341,45.6297869 35.8079429,48.8600718 38.4524768,50.9435454 C39.8323214,52.0303141 41.4899532,52.7178004 43.2445579,52.9299505 C43.6334599,52.9769837 44.0233721,53 44.4102539,53 C45.823433,53 47.2174195,52.6907813 48.4982708,52.0873545 L48.4982708,52.0873545 Z M21.1114866,33.0148642 L24.1418921,33.0148642 L24.1418921,31.0134485 L21.1114866,31.0134485 L21.1114866,33.0148642 Z M14.0405406,33.0148642 L20.1013515,33.0148642 L20.1013515,31.0134485 L14.0405406,31.0134485 L14.0405406,33.0148642 Z M14.0405406,28.0113251 L23.1317569,28.0113251 L23.1317569,26.0099094 L14.0405406,26.0099094 L14.0405406,28.0113251 Z" fill="#FFFFFF"></path> </g></g>
+      <text x="676" y="480" fill="#232f3e" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace">- userPoolId: string</text>
+      <text x="676" y="500" fill="#232f3e" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace">- signInAliases: Aliases</text>
+      <text x="676" y="520" fill="#232f3e" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace">- mfa: Mfa</text>
+
+      <!-- Legend: relationship vocabulary -->
+      <line x1="40" y1="604" x2="940" y2="604" stroke="rgba(35,47,62,0.10)" stroke-width="0.8"/>
+      <text x="40" y="620" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.18em">LEGEND · RELATIONSHIPS</text>
+
+      <line x1="40" y1="636" x2="68" y2="636" stroke="#232f3e" stroke-width="1" marker-end="url(#uml-triangle)"/>
+      <text x="76" y="640" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Inheritance</text>
+
+      <line x1="188" y1="636" x2="216" y2="636" stroke="#232f3e" stroke-width="1" stroke-dasharray="5,4" marker-end="url(#uml-triangle)"/>
+      <text x="224" y="640" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Realization</text>
+
+      <line x1="336" y1="636" x2="364" y2="636" stroke="#232f3e" stroke-width="1" marker-start="url(#uml-diamond-filled)"/>
+      <text x="372" y="640" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Composition · owns</text>
+
+      <line x1="484" y1="636" x2="512" y2="636" stroke="#232f3e" stroke-width="1" marker-start="url(#uml-diamond-hollow)"/>
+      <text x="520" y="640" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Aggregation · has</text>
+
+      <line x1="632" y1="636" x2="660" y2="636" stroke="#545b64" stroke-width="1" marker-end="url(#uml-open)"/>
+      <text x="668" y="640" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Association</text>
+
+      <line x1="780" y1="636" x2="808" y2="636" stroke="#545b64" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#uml-open)"/>
+      <text x="816" y="640" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Dependency · uses</text>
+    </svg>
+  </div>
+</body>
+</html>

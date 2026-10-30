@@ -3,18 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bearer call with refresh · Sequence</title>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <title>API Gateway call with Cognito refresh · Sequence</title>
+  <style>
+  @font-face { font-family: 'Amazon Ember'; font-weight: 400; font-style: normal; src: local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_Rg.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 400; font-style: italic; src: local('Amazon Ember Italic'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_RgIt.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 600; font-style: normal; src: local('Amazon Ember Medium'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_SBd.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 700; font-style: normal; src: local('Amazon Ember Bold'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_Bd.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember Mono'; font-weight: 400; font-style: normal; src: local('Amazon Ember Mono'), url('fonts/woff2/AmazonEmberMono_W_Rg.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember Mono'; font-weight: 700; font-style: normal; src: local('Amazon Ember Mono Bold'), local('Amazon Ember Mono'), url('fonts/woff2/AmazonEmberMono_W_Bd.woff2') format('woff2'); }
+</style>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --color-paper:   #f5f5f5;
-      --color-ink:     #2d3142;
-      --color-muted:   #4f5d75;
-      --color-accent:  #eb6c36;
-      --font-sans:     'Geist', system-ui, sans-serif;
-      --font-serif:    'Instrument Serif', serif;
-      --font-mono:     'Geist Mono', ui-monospace, monospace;
+      --color-paper:   #ffffff;
+      --color-ink:     #232f3e;
+      --color-muted:   #545b64;
+      --color-accent:  #ec7211;
+      --font-sans:     'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --font-serif:    'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --font-mono:     'Amazon Ember Mono', ui-monospace, monospace;
     }
 
     body {
@@ -43,7 +50,7 @@
     h1 {
       font-family: var(--font-serif);
       font-size: clamp(1.5rem, 2.4vw + 0.75rem, 2rem);
-      font-weight: 400;
+      font-weight: 700;
       letter-spacing: -0.02em;
       line-height: 1.15;
       color: var(--color-ink);
@@ -55,172 +62,158 @@
 </head>
 <body>
   <div class="frame">
-    <p class="eyebrow">Sequence · Diagram Design · Special</p>
-    <h1>Bearer call with refresh</h1>
+    <p class="eyebrow">Sequence · Amazon Cognito</p>
+    <h1>API Gateway call with Cognito refresh</h1>
 
-    <svg viewBox="0 0 960 720" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="sequence-oauth-title sequence-oauth-desc">
-      <title id="sequence-oauth-title">Bearer call with refresh</title>
-      <desc id="sequence-oauth-desc">Client calls API with a bearer token. An ALT fragment shows either a valid 200 response or a 401 path that refreshes via Auth and retries.</desc>
+    <svg viewBox="0 0 960 688" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="sequence-oauth-title sequence-oauth-desc">
+      <title id="sequence-oauth-title">API Gateway call with Cognito refresh</title>
+      <desc id="sequence-oauth-desc">A web client calls Amazon API Gateway with a Cognito access token. An ALT fragment shows either a valid 200 response from the JWT authorizer or a 401 path that refreshes the token at the Amazon Cognito OAuth2 endpoint and retries.</desc>
       <defs>
         <pattern id="dots" width="22" height="22" patternUnits="userSpaceOnUse">
-          <circle cx="1" cy="1" r="0.9" fill="rgba(45,49,66,0.10)"/>
+          <circle cx="1" cy="1" r="0.9" fill="rgba(35,47,62,0.10)"/>
         </pattern>
 
         <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
-          <polygon points="0 0, 8 3, 0 6" fill="#4f5d75"/>
+          <polygon points="0 0, 8 3, 0 6" fill="#545b64"/>
         </marker>
         <marker id="arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
-          <polygon points="0 0, 8 3, 0 6" fill="#eb6c36"/>
+          <polygon points="0 0, 8 3, 0 6" fill="#ec7211"/>
         </marker>
         <marker id="arrow-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
-          <polygon points="0 0, 8 3, 0 6" fill="#2e5aa8"/>
-        </marker>
-        <!-- Open arrowhead for async / fire-and-forget -->
-        <marker id="arrow-open" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
-          <polyline points="0 0, 8 3, 0 6" fill="none" stroke="#4f5d75" stroke-width="1.2"/>
+          <polygon points="0 0, 8 3, 0 6" fill="#0972d3"/>
         </marker>
       </defs>
 
       <!-- Background: paper + optional dots -->
-      <rect width="100%" height="100%" fill="#f5f5f5"/>
+      <rect width="100%" height="100%" fill="#ffffff"/>
       <rect width="100%" height="100%" fill="url(#dots)" opacity="0.55"/>
 
       <!-- =================================================================
            LIFELINES — Client 160 · API 480 · Auth 800
            ================================================================= -->
-      <line x1="160" y1="128" x2="160" y2="624" stroke="rgba(45,49,66,0.22)" stroke-width="1" stroke-dasharray="3,3"/>
-      <line x1="480" y1="128" x2="480" y2="624" stroke="rgba(45,49,66,0.22)" stroke-width="1" stroke-dasharray="3,3"/>
-      <line x1="800" y1="128" x2="800" y2="624" stroke="rgba(45,49,66,0.22)" stroke-width="1" stroke-dasharray="3,3"/>
+      <line x1="160" y1="128" x2="160" y2="592" stroke="rgba(35,47,62,0.22)" stroke-width="1" stroke-dasharray="3,3"/>
+      <line x1="480" y1="128" x2="480" y2="592" stroke="rgba(35,47,62,0.22)" stroke-width="1" stroke-dasharray="3,3"/>
+      <line x1="800" y1="128" x2="800" y2="592" stroke="rgba(35,47,62,0.22)" stroke-width="1" stroke-dasharray="3,3"/>
 
       <!-- =================================================================
            ACTIVATION BARS
            ================================================================= -->
       <!-- API holds control for the initial call -->
-      <!-- First API activation brackets M1 call through M2 success return -->
-      <rect x="476" y="180" width="8" height="104" fill="rgba(45,49,66,0.06)" stroke="#4f5d75" stroke-width="0.8"/>
+      <!-- First API activation brackets M1 call through the M2 / M3 ALT returns -->
+      <rect x="476" y="180" width="8" height="192" fill="rgba(35,47,62,0.06)" stroke="#545b64" stroke-width="0.8"/>
       <!-- Client activation during refresh region -->
-      <rect x="156" y="360" width="8" height="200" fill="rgba(45,49,66,0.06)" stroke="#4f5d75" stroke-width="0.8"/>
+      <rect x="156" y="360" width="8" height="200" fill="rgba(35,47,62,0.06)" stroke="#545b64" stroke-width="0.8"/>
       <!-- Auth activation for refresh -->
-      <rect x="796" y="400" width="8" height="64" fill="rgba(45,49,66,0.06)" stroke="#4f5d75" stroke-width="0.8"/>
+      <rect x="796" y="400" width="8" height="64" fill="rgba(35,47,62,0.06)" stroke="#545b64" stroke-width="0.8"/>
       <!-- API activation for retry -->
-      <rect x="476" y="496" width="8" height="64" fill="rgba(45,49,66,0.06)" stroke="#4f5d75" stroke-width="0.8"/>
+      <rect x="476" y="496" width="8" height="64" fill="rgba(35,47,62,0.06)" stroke="#545b64" stroke-width="0.8"/>
 
       <!-- =================================================================
            M1: Client → API  GET /resource (before ALT frame)
            ================================================================= -->
-      <line x1="160" y1="176" x2="476" y2="176" stroke="#2e5aa8" stroke-width="1.2" marker-end="url(#arrow-link)"/>
-      <rect x="248" y="160" width="128" height="12" rx="2" fill="#f5f5f5"/>
-      <text x="312" y="170" fill="#2e5aa8" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">GET /RESOURCE + BEARER</text>
+      <line x1="160" y1="176" x2="476" y2="176" stroke="#0972d3" stroke-width="1.2" marker-end="url(#arrow-link)"/>
+      <rect x="248" y="160" width="128" height="12" rx="2" fill="#ffffff"/>
+      <text x="312" y="170" fill="#0972d3" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">GET /ORDERS + BEARER</text>
 
       <!-- =================================================================
            ALT COMBINED FRAGMENT — spans Client · API · Auth
            Frame: x=88 y=208 w=752 h=360
            ================================================================= -->
       <rect x="88" y="208" width="752" height="360" rx="4"
-            fill="rgba(45,49,66,0.02)" stroke="rgba(45,49,66,0.22)" stroke-width="1"/>
+            fill="rgba(35,47,62,0.02)" stroke="rgba(35,47,62,0.22)" stroke-width="1"/>
       <!-- Operator tab: ALT -->
       <rect x="88" y="208" width="40" height="16" rx="2"
-            fill="#f5f5f5" stroke="rgba(45,49,66,0.22)" stroke-width="1"/>
-      <text x="108" y="220" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.12em">ALT</text>
+            fill="#ffffff" stroke="rgba(35,47,62,0.22)" stroke-width="1"/>
+      <text x="108" y="220" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.12em">ALT</text>
 
       <!-- Region 1 guard -->
-      <text x="100" y="244" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.04em">[token valid]</text>
+      <text x="100" y="244" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.04em">[JWT valid]</text>
 
       <!-- M2: API → Client  200 (coral headline success) -->
-      <line x1="476" y1="272" x2="168" y2="272" stroke="#eb6c36" stroke-width="1.4" marker-end="url(#arrow-accent)"/>
-      <rect x="256" y="256" width="88" height="12" rx="2" fill="#f5f5f5"/>
-      <text x="300" y="266" fill="#eb6c36" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">200 · BODY</text>
+      <line x1="476" y1="272" x2="168" y2="272" stroke="#ec7211" stroke-width="1.4" marker-end="url(#arrow-accent)"/>
+      <rect x="256" y="256" width="88" height="12" rx="2" fill="#ffffff"/>
+      <text x="300" y="266" fill="#232f3e" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">200 · BODY</text>
 
       <!-- alt region divider -->
       <line x1="96" y1="312" x2="832" y2="312"
-            stroke="rgba(45,49,66,0.20)" stroke-width="1" stroke-dasharray="4,3"/>
+            stroke="rgba(35,47,62,0.20)" stroke-width="1" stroke-dasharray="4,3"/>
 
       <!-- Region 2 guard -->
-      <text x="100" y="336" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.04em">[else · 401]</text>
+      <text x="100" y="336" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.04em">[else · 401]</text>
 
       <!-- M3: API → Client  401 (return: dashed + filled) -->
-      <line x1="476" y1="368" x2="168" y2="368" stroke="#4f5d75" stroke-width="1.2" stroke-dasharray="5,4" marker-end="url(#arrow)"/>
-      <rect x="272" y="352" width="56" height="12" rx="2" fill="#f5f5f5"/>
-      <text x="300" y="362" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">401</text>
+      <line x1="476" y1="368" x2="168" y2="368" stroke="#545b64" stroke-width="1.2" stroke-dasharray="5,4" marker-end="url(#arrow)"/>
+      <rect x="272" y="352" width="56" height="12" rx="2" fill="#ffffff"/>
+      <text x="300" y="362" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">401</text>
 
       <!-- M4: Client → Auth  refresh (link-blue) -->
-      <line x1="164" y1="416" x2="796" y2="416" stroke="#2e5aa8" stroke-width="1.2" marker-end="url(#arrow-link)"/>
-      <rect x="408" y="400" width="128" height="12" rx="2" fill="#f5f5f5"/>
-      <text x="472" y="410" fill="#2e5aa8" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">POST /TOKEN · REFRESH</text>
+      <line x1="164" y1="416" x2="796" y2="416" stroke="#0972d3" stroke-width="1.2" marker-end="url(#arrow-link)"/>
+      <rect x="408" y="400" width="128" height="12" rx="2" fill="#ffffff"/>
+      <text x="472" y="410" fill="#0972d3" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">POST /OAUTH2/TOKEN</text>
 
       <!-- M5: Auth → Client  access (return dashed, filled marker) -->
-      <line x1="796" y1="456" x2="168" y2="456" stroke="#4f5d75" stroke-width="1.2" stroke-dasharray="5,4" marker-end="url(#arrow)"/>
-      <rect x="424" y="440" width="96" height="12" rx="2" fill="#f5f5f5"/>
-      <text x="472" y="450" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">200 · NEW ACCESS</text>
+      <line x1="796" y1="456" x2="168" y2="456" stroke="#545b64" stroke-width="1.2" stroke-dasharray="5,4" marker-end="url(#arrow)"/>
+      <rect x="424" y="440" width="96" height="12" rx="2" fill="#ffffff"/>
+      <text x="472" y="450" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">200 · NEW ACCESS</text>
 
       <!-- M6: Client → API  retry -->
-      <line x1="164" y1="504" x2="476" y2="504" stroke="#2e5aa8" stroke-width="1.2" marker-end="url(#arrow-link)"/>
-      <rect x="248" y="488" width="112" height="12" rx="2" fill="#f5f5f5"/>
-      <text x="304" y="498" fill="#2e5aa8" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">GET /RESOURCE · RETRY</text>
+      <line x1="164" y1="504" x2="476" y2="504" stroke="#0972d3" stroke-width="1.2" marker-end="url(#arrow-link)"/>
+      <rect x="248" y="488" width="112" height="12" rx="2" fill="#ffffff"/>
+      <text x="304" y="498" fill="#0972d3" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">GET /ORDERS · RETRY</text>
 
       <!-- M7: API → Client  200 retry success (return dashed; coral already used on M2) -->
-      <line x1="476" y1="544" x2="168" y2="544" stroke="#4f5d75" stroke-width="1.2" stroke-dasharray="5,4" marker-end="url(#arrow)"/>
-      <rect x="256" y="528" width="88" height="12" rx="2" fill="#f5f5f5"/>
-      <text x="300" y="538" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">200 · BODY</text>
+      <line x1="476" y1="544" x2="168" y2="544" stroke="#545b64" stroke-width="1.2" stroke-dasharray="5,4" marker-end="url(#arrow)"/>
+      <rect x="256" y="528" width="88" height="12" rx="2" fill="#ffffff"/>
+      <text x="300" y="538" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">200 · BODY</text>
 
-      <!-- =================================================================
-           M8: Client → Auth  async audit (open arrow, outside fragment)
-           ================================================================= -->
-      <line x1="164" y1="600" x2="796" y2="600" stroke="#4f5d75" stroke-width="1.2" stroke-dasharray="5,4" marker-end="url(#arrow-open)"/>
-      <rect x="424" y="584" width="96" height="12" rx="2" fill="#f5f5f5"/>
-      <text x="472" y="594" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">AUDIT · ASYNC</text>
 
       <!-- =================================================================
            ACTOR BOXES — drawn after arrows
            ================================================================= -->
       <!-- Client (input / soft) -->
-      <rect x="88" y="72" width="144" height="56" rx="6" fill="#f5f5f5"/>
-      <rect x="88" y="72" width="144" height="56" rx="6" fill="rgba(79,93,117,0.10)" stroke="#7a8399" stroke-width="1"/>
-      <rect x="96" y="80" width="32" height="12" rx="2" fill="transparent" stroke="rgba(122,131,153,0.40)" stroke-width="0.8"/>
-      <text x="112" y="89" fill="#7a8399" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">APP</text>
-      <text x="160" y="104" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Client</text>
-      <text x="160" y="119" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">SPA · SDK</text>
+      <rect x="88" y="72" width="144" height="56" rx="6" fill="#ffffff"/>
+      <rect x="88" y="72" width="144" height="56" rx="6" fill="rgba(84,91,100,0.10)" stroke="#687078" stroke-width="1"/>
+      <rect x="96" y="80" width="32" height="12" rx="2" fill="transparent" stroke="rgba(104,112,120,0.40)" stroke-width="0.8"/>
+      <text x="112" y="89" fill="#687078" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">APP</text>
+      <text x="160" y="104" fill="#232f3e" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Web client</text>
+      <text x="160" y="119" fill="#545b64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">SPA · Amplify</text>
 
       <!-- API (focal) -->
-      <rect x="408" y="72" width="144" height="56" rx="6" fill="#f5f5f5"/>
-      <rect x="408" y="72" width="144" height="56" rx="6" fill="rgba(235,108,54,0.08)" stroke="#eb6c36" stroke-width="1"/>
-      <rect x="416" y="80" width="32" height="12" rx="2" fill="transparent" stroke="rgba(235,108,54,0.50)" stroke-width="0.8"/>
-      <text x="432" y="89" fill="#eb6c36" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">API</text>
-      <text x="480" y="104" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Resource API</text>
-      <text x="480" y="119" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">Bearer gate</text>
+      <rect x="408" y="72" width="144" height="56" rx="6" fill="#ffffff"/>
+      <rect x="408" y="72" width="144" height="56" rx="6" fill="rgba(236,114,17,0.08)" stroke="#ec7211" stroke-width="1"/>
+      <g transform="translate(532,76) scale(0.25)" aria-hidden="true"><g> <g> <rect width="64" height="64" fill="#8C4FFF"/> </g> <g> <path fill-rule="evenodd" clip-rule="evenodd" d="M28 43.9999H31V41.9999H28V43.9999ZM33 43.9999H36V41.9999H33V43.9999ZM28 21.9998H31V19.9998H28V21.9998ZM33 21.9998H36V19.9998H33V21.9998ZM22 12.7408L12 18.5738V46.382L22 51.382V12.7408ZM24 19.9998H26V21.9998H24V41.9999H26V43.9999H24V53C24 53.347 23.82 53.668 23.525 53.851C23.365 53.95 23.183 54 23 54C22.847 54 22.694 53.965 22.553 53.895L10.553 47.895C10.214 47.725 10 47.379 10 47V17.9998C10 17.6448 10.188 17.3148 10.496 17.1358L22.496 10.1358C22.805 9.95575 23.188 9.95475 23.498 10.1328C23.809 10.3108 24 10.6418 24 10.9998V19.9998ZM52 18.5738L42 12.7408V51.382L52 46.382V18.5738ZM54 17.9998V47C54 47.379 53.786 47.725 53.447 47.895L41.447 53.895C41.306 53.965 41.153 54 41 54C40.817 54 40.635 53.95 40.475 53.851C40.18 53.668 40 53.347 40 53V43.9999H38V41.9999H40V21.9998H38V19.9998H40V10.9998C40 10.6418 40.191 10.3108 40.502 10.1328C40.812 9.95575 41.195 9.95575 41.504 10.1358L53.504 17.1358C53.812 17.3148 54 17.6448 54 17.9998ZM34.939 27.3419L33.061 26.6578L29.061 37.6579L30.939 38.3419L34.939 27.3419ZM39.707 32.7069C40.098 32.3159 40.098 31.6839 39.707 31.2929L36.707 28.2929L35.293 29.7069L37.586 31.9999L35.293 34.2929L36.707 35.7069L39.707 32.7069ZM27.293 35.7069L24.293 32.7069C23.902 32.3159 23.902 31.6839 24.293 31.2929L27.293 28.2929L28.707 29.7069L26.414 31.9999L28.707 34.2929L27.293 35.7069Z" fill="white"/> </g> </g></g>
+      <text x="480" y="104" fill="#232f3e" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">API Gateway</text>
+      <text x="480" y="119" fill="#545b64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">JWT authorizer</text>
 
       <!-- Auth (backend) -->
-      <rect x="728" y="72" width="144" height="56" rx="6" fill="#f5f5f5"/>
-      <rect x="728" y="72" width="144" height="56" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
-      <rect x="736" y="80" width="36" height="12" rx="2" fill="transparent" stroke="rgba(45,49,66,0.30)" stroke-width="0.8"/>
-      <text x="754" y="89" fill="#4f5d75" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">AUTH</text>
-      <text x="800" y="104" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Auth</text>
-      <text x="800" y="119" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">token · refresh</text>
+      <rect x="728" y="72" width="144" height="56" rx="6" fill="#ffffff"/>
+      <rect x="728" y="72" width="144" height="56" rx="6" fill="#ffffff" stroke="#232f3e" stroke-width="1"/>
+      <g transform="translate(852,76) scale(0.25)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g fill="#DD344C"> <rect x="0" y="0" width="64" height="64"></rect> </g> <path d="M48.3851357,21.0063704 L48.3851357,15.7026189 C48.3851357,14.780967 47.766933,14.0014156 47.034585,14.0014156 L13.370821,14.0014156 C12.638473,14.0014156 12.0202703,14.780967 12.0202703,15.7026189 L12.0202703,21.0063704 L27.1722975,21.0063704 L27.1722975,17.0035391 C27.1722975,16.4511484 27.623828,16.0028313 28.1824327,16.0028313 L45.3547302,16.0028313 C45.913335,16.0028313 46.3648654,16.4511484 46.3648654,17.0035391 L46.3648654,21.0063704 L48.3851357,21.0063704 Z M44.3445951,18.0042469 L29.1925678,18.0042469 L29.1925678,30.3880062 C30.1532064,28.5877328 31.7471996,27.158722 33.7260544,26.4031876 C33.1189632,25.6316419 32.7724868,24.6739645 32.7724868,23.6662517 C32.7724868,21.1985063 34.8109395,19.1920871 37.318095,19.1920871 C39.8242403,19.1920871 41.8637032,21.1985063 41.8637032,23.6662517 C41.8637032,24.7400112 41.4657099,25.7517268 40.7838687,26.5452881 C42.1970478,27.1607234 43.4364836,28.1454199 44.3445951,29.3913012 L44.3445951,18.0042469 Z M39.8434329,23.6662517 C39.8434329,22.302287 38.7110714,21.1935027 37.318095,21.1935027 C35.9251186,21.1935027 34.7927571,22.302287 34.7927571,23.6662517 C34.7927571,24.5628859 35.2907537,25.3894706 36.0938112,25.8237778 C36.8453517,26.2290645 37.7726558,26.2360694 38.5383383,25.8227771 C39.343416,25.3894706 39.8434329,24.5628859 39.8434329,23.6662517 L39.8434329,23.6662517 Z M48.3861458,33.0148642 L48.3851357,23.007786 L46.3648654,23.007786 L46.3648654,30.0127407 L44.6516762,30.0127407 L43.006166,30.9984379 C42.1596728,29.6134583 40.8050815,28.5737229 39.2514937,28.1043909 C37.8766997,28.7108198 36.271595,28.7048156 34.9149835,28.1043909 C32.2532774,28.9059579 30.40473,31.2636255 30.2350273,34.015572 L36.2635139,34.015572 L36.2635139,36.0169876 L28.1824327,36.0169876 C27.623828,36.0169876 27.1722975,35.5686705 27.1722975,35.0162798 L27.1722975,23.007786 L12.0202703,23.007786 L12.0202703,37.3179078 C12.0202703,38.2395597 12.638473,39.0191111 13.370821,39.0191111 L33.2331084,39.0191111 L33.2331084,41.0205267 L13.370821,41.0205267 C11.5121723,41.0205267 10,39.3593517 10,37.3179078 L10,15.7026189 C10,13.661175 11.5121723,12 13.370821,12 L47.034585,12 C48.8932337,12 50.405406,13.661175 50.405406,15.7026189 L50.405406,33.0148642 L48.3861458,33.0148642 Z M43.305166,46.9937517 L48.9316188,41.4198091 L47.5032877,40.0048083 L42.5910005,44.8712504 L40.4757775,42.7757682 L39.0474464,44.1907691 L41.8768349,46.9937517 C42.0657302,47.1818847 42.3223045,47.2869591 42.5910005,47.2869591 C42.8586863,47.2869591 43.1152606,47.1818847 43.305166,46.9937517 L43.305166,46.9937517 Z M45.3173552,35.9629494 L45.3173552,35.9629494 C47.8174397,36.2661639 49.9983215,37.7822362 51.1498756,40.0198189 C51.8397979,41.3597667 52.1074837,42.8628298 51.922629,44.3638915 C51.7418148,45.8489419 51.1316932,47.2319201 50.1579229,48.3607186 C49.4659803,49.1642869 48.5922134,49.8277562 47.6315749,50.2790754 C46.3456728,50.8855044 44.9143113,51.1166679 43.4890106,50.9435454 C42.1051255,50.7764272 40.7980106,50.2340436 39.7090849,49.3774377 C37.6181051,47.7302726 36.5615038,45.1744649 36.8837369,42.5426033 C37.1877876,40.0548437 38.7070308,37.8853091 40.9475106,36.7374973 C42.019264,36.1891094 43.1950613,35.9079105 44.3930816,35.9079105 C44.7001627,35.9079105 45.0082539,35.9259232 45.3173552,35.9629494 L45.3173552,35.9629494 Z M48.4982708,52.0873545 C49.7134634,51.5159503 50.8195614,50.6763564 51.6943384,49.660638 C52.9267033,48.2306265 53.6994567,46.48239 53.9287574,44.6050621 C54.1610885,42.7077201 53.8226932,40.8073759 52.9499364,39.1101755 C51.4923114,36.2791731 48.7306019,34.3598155 45.5618079,33.9765444 C43.6496221,33.7423788 41.7293552,34.0846208 40.0202065,34.9602402 C37.1847572,36.4112665 35.26247,39.156208 34.8776085,42.3014327 C34.4715341,45.6297869 35.8079429,48.8600718 38.4524768,50.9435454 C39.8323214,52.0303141 41.4899532,52.7178004 43.2445579,52.9299505 C43.6334599,52.9769837 44.0233721,53 44.4102539,53 C45.823433,53 47.2174195,52.6907813 48.4982708,52.0873545 L48.4982708,52.0873545 Z M21.1114866,33.0148642 L24.1418921,33.0148642 L24.1418921,31.0134485 L21.1114866,31.0134485 L21.1114866,33.0148642 Z M14.0405406,33.0148642 L20.1013515,33.0148642 L20.1013515,31.0134485 L14.0405406,31.0134485 L14.0405406,33.0148642 Z M14.0405406,28.0113251 L23.1317569,28.0113251 L23.1317569,26.0099094 L14.0405406,26.0099094 L14.0405406,28.0113251 Z" fill="#FFFFFF"></path> </g></g>
+      <text x="800" y="104" fill="#232f3e" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Amazon Cognito</text>
+      <text x="800" y="119" fill="#545b64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">user pool · token</text>
 
       <!-- =================================================================
            LEGEND
            ================================================================= -->
-      <line x1="56" y1="648" x2="904" y2="648" stroke="rgba(45,49,66,0.10)" stroke-width="0.8"/>
-      <text x="56" y="664" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.18em">LEGEND</text>
+      <line x1="56" y1="616" x2="904" y2="616" stroke="rgba(35,47,62,0.10)" stroke-width="0.8"/>
+      <text x="56" y="632" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.18em">LEGEND</text>
 
-      <rect x="56" y="680" width="14" height="10" rx="2" fill="rgba(235,108,54,0.08)" stroke="#eb6c36" stroke-width="1"/>
-      <text x="76" y="688" fill="#4f5d75" font-size="8.5" font-family="'Geist', sans-serif">Focal / success</text>
+      <rect x="56" y="648" width="14" height="10" rx="2" fill="rgba(236,114,17,0.08)" stroke="#ec7211" stroke-width="1"/>
+      <text x="76" y="656" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Focal / success</text>
 
-      <rect x="200" y="676" width="28" height="18" rx="2" fill="rgba(45,49,66,0.02)" stroke="rgba(45,49,66,0.22)" stroke-width="1"/>
-      <text x="208" y="688" fill="#4f5d75" font-size="7" font-family="'Geist Mono', monospace">ALT</text>
-      <text x="236" y="688" fill="#4f5d75" font-size="8.5" font-family="'Geist', sans-serif">Fragment</text>
+      <rect x="200" y="644" width="28" height="18" rx="2" fill="rgba(35,47,62,0.02)" stroke="rgba(35,47,62,0.22)" stroke-width="1"/>
+      <text x="208" y="656" fill="#545b64" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace">ALT</text>
+      <text x="236" y="656" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Fragment</text>
 
-      <line x1="320" y1="684" x2="348" y2="684" stroke="#2e5aa8" stroke-width="1.2" marker-end="url(#arrow-link)"/>
-      <text x="356" y="688" fill="#4f5d75" font-size="8.5" font-family="'Geist', sans-serif">HTTP call</text>
+      <line x1="320" y1="652" x2="348" y2="652" stroke="#0972d3" stroke-width="1.2" marker-end="url(#arrow-link)"/>
+      <text x="356" y="656" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">HTTP call</text>
 
-      <line x1="448" y1="684" x2="476" y2="684" stroke="#4f5d75" stroke-width="1.2" stroke-dasharray="5,4" marker-end="url(#arrow)"/>
-      <text x="484" y="688" fill="#4f5d75" font-size="8.5" font-family="'Geist', sans-serif">Return</text>
+      <line x1="448" y1="652" x2="476" y2="652" stroke="#545b64" stroke-width="1.2" stroke-dasharray="5,4" marker-end="url(#arrow)"/>
+      <text x="484" y="656" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Return</text>
 
-      <line x1="560" y1="684" x2="588" y2="684" stroke="#4f5d75" stroke-width="1.2" stroke-dasharray="5,4" marker-end="url(#arrow-open)"/>
-      <text x="596" y="688" fill="#4f5d75" font-size="8.5" font-family="'Geist', sans-serif">Async open</text>
 
-      <line x1="696" y1="684" x2="724" y2="684" stroke="#eb6c36" stroke-width="1.4" marker-end="url(#arrow-accent)"/>
-      <text x="732" y="688" fill="#4f5d75" font-size="8.5" font-family="'Geist', sans-serif">Headline</text>
+      <line x1="560" y1="652" x2="588" y2="652" stroke="#ec7211" stroke-width="1.4" marker-end="url(#arrow-accent)"/>
+      <text x="596" y="656" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Headline</text>
     </svg>
   </div>
 </body>

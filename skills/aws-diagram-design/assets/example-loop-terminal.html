@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>The self-improving loop · Terminal</title>
+    <title>The CI/CD flywheel · Terminal</title>
     <link
       href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600;700&amp;display=swap"
       rel="stylesheet"
@@ -161,13 +161,13 @@
         <div class="dot accent"></div>
         <div class="dot"></div>
         <div class="dot"></div>
-        <div class="titlebar-name">loop.sh — self-improving-loop</div>
+        <div class="titlebar-name">loop.sh — cicd-flywheel</div>
       </div>
       <main class="frame">
         <p class="prompt">
           <span class="sign">$</span> diagram-design render --type loop
         </p>
-        <h1>The self-improving loop</h1>
+        <h1>The CI/CD flywheel</h1>
 
         <svg
           viewBox="0 0 1040 680"
@@ -175,11 +175,13 @@
           role="img"
           aria-labelledby="loop-terminal-title loop-terminal-desc"
         >
-          <title id="loop-terminal-title">The self-improving loop</title>
+          <title id="loop-terminal-title">The CI/CD flywheel</title>
           <desc id="loop-terminal-desc">
-            Six stations flow clockwise from Capture through Learn and back to
-            Capture. Each station writes shared state into one central memory
-            hub, with Decide highlighted as the human approval gate.
+            Six AWS CodePipeline stations flow clockwise from Source through
+            Build, Approve, Deploy, Observe, and Improve and back to Source.
+            Each station writes its artifacts and results into one central
+            Amazon S3 artifact store, with Approve highlighted as the human
+            manual-approval gate.
           </desc>
           <defs>
             <pattern
@@ -272,14 +274,14 @@
 
           <!-- Curated spoke labels sit beside the line with an 8px visible gap. -->
           <rect x="530" y="199" width="52" height="17" rx="4" fill="#141414" />
-          <text x="556" y="211.5" class="arrow-label">SIGNALS</text>
+          <text x="556" y="211.5" class="arrow-label">SOURCE</text>
           <rect x="457" y="463" width="58" height="17" rx="4" fill="#141414" />
-          <text x="486" y="475.5" class="arrow-label">OUTCOMES</text>
+          <text x="486" y="475.5" class="arrow-label">RELEASES</text>
 
           <!-- Stations -->
           <rect class="station" x="440" y="68" width="160" height="64" rx="6" />
-          <text x="520" y="96.5" class="node-name">Capture</text>
-          <text x="520" y="116.5" class="sublabel">signals in / intake</text>
+          <text x="520" y="96.5" class="node-name">Source</text>
+          <text x="520" y="116.5" class="sublabel">git push · trigger</text>
 
           <rect
             class="station"
@@ -289,8 +291,8 @@
             height="64"
             rx="6"
           />
-          <text x="728" y="216.5" class="node-name">Research</text>
-          <text x="728" y="236.5" class="sublabel">evidence pulled</text>
+          <text x="728" y="216.5" class="node-name">Build</text>
+          <text x="728" y="236.5" class="sublabel">CodeBuild · tests</text>
 
           <rect
             class="station focal"
@@ -300,8 +302,8 @@
             height="64"
             rx="6"
           />
-          <text x="728" y="456.5" class="node-name focal-name">Decide</text>
-          <text x="728" y="476.5" class="sublabel">human approves</text>
+          <text x="728" y="456.5" class="node-name focal-name">Approve</text>
+          <text x="728" y="476.5" class="sublabel">manual approval</text>
 
           <rect
             class="station"
@@ -311,8 +313,8 @@
             height="64"
             rx="6"
           />
-          <text x="520" y="576.5" class="node-name">Act</text>
-          <text x="520" y="596.5" class="sublabel">work ships</text>
+          <text x="520" y="576.5" class="node-name">Deploy</text>
+          <text x="520" y="596.5" class="sublabel">CodeDeploy · canary</text>
 
           <rect
             class="station"
@@ -322,8 +324,8 @@
             height="64"
             rx="6"
           />
-          <text x="312" y="456.5" class="node-name">Measure</text>
-          <text x="312" y="476.5" class="sublabel">outcomes logged</text>
+          <text x="312" y="456.5" class="node-name">Observe</text>
+          <text x="312" y="476.5" class="sublabel">CloudWatch alarms</text>
 
           <rect
             class="station"
@@ -333,13 +335,13 @@
             height="64"
             rx="6"
           />
-          <text x="312" y="216.5" class="node-name">Learn</text>
-          <text x="312" y="236.5" class="sublabel">playbook updated</text>
+          <text x="312" y="216.5" class="node-name">Improve</text>
+          <text x="312" y="236.5" class="sublabel">runbook updated</text>
 
           <!-- The one shared-state hub. -->
           <rect class="hub" x="420" y="288" width="200" height="104" rx="8" />
-          <text x="520" y="337.5" class="hub-name">Shared memory</text>
-          <text x="520" y="360.5" class="hub-sub">one record, every loop</text>
+          <text x="520" y="337.5" class="hub-name">Artifact store</text>
+          <text x="520" y="360.5" class="hub-sub">S3 · every run kept</text>
         </svg>
       </main>
     </div>

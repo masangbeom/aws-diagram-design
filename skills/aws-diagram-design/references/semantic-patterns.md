@@ -1,6 +1,6 @@
 # Semantic patterns
 
-Semantic patterns describe **what a system does**; the 27 visual types describe **how information is arranged**. Choose a pattern first when behavior, state, enforcement, or risk is load-bearing, then use its nearest visual type as the layout grammar. If no pattern matches, choose a visual type directly.
+Semantic patterns describe **what a system does**; the 45 visual types describe **how information is arranged**. Choose a pattern first when behavior, state, enforcement, or risk is load-bearing, then use its nearest visual type as the layout grammar. If no pattern matches, choose a visual type directly.
 
 Use one primary pattern per figure. A second pattern may supply at most one supporting primitive; if both need full treatment, split overview and detail. Labels and outcomes must remain complete in a static frame.
 
@@ -15,6 +15,7 @@ Use one primary pattern per figure. A second pattern may supply at most one supp
 | Which routes cross a trust boundary and which routes are blocked | **Secure paved road** | Architecture |
 | Which controls apply at each enforcement surface | **Governance / control catalog** | Layer stack |
 | How defenses reduce risk and what risk remains | **Compensating security layers** | Layer stack |
+| How one subject progresses through phases, waits, retries, cancellation, and terminal outcomes | **Lifecycle phase map** | State Machine |
 
 ## 1. Fan-in queue / bottleneck
 
@@ -113,6 +114,20 @@ Use one primary pattern per figure. A second pattern may supply at most one supp
 **Static fallback:** Show the complete propagation chain: initial risk → mitigation → escaped risk at every layer → final residual risk and response.
 
 **Nearest visual type:** **Layer stack**; use **Nested** when containment boundaries, rather than ordered compensation, carry the meaning.
+
+## 8. Lifecycle phase map
+
+**Selection triggers:** One subject advances through a small set of named phases, while waits, retries, cancellation, recovery, and terminal outcomes are as important as the happy path. Use this for the subject's lifecycle, not for messages exchanged between actors.
+
+**Required primitives:** A left-to-right primary phase rail; 4–5 ordered phase states; a separate interruption/recovery band for waits or retries; a separate terminal-outcome band; labeled transitions; distinct terminal state boxes for cancellation and failure when both can occur. Those labeled boxes are sufficient terminal outcomes; optional start/end pseudo-state markers follow the State Machine reference and count toward the transition budget.
+
+**Complexity budget:** 4–5 primary phases, ≤2 supporting wait/recovery states, ≤2 terminal states, ≤9 states, and ≤10 transitions. Split lifecycle overview from dense guard logic once either ceiling is reached.
+
+**Anti-patterns:** Actor lifelines or message arrows disguised as phases; a request/response exchange that belongs in Sequence; every guard and event from the underlying implementation; interruption states placed on the primary rail; cancellation and failure collapsed into one color-only state; a retry loop with no labeled re-entry point.
+
+**Static fallback:** Show the complete primary rail, every supporting state, both terminal outcomes, and all labeled transitions in one frame. Position and band labels must distinguish progress, interruption/recovery, and termination without relying on color.
+
+**Nearest visual type:** **State Machine**. Use **Sequence** when actor messages or request timing carry the story; use ordinary **State Machine** without this pattern when dense transition logic and guards matter more than one subject's progress.
 
 ## Composition rules
 

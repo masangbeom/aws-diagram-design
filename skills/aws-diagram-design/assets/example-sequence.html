@@ -3,18 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Article request · Sequence</title>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <title>Product page request · Sequence</title>
+  <style>
+  @font-face { font-family: 'Amazon Ember'; font-weight: 400; font-style: normal; src: local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_Rg.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 400; font-style: italic; src: local('Amazon Ember Italic'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_RgIt.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 600; font-style: normal; src: local('Amazon Ember Medium'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_SBd.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 700; font-style: normal; src: local('Amazon Ember Bold'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_Bd.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember Mono'; font-weight: 400; font-style: normal; src: local('Amazon Ember Mono'), url('fonts/woff2/AmazonEmberMono_W_Rg.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember Mono'; font-weight: 700; font-style: normal; src: local('Amazon Ember Mono Bold'), local('Amazon Ember Mono'), url('fonts/woff2/AmazonEmberMono_W_Bd.woff2') format('woff2'); }
+</style>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --color-paper:   #f5f5f5;
-      --color-ink:     #2d3142;
-      --color-muted:   #4f5d75;
-      --color-accent:  #eb6c36;
-      --font-sans:     'Geist', system-ui, sans-serif;
-      --font-serif:    'Instrument Serif', serif;
-      --font-mono:     'Geist Mono', ui-monospace, monospace;
+      --color-paper:   #ffffff;
+      --color-ink:     #232f3e;
+      --color-muted:   #545b64;
+      --color-accent:  #ec7211;
+      --font-sans:     'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --font-serif:    'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --font-mono:     'Amazon Ember Mono', ui-monospace, monospace;
     }
 
     body {
@@ -43,7 +50,7 @@
     h1 {
       font-family: var(--font-serif);
       font-size: clamp(1.5rem, 2.4vw + 0.75rem, 2rem);
-      font-weight: 400;
+      font-weight: 700;
       letter-spacing: -0.02em;
       line-height: 1.15;
       color: var(--color-ink);
@@ -55,166 +62,163 @@
 </head>
 <body>
   <div class="frame">
-    <p class="eyebrow">Sequence · Diagram Design</p>
-    <h1>Article request, cold cache</h1>
+    <p class="eyebrow">Sequence · Amazon CloudFront</p>
+    <h1>Product page request, cold cache</h1>
 
     <svg viewBox="0 0 1000 584" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="sequence-title sequence-desc">
-      <title id="sequence-title">Article request, cold cache</title>
-      <desc id="sequence-desc">Sequence diagram showing a cold-cache article request moving from reader and browser through Cloudflare to an Astro origin and analytics beacon.</desc>
+      <title id="sequence-title">Product page request, cold cache</title>
+      <desc id="sequence-desc">Sequence diagram showing a cold-cache product page request moving from a shopper's browser through Amazon CloudFront to an AWS Lambda SSR origin, with an async Amazon CloudWatch RUM beacon.</desc>
         <defs>
           <!-- Dot grid background -->
           <pattern id="dots" width="22" height="22" patternUnits="userSpaceOnUse">
-            <circle cx="1" cy="1" r="0.9" fill="rgba(45,49,66,0.10)"/>
+            <circle cx="1" cy="1" r="0.9" fill="rgba(35,47,62,0.10)"/>
           </pattern>
 
           <!-- Arrow markers -->
           <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
-            <polygon points="0 0, 8 3, 0 6" fill="#4f5d75"/>
+            <polygon points="0 0, 8 3, 0 6" fill="#545b64"/>
           </marker>
           <marker id="arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
-            <polygon points="0 0, 8 3, 0 6" fill="#eb6c36"/>
+            <polygon points="0 0, 8 3, 0 6" fill="#ec7211"/>
           </marker>
           <marker id="arrow-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
-            <polygon points="0 0, 8 3, 0 6" fill="#2e5aa8"/>
+            <polygon points="0 0, 8 3, 0 6" fill="#0972d3"/>
           </marker>
         </defs>
 
         <!-- Background: paper + dot grid -->
-        <rect width="100%" height="100%" fill="#f5f5f5"/>
+        <rect width="100%" height="100%" fill="#ffffff"/>
         <rect width="100%" height="100%" fill="url(#dots)" opacity="0.55"/>
 
         <!-- =================================================================
              LIFELINES — dashed vertical lines from each actor, behind everything.
              Actor lifeline x-coords: 128, 352, 584, 800
              ================================================================= -->
-        <line x1="128" y1="128" x2="128" y2="488" stroke="rgba(45,49,66,0.22)" stroke-width="1" stroke-dasharray="3,3"/>
-        <line x1="352" y1="128" x2="352" y2="488" stroke="rgba(45,49,66,0.22)" stroke-width="1" stroke-dasharray="3,3"/>
-        <line x1="584" y1="128" x2="584" y2="488" stroke="rgba(45,49,66,0.22)" stroke-width="1" stroke-dasharray="3,3"/>
-        <line x1="800" y1="128" x2="800" y2="488" stroke="rgba(45,49,66,0.22)" stroke-width="1" stroke-dasharray="3,3"/>
+        <line x1="128" y1="128" x2="128" y2="488" stroke="rgba(35,47,62,0.22)" stroke-width="1" stroke-dasharray="3,3"/>
+        <line x1="352" y1="128" x2="352" y2="488" stroke="rgba(35,47,62,0.22)" stroke-width="1" stroke-dasharray="3,3"/>
+        <line x1="584" y1="128" x2="584" y2="488" stroke="rgba(35,47,62,0.22)" stroke-width="1" stroke-dasharray="3,3"/>
+        <line x1="800" y1="128" x2="800" y2="488" stroke="rgba(35,47,62,0.22)" stroke-width="1" stroke-dasharray="3,3"/>
 
         <!-- =================================================================
              ACTIVATION BARS — w=8 rects on lifelines showing control duration.
              Drawn before message arrows so arrows land on their edges.
              ================================================================= -->
-        <!-- Cloudflare activation: receives at y=176, responds at y=408 -->
-        <rect x="348" y="180" width="8" height="232" fill="rgba(45,49,66,0.06)" stroke="#4f5d75" stroke-width="0.8"/>
-        <!-- Astro activation: called at y=232, returns at y=352 -->
-        <rect x="580" y="236" width="8" height="120" fill="rgba(45,49,66,0.06)" stroke="#4f5d75" stroke-width="0.8"/>
+        <!-- CloudFront activation: receives at y=176, responds at y=408 -->
+        <rect x="348" y="180" width="8" height="232" fill="rgba(35,47,62,0.06)" stroke="#545b64" stroke-width="0.8"/>
+        <!-- Lambda activation: called at y=232, returns at y=352 -->
+        <rect x="580" y="236" width="8" height="120" fill="rgba(35,47,62,0.06)" stroke="#545b64" stroke-width="0.8"/>
 
         <!-- =================================================================
              MESSAGE ARROWS — time flows top→down.
              Draw before labels so label masks cover the line.
              ================================================================= -->
 
-        <!-- M1: Reader → Cloudflare  (HTTPS request · link-blue) -->
-        <line x1="128" y1="176" x2="352" y2="176" stroke="#2e5aa8" stroke-width="1.2" marker-end="url(#arrow-link)"/>
+        <!-- M1: Shopper → CloudFront  (HTTPS request · link-blue) -->
+        <line x1="128" y1="176" x2="352" y2="176" stroke="#0972d3" stroke-width="1.2" marker-end="url(#arrow-link)"/>
 
-        <!-- M2: Cloudflare → Astro  (cache miss · muted) -->
-        <line x1="352" y1="232" x2="580" y2="232" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#arrow)"/>
+        <!-- M2: CloudFront → Lambda  (cache miss · muted) -->
+        <line x1="352" y1="232" x2="580" y2="232" stroke="#545b64" stroke-width="1.2" marker-end="url(#arrow)"/>
 
-        <!-- M3: Astro self-message  (render MDX · muted U-loop) -->
-        <path d="M 588 284 L 624 284 L 624 316 L 588 316" fill="none" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#arrow)"/>
+        <!-- M3: Lambda self-message  (render page · muted U-loop) -->
+        <path d="M 588 284 L 624 284 L 624 316 L 588 316" fill="none" stroke="#545b64" stroke-width="1.2" marker-end="url(#arrow)"/>
 
-        <!-- M4: Astro → Cloudflare  (return HTML · muted dashed) -->
-        <line x1="580" y1="352" x2="356" y2="352" stroke="#4f5d75" stroke-width="1.2" stroke-dasharray="5,4" marker-end="url(#arrow)"/>
+        <!-- M4: Lambda → CloudFront  (return HTML · muted dashed) -->
+        <line x1="580" y1="352" x2="356" y2="352" stroke="#545b64" stroke-width="1.2" stroke-dasharray="5,4" marker-end="url(#arrow)"/>
 
-        <!-- M5: Cloudflare → Reader  (primary success · coral) -->
-        <line x1="348" y1="408" x2="128" y2="408" stroke="#eb6c36" stroke-width="1.4" marker-end="url(#arrow-accent)"/>
+        <!-- M5: CloudFront → Shopper  (primary success · accent) -->
+        <line x1="348" y1="408" x2="128" y2="408" stroke="#ec7211" stroke-width="1.4" marker-end="url(#arrow-accent)"/>
 
-        <!-- M6: Reader → Analytics  (async beacon · muted dashed) -->
-        <line x1="128" y1="464" x2="800" y2="464" stroke="#4f5d75" stroke-width="1.2" stroke-dasharray="5,4" marker-end="url(#arrow)"/>
+        <!-- M6: Shopper → Analytics  (async beacon · muted dashed) -->
+        <line x1="128" y1="464" x2="800" y2="464" stroke="#545b64" stroke-width="1.2" stroke-dasharray="5,4" marker-end="url(#arrow)"/>
 
         <!-- =================================================================
              MESSAGE LABELS — each with an opaque paper-colored mask.
              ================================================================= -->
 
         <!-- M1 label -->
-        <rect x="188" y="160" width="104" height="12" rx="2" fill="#f5f5f5"/>
-        <text x="240" y="170" fill="#2e5aa8" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">GET /ARTICLES/SLUG</text>
+        <rect x="188" y="160" width="104" height="12" rx="2" fill="#ffffff"/>
+        <text x="240" y="170" fill="#0972d3" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">GET /PRODUCTS/ID</text>
 
         <!-- M2 label -->
-        <rect x="416" y="216" width="100" height="12" rx="2" fill="#f5f5f5"/>
-        <text x="466" y="226" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">CACHE MISS · ORIGIN</text>
+        <rect x="416" y="216" width="100" height="12" rx="2" fill="#ffffff"/>
+        <text x="466" y="226" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">CACHE MISS · ORIGIN</text>
 
         <!-- M3 label (to the right of the self-loop) -->
-        <rect x="632" y="292" width="72" height="12" rx="2" fill="#f5f5f5"/>
-        <text x="668" y="302" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">RENDER MDX</text>
+        <rect x="632" y="292" width="72" height="12" rx="2" fill="#ffffff"/>
+        <text x="668" y="302" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">RENDER PAGE</text>
 
         <!-- M4 label -->
-        <rect x="420" y="336" width="96" height="12" rx="2" fill="#f5f5f5"/>
-        <text x="468" y="346" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">200 · HTML + MAX-AGE</text>
+        <rect x="412" y="336" width="112" height="12" rx="2" fill="#ffffff"/>
+        <text x="468" y="346" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">200 · HTML + MAX-AGE</text>
 
-        <!-- M5 label (coral · primary response) -->
-        <rect x="192" y="392" width="96" height="12" rx="2" fill="#f5f5f5"/>
-        <text x="240" y="402" fill="#eb6c36" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">200 · EDGE-CACHED</text>
+        <!-- M5 label (accent · primary response) -->
+        <rect x="192" y="392" width="96" height="12" rx="2" fill="#ffffff"/>
+        <text x="240" y="402" fill="#232f3e" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">200 · EDGE-CACHED</text>
 
-        <!-- M6 label (placed between Astro and Analytics lifelines, a clear gap) -->
-        <rect x="648" y="448" width="96" height="12" rx="2" fill="#f5f5f5"/>
-        <text x="696" y="458" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">PAGEVIEW BEACON</text>
+        <!-- M6 label (placed between Lambda and Analytics lifelines, a clear gap) -->
+        <rect x="648" y="448" width="96" height="12" rx="2" fill="#ffffff"/>
+        <text x="696" y="458" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">RUM BEACON</text>
 
         <!-- =================================================================
              ACTOR BOXES — drawn after arrows/labels.
              Each actor: 144–160 wide × 56 tall. Centers: 128, 352, 584, 800.
              ================================================================= -->
 
-        <!-- Actor 1: Reader (external / soft) -->
-        <rect x="56" y="72" width="144" height="56" rx="6" fill="#f5f5f5"/>
-        <rect x="56" y="72" width="144" height="56" rx="6" fill="rgba(79,93,117,0.10)" stroke="#7a8399" stroke-width="1"/>
-        <rect x="64" y="80" width="28" height="12" rx="2" fill="transparent" stroke="rgba(122,131,153,0.40)" stroke-width="0.8"/>
-        <text x="78" y="89" fill="#7a8399" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">EXT</text>
-        <text x="128" y="104" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Reader</text>
-        <text x="128" y="119" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">Browser</text>
+        <!-- Actor 1: Shopper (external / soft) -->
+        <rect x="56" y="72" width="144" height="56" rx="6" fill="#ffffff"/>
+        <rect x="56" y="72" width="144" height="56" rx="6" fill="rgba(84,91,100,0.10)" stroke="#687078" stroke-width="1"/>
+        <rect x="64" y="80" width="28" height="12" rx="2" fill="transparent" stroke="rgba(104,112,120,0.40)" stroke-width="0.8"/>
+        <text x="78" y="89" fill="#687078" font-size="7" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.08em">EXT</text>
+        <text x="128" y="104" fill="#232f3e" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Shopper</text>
+        <text x="128" y="119" fill="#545b64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">Browser</text>
 
-        <!-- Actor 2: Cloudflare (cloud / muted) -->
-        <rect x="280" y="72" width="144" height="56" rx="6" fill="#f5f5f5"/>
-        <rect x="280" y="72" width="144" height="56" rx="6" fill="rgba(45,49,66,0.03)" stroke="rgba(45,49,66,0.30)" stroke-width="1"/>
-        <rect x="288" y="80" width="32" height="12" rx="2" fill="transparent" stroke="rgba(45,49,66,0.22)" stroke-width="0.8"/>
-        <text x="304" y="89" fill="#7a8399" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">EDGE</text>
-        <text x="352" y="104" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Cloudflare</text>
-        <text x="352" y="119" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">Pages · cache</text>
+        <!-- Actor 2: CloudFront (cloud / muted) -->
+        <rect x="280" y="72" width="144" height="56" rx="6" fill="#ffffff"/>
+        <rect x="280" y="72" width="144" height="56" rx="6" fill="rgba(35,47,62,0.03)" stroke="rgba(35,47,62,0.30)" stroke-width="1"/>
+        <g transform="translate(404,76) scale(0.25)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g fill="#8C4FFF"> <rect x="0" y="0" width="64" height="64"></rect> </g> <path d="M41.5,43.5 C40.397,43.5 39.5,42.603 39.5,41.5 C39.5,40.397 40.397,39.5 41.5,39.5 C42.603,39.5 43.5,40.397 43.5,41.5 C43.5,42.603 42.603,43.5 41.5,43.5 L41.5,43.5 Z M41.5,37.5 C39.294,37.5 37.5,39.294 37.5,41.5 C37.5,43.706 39.294,45.5 41.5,45.5 C43.706,45.5 45.5,43.706 45.5,41.5 C45.5,39.294 43.706,37.5 41.5,37.5 L41.5,37.5 Z M22.5,32.5 C21.397,32.5 20.5,31.603 20.5,30.5 C20.5,29.397 21.397,28.5 22.5,28.5 C23.603,28.5 24.5,29.397 24.5,30.5 C24.5,31.603 23.603,32.5 22.5,32.5 L22.5,32.5 Z M22.5,26.5 C20.294,26.5 18.5,28.294 18.5,30.5 C18.5,32.706 20.294,34.5 22.5,34.5 C24.706,34.5 26.5,32.706 26.5,30.5 C26.5,28.294 24.706,26.5 22.5,26.5 L22.5,26.5 Z M45.389,47.124 C45.168,46.607 44.936,46.094 44.685,45.591 L42.896,46.486 C43.17,47.035 43.42,47.599 43.656,48.165 C42.82,48.762 41.943,49.288 41.028,49.74 C41.384,48.865 41.694,47.975 41.974,47.012 L40.054,46.454 C39.564,48.134 38.985,49.581 38.184,51.133 C36.357,51.698 34.452,52 32.5,52 C29.465,52 26.567,51.314 23.871,49.976 C22.503,46.615 21.838,43.534 21.838,40.559 C21.838,39.267 22.063,38.196 22.322,36.956 C22.386,36.652 22.45,36.343 22.514,36.024 L20.551,35.638 C20.49,35.949 20.427,36.25 20.365,36.545 C20.094,37.838 19.838,39.06 19.838,40.559 C19.838,43.074 20.274,45.644 21.154,48.354 C16.072,44.724 13,38.854 13,32.5 C13,32.389 13.01,32.273 13.012,32.161 C14.642,31.799 16.123,31.614 17.854,31.571 L17.804,29.572 C16.169,29.612 14.694,29.779 13.163,30.084 C14.081,22.683 19.212,16.394 26.323,14.019 C27.873,14.818 29.02,15.524 30.135,16.37 L31.344,14.776 C30.646,14.248 29.934,13.771 29.146,13.299 C30.244,13.108 31.363,13 32.5,13 C35.032,13 37.532,13.494 39.849,14.439 C39.342,14.593 38.82,14.763 38.243,14.971 L38.923,16.852 C40.316,16.349 41.408,16.04 42.571,15.821 C48.399,19.341 52,25.667 52,32.5 C52,38.156 49.605,43.416 45.389,47.124 L45.389,47.124 Z M43.008,13.749 C39.826,11.95 36.192,11 32.5,11 C30.392,11 28.324,11.301 26.357,11.895 C17.723,14.464 11.568,22.23 11.045,31.196 C11.01,31.625 11,32.062 11,32.5 C11,40.444 15.352,47.707 22.354,51.455 C25.459,53.12 28.968,54 32.5,54 C34.892,54 37.229,53.61 39.437,52.843 C41.684,52.086 43.773,50.963 45.646,49.507 C50.955,45.399 54,39.2 54,32.5 C54,24.732 49.787,17.546 43.008,13.749 L43.008,13.749 Z M38.384,37.411 L37.003,38.858 C34.022,36.015 31.047,34.146 27.637,32.975 L28.287,31.083 C31.979,32.351 35.188,34.362 38.384,37.411 L38.384,37.411 Z M38.444,22.364 C41.282,26.692 42.88,31.444 43.193,36.488 L41.197,36.612 C40.905,31.919 39.417,27.495 36.772,23.46 L38.444,22.364 Z M26.451,26.797 L24.773,25.708 C26.316,23.332 27.639,21.758 29.336,20.278 L30.65,21.786 C29.103,23.135 27.886,24.587 26.451,26.797 L26.451,26.797 Z M34.5,16.5 C35.603,16.5 36.5,17.397 36.5,18.5 C36.5,19.603 35.603,20.5 34.5,20.5 C33.397,20.5 32.5,19.603 32.5,18.5 C32.5,17.397 33.397,16.5 34.5,16.5 L34.5,16.5 Z M34.5,22.5 C36.706,22.5 38.5,20.706 38.5,18.5 C38.5,16.294 36.706,14.5 34.5,14.5 C32.294,14.5 30.5,16.294 30.5,18.5 C30.5,20.706 32.294,22.5 34.5,22.5 L34.5,22.5 Z" fill="#FFFFFF"></path> </g></g>
+        <text x="352" y="104" fill="#232f3e" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">CloudFront</text>
+        <text x="352" y="119" fill="#545b64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">Edge cache · PoP</text>
 
-        <!-- Actor 3: Astro Origin (focal / coral) -->
-        <rect x="504" y="72" width="160" height="56" rx="6" fill="#f5f5f5"/>
-        <rect x="504" y="72" width="160" height="56" rx="6" fill="rgba(235,108,54,0.08)" stroke="#eb6c36" stroke-width="1"/>
-        <rect x="512" y="80" width="32" height="12" rx="2" fill="transparent" stroke="rgba(235,108,54,0.50)" stroke-width="0.8"/>
-        <text x="528" y="89" fill="#eb6c36" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">ORIG</text>
-        <text x="584" y="104" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Astro Origin</text>
-        <text x="584" y="119" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">SSR + MDX</text>
+        <!-- Actor 3: Lambda origin (focal / accent) -->
+        <rect x="504" y="72" width="160" height="56" rx="6" fill="#ffffff"/>
+        <rect x="504" y="72" width="160" height="56" rx="6" fill="rgba(236,114,17,0.08)" stroke="#ec7211" stroke-width="1"/>
+        <g transform="translate(644,76) scale(0.25)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g fill="#ED7100"> <rect x="0" y="0" width="64" height="64"></rect> </g> <path d="M22.6794094,52 L13.5740701,52 L23.8376189,30.41 L28.3997494,39.861 L22.6794094,52 Z M24.7269406,27.667 C24.5606285,27.321 24.2120702,27.103 23.8306478,27.103 L23.8276601,27.103 C23.4452418,27.104 23.0966835,27.325 22.9323632,27.672 L11.0973143,52.569 C10.9499239,52.879 10.9708374,53.243 11.1540795,53.534 C11.3353298,53.824 11.6540117,54 11.9955989,54 L23.309802,54 C23.695208,54 24.0447622,53.777 24.2100784,53.428 L30.4044577,40.284 C30.5329264,40.01 30.5319305,39.692 30.3994783,39.42 L24.7269406,27.667 Z M51.0082382,52 L41.985557,52 L26.9547262,19.578 C26.7914017,19.226 26.4388599,19 26.0524581,19 L20.1279625,19 L20.1349337,12 L31.8146251,12 L46.7747483,44.42 C46.9380728,44.774 47.2906147,45 47.6790082,45 L51.0082382,45 L51.0082382,52 Z M52.0041191,43 L48.3143803,43 L33.354257,10.58 C33.1909326,10.226 32.8383907,10 32.450993,10 L19.1400486,10 C18.5913182,10 18.1451636,10.447 18.1441677,10.999 L18.1362006,19.999 C18.1362006,20.265 18.2407681,20.519 18.4269979,20.707 C18.6142235,20.895 18.8671772,21 19.1310857,21 L25.4170861,21 L40.4479168,53.422 C40.6112413,53.774 40.9627873,54 41.350185,54 L52.0041191,54 C52.5548412,54 53,53.552 53,53 L53,44 C53,43.448 52.5548412,43 52.0041191,43 L52.0041191,43 Z" fill="#FFFFFF"></path> </g></g>
+        <text x="584" y="104" fill="#232f3e" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">AWS Lambda</text>
+        <text x="584" y="119" fill="#545b64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">Function URL · Node.js 22</text>
 
         <!-- Actor 4: Analytics (optional / dashed) -->
-        <rect x="728" y="72" width="144" height="56" rx="6" fill="#f5f5f5"/>
-        <rect x="728" y="72" width="144" height="56" rx="6" fill="rgba(45,49,66,0.02)" stroke="rgba(45,49,66,0.22)" stroke-width="1" stroke-dasharray="4,3"/>
-        <rect x="736" y="80" width="28" height="12" rx="2" fill="transparent" stroke="rgba(45,49,66,0.22)" stroke-width="0.8"/>
-        <text x="750" y="89" fill="#7a8399" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">ASY</text>
-        <text x="800" y="104" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Analytics</text>
-        <text x="800" y="119" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">Beacon · async</text>
+        <rect x="728" y="72" width="144" height="56" rx="6" fill="#ffffff"/>
+        <rect x="728" y="72" width="144" height="56" rx="6" fill="rgba(35,47,62,0.02)" stroke="rgba(35,47,62,0.22)" stroke-width="1" stroke-dasharray="4,3"/>
+        <g transform="translate(852,76) scale(0.25)" aria-hidden="true"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g fill="#E7157B"> <rect x="0" y="0" width="64" height="64"></rect> </g> <path d="M42.184,39.3811216 C42.184,37.1282698 40.347,35.2954581 38.089,35.2954581 C35.831,35.2954581 33.995,37.1282698 33.995,39.3811216 C33.995,41.6339735 35.831,43.4667852 38.089,43.4667852 C40.347,43.4667852 42.184,41.6339735 42.184,39.3811216 L42.184,39.3811216 Z M44.184,39.3811216 C44.184,42.7344587 41.45,45.4622252 38.089,45.4622252 C34.729,45.4622252 31.995,42.7344587 31.995,39.3811216 C31.995,36.0277846 34.729,33.3000181 38.089,33.3000181 C41.45,33.3000181 44.184,36.0277846 44.184,39.3811216 L44.184,39.3811216 Z M50.743,49.6157337 L45.846,45.2157884 C45.524,45.6398194 45.17,46.0379097 44.785,46.4050706 L49.671,50.8030205 C49.997,51.0953525 50.505,51.0714072 50.802,50.744155 C51.096,50.4179006 51.07,49.9110588 50.743,49.6157337 L50.743,49.6157337 Z M38.089,47.091502 C42.351,47.091502 45.818,43.6324067 45.818,39.3811216 C45.818,35.1298366 42.351,31.6707413 38.089,31.6707413 C33.829,31.6707413 30.362,35.1298366 30.362,39.3811216 C30.362,43.6324067 33.829,47.091502 38.089,47.091502 L38.089,47.091502 Z M52.081,48.1341194 C53.227,49.1667597 53.319,50.9357173 52.288,52.0801021 C51.735,52.6897091 50.971,53 50.205,53 C49.538,53 48.868,52.7655358 48.333,52.2866302 L43.172,47.6412457 C41.691,48.5521641 39.954,49.0869421 38.089,49.0869421 C32.725,49.0869421 28.362,44.7328919 28.362,39.3811216 C28.362,34.0293514 32.725,29.6753012 38.089,29.6753012 C43.454,29.6753012 47.818,34.0293514 47.818,39.3811216 C47.818,40.8447769 47.482,42.2286146 46.897,43.4757646 L52.081,48.1341194 Z M17.697,23.5383254 C17.697,23.9394088 17.72,24.3384968 17.767,24.722619 C17.802,25.0059715 17.713,25.2913194 17.524,25.5048315 C17.375,25.6714508 17.177,25.7831954 16.961,25.8241019 C15.084,26.3079961 12,27.7716514 12,32.1566309 C12,35.4800363 13.836,37.3138458 15.377,38.2676661 C16.049,38.6897017 16.64,38.9052092 17.138,38.9101978 L26.127,38.9101978 L26.127,40.9056378 L17.127,40.9056378 C16.243,40.8966584 15.3,40.577388 14.317,39.9588015 C12.708,38.9640747 10,36.6214281 10,32.1566309 C10,26.8876715 13.526,24.8642953 15.71,24.117003 C15.702,23.924443 15.697,23.7308853 15.697,23.5383254 C15.697,19.1603299 18.673,14.6217015 22.621,12.9784566 C27.232,11.0508615 32.119,12.0066773 35.687,15.5336176 C36.734,16.5672555 37.604,17.8084192 38.285,19.2361566 C39.203,18.5507229 40.304,18.1745825 41.459,18.1745825 C43.874,18.1745825 46.587,19.9684831 47.122,23.8895228 C50.58,24.7216213 54,27.27778 54,32.2174919 C54,35.1078868 52.864,37.4565197 50.713,39.0089721 L49.541,37.3926656 C51.173,36.2143583 52,34.4733368 52,32.2174919 C52,27.2388689 47.811,25.9997007 46.01,25.6983892 C45.743,25.6534918 45.505,25.5018384 45.351,25.2793468 C45.208,25.071821 45.15,24.8184001 45.186,24.5709656 C44.931,21.5319104 43.141,20.1700225 41.459,20.1700225 C40.402,20.1700225 39.409,20.6858438 38.734,21.5857873 C38.514,21.8791169 38.156,22.0297727 37.786,21.9748981 C37.422,21.9210212 37.118,21.6715912 36.993,21.3263801 C36.359,19.5743837 35.446,18.1027466 34.281,16.9513777 C32.851,15.5396039 28.933,12.506535 23.391,14.81925 C20.198,16.1492108 17.697,19.9784603 17.697,23.5383254 L17.697,23.5383254 Z" fill="#FFFFFF"></path> </g></g>
+        <text x="800" y="104" fill="#232f3e" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">CloudWatch RUM</text>
+        <text x="800" y="119" fill="#545b64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">Beacon · async</text>
 
         <!-- =================================================================
              LEGEND — horizontal strip at the bottom.
              Separator at y=504, eyebrow at y=520, items at y=540–548.
              ================================================================= -->
-        <line x1="56" y1="504" x2="944" y2="504" stroke="rgba(45,49,66,0.10)" stroke-width="0.8"/>
-        <text x="56" y="520" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.18em">LEGEND</text>
+        <line x1="56" y1="504" x2="944" y2="504" stroke="rgba(35,47,62,0.10)" stroke-width="0.8"/>
+        <text x="56" y="520" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.18em">LEGEND</text>
 
-        <!-- Item 1: Actor swatch (coral focal) -->
-        <rect x="56" y="540" width="14" height="10" rx="2" fill="rgba(235,108,54,0.08)" stroke="#eb6c36" stroke-width="1"/>
-        <text x="76" y="548" fill="#4f5d75" font-size="8.5" font-family="'Geist', sans-serif">Focal actor</text>
+        <!-- Item 1: Actor swatch (accent focal) -->
+        <rect x="56" y="540" width="14" height="10" rx="2" fill="rgba(236,114,17,0.08)" stroke="#ec7211" stroke-width="1"/>
+        <text x="76" y="548" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Focal actor</text>
 
         <!-- Item 2: Activation bar swatch -->
-        <rect x="188" y="536" width="4" height="18" fill="rgba(45,49,66,0.06)" stroke="#4f5d75" stroke-width="0.8"/>
-        <text x="200" y="548" fill="#4f5d75" font-size="8.5" font-family="'Geist', sans-serif">Activation</text>
+        <rect x="188" y="536" width="4" height="18" fill="rgba(35,47,62,0.06)" stroke="#545b64" stroke-width="0.8"/>
+        <text x="200" y="548" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Activation</text>
 
         <!-- Item 3: Request arrow (link-blue) -->
-        <line x1="308" y1="546" x2="336" y2="546" stroke="#2e5aa8" stroke-width="1.2" marker-end="url(#arrow-link)"/>
-        <text x="344" y="548" fill="#4f5d75" font-size="8.5" font-family="'Geist', sans-serif">HTTP request</text>
+        <line x1="308" y1="546" x2="336" y2="546" stroke="#0972d3" stroke-width="1.2" marker-end="url(#arrow-link)"/>
+        <text x="344" y="548" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">HTTP request</text>
 
         <!-- Item 4: Return / async (muted dashed) -->
-        <line x1="476" y1="546" x2="504" y2="546" stroke="#4f5d75" stroke-width="1.2" stroke-dasharray="5,4" marker-end="url(#arrow)"/>
-        <text x="512" y="548" fill="#4f5d75" font-size="8.5" font-family="'Geist', sans-serif">Return / async</text>
+        <line x1="476" y1="546" x2="504" y2="546" stroke="#545b64" stroke-width="1.2" stroke-dasharray="5,4" marker-end="url(#arrow)"/>
+        <text x="512" y="548" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Return / async</text>
 
-        <!-- Item 5: Primary response (coral) -->
-        <line x1="652" y1="546" x2="680" y2="546" stroke="#eb6c36" stroke-width="1.4" marker-end="url(#arrow-accent)"/>
-        <text x="688" y="548" fill="#4f5d75" font-size="8.5" font-family="'Geist', sans-serif">Primary response</text>
+        <!-- Item 5: Primary response (accent) -->
+        <line x1="652" y1="546" x2="680" y2="546" stroke="#ec7211" stroke-width="1.4" marker-end="url(#arrow-accent)"/>
+        <text x="688" y="548" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Primary response</text>
 
       </svg>
   </div>

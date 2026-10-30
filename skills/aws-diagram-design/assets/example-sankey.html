@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EC2 instance-hours · Sankey</title>
+  <style>
+  @font-face { font-family: 'Amazon Ember'; font-weight: 400; font-style: normal; src: local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_Rg.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 400; font-style: italic; src: local('Amazon Ember Italic'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_RgIt.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 600; font-style: normal; src: local('Amazon Ember Medium'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_SBd.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember'; font-weight: 700; font-style: normal; src: local('Amazon Ember Bold'), local('Amazon Ember'), url('fonts/woff2/AmazonEmber_W_Bd.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember Mono'; font-weight: 400; font-style: normal; src: local('Amazon Ember Mono'), url('fonts/woff2/AmazonEmberMono_W_Rg.woff2') format('woff2'); }
+  @font-face { font-family: 'Amazon Ember Mono'; font-weight: 700; font-style: normal; src: local('Amazon Ember Mono Bold'), local('Amazon Ember Mono'), url('fonts/woff2/AmazonEmberMono_W_Bd.woff2') format('woff2'); }
+</style>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --color-paper:   #ffffff;
+      --color-ink:     #232f3e;
+      --color-muted:   #545b64;
+      --color-accent:  #ec7211;
+      --font-sans:     'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --font-serif:    'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --font-mono:     'Amazon Ember Mono', ui-monospace, monospace;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--color-paper);
+      color: var(--color-ink);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 2rem;
+    }
+
+    .frame { max-width: 1200px; width: 100%; }
+
+    .eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(1.5rem, 2.4vw + 0.75rem, 2rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      color: var(--color-ink);
+      margin-bottom: 1.5rem;
+    }
+
+    svg { width: 100%; min-width: 900px; display: block; }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <p class="eyebrow">Sankey · AWS Diagram Design</p>
+    <h1>EC2 instance-hours · a month of fleet capacity</h1>
+
+    <svg viewBox="0 0 1000 560" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="sankey-title sankey-desc">
+      <title id="sankey-title">EC2 instance-hours · a month of fleet capacity</title>
+      <desc id="sankey-desc">Sankey diagram showing 12,000 monthly Amazon EC2 instance-hours splitting into batch, web tier, CI runner, and dev/test workloads, then merging into utilized, headroom, and idle outcomes, with the idle path highlighted as the one accent flow.</desc>
+
+      <rect width="100%" height="100%" fill="#ffffff"/>
+
+      <!-- Column headers -->
+      <text x="124" y="76" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.14em">FLEET</text>
+      <text x="504" y="76" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.14em">WORKLOAD</text>
+      <text x="884" y="76" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.14em">UTILIZATION</text>
+
+      <!-- Ribbons: col1 -> col2. Both control points sit on the midpoint x, so every band
+           meets its node bar horizontally at each end rather than arriving at a slant. -->
+      <path d="M132,120 C316,120 316,120 500,120 L500,224 C316,224 316,224 132,224 Z" fill="rgba(84,91,100,0.18)"/>
+      <path d="M132,224 C316,224 316,256 500,256 L500,336 C316,336 316,304 132,304 Z" fill="rgba(84,91,100,0.18)"/>
+      <path d="M132,304 C316,304 316,368 500,368 L500,408 C316,408 316,344 132,344 Z" fill="rgba(84,91,100,0.18)"/>
+      <path d="M132,344 C316,344 316,440 500,440 L500,456 C316,456 316,360 132,360 Z" fill="rgba(84,91,100,0.18)"/>
+
+      <!-- Ribbons: col2 -> col3, ordinary. Each source stacks its outgoing bands in target
+           order and each target stacks its incoming bands in source order, which is what
+           keeps every bar exactly saturated. Four sources feeding three outcomes cannot be
+           drawn crossing-free; what remains is the minimum. -->
+      <path d="M512,136 C696,136 696,148 880,148 L880,236 C696,236 696,224 512,224 Z" fill="rgba(84,91,100,0.18)"/>
+      <path d="M512,260 C696,260 696,236 880,236 L880,312 C696,312 696,336 512,336 Z" fill="rgba(84,91,100,0.18)"/>
+      <path d="M512,368 C696,368 696,312 880,312 L880,328 C696,328 696,384 512,384 Z" fill="rgba(84,91,100,0.18)"/>
+      <path d="M512,384 C696,384 696,344 880,344 L880,368 C696,368 696,408 512,408 Z" fill="rgba(84,91,100,0.18)"/>
+      <path d="M512,440 C696,440 696,328 880,328 L880,336 C696,336 696,448 512,448 Z" fill="rgba(84,91,100,0.18)"/>
+      <path d="M512,448 C696,448 696,368 880,368 L880,376 C696,376 696,456 512,456 Z" fill="rgba(84,91,100,0.18)"/>
+
+      <!-- Ribbons: col2 -> col3, idle path (the one accent flow) -->
+      <path d="M512,120 C696,120 696,120 880,120 L880,136 C696,136 696,136 512,136 Z" fill="rgba(236,114,17,0.28)"/>
+      <path d="M512,256 C696,256 696,136 880,136 L880,140 C696,140 696,260 512,260 Z" fill="rgba(236,114,17,0.28)"/>
+
+      <!-- Nodes -->
+      <rect x="120" y="120" width="12" height="240" fill="#232f3e"/>
+      <rect x="500" y="120" width="12" height="104" fill="#232f3e"/>
+      <rect x="500" y="256" width="12" height="80" fill="#232f3e"/>
+      <rect x="500" y="368" width="12" height="40" fill="#232f3e"/>
+      <rect x="500" y="440" width="12" height="16" fill="#232f3e"/>
+      <rect x="880" y="120" width="12" height="20" fill="#232f3e"/>
+      <rect x="880" y="148" width="12" height="188" fill="#232f3e"/>
+      <rect x="880" y="344" width="12" height="32" fill="#232f3e"/>
+
+      <!-- Labels: column 1, outside, anchored end -->
+      <text x="104" y="236" fill="#232f3e" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="end">EC2 hours</text>
+      <text x="104" y="252" fill="#545b64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="end">12,000 h</text>
+
+      <!-- Labels: column 2, centred in the gutter above the bar, where the bands separate. -->
+
+      <text x="504" y="96" fill="#232f3e" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Batch / ETL</text>
+      <text x="504" y="112" fill="#545b64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">5,200 h</text>
+
+      <text x="504" y="236" fill="#232f3e" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Web tier</text>
+      <text x="504" y="252" fill="#545b64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">4,000 h</text>
+
+      <text x="504" y="348" fill="#232f3e" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">CI runners</text>
+      <text x="504" y="364" fill="#545b64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">2,000 h</text>
+
+      <text x="504" y="420" fill="#232f3e" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="middle">Dev / test</text>
+      <text x="504" y="436" fill="#545b64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle">800 h</text>
+
+      <!-- Labels: column 3, outside, anchored start -->
+
+      <text x="908" y="124" fill="#232f3e" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="start">Idle</text>
+      <text x="908" y="136" fill="#545b64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="start">1,000 h</text>
+
+      <text x="908" y="236" fill="#232f3e" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="start">Utilized</text>
+      <text x="908" y="252" fill="#545b64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="start">9,400 h</text>
+
+      <text x="908" y="356" fill="#232f3e" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="start">Headroom</text>
+      <text x="908" y="372" fill="#545b64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="start">1,600 h</text>
+
+      <!-- Legend -->
+      <line x1="40" y1="492" x2="960" y2="492" stroke="rgba(35,47,62,0.10)" stroke-width="0.8"/>
+      <text x="40" y="508" fill="#545b64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.18em">LEGEND</text>
+
+      <rect x="40" y="520" width="16" height="8" fill="rgba(84,91,100,0.18)" stroke="#545b64" stroke-width="1"/>
+      <text x="64" y="528" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Flow · workload routing</text>
+
+      <rect x="220" y="520" width="16" height="8" fill="rgba(236,114,17,0.28)" stroke="#ec7211" stroke-width="1"/>
+      <text x="244" y="528" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Idle path · nothing running</text>
+
+      <rect x="420" y="520" width="16" height="8" fill="#232f3e"/>
+      <text x="444" y="528" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Node · instance-hours</text>
+
+      <text x="600" y="528" fill="#545b64" font-size="8.5" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-style="italic">Two orange ribbons — idle instances burn ~8% of the monthly EC2 hours.</text>
+    </svg>
+  </div>
+</body>
+</html>
