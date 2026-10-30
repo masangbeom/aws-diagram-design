@@ -4,6 +4,12 @@
 
 **말로 설명하면, AWS 다이어그램을 작성합니다.**
 
+> [!TIP]
+> **👉 먼저 [온라인 갤러리](https://masangbeom.github.io/aws-diagram-design/)에서 결과물을 확인해 보세요.**
+> 45개 타입, 201개 AWS 예제를 라이트 / 다크 / 풀 페이지로 바로 볼 수 있습니다. 설치 없이 브라우저에서 열립니다.
+
+[![AWS Diagram Design 갤러리 미리보기: 아키텍처 Before/After 비교 예제](docs/gallery-preview.png)](https://masangbeom.github.io/aws-diagram-design/)
+
 draw.io 등을 사용하여 다양한 아키텍처 및 다이어그램을 작성하는 대신, Claude Code나 Kiro에게 이렇게 말해보세요.
 
 > "ALB 뒤에 Fargate 서비스 두고, RDS Multi-AZ랑 ElastiCache 붙는 VPC 3-티어 구성도 그려줘"
