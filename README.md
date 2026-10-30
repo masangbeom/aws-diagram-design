@@ -16,7 +16,19 @@ draw.io 등을 사용하여 다양한 아키텍처 및 다이어그램을 작성
 - **운영/설계 문서에 쓰는 나머지 전부**: 플로차트, 시퀀스, 상태 머신, ER·DB 스키마, 타임라인, 스윔레인, 간트, 조직도, 레이어 스택, 데이터 플로, 배포·의존성 그래프, 아키텍처 Before/After 비교(delta), 워터폴·생키·트리맵·히트맵 차트, 서비스 블루프린트, 워들리 맵 등 총 45개 시각 타입.
 - **기존 다이어그램 재작도**: 갖고 있는 draw.io(.drawio)나 Mermaid(.mmd) 파일을 읽어 내용은 유지한 채 지정한 크기와 상세도(문서용/슬라이드용/요약본)로 다시 그립니다.
 
-AWS 서비스를 명명하는 노드에는 다이어그램 타입에 관계없이 공식 아이콘이 들어가고, 강조는 smile orange 포컬 1–2개로 절제하는 에디토리얼 디자인 시스템([cathrynlavery/diagram-design](https://github.com/cathrynlavery/diagram-design) 기반)이 적용됩니다.
+AWS 서비스를 명명하는 노드에는 다이어그램 타입에 관계없이 공식 아이콘이 들어가고, 강조는 smile orange 포컬 1–2개로 절제하는 에디토리얼 디자인 시스템([cathrynlavery/diagram-design](https://github.com/cathrynlavery/diagram-design) 2.6 기반)이 적용됩니다.
+
+## AWS 엔지니어가 봐도 맞는 다이어그램
+
+모양만 AWS처럼 보이는 게 아니라 AWS 엔지니어가 읽어도 틀린 데가 없도록, 타입마다 **On AWS** 규칙을 두고 그리는 단계에서 바로 적용합니다.
+
+- **배치가 곧 주장입니다**: S3, DynamoDB, SQS 같은 리전 서비스는 VPC 밖에 두고 VPC 엔드포인트로 연결합니다. CloudFront, Route 53, IAM 같은 글로벌 서비스는 Region 밖에 둡니다. 인터넷용 ALB와 NAT 게이트웨이는 퍼블릭 서브넷에 둡니다.
+- **Multi-AZ는 그림으로**: Multi-AZ 리소스는 AZ 열 전체에 걸쳐 그립니다. 하나의 AZ에 넣어 두고 라벨로만 Multi-AZ라고 쓰지 않습니다.
+- **공식 서비스 이름**: 처음 언급할 때는 `AWS Lambda`, `Amazon EC2`처럼 접두어까지 정확히 쓰고, 이후에는 짧게 씁니다. Amazon SageMaker AI, Amazon Data Firehose 같은 최신 명칭을 씁니다.
+- **동작도 실제대로**: 동기/비동기 호출(`202`, `MessageId`), Step Functions 상태(`ABORTED` 등), CDK → CloudFormation 배포 같은 실제 동작을 따릅니다.
+- **대비 기준**: 라이트 스킨에서 smile orange는 선·마커·채움에만 쓰고 작은 텍스트에는 쓰지 않습니다(WCAG 대비 기준).
+
+아이콘은 번들된 `scripts/aws_icon.py`로 찾아서 삽입하고(`aws_icon.py find dynamodb`), 결과물은 `scripts/self_check.py`로 접근성·단일 파일 안전성·문서 완결성을 스스로 점검합니다.
 
 ## 미리보기
 
@@ -53,6 +65,17 @@ Kinesis → Lambda → S3 데이터 레이크 스트리밍 수집과, Glue 카�
 ![AWS Data Pipeline Flow 다이어그램](docs/samples/data-pipeline-flow.svg)
 
 > GitHub은 이미지 렌더링 시 외부 폰트를 차단하므로 위 SVG는 시스템 폰트로 보입니다. Amazon Ember 폰트 그대로 보려면 HTML 원본을 브라우저에서 여세요.
+
+### 전체 갤러리
+
+45개 타입 전부의 예제 201개(라이트 / 다크 / 에디토리얼 풀 페이지, 일부 애니메이션)가 모두 AWS 시나리오로 들어 있습니다. 예를 들면 EC2 → Fargate 마이그레이션 before/after, Cognito 토큰 갱신 시퀀스, Step Functions 배치 작업 상태, S3 데이터 레이크, AWS 비용 워터폴·트리맵, Organizations OU 트리 같은 것들입니다. 스킬은 이 예제들을 타입별 기준 렌더로 참고합니다.
+
+```bash
+python3 -m http.server 8765 --directory skills/aws-diagram-design/assets
+# → http://127.0.0.1:8765/index.html
+```
+
+상단 목록에서 타입과 변형을 고르고, 오른쪽 위 탭으로 라이트 / 다크 / 풀 페이지를 바꿔 볼 수 있습니다. `aws-icons.html`은 번들된 공식 아이콘 812종을 보여주는 갤러리입니다.
 
 ## 시작하기
 
@@ -105,7 +128,9 @@ Amazon Ember는 [Amazon 공식 배포본](https://developer.amazon.com/en-US/ale
 /aws-diagram-design:export-diagram my-diagram.html       # 생성된 HTML을 SVG/PNG로 내보내기
 ```
 
-재작도 시 크기(문서 인라인/와이드/슬라이드 16:9/소셜 카드), 상세도(faithful/balanced/simplified), 독자(엔지니어/혼합/경영진)를 지정할 수 있고, 병합되거나 생략된 요소는 fidelity ledger로 보고됩니다.
+재작도 시 크기(문서 인라인/와이드/슬라이드 16:9/A3 인쇄/소셜 카드), 상세도(faithful/balanced/simplified), 독자(엔지니어/혼합/경영진)를 지정할 수 있고, 병합되거나 생략된 요소는 fidelity ledger로 보고됩니다.
+
+내보내기는 번들 스크립트(`export_svg.py`, `export_png.py`)로 실행됩니다. SVG는 페이지 CSS와 Amazon Ember `@font-face`를 그대로 담은 단독 파일로 나오고, PowerPoint에서 깨지지 않도록 색상을 정규화합니다. PNG는 Playwright가 설치된 환경에서만 만들 수 있습니다.
 
 ## AWS 공식 리소스를 그대로 씁니다
 
@@ -124,10 +149,10 @@ aws-diagram-design/
 ├── commands/                       # 슬래시 커맨드 3종 (import-drawio / import-mermaid / export-diagram)
 ├── skills/aws-diagram-design/      # 정본 스킬 (모든 환경 공용)
 │   ├── SKILL.md                    #   설계 시스템 + 45개 타입 라우팅
-│   ├── references/                 #   스펙 58개 (style-guide, type-*, primitive-aws-icons 등)
-│   ├── assets/                     #   템플릿·예제, aws-icons/ 812 SVG, fonts/ Amazon Ember
+│   ├── references/                 #   스펙 58개 (style-guide, type-* 45종과 On AWS 규칙, primitive-aws-icons 등)
+│   ├── assets/                     #   템플릿, AWS 예제 201개 + 갤러리(index.html), aws-icons/ 812 SVG, fonts/ Amazon Ember
 │   └── scripts/                    #   자체 검증(self_check, verify-geometry), drawio/mermaid 추출기, SVG/PNG 내보내기(export_svg, export_png), AWS 아이콘 삽입(aws_icon)
-├── scripts/                        # 저장소 수준 검증 스크립트 + 테스트 fixtures
+├── scripts/                        # 저장소 수준 검증기 20종(geometry, motion, 차트별) + 테스트 9종 + fixtures
 ├── docs/                           # 환경별 한글 가이드 + samples/ 예제 다이어그램
 └── install.sh                      # claude-code · kiro · fonts 설치
 ```
