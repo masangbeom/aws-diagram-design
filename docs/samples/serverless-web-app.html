@@ -54,7 +54,7 @@
       color: var(--color-ink);
       margin-bottom: 1.5rem;
     }
-    svg { width: 100%; min-width: 900px; display: block; }
+    svg { width: 100%; min-width: 1080px; display: block; }
   </style>
 </head>
 <body>
@@ -62,7 +62,7 @@
     <p class="eyebrow">Architecture · AWS Diagram Design</p>
     <h1>Serverless Web Application</h1>
 
-    <svg viewBox="0 0 1000 416" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="serverless-web-title serverless-web-desc">
+    <svg viewBox="0 0 1080 416" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="serverless-web-title serverless-web-desc">
       <title id="serverless-web-title">Serverless Web Application</title>
       <desc id="serverless-web-desc">Users reach CloudFront, which serves static assets from S3 and routes dynamic requests through API Gateway to a Lambda function backed by DynamoDB.</desc>
       <defs>
@@ -74,7 +74,7 @@
       <rect width="100%" height="100%" fill="#ffffff"/>
 
       <!-- ===== zone: AWS Cloud ===== -->
-      <rect x="240" y="64" width="720" height="248" fill="none" stroke="#242F3E" stroke-width="1"/>
+      <rect x="240" y="64" width="800" height="248" fill="none" stroke="#242F3E" stroke-width="1"/>
       <g transform="translate(240,64) scale(0.6)" aria-hidden="true">
         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
           <rect fill="#242F3E" x="0" y="0" width="40" height="40"></rect>
@@ -90,14 +90,14 @@
       <text x="220" y="129" fill="#0972D3" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">HTTPS</text>
 
       <!-- CloudFront -> API Gateway -->
-      <line x1="432" y1="140" x2="512" y2="140" stroke="#545B64" stroke-width="1.2" marker-end="url(#arrow)"/>
-      <rect x="450" y="120" width="44" height="12" rx="2" fill="#ffffff"/>
-      <text x="472" y="129" fill="#687078" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">DYNAMIC</text>
+      <line x1="464" y1="140" x2="544" y2="140" stroke="#545B64" stroke-width="1.2" marker-end="url(#arrow)"/>
+      <rect x="482" y="120" width="44" height="12" rx="2" fill="#ffffff"/>
+      <text x="504" y="129" fill="#687078" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">DYNAMIC</text>
 
       <!-- API Gateway -> Lambda -->
-      <line x1="672" y1="140" x2="752" y2="140" stroke="#EC7211" stroke-width="1.2" marker-end="url(#arrow-accent)"/>
-      <rect x="690" y="120" width="44" height="12" rx="2" fill="#ffffff"/>
-      <text x="712" y="129" fill="#232F3E" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">INVOKE</text>
+      <line x1="736" y1="140" x2="816" y2="140" stroke="#EC7211" stroke-width="1.2" marker-end="url(#arrow-accent)"/>
+      <rect x="754" y="120" width="44" height="12" rx="2" fill="#ffffff"/>
+      <text x="776" y="129" fill="#232F3E" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" text-anchor="middle" letter-spacing="0.06em">INVOKE</text>
 
       <!-- CloudFront -> S3 (vertical) -->
       <line x1="352" y1="168" x2="352" y2="240" stroke="#545B64" stroke-width="1.2" marker-end="url(#arrow)"/>
@@ -105,9 +105,9 @@
       <text x="364" y="201" fill="#687078" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.06em">STATIC</text>
 
       <!-- Lambda -> DynamoDB (vertical) -->
-      <line x1="832" y1="168" x2="832" y2="240" stroke="#545B64" stroke-width="1.2" marker-end="url(#arrow)"/>
-      <rect x="840" y="192" width="40" height="12" rx="2" fill="#ffffff"/>
-      <text x="844" y="201" fill="#687078" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.06em">QUERY</text>
+      <line x1="896" y1="168" x2="896" y2="240" stroke="#545B64" stroke-width="1.2" marker-end="url(#arrow)"/>
+      <rect x="904" y="192" width="40" height="12" rx="2" fill="#ffffff"/>
+      <text x="908" y="201" fill="#687078" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.06em">QUERY</text>
 
       <!-- ===== nodes ===== -->
       <!-- Users (input) -->
@@ -122,44 +122,44 @@
       <text x="88" y="154" fill="#545B64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace">web / mobile</text>
 
       <!-- CloudFront -->
-      <rect x="272" y="112" width="160" height="56" rx="6" fill="#ffffff"/>
-      <rect x="272" y="112" width="160" height="56" rx="6" fill="#ffffff" stroke="#232F3E" stroke-width="1"/>
+      <rect x="272" y="112" width="192" height="56" rx="6" fill="#ffffff"/>
+      <rect x="272" y="112" width="192" height="56" rx="6" fill="#ffffff" stroke="#232F3E" stroke-width="1"/>
       <g transform="translate(284,128) scale(0.375)" aria-hidden="true">
         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
           <g fill="#8C4FFF"><rect x="0" y="0" width="64" height="64"></rect></g>
           <path d="M41.5,43.5 C40.397,43.5 39.5,42.603 39.5,41.5 C39.5,40.397 40.397,39.5 41.5,39.5 C42.603,39.5 43.5,40.397 43.5,41.5 C43.5,42.603 42.603,43.5 41.5,43.5 L41.5,43.5 Z M41.5,37.5 C39.294,37.5 37.5,39.294 37.5,41.5 C37.5,43.706 39.294,45.5 41.5,45.5 C43.706,45.5 45.5,43.706 45.5,41.5 C45.5,39.294 43.706,37.5 41.5,37.5 L41.5,37.5 Z M22.5,32.5 C21.397,32.5 20.5,31.603 20.5,30.5 C20.5,29.397 21.397,28.5 22.5,28.5 C23.603,28.5 24.5,29.397 24.5,30.5 C24.5,31.603 23.603,32.5 22.5,32.5 L22.5,32.5 Z M22.5,26.5 C20.294,26.5 18.5,28.294 18.5,30.5 C18.5,32.706 20.294,34.5 22.5,34.5 C24.706,34.5 26.5,32.706 26.5,30.5 C26.5,28.294 24.706,26.5 22.5,26.5 L22.5,26.5 Z M45.389,47.124 C45.168,46.607 44.936,46.094 44.685,45.591 L42.896,46.486 C43.17,47.035 43.42,47.599 43.656,48.165 C42.82,48.762 41.943,49.288 41.028,49.74 C41.384,48.865 41.694,47.975 41.974,47.012 L40.054,46.454 C39.564,48.134 38.985,49.581 38.184,51.133 C36.357,51.698 34.452,52 32.5,52 C29.465,52 26.567,51.314 23.871,49.976 C22.503,46.615 21.838,43.534 21.838,40.559 C21.838,39.267 22.063,38.196 22.322,36.956 C22.386,36.652 22.45,36.343 22.514,36.024 L20.551,35.638 C20.49,35.949 20.427,36.25 20.365,36.545 C20.094,37.838 19.838,39.06 19.838,40.559 C19.838,43.074 20.274,45.644 21.154,48.354 C16.072,44.724 13,38.854 13,32.5 C13,32.389 13.01,32.273 13.012,32.161 C14.642,31.799 16.123,31.614 17.854,31.571 L17.804,29.572 C16.169,29.612 14.694,29.779 13.163,30.084 C14.081,22.683 19.212,16.394 26.323,14.019 C27.873,14.818 29.02,15.524 30.135,16.37 L31.344,14.776 C30.646,14.248 29.934,13.771 29.146,13.299 C30.244,13.108 31.363,13 32.5,13 C35.032,13 37.532,13.494 39.849,14.439 C39.342,14.593 38.82,14.763 38.243,14.971 L38.923,16.852 C40.316,16.349 41.408,16.04 42.571,15.821 C48.399,19.341 52,25.667 52,32.5 C52,38.156 49.605,43.416 45.389,47.124 L45.389,47.124 Z M43.008,13.749 C39.826,11.95 36.192,11 32.5,11 C30.392,11 28.324,11.301 26.357,11.895 C17.723,14.464 11.568,22.23 11.045,31.196 C11.01,31.625 11,32.062 11,32.5 C11,40.444 15.352,47.707 22.354,51.455 C25.459,53.12 28.968,54 32.5,54 C34.892,54 37.229,53.61 39.437,52.843 C41.684,52.086 43.773,50.963 45.646,49.507 C50.955,45.399 54,39.2 54,32.5 C54,24.732 49.787,17.546 43.008,13.749 L43.008,13.749 Z M38.384,37.411 L37.003,38.858 C34.022,36.015 31.047,34.146 27.637,32.975 L28.287,31.083 C31.979,32.351 35.188,34.362 38.384,37.411 L38.384,37.411 Z M38.444,22.364 C41.282,26.692 42.88,31.444 43.193,36.488 L41.197,36.612 C40.905,31.919 39.417,27.495 36.772,23.46 L38.444,22.364 Z M26.451,26.797 L24.773,25.708 C26.316,23.332 27.639,21.758 29.336,20.278 L30.65,21.786 C29.103,23.135 27.886,24.587 26.451,26.797 L26.451,26.797 Z M34.5,16.5 C35.603,16.5 36.5,17.397 36.5,18.5 C36.5,19.603 35.603,20.5 34.5,20.5 C33.397,20.5 32.5,19.603 32.5,18.5 C32.5,17.397 33.397,16.5 34.5,16.5 L34.5,16.5 Z M34.5,22.5 C36.706,22.5 38.5,20.706 38.5,18.5 C38.5,16.294 36.706,14.5 34.5,14.5 C32.294,14.5 30.5,16.294 30.5,18.5 C30.5,20.706 32.294,22.5 34.5,22.5 L34.5,22.5 Z" fill="#FFFFFF"></path>
         </g>
       </g>
-      <text x="320" y="138" fill="#232F3E" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">CloudFront</text>
+      <text x="320" y="138" fill="#232F3E" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Amazon CloudFront</text>
       <text x="320" y="154" fill="#545B64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace">CDN edge</text>
 
       <!-- API Gateway -->
-      <rect x="512" y="112" width="160" height="56" rx="6" fill="#ffffff"/>
-      <rect x="512" y="112" width="160" height="56" rx="6" fill="#ffffff" stroke="#232F3E" stroke-width="1"/>
-      <g transform="translate(524,128) scale(0.375)" aria-hidden="true">
+      <rect x="544" y="112" width="192" height="56" rx="6" fill="#ffffff"/>
+      <rect x="544" y="112" width="192" height="56" rx="6" fill="#ffffff" stroke="#232F3E" stroke-width="1"/>
+      <g transform="translate(556,128) scale(0.375)" aria-hidden="true">
         <g>
           <g><rect width="64" height="64" fill="#8C4FFF"/></g>
           <g><path fill-rule="evenodd" clip-rule="evenodd" d="M28 43.9999H31V41.9999H28V43.9999ZM33 43.9999H36V41.9999H33V43.9999ZM28 21.9998H31V19.9998H28V21.9998ZM33 21.9998H36V19.9998H33V21.9998ZM22 12.7408L12 18.5738V46.382L22 51.382V12.7408ZM24 19.9998H26V21.9998H24V41.9999H26V43.9999H24V53C24 53.347 23.82 53.668 23.525 53.851C23.365 53.95 23.183 54 23 54C22.847 54 22.694 53.965 22.553 53.895L10.553 47.895C10.214 47.725 10 47.379 10 47V17.9998C10 17.6448 10.188 17.3148 10.496 17.1358L22.496 10.1358C22.805 9.95575 23.188 9.95475 23.498 10.1328C23.809 10.3108 24 10.6418 24 10.9998V19.9998ZM52 18.5738L42 12.7408V51.382L52 46.382V18.5738ZM54 17.9998V47C54 47.379 53.786 47.725 53.447 47.895L41.447 53.895C41.306 53.965 41.153 54 41 54C40.817 54 40.635 53.95 40.475 53.851C40.18 53.668 40 53.347 40 53V43.9999H38V41.9999H40V21.9998H38V19.9998H40V10.9998C40 10.6418 40.191 10.3108 40.502 10.1328C40.812 9.95575 41.195 9.95575 41.504 10.1358L53.504 17.1358C53.812 17.3148 54 17.6448 54 17.9998ZM34.939 27.3419L33.061 26.6578L29.061 37.6579L30.939 38.3419L34.939 27.3419ZM39.707 32.7069C40.098 32.3159 40.098 31.6839 39.707 31.2929L36.707 28.2929L35.293 29.7069L37.586 31.9999L35.293 34.2929L36.707 35.7069L39.707 32.7069ZM27.293 35.7069L24.293 32.7069C23.902 32.3159 23.902 31.6839 24.293 31.2929L27.293 28.2929L28.707 29.7069L26.414 31.9999L28.707 34.2929L27.293 35.7069Z" fill="white"/></g>
         </g>
       </g>
-      <text x="560" y="138" fill="#232F3E" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">API Gateway</text>
-      <text x="560" y="154" fill="#545B64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace">REST /api</text>
+      <text x="592" y="138" fill="#232F3E" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Amazon API Gateway</text>
+      <text x="592" y="154" fill="#545B64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace">REST /api</text>
 
       <!-- Lambda (focal) -->
-      <rect x="752" y="112" width="160" height="56" rx="6" fill="#ffffff"/>
-      <rect x="752" y="112" width="160" height="56" rx="6" fill="rgba(255,153,0,0.10)" stroke="#EC7211" stroke-width="1.2"/>
-      <g transform="translate(764,128) scale(0.375)" aria-hidden="true">
+      <rect x="816" y="112" width="192" height="56" rx="6" fill="#ffffff"/>
+      <rect x="816" y="112" width="192" height="56" rx="6" fill="rgba(255,153,0,0.10)" stroke="#EC7211" stroke-width="1.2"/>
+      <g transform="translate(828,128) scale(0.375)" aria-hidden="true">
         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
           <g fill="#ED7100"><rect x="0" y="0" width="64" height="64"></rect></g>
           <path d="M22.6794094,52 L13.5740701,52 L23.8376189,30.41 L28.3997494,39.861 L22.6794094,52 Z M24.7269406,27.667 C24.5606285,27.321 24.2120702,27.103 23.8306478,27.103 L23.8276601,27.103 C23.4452418,27.104 23.0966835,27.325 22.9323632,27.672 L11.0973143,52.569 C10.9499239,52.879 10.9708374,53.243 11.1540795,53.534 C11.3353298,53.824 11.6540117,54 11.9955989,54 L23.309802,54 C23.695208,54 24.0447622,53.777 24.2100784,53.428 L30.4044577,40.284 C30.5329264,40.01 30.5319305,39.692 30.3994783,39.42 L24.7269406,27.667 Z M51.0082382,52 L41.985557,52 L26.9547262,19.578 C26.7914017,19.226 26.4388599,19 26.0524581,19 L20.1279625,19 L20.1349337,12 L31.8146251,12 L46.7747483,44.42 C46.9380728,44.774 47.2906147,45 47.6790082,45 L51.0082382,45 L51.0082382,52 Z M52.0041191,43 L48.3143803,43 L33.354257,10.58 C33.1909326,10.226 32.8383907,10 32.450993,10 L19.1400486,10 C18.5913182,10 18.1451636,10.447 18.1441677,10.999 L18.1362006,19.999 C18.1362006,20.265 18.2407681,20.519 18.4269979,20.707 C18.6142235,20.895 18.8671772,21 19.1310857,21 L25.4170861,21 L40.4479168,53.422 C40.6112413,53.774 40.9627873,54 41.350185,54 L52.0041191,54 C52.5548412,54 53,53.552 53,53 L53,44 C53,43.448 52.5548412,43 52.0041191,43 L52.0041191,43 Z" fill="#FFFFFF"></path>
         </g>
       </g>
-      <text x="800" y="138" fill="#232F3E" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Lambda</text>
-      <text x="800" y="154" fill="#545B64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace">node.js 22</text>
+      <text x="864" y="138" fill="#232F3E" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">AWS Lambda</text>
+      <text x="864" y="154" fill="#545B64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace">Node.js 22</text>
 
       <!-- S3 -->
-      <rect x="272" y="240" width="160" height="56" rx="6" fill="#ffffff"/>
-      <rect x="272" y="240" width="160" height="56" rx="6" fill="#ffffff" stroke="#232F3E" stroke-width="1"/>
+      <rect x="272" y="240" width="192" height="56" rx="6" fill="#ffffff"/>
+      <rect x="272" y="240" width="192" height="56" rx="6" fill="#ffffff" stroke="#232F3E" stroke-width="1"/>
       <g transform="translate(284,256) scale(0.375)" aria-hidden="true">
         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
           <g fill="#7AA116"><rect x="0" y="0" width="64" height="64"></rect></g>
@@ -172,19 +172,19 @@
       <text x="320" y="282" fill="#545B64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace">static assets</text>
 
       <!-- DynamoDB -->
-      <rect x="752" y="240" width="160" height="56" rx="6" fill="#ffffff"/>
-      <rect x="752" y="240" width="160" height="56" rx="6" fill="#ffffff" stroke="#232F3E" stroke-width="1"/>
-      <g transform="translate(764,256) scale(0.375)" aria-hidden="true">
+      <rect x="816" y="240" width="192" height="56" rx="6" fill="#ffffff"/>
+      <rect x="816" y="240" width="192" height="56" rx="6" fill="#ffffff" stroke="#232F3E" stroke-width="1"/>
+      <g transform="translate(828,256) scale(0.375)" aria-hidden="true">
         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
           <g fill="#C925D1"><rect x="0" y="0" width="64" height="64"></rect></g>
           <path d="M46.5858287,25.2492763 L43.0008475,25.2492763 C42.6728493,25.2492763 42.3658509,25.086523 42.1788519,24.8145936 C41.9918528,24.5416533 41.9488531,24.1939071 42.0648525,23.8835638 L44.5578394,17.162156 L35.6448862,17.162156 L31.5539077,26.2601663 L36.0008843,26.2601663 C36.3218827,26.2601663 36.6238811,26.4158434 36.8128801,26.6806966 C36.9998791,26.943528 37.0518788,27.2821762 36.9488794,27.5904976 L33.2888986,38.6910812 L46.5858287,25.2492763 Z M49.7068123,24.9530855 L31.7079069,43.1491063 C31.5159079,43.3442081 31.2589093,43.4452971 31.0009106,43.4452971 C30.8189116,43.4452971 30.6379125,43.3957635 30.4759134,43.2946744 C30.0809155,43.0480173 29.9049164,42.5597574 30.0529156,42.1149658 L34.6128916,28.2819464 L30.0009159,28.2819464 C29.6609177,28.2819464 29.3449193,28.1070624 29.1599203,27.8189588 C28.9769213,27.5288333 28.9499214,27.1659238 29.0909207,26.8525479 L34.0908944,15.7327574 C34.2528935,15.3718697 34.6078917,15.1403759 35.0008896,15.1403759 L46.0008318,15.1403759 C46.32883,15.1403759 46.6358284,15.3031292 46.8228274,15.5750586 C47.0098265,15.8479989 47.0528262,16.1957451 46.9378268,16.5060883 L44.44384,23.2274962 L48.999816,23.2274962 C49.4038139,23.2274962 49.769812,23.4741534 49.9238111,23.8512154 C50.0788103,24.2292882 49.9928108,24.663971 49.7068123,24.9530855 L49.7068123,24.9530855 Z M41.0008581,44.2196388 C38.2908723,46.1059597 33.3138985,47.1016863 28.5329236,47.1016863 C23.7169489,47.1016863 18.6959753,46.0928181 15.9999895,44.1781923 L16.0009895,47.9943023 C16.0009895,49.6582273 20.7689644,51.9782199 28.5329236,51.9782199 C36.0278842,51.9782199 41.0008581,49.2761108 41.0008581,47.4888572 L41.0008581,44.2196388 Z M43.0648472,40.9504204 C43.0648472,41.1374351 43.0328474,41.3173735 43.0008475,41.4963011 L43.0008475,47.4888572 C43.0008475,51.0795387 36.5108817,54 28.5329236,54 C21.6299599,54 14.6619965,52.1106465 14.0599997,48.4997473 L14.001,48.4997473 L14,43.4452971 L14,30.3037265 L14,16.1512659 L14.001,16.1512659 C14.001,12.1552176 21.4879606,10 28.5329236,10 C32.4739029,10 36.262883,10.6398934 38.9298689,11.755916 L38.163873,13.6240408 C35.7318858,12.6050636 32.2209042,12.0217801 28.5329236,12.0217801 C20.7689644,12.0217801 16.0009895,14.4266875 16.0009895,16.1512659 C16.0009895,17.8758443 20.7689644,20.2807517 28.5329236,20.2807517 C28.7279226,20.2807517 28.9319215,20.2817626 29.1289205,20.2736755 L29.2069201,22.2934338 C28.9819212,22.3025318 28.7579224,22.3025318 28.5329236,22.3025318 C23.7159489,22.3025318 18.6959753,21.2936636 15.9999895,19.3790378 L15.9999895,23.7369848 L16.0009895,23.7369848 L16.0009895,23.7541699 C16.0059895,24.2838763 16.4899869,24.8974866 17.3649823,25.4736939 C19.3469719,26.7615678 22.9149531,27.642053 26.9039322,27.8250241 L26.8129326,29.8447824 C22.6869543,29.6547351 19.0629734,28.7762717 16.7269857,27.4287552 C16.4169873,27.7269678 16.0009895,28.4851353 16.0009895,28.8955567 C16.0009895,30.6201351 20.7689644,33.0250425 28.5329236,33.0250425 C29.2709197,33.0250425 29.9979159,32.9997703 30.6949122,32.9502366 L30.8359115,34.9669623 C30.0919154,35.0205394 29.3169195,35.0468226 28.5329236,35.0468226 C23.7159489,35.0468226 18.6959753,34.0379543 15.9999895,32.1233286 L15.9999895,35.7928594 L16.0009895,35.7928594 C16.0059895,36.339751 16.4899869,36.9533612 17.3649823,37.5295685 C19.6329704,39.0044571 23.9139479,39.9233562 28.5329236,39.9233562 L28.8629219,39.9233562 L28.8629219,41.9451362 L28.5329236,41.9451362 C23.7549487,41.9451362 18.6729754,40.9372789 16.0009895,39.4017369 C15.6789912,39.6999495 16.0009895,40.4126269 16.0009895,40.9504204 C16.0009895,42.6749989 20.7689644,45.0799063 28.5329236,45.0799063 C36.2978828,45.0799063 41.0648577,42.6749989 41.0648577,40.9504204 C41.0648577,40.3408537 40.4658609,39.7757662 39.9728635,39.4118458 C39.5638656,39.658503 39.113868,39.8950512 38.6008707,40.1113817 L37.8328747,38.2442678 C38.3638719,38.0208611 38.8228695,37.7812802 39.1968675,37.5326012 C40.2978617,36.798695 41.0008581,35.7544456 41.0008581,35.3581767 L43.0008475,35.3581767 C43.0008475,36.2983045 42.3798508,37.3051509 41.583855,38.1330699 C42.7758487,39.1732757 43.0648472,40.2114598 43.0648472,40.9504204 L43.0648472,40.9504204 Z M17.1419835,48.3885494 C17.9329793,48.796949 18.8579745,49.1608694 19.893969,49.4691908 L20.457966,47.5292928 C19.5419709,47.2573634 18.7319751,46.9399439 18.0519787,46.5881542 L17.1419835,48.3885494 Z M19.893969,37.3385103 L20.457966,35.3996232 C19.5419709,35.1266829 18.7319751,34.8102743 18.0519787,34.4584846 L17.1419835,36.2578689 C17.9329793,36.6672793 18.8579745,37.0301889 19.893969,37.3385103 L19.893969,37.3385103 Z M17.1419835,24.1281992 L18.0519787,22.3278041 C18.7319751,22.6795938 19.5419709,22.9960024 20.457966,23.2689427 L19.893969,25.2088407 C18.8579745,24.9005192 17.9329793,24.5365988 17.1419835,24.1281992 L17.1419835,24.1281992 Z" fill="#FFFFFF"></path>
         </g>
       </g>
-      <text x="800" y="266" fill="#232F3E" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">DynamoDB</text>
-      <text x="800" y="282" fill="#545B64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace">orders table</text>
+      <text x="864" y="266" fill="#232F3E" font-size="12" font-weight="600" font-family="'Amazon Ember', 'Helvetica Neue', Helvetica, Arial, sans-serif">Amazon DynamoDB</text>
+      <text x="864" y="282" fill="#545B64" font-size="9" font-family="'Amazon Ember Mono', ui-monospace, monospace">orders table</text>
 
       <!-- ===== legend ===== -->
-      <line x1="40" y1="352" x2="960" y2="352" stroke="rgba(35,47,62,0.10)" stroke-width="0.8"/>
+      <line x1="40" y1="352" x2="1040" y2="352" stroke="rgba(35,47,62,0.10)" stroke-width="0.8"/>
       <text x="40" y="372" fill="#545B64" font-size="8" font-family="'Amazon Ember Mono', ui-monospace, monospace" letter-spacing="0.14em">LEGEND</text>
 
       <rect x="120" y="364" width="20" height="12" rx="2" fill="rgba(255,153,0,0.10)" stroke="#EC7211" stroke-width="1"/>
