@@ -16,7 +16,19 @@ You get a self-contained HTML diagram with the [official AWS Architecture Icons]
 - **Everything else your design docs need**: flowcharts, sequence diagrams, state machines, ER and database schemas, timelines, swimlanes, Gantt charts, org charts, layer stacks, data flows, deployment and dependency graphs, architecture before/after deltas, waterfall, Sankey, treemap and heatmap charts, service blueprints, Wardley maps — 45 visual types in total.
 - **Redrawing existing diagrams**: reads your draw.io (.drawio) or Mermaid (.mmd) files and redraws them at the size and detail level you choose (doc / slide / summary) while preserving the content.
 
-Any node that names an AWS service gets its official icon — in every diagram type, not just architecture — on top of a restrained editorial design system (based on [cathrynlavery/diagram-design](https://github.com/cathrynlavery/diagram-design)) that limits emphasis to one or two smile-orange focal elements.
+Any node that names an AWS service gets its official icon — in every diagram type, not just architecture — on top of a restrained editorial design system (based on [cathrynlavery/diagram-design](https://github.com/cathrynlavery/diagram-design) 2.6) that limits emphasis to one or two smile-orange focal elements.
+
+## Diagrams that hold up to an AWS engineer
+
+It isn't enough to look like AWS. Every type carries **On AWS** rules that the skill applies while drawing, so an AWS engineer finds nothing wrong:
+
+- **Placement is a claim**: regional services such as S3, DynamoDB, and SQS sit outside the VPC and are reached through VPC endpoints. Global services such as CloudFront, Route 53, and IAM sit outside the Region. Internet-facing ALBs and NAT gateways go in public subnets.
+- **Multi-AZ is drawn**: a Multi-AZ resource spans the AZ columns. It is never placed in one AZ with only a label claiming Multi-AZ.
+- **Official service names**: the first mention carries the correct prefix (`AWS Lambda`, `Amazon EC2`), later mentions use the short form, and current names are used (Amazon SageMaker AI, Amazon Data Firehose).
+- **Real behavior**: synchronous vs asynchronous calls (`202`, `MessageId`), Step Functions states (`ABORTED`, …), and CDK deploying through CloudFormation follow what AWS actually does.
+- **Contrast**: in the light skin, smile orange is used for strokes, markers, and fills only, never for small text (WCAG).
+
+Icons are found and inlined with the bundled `scripts/aws_icon.py` (`aws_icon.py find dynamodb`), and every output is checked by `scripts/self_check.py` (accessibility, single-file safety, document completeness).
 
 ## Gallery
 
@@ -53,6 +65,17 @@ A role-scoped data flow showing who does what at each stage. A Data Admin hands 
 ![AWS data pipeline flow diagram](docs/samples/data-pipeline-flow.svg)
 
 > GitHub blocks external fonts when rendering images, so the SVGs above display in system fonts. Open the HTML sources in a browser to see the real Amazon Ember typography.
+
+### Full gallery
+
+201 examples across all 45 types (light, dark, and full editorial page, plus some animated) are all AWS scenarios. Examples include an EC2 → Fargate migration before/after, a Cognito token-refresh sequence, a Step Functions batch-job lifecycle, an S3 data lake, AWS cost waterfall and treemap charts, and an Organizations OU tree. The skill uses them as the reference render for each type.
+
+```bash
+python3 -m http.server 8765 --directory skills/aws-diagram-design/assets
+# → http://127.0.0.1:8765/index.html
+```
+
+Pick a type and variant from the list at the top, and switch between light, dark, and full page with the tabs at the top right. `aws-icons.html` is a gallery of the 812 bundled official icons.
 
 ## Getting started
 
@@ -105,7 +128,9 @@ Redraw existing files and export with slash commands:
 /aws-diagram-design:export-diagram my-diagram.html       # export generated HTML to SVG/PNG
 ```
 
-When redrawing you can pick the size (doc inline / wide / 16:9 slide / social card), detail level (faithful / balanced / simplified), and audience (engineer / mixed / executive); anything merged or dropped is reported in a fidelity ledger.
+When redrawing you can pick the size (doc inline / wide / 16:9 slide / A3 print / social card), detail level (faithful / balanced / simplified), and audience (engineer / mixed / executive); anything merged or dropped is reported in a fidelity ledger.
+
+Export runs the bundled scripts (`export_svg.py`, `export_png.py`). The SVG is a standalone file that carries the page CSS and the Amazon Ember `@font-face`, with colors normalized so PowerPoint doesn't break them. PNG export requires Playwright in the environment.
 
 ## Official AWS resources, used as-is
 
@@ -124,10 +149,10 @@ aws-diagram-design/
 ├── commands/                       # 3 slash commands (import-drawio / import-mermaid / export-diagram)
 ├── skills/aws-diagram-design/      # canonical skill (shared by every environment)
 │   ├── SKILL.md                    #   design system + routing for the 45 types
-│   ├── references/                 #   58 specs (style-guide, type-*, primitive-aws-icons, …)
-│   ├── assets/                     #   templates & examples, aws-icons/ 812 SVGs, fonts/ Amazon Ember
+│   ├── references/                 #   58 specs (style-guide, 45 type-* with On AWS rules, primitive-aws-icons, …)
+│   ├── assets/                     #   templates, 201 AWS examples + gallery (index.html), aws-icons/ 812 SVGs, fonts/ Amazon Ember
 │   └── scripts/                    #   self-checks (self_check, verify-geometry), drawio/mermaid extractors, SVG/PNG exporters (export_svg, export_png), AWS icon inliner (aws_icon)
-├── scripts/                        # repo-level verification scripts + test fixtures
+├── scripts/                        # 20 repo-level verifiers (geometry, motion, per-chart) + 9 tests + fixtures
 ├── docs/                           # per-environment guides + samples/ example diagrams
 └── install.sh                      # claude-code · kiro · fonts installers
 ```
